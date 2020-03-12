@@ -13,6 +13,17 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     final _formKey = GlobalKey<FormState>();
     final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+    String emailValidator(String value) {
+        Pattern pattern =
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+        RegExp regex = new RegExp(pattern);
+        if (!regex.hasMatch(value)) {
+            return 'Email format is invalid';
+        } else {
+            return null;
+        }
+    }
+
     @override
     void initState() {
         super.initState();
@@ -29,10 +40,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         final email = TextFormField(
             keyboardType: TextInputType.emailAddress,
             autofocus: false,
-            validator: (value) {
-                if (value.isEmpty) return "Email cannot be empty";
-                return null;
-            },
+            validator: (value) => emailValidator(value),
             onSaved: (value) => _email = value,
             decoration: InputDecoration(
                 hintText: 'Email',
