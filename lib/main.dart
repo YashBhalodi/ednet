@@ -1,4 +1,4 @@
-import 'package:ednet/onboarding.dart';
+import 'package:ednet/onboarding_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,6 +18,7 @@ void main() {
 class MyApp extends StatelessWidget {
   //TODO wrap inherited widget
   //TODO add routing animation package
+  //TODO build a file for constants class throughout the app.
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       },
       child: MaterialApp(
         theme: ThemeData(
-          fontFamily: 'Montserrat',     //TODO set "Inter" as default fonts
+          fontFamily: 'Inter',
         ),
         home: StreamBuilder<FirebaseUser>(
           stream: FirebaseAuth.instance.onAuthStateChanged,
@@ -38,16 +39,26 @@ class MyApp extends StatelessWidget {
               if (user == null) {
                 return FutureBuilder<SharedPreferences>(
                   future: SharedPreferences.getInstance(),
-                  builder: (context,futureSnapshot){
-                    switch (futureSnapshot.connectionState){
+                  builder: (context, futureSnapshot) {
+                    switch (futureSnapshot.connectionState) {
                       case ConnectionState.none:
                       case ConnectionState.waiting:
-                        return Container(child: Center(child: Text("Loading"),),);
+                        return Container(
+                          child: Center(
+                            child: Text("Loading"),
+                          ),
+                        );
                       default:
-                        if(!futureSnapshot.hasError){
-                          return futureSnapshot.data.getBool("welcome") != null ? LoginPage() : Onboarding();
+                        if (!futureSnapshot.hasError) {
+                          return futureSnapshot.data.getBool("welcome") != null
+                              ? LoginPage()
+                              : Onboarding();
                         } else {
-                          return Container(child: Center(child: Text("Error"+futureSnapshot.error.toString()),),);
+                          return Container(
+                            child: Center(
+                              child: Text("Error" + futureSnapshot.error.toString()),
+                            ),
+                          );
                         }
                     }
                   },
@@ -60,7 +71,7 @@ class MyApp extends StatelessWidget {
               }
             } else {
               //Internet is not connected.
-              print("Snapshot connection state:-" + snapshot.connectionState.toString());
+              print("App main stream builder Snapshot connection state:- " + snapshot.connectionState.toString());
               return Container(
                 child: Center(
                   child: Text("No Internet!"),
