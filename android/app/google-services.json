@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "553614859592",
+    "firebase_url": "https://ednet-sen.firebaseio.com",
+    "project_id": "ednet-sen",
+    "storage_bucket": "ednet-sen.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553614859592:android:e96ec1b654ef22c6d3277d",
+        "android_client_info": {
+          "package_name": "com.ednet.ednet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "553614859592-gurfuteg1eai7uurlc2ciktm7hcm1ell.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ednet.ednet",
+            "certificate_hash": "2213b3650b10cfff1789fbbe41dae0d7ad2e736c"
+          }
+        },
+        {
+          "client_id": "553614859592-hjk20sl3ddiq49o3m1v16jurj8dec3bf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6nyhPPzzP1sMb_GmDxbiw0X9hTzoH554"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "553614859592-hjk20sl3ddiq49o3m1v16jurj8dec3bf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
