@@ -182,15 +182,9 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     bool validLink = await user.isSignInWithEmailLink(_link);
     if (validLink) {
       try {
-        //once user successfully sign in, we need to update this email's signup_status in 'SignUpApplication' collection.
         List<String> signInMethod = await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: _email);
         if(signInMethod.length == 0){
           //First time user sign up
-          //create user document
-          await Firestore.instance.collection('Users').add({
-            'email':_email,
-            'isProfileSet':false,
-          });
           //update signup_status
           QuerySnapshot docRef = await Firestore.instance
               .collection('SignUpApplications')
@@ -200,6 +194,16 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
               .collection('SignUpApplications')
               .document(docRef.documents[0].documentID)
               .updateData({'signup_status': true});
+          String userType = docRef.documents[0]['type'];
+          String userUniversity = docRef.documents[0]['university'];
+          //create user document
+          await Firestore.instance.collection('Users').add({
+            'email':_email,
+            'isProfileSet':false,
+            'type':userType,
+            'university':userUniversity,
+          });
+
         }
         await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
       } catch (e) {
