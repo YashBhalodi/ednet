@@ -1,4 +1,4 @@
-import 'package:ednet/log_in_page.dart';
+import 'package:ednet/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

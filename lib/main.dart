@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ednet/log_in_page.dart';
+import 'package:ednet/login_page.dart';
 import 'package:ednet/home_page.dart';
 import 'package:ednet/setup_profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Inter',
         ),
+        //TODO streambuilder sometimes update two times in the beginning.
         home: StreamBuilder<FirebaseUser>(
           stream: FirebaseAuth.instance.onAuthStateChanged,
           builder: (context, snapshot) {

@@ -30,7 +30,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _retrieveDynamicLink();
+//    _retrieveDynamicLink();
   }
 
   @override
@@ -86,11 +86,11 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
       form.save();
       try {
         //Checking the sign in method to determine whether user already exists or not.
-        List<String> userExists = await FirebaseAuth.instance.fetchSignInMethodsForEmail(
+        List<String> signInMethod = await FirebaseAuth.instance.fetchSignInMethodsForEmail(
           email: _email,
         );
-        print("userExists:-" + userExists.toString());
-        if (userExists.length == 0) {
+        print("signInMethod:-" + signInMethod.toString());
+        if (signInMethod.length == 0) {
           //User doesn't exists
           QuerySnapshot searchResult = await Firestore.instance
               .collection('SignUpApplications')
@@ -131,7 +131,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
           sent = await _sendSignInWithEmailLink();
         }
       } catch (error) {
-        print(error.toString());
+        print("134 " + error.toString());
       }
       return sent;
     }
@@ -164,30 +164,16 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   }
 
   Future<void> _retrieveDynamicLink() async {
-    final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
+    final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.retrieveDynamicLink();
 
     final Uri deepLink = data?.link;
-    print("deepLink:-" + deepLink.toString());
+    print("170 deepLink:-" + deepLink.toString());
 
     if (deepLink.toString() != null) {
+      //TODO verify that link is actual sign in link, in case we use multiple dynamic link.
       _link = deepLink.toString();
       _signInWithEmailAndLink();
     }
-
-    FirebaseDynamicLinks.instance.onLink(
-        onSuccess: (PendingDynamicLinkData dynamicLink) async {
-          final Uri deepLink = dynamicLink?.link;
-
-          if (deepLink != null) {
-            _link = deepLink.toString();
-            _signInWithEmailAndLink();
-          }
-        },
-        onError: (OnLinkErrorException e) async {
-          print('onLinkError');
-          print(e.message);
-        }
-    );
     return deepLink?.toString();
   }
 
@@ -196,20 +182,28 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     bool validLink = await user.isSignInWithEmailLink(_link);
     if (validLink) {
       try {
-        //Once user successfully sign in, we need to update this email's signup_status in 'SignUpApplication' collection.
-        QuerySnapshot docRef = await Firestore.instance
-            .collection('SignUpApplications')
-            .where('email', isEqualTo: _email)
-            .getDocuments();
-        await Firestore.instance
-            .collection('SignUpApplications')
-            .document(docRef.documents[0].documentID)
-            .updateData({'signup_status': true});
+        //once user successfully sign in, we need to update this email's signup_status in 'SignUpApplication' collection.
+        List<String> signInMethod = await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: _email);
+        if(signInMethod.length == 0){
+          //First time user sign up
+          //create user document
+          await Firestore.instance.collection('Users').add({
+            'email':_email,
+            'isProfileSet':false,
+          });
+          //update signup_status
+          QuerySnapshot docRef = await Firestore.instance
+              .collection('SignUpApplications')
+              .where('email', isEqualTo: _email)
+              .getDocuments();
+          await Firestore.instance
+              .collection('SignUpApplications')
+              .document(docRef.documents[0].documentID)
+              .updateData({'signup_status': true});
+        }
         await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
-        setState(() {});
       } catch (e) {
-        print("signInWithEmailLink function:- "+e.toString());
-        _showDialog(e.toString());
+        print("signInWithEmailLink function:- " + e.toString());
       }
     }
   }
