@@ -30,6 +30,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    _retrieveDynamicLink();
   }
 
   @override
@@ -163,7 +164,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   }
 
   Future<void> _retrieveDynamicLink() async {
-    final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.retrieveDynamicLink();
+    final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
 
     final Uri deepLink = data?.link;
     print("deepLink:-" + deepLink.toString());
@@ -172,6 +173,21 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
       _link = deepLink.toString();
       _signInWithEmailAndLink();
     }
+
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: (PendingDynamicLinkData dynamicLink) async {
+          final Uri deepLink = dynamicLink?.link;
+
+          if (deepLink != null) {
+            _link = deepLink.toString();
+            _signInWithEmailAndLink();
+          }
+        },
+        onError: (OnLinkErrorException e) async {
+          print('onLinkError');
+          print(e.message);
+        }
+    );
     return deepLink?.toString();
   }
 
@@ -180,8 +196,6 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     bool validLink = await user.isSignInWithEmailLink(_link);
     if (validLink) {
       try {
-        /*
-        //Following sections restrict the app from changing to home screen from login screen.
         //Once user successfully sign in, we need to update this email's signup_status in 'SignUpApplication' collection.
         QuerySnapshot docRef = await Firestore.instance
             .collection('SignUpApplications')
@@ -190,8 +204,9 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         await Firestore.instance
             .collection('SignUpApplications')
             .document(docRef.documents[0].documentID)
-            .updateData({'signup_status': true});*/
+            .updateData({'signup_status': true});
         await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
+        setState(() {});
       } catch (e) {
         print("signInWithEmailLink function:- "+e.toString());
         _showDialog(e.toString());
