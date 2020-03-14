@@ -202,10 +202,11 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
             'isProfileSet':false,
             'type':userType,
             'university':userUniversity,
+            'userName':"",      //TODO specify default username
           });
-
         }
         await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
+        setState(() {});
       } catch (e) {
         print("signInWithEmailLink function:- " + e.toString());
       }
