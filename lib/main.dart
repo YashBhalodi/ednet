@@ -1,11 +1,12 @@
-import 'package:ednet/onboarding_page.dart';
+import 'package:ednet/setup/onboarding_page.dart';
+import 'package:ednet/setup/profile_setup_pages/admin_profile_page.dart';
+import 'package:ednet/setup/profile_setup_pages/student_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ednet/login_page.dart';
-import 'package:ednet/home_page.dart';
-import 'package:ednet/setup_profile_page.dart';
+import 'package:ednet/setup/login_page.dart';
+import 'package:ednet/home/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -133,7 +134,12 @@ class _EntryPointState extends State<EntryPoint> {
                       if (isProfileSet) {
                         return Home(userSnap: userDocSnapshot,);
                       } else {
-                        return SetUpProfile(userSnap: userDocSnapshot,);
+                        bool isAdmin = userDocSnapshot['isAdmin'] as bool;
+                        if(isAdmin){
+                          return AdminProfileSetup(userSnap: userDocSnapshot,);
+                        } else {
+                          return StudentProfileSetup(userSnap: userDocSnapshot,);
+                        }
                       }
                     } else {
                       return Scaffold(

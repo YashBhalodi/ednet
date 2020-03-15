@@ -41,52 +41,37 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final snackBarEmailSent = SnackBar(content: Text('Email Sent!'));
-    final snackBarEmailNotSent = SnackBar(
-      content: Text('Email Not Sent. Error.'),
-    );
-
-    final email = TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      autofocus: false,
-      validator: (value) => emailValidator(value),
-      onSaved: (value) => _email = value,
-      decoration: InputDecoration(
-        hintText: 'Email',
-        prefixIcon: Icon(Icons.mail),
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-    );
-
-    final loginButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: RaisedButton(
-        color: Colors.lightBlueAccent,
-        textColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-        child: Text("Send Verification Email"),
-        onPressed: (() async => await validateAndSave()
-            ? _scaffoldKey.currentState.showSnackBar(snackBarEmailSent)
-            : _scaffoldKey.currentState.showSnackBar(snackBarEmailNotSent)),
-        padding: EdgeInsets.all(12),
-      ),
-    );
-
-    final loginForm = Form(
-      key: _formKey,
-      child: ListView(
-        shrinkWrap: true,
-        padding: EdgeInsets.only(left: 24, right: 24),
-        children: <Widget>[SizedBox(height: 50), email, SizedBox(height: 40), loginButton],
-      ),
-    );
-    return Scaffold(
-        key: _scaffoldKey, backgroundColor: Colors.white, body: Center(child: loginForm));
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      initDynamicLinks();
+    }
   }
 
-  Future<bool> validateAndSave() async {
+  void initDynamicLinks() async {
+    final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
+    final Uri deepLink = data?.link;
+
+    if (deepLink != null) {
+      _link = deepLink.toString();
+      //TODO in case we use multiple dynamic link, verify that the link is login link.
+      _signInWithEmailAndLink();
+    }
+
+    FirebaseDynamicLinks.instance.onLink(onSuccess: (PendingDynamicLinkData dynamicLink) async {
+      final Uri deepLink = dynamicLink?.link;
+
+      if (deepLink != null) {
+        _link = deepLink.toString();
+        print("204 _link:-" + _link);
+        _signInWithEmailAndLink();
+      }
+    }, onError: (OnLinkErrorException e) async {
+      print('onLinkError');
+      print(e.message);
+    });
+  }
+
+  Future<bool> _validateAndSave() async {
     bool sent;
     final FormState form = _formKey.currentState;
     if (form.validate()) {
@@ -163,37 +148,6 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     return true;
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      initDynamicLinks();
-    }
-  }
-
-  void initDynamicLinks() async {
-    final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri deepLink = data?.link;
-
-    if (deepLink != null) {
-      _link = deepLink.toString();
-      //TODO in case we use multiple dynamic link, verify that the link is login link.
-      _signInWithEmailAndLink();
-    }
-
-    FirebaseDynamicLinks.instance.onLink(onSuccess: (PendingDynamicLinkData dynamicLink) async {
-      final Uri deepLink = dynamicLink?.link;
-
-      if (deepLink != null) {
-        _link = deepLink.toString();
-        print("204 _link:-" + _link);
-        _signInWithEmailAndLink();
-      }
-    }, onError: (OnLinkErrorException e) async {
-      print('onLinkError');
-      print(e.message);
-    });
-  }
-
   Future<void> _updateSignUpStatus() async {
     try {
       docRef = await Firestore.instance
@@ -266,6 +220,59 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
           ],
         );
       },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final snackBarEmailSent = SnackBar(
+      content: Text('Email Sent!'),
+    );
+    final snackBarEmailNotSent = SnackBar(
+      content: Text('Email Not Sent. Error.'),
+    );
+
+    final email = TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      autofocus: false,
+      validator: (value) => emailValidator(value),
+      onSaved: (value) => _email = value,
+      decoration: InputDecoration(
+        hintText: 'Email',
+        prefixIcon: Icon(Icons.mail),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      ),
+    );
+
+    final loginButton = Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child: RaisedButton(
+        color: Colors.lightBlueAccent,
+        textColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+        child: Text("Send Verification Email"),
+        onPressed: (() async => await _validateAndSave()
+            ? _scaffoldKey.currentState.showSnackBar(snackBarEmailSent)
+            : _scaffoldKey.currentState.showSnackBar(snackBarEmailNotSent)),
+        padding: EdgeInsets.all(12),
+      ),
+    );
+
+    final loginForm = Form(
+      key: _formKey,
+      child: ListView(
+        shrinkWrap: true,
+        padding: EdgeInsets.only(left: 24, right: 24),
+        children: <Widget>[SizedBox(height: 50), email, SizedBox(height: 40), loginButton],
+      ),
+    );
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Colors.white,
+      body: Center(
+        child: loginForm,
+      ),
     );
   }
 }
