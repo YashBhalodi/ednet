@@ -14,6 +14,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   String _link;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  QuerySnapshot docRef;
 
   String emailValidator(String value) {
     Pattern pattern =
@@ -30,7 +31,13 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-//    _retrieveDynamicLink();
+    initDynamicLinks();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
@@ -159,22 +166,66 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      _retrieveDynamicLink();
+      initDynamicLinks();
     }
   }
 
-  Future<void> _retrieveDynamicLink() async {
-    final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.retrieveDynamicLink();
-
+  void initDynamicLinks() async {
+    final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
     final Uri deepLink = data?.link;
-    print("170 deepLink:-" + deepLink.toString());
 
-    if (deepLink.toString() != null) {
-      //TODO verify that link is actual sign in link, in case we use multiple dynamic link.
+    if (deepLink != null) {
       _link = deepLink.toString();
+      //TODO in case we use multiple dynamic link, verify that the link is login link.
       _signInWithEmailAndLink();
     }
-    return deepLink?.toString();
+
+    FirebaseDynamicLinks.instance.onLink(onSuccess: (PendingDynamicLinkData dynamicLink) async {
+      final Uri deepLink = dynamicLink?.link;
+
+      if (deepLink != null) {
+        _link = deepLink.toString();
+        print("204 _link:-" + _link);
+        _signInWithEmailAndLink();
+      }
+    }, onError: (OnLinkErrorException e) async {
+      print('onLinkError');
+      print(e.message);
+    });
+  }
+
+  Future<void> _updateSignUpStatus() async {
+    try {
+      docRef = await Firestore.instance
+          .collection('SignUpApplications')
+          .where('email', isEqualTo: _email)
+          .getDocuments();
+      await Firestore.instance
+          .collection('SignUpApplications')
+          .document(docRef.documents[0].documentID)
+          .updateData({'signup_status': true});
+    } catch (e) {
+      print("_updateSignUpStatus");
+      print(e);
+    }
+  }
+
+  Future<void> _createUserDocument() async {
+    String userType = docRef.documents[0]['type'];
+    String userUniversity = docRef.documents[0]['university'];
+    //create user document
+    try {
+      await Firestore.instance.collection('Users').add({
+        'email': _email,
+        'isProfileSet': false,
+        'type': userType,
+        'university': userUniversity,
+        'userName': "", //TODO specify default username
+      });
+    } catch (e) {
+      print("_createUserDocument");
+      print(e);
+    }
   }
 
   Future<void> _signInWithEmailAndLink() async {
@@ -182,31 +233,16 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     bool validLink = await user.isSignInWithEmailLink(_link);
     if (validLink) {
       try {
-        List<String> signInMethod = await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: _email);
-        if(signInMethod.length == 0){
+        List<String> signInMethod =
+            await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: _email);
+        if (signInMethod.length == 0) {
           //First time user sign up
-          //update signup_status
-          QuerySnapshot docRef = await Firestore.instance
-              .collection('SignUpApplications')
-              .where('email', isEqualTo: _email)
-              .getDocuments();
-          await Firestore.instance
-              .collection('SignUpApplications')
-              .document(docRef.documents[0].documentID)
-              .updateData({'signup_status': true});
-          String userType = docRef.documents[0]['type'];
-          String userUniversity = docRef.documents[0]['university'];
-          //create user document
-          await Firestore.instance.collection('Users').add({
-            'email':_email,
-            'isProfileSet':false,
-            'type':userType,
-            'university':userUniversity,
-            'userName':"",      //TODO specify default username
-          });
+          await _updateSignUpStatus();
+          await _createUserDocument();
+          //TODO if admin signs up for first time, create document in university collection
         }
         await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
-        setState(() {});
+        print("After login:-" + FirebaseAuth.instance.currentUser().toString());
       } catch (e) {
         print("signInWithEmailLink function:- " + e.toString());
       }

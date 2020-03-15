@@ -127,9 +127,9 @@ class _EntryPointState extends State<EntryPoint> {
                   case ConnectionState.done:
                     if (!profileSnapshot.hasError) {
                       DocumentSnapshot userDocSnapshot = profileSnapshot.data.documents[0];
-                      print(userDocSnapshot.data);
+                      print("130 userDocSnap:- "+userDocSnapshot.data.toString());
                       bool isProfileSet = userDocSnapshot['isProfileSet'];
-                      print("132 isProfileSet"+isProfileSet.toString());
+                      print("132 isProfileSet:- "+isProfileSet.toString());
                       if (isProfileSet) {
                         return Home(userSnap: userDocSnapshot,);
                       } else {
