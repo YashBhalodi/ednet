@@ -25,6 +25,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
   FocusNode _submitPartOneFocus = FocusNode();
   PageController _pageController = PageController();
   ScrollController _userDetailsScrollController = ScrollController();
+  TextEditingController _userNameController;
 
   String _inputMobileNumber;
   String _inputBio;
@@ -33,7 +34,9 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
   String _inputLname;
   double _progressValue;
 
-  bool _isloading;
+  bool _isLoading;
+
+  String _userNameValidator;
 
   Future<void> uploadUserDetails() async {
     try {
@@ -52,16 +55,20 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
   }
 
   Future<void> _submitUserDetailForm() async {
-    setState(() {
-      _isloading = true;
-    });
     final FormState form = _userFormKey.currentState;
+    setState(() {
+      _isLoading = true;
+    });
+    String userNameErrorResponse = await Constant.userNameAvailableValidator(_userNameController.text);
+    setState(() {
+        _userNameValidator = userNameErrorResponse;
+    });
     if (form.validate()) {
       form.save();
       try {
         await uploadUserDetails();
         setState(() {
-          _isloading = false;
+          _isLoading = false;
           _pageController.animateToPage(1,
               duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
           _progressValue = 2 / 3;
@@ -72,7 +79,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
       }
     } else {
       setState(() {
-        _isloading = false;
+        _isLoading = false;
       });
     }
   }
@@ -103,7 +110,8 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
   void initState() {
     super.initState();
     _progressValue = 1 / 3;
-    _isloading = false;
+    _isLoading = false;
+    _userNameController = TextEditingController(text: widget.userSnap.data['username'] ?? null);
   }
 
   @override
@@ -119,6 +127,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
     _userNameFocus.dispose();
     _fNameFocus.dispose();
     _lNameFocus.dispose();
+    _userNameController.dispose();
   }
 
   //TODO implement Admin profile setup UI
@@ -140,6 +149,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
           ),
           TextFormField(
             onSaved: (value) {
+              print("inputfname:-"+value);
               _inputFname = value.trim();
             },
             onEditingComplete: () {
@@ -168,7 +178,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
           ),
           TextFormField(
             onSaved: (value) {
-              print("lname value" + value);
+              _inputLname = value;
             },
             onEditingComplete: () {
               FocusScope.of(context).requestFocus(_mobileNumberFocus);
@@ -224,10 +234,10 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
             height: 32.0,
           ),
           TextFormField(
+            controller: _userNameController,
             maxLength: 10,
             validator: (value) {
-              //TODO implement this
-              return null;
+              return _userNameValidator;
             },
             onSaved: (value) {
               _inputUsername = value;
@@ -237,7 +247,6 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
               _userDetailsScrollController.animateTo(400.0,
                   duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
             },
-            initialValue: widget.userSnap.data['username'] ?? null,
             autovalidate: true,
             style: Constant.formFieldTextStyle,
             decoration: InputDecoration(
@@ -269,6 +278,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
             minLines: 3,
             maxLines: 7,
             style: Constant.formFieldTextStyle,
+            keyboardType: TextInputType.text,
             decoration: InputDecoration(
               alignLabelWithHint: true,
               counterStyle: Constant.counterStyle,
@@ -292,7 +302,6 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
               child: RaisedButton(
                 focusNode: _submitPartOneFocus,
                 onPressed: () async {
-                  print("inputBio" + _inputBio.toString());
                   await _submitUserDetailForm();
                 },
                 padding: Constant.raisedButtonPaddingHigh,
@@ -301,7 +310,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
                   side: BorderSide(color: Colors.green[800], width: 2.0),
                 ),
                 color: Colors.green[50],
-                child: _isloading
+                child: _isLoading
                     ? Constant.greenCircularProgressIndicator
                     : Row(
                         crossAxisAlignment: CrossAxisAlignment.center,

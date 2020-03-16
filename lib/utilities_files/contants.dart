@@ -3,6 +3,7 @@ import 'dart:core';
 import 'dart:core';
 import 'dart:core';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Constant {
@@ -17,8 +18,11 @@ class Constant {
         fontWeight: FontWeight.w500,
       );
 
-  static get formFieldHintStyle =>
-      TextStyle(fontWeight: FontWeight.w200, fontSize: 14.0, color: Colors.black87);
+  static get formFieldHintStyle => TextStyle(
+        fontWeight: FontWeight.w100,
+        fontSize: 14.0,
+        color: Colors.black87,
+      );
 
   static get counterStyle => TextStyle(
         fontWeight: FontWeight.w400,
@@ -27,8 +31,8 @@ class Constant {
       );
 
   static get formFieldContentPadding => EdgeInsets.symmetric(
-        horizontal: 8.0,
-        vertical: 8.0,
+        horizontal: 12.0,
+        vertical: 20.0,
       );
 
   static get formFieldBorder => OutlineInputBorder(
@@ -94,6 +98,21 @@ class Constant {
     }
   }
 
+  static Future<String> userNameAvailableValidator(String value) async {
+    //pass through regex filter
+    //check fireStore for username
+    //return appropriate boolean
+    if (value.contains(' ')) {
+      return "Username can't contain space";
+    } else {
+      final result = await Firestore.instance
+          .collection('Users')
+          .where('username', isEqualTo: value)
+          .getDocuments();
+      return result.documents.isEmpty ? null : "Username already in use. Try something else.";
+    }
+  }
+
   static String nameValidator(String value) {
     Pattern pattern = r'^[a-zA-Z ]*$';
     RegExp regExp = new RegExp(pattern);
@@ -101,6 +120,8 @@ class Constant {
       return "We would like to know your name";
     } else if (!regExp.hasMatch(value.trim())) {
       return "Name can only contain alphabets";
+    } else {
+      return null;
     }
   }
 
