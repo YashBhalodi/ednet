@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ednet/utilities_files/contants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
@@ -15,17 +16,6 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   QuerySnapshot docRef;
-
-  String emailValidator(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value)) {
-      return 'Email format is invalid';
-    } else {
-      return null;
-    }
-  }
 
   @override
   void initState() {
@@ -165,16 +155,15 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   }
 
   Future<void> _createUserDocument() async {
-    String userType = docRef.documents[0]['type'];
+    bool isAdmin = docRef.documents[0]['type'] == "admin" ? true : false;
     String userUniversity = docRef.documents[0]['university'];
     //create user document
     try {
       await Firestore.instance.collection('Users').add({
         'email': _email,
         'isProfileSet': false,
-        'type': userType,
+        'isAdmin': isAdmin,
         'university': userUniversity,
-        'userName': "", //TODO specify default username
       });
     } catch (e) {
       print("_createUserDocument");
@@ -235,7 +224,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     final email = TextFormField(
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
-      validator: (value) => emailValidator(value),
+      validator: (value) => Constant.emailValidator(value),
       onSaved: (value) => _email = value,
       decoration: InputDecoration(
         hintText: 'Email',
@@ -264,7 +253,12 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
       child: ListView(
         shrinkWrap: true,
         padding: EdgeInsets.only(left: 24, right: 24),
-        children: <Widget>[SizedBox(height: 50), email, SizedBox(height: 40), loginButton],
+        children: <Widget>[
+          SizedBox(height: 50),
+          email,
+          SizedBox(height: 40),
+          loginButton,
+        ],
       ),
     );
     return Scaffold(
