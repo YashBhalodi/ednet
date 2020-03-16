@@ -69,9 +69,16 @@ class Constant {
         color: Colors.deepPurple[800],
       );
 
+  static get sectionSubHeadingDescriptionStyle => TextStyle(
+      fontFamily: 'VarelaRound',
+      fontWeight: FontWeight.w500,
+      fontSize: 22.0,
+      color: Colors.deepPurple[800],
+  );
+
   static get greenCircularProgressIndicator => SizedBox(
-        height: 32.0,
-        width: 32.0,
+        height: 28.0,
+        width: 28.0,
         child: CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation(Colors.green[800]),
           backgroundColor: Colors.green[50],
@@ -85,6 +92,8 @@ class Constant {
   static get raisedButtonPaddingLow => EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0);
 
   static get scrollAnimationDuration => Duration(milliseconds: 400);
+
+  static get pageAnimationDuration => Duration(milliseconds: 900);
 
   static String emailValidator(String value) {
     Pattern pattern =
