@@ -68,6 +68,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
       try {
         await uploadUserDetails();
         setState(() {
+          FocusScope.of(context).unfocus();
           _isLoading = false;
           _pageController.animateToPage(1,
               duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
