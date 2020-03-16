@@ -4,6 +4,7 @@ import 'dart:core';
 import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Constant {
@@ -99,11 +100,16 @@ class Constant {
   }
 
   static Future<String> userNameAvailableValidator(String value) async {
-    //pass through regex filter
-    //check fireStore for username
-    //return appropriate boolean
+    final currentUser = await FirebaseAuth.instance.currentUser();
+    String currentEmail = currentUser.email;
+    final userDoc = await Firestore.instance
+        .collection('Users')
+        .where('email', isEqualTo: currentEmail)
+        .getDocuments();
     if (value.contains(' ')) {
       return "Username can't contain space";
+    } else if (userDoc.documents[0]['username'] == value) {
+      return null;
     } else {
       final result = await Firestore.instance
           .collection('Users')

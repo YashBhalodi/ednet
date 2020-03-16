@@ -150,8 +150,8 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
           ),
           TextFormField(
             onSaved: (value) {
-              print("inputfname:-"+value);
-              _inputFname = value.trim();
+              _inputFname = value;
+              print(_inputFname);
             },
             onEditingComplete: () {
               FocusScope.of(context).requestFocus(_lNameFocus);
@@ -345,7 +345,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
     final universityForm = Padding(
       padding: Constant.edgePadding,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
