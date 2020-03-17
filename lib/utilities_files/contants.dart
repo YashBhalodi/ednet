@@ -141,8 +141,6 @@ class Constant {
     }
   }
 
-  //TODO Country,State,City,Topic validator
-
   static String nameValidator(String value) {
     Pattern pattern = r'^[a-zA-Z ]*$';
     RegExp regExp = new RegExp(pattern);
@@ -153,6 +151,42 @@ class Constant {
     } else {
       return null;
     }
+  }
+
+  static String countryValidator(String value) {
+      Pattern pattern = r'^[a-zA-Z ]*$';
+      RegExp regExp = new RegExp(pattern);
+      if (value.length == 0) {
+          return "Please provide Country.";
+      } else if (!regExp.hasMatch(value.trim())) {
+          return "Country name can contain only alphabets.";
+      } else {
+          return null;
+      }
+  }
+
+  static String stateValidator(String value) {
+      Pattern pattern = r'^[a-zA-Z ]*$';
+      RegExp regExp = new RegExp(pattern);
+      if (value.length == 0) {
+          return "Please provide Region or State.";
+      } else if (!regExp.hasMatch(value.trim())) {
+          return "Region/State name can contain only alphabets.";
+      } else {
+          return null;
+      }
+  }
+
+  static String cityValidator(String value) {
+      Pattern pattern = r'^[a-zA-Z ]*$';
+      RegExp regExp = new RegExp(pattern);
+      if (value.length == 0) {
+          return "Please provide City.";
+      } else if (!regExp.hasMatch(value.trim())) {
+          return "City name can contain only alphabets.";
+      } else {
+          return null;
+      }
   }
 
   static String mobileNumberValidator(String value) {

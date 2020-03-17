@@ -104,7 +104,7 @@ class _UniversityDetailsState extends State<UniversityDetails> {
                             duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
                     },
                     initialValue: widget.universitySnap.data['country']??null,
-                    validator: (value) => Constant.nameValidator(value),
+                    validator: (value) => Constant.countryValidator(value),
                     keyboardType: TextInputType.text,
                     style: Constant.formFieldTextStyle,
                     decoration: InputDecoration(
@@ -132,7 +132,7 @@ class _UniversityDetailsState extends State<UniversityDetails> {
                             duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
                     },
                     initialValue: widget.universitySnap.data['state']??null,
-                    validator: (value) => Constant.nameValidator(value),
+                    validator: (value) => Constant.stateValidator(value),
                     keyboardType: TextInputType.text,
                     style: Constant.formFieldTextStyle,
                     decoration: InputDecoration(
@@ -160,7 +160,7 @@ class _UniversityDetailsState extends State<UniversityDetails> {
                             duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
                     },
                     initialValue: widget.universitySnap.data['city']??null,
-                    validator: (value) => Constant.nameValidator(value),
+                    validator: (value) => Constant.cityValidator(value),
                     keyboardType: TextInputType.text,
                     style: Constant.formFieldTextStyle,
                     decoration: InputDecoration(
