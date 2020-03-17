@@ -1,7 +1,4 @@
 import 'dart:core';
-import 'dart:core';
-import 'dart:core';
-import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -71,8 +68,8 @@ class Constant {
 
   static get sectionSubHeadingDescriptionStyle => TextStyle(
       fontFamily: 'VarelaRound',
-      fontWeight: FontWeight.w500,
-      fontSize: 22.0,
+      fontWeight: FontWeight.w400,
+      fontSize: 16.0,
       color: Colors.deepPurple[800],
   );
 
@@ -127,6 +124,8 @@ class Constant {
       return result.documents.isEmpty ? null : "Username already in use. Try something else.";
     }
   }
+
+  //TODO Country,State,City validator
 
   static String nameValidator(String value) {
     Pattern pattern = r'^[a-zA-Z ]*$';

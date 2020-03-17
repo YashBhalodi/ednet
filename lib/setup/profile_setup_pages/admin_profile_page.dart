@@ -46,6 +46,8 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
   String _inputUniversityState;
   String _inputUniversityCity;
 
+  List<String> _selectedTopicList;
+
   bool _isLoading;
 
   String _userNameValidator;
@@ -179,6 +181,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
     _isLoading = false;
     _userNameController = TextEditingController(text: widget.userSnap.data['username'] ?? null);
     loadUniversityDocument();
+    _selectedTopicList = new List();
   }
 
   @override
@@ -426,7 +429,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
           ),
           TextFormField(
             onSaved: (value) {
-              _inputUniversityCountry = value;
+              _inputUniversityCountry = value.trim();
             },
             onEditingComplete: () {
               FocusScope.of(context).requestFocus(_universityStateFocus);
@@ -453,7 +456,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
           ),
           TextFormField(
             onSaved: (value) {
-              _inputUniversityState = value;
+              _inputUniversityState = value.trim();
             },
             onEditingComplete: () {
               FocusScope.of(context).requestFocus(_universityCityFocus);
@@ -480,7 +483,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
           ),
           TextFormField(
             onSaved: (value) {
-              _inputUniversityCity = value;
+              _inputUniversityCity = value.trim();
             },
             onEditingComplete: () {
               FocusScope.of(context).requestFocus(_submitPartTwoFocus);
@@ -551,14 +554,177 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
       ),
     );
 
-    final topicSelection = Padding(
-      padding: Constant.edgePadding,
-      child: Container(
-        child: Text(
-          "Topic selection",
-          style: Constant.sectionSubHeadingStyle,
+    final topicSelection = Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        Padding(
+          padding: Constant.edgePadding,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Topics",
+                  style: Constant.sectionSubHeadingStyle,
+                ),
+              ),
+              SizedBox(
+                height: 12.0,
+              ),
+              Text(
+                "Select or add topics taught at your university",
+                style: Constant.sectionSubHeadingDescriptionStyle,
+              ),
+              SizedBox(
+                height: 12.0,
+              ),
+
+            ],
+          ),
         ),
-      ),
+        Expanded(
+          child: StreamBuilder(
+            //TODO FIX synchronize with Firestore
+            //TODO FIX 'stream' has already been listened to.
+            stream: Firestore.instance.collection('Topics').getDocuments().asStream(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (!snapshot.hasError) {
+                  List<DocumentSnapshot> docList = snapshot.data.documents;
+                  if (docList.isEmpty) {
+                    return Center(
+                      child: Container(
+                        child: Text("No topics created yet"),
+                      ),
+                    );
+                  } else {
+                    List<String> topicList =
+                    List.generate(docList.length, (i) => docList[i]['title']);
+                    print("topicList:-" + topicList.toString());
+
+                    return ListView.builder(
+                      itemCount: docList.length,
+                      itemBuilder: (context, i) {
+                        return CheckboxListTile(
+                          checkColor: Colors.green[600],
+                          activeColor: Colors.green[50],
+                          controlAffinity: ListTileControlAffinity.leading,
+                          value: _selectedTopicList.contains(topicList[i]),
+                          title: Text(
+                            topicList[i],
+                          ),
+                          onChanged: (value) {
+                            if (value == true) {
+                              setState(() {
+                                _selectedTopicList.add(topicList[i]);
+                              });
+                            } else {
+                              setState(() {
+                                _selectedTopicList.remove(topicList[i]);
+                              });
+                            }
+                            print("selectedTopicList:-" + _selectedTopicList.toString());
+                          },
+                        );
+                      },
+                    );
+                  }
+                } else {
+                  return Center(
+                    child: Container(
+                      child: Text("Error"),
+                    ),
+                  );
+                }
+              } else {
+                return Center(
+                  child: Constant.greenCircularProgressIndicator,
+                );
+              }
+            },
+          ),
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            RaisedButton(
+              onPressed: () {
+                //TODO add topic dialog box
+                //Add topic to the topic collection
+              },
+              padding: Constant.raisedButtonPaddingHigh,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+                side: BorderSide(color: Colors.blue[800], width: 2.0),
+              ),
+              color: Colors.blue[50],
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Icon(
+                    Icons.add_circle,
+                    size: 20.0,
+                    color: Colors.blue[800],
+                  ),
+                  SizedBox(
+                    width: 8.0,
+                  ),
+                  Text(
+                    "Add Topic",
+                    style: TextStyle(
+                      fontSize: 22.0,
+                      color: Colors.blue[800],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            RaisedButton(
+              onPressed: () {
+                //TODO finish topic setup
+                //Upload list of topic to university collection
+              },
+              padding: Constant.raisedButtonPaddingHigh,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+                side: BorderSide(color: Colors.green[800], width: 2.0),
+              ),
+              color: Colors.green[50],
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    "Finish",
+                    style: TextStyle(
+                      fontSize: 22.0,
+                      color: Colors.green[800],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 8.0,
+                  ),
+                  Icon(
+                    Icons.check,
+                    color: Colors.green[800],
+                    size: 20.0,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 16.0,
+        ),
+      ],
     );
 
     return SafeArea(
@@ -572,7 +738,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
               padding: Constant.edgePadding,
               color: Colors.green[50],
               child: Text(
-                _progressValue==1?"Almost Done...":"Let's set up your profile...",
+                _progressValue == 1 ? "Almost Done..." : "Let's set up your profile...",
                 style: TextStyle(
                   color: Colors.green[900],
                   fontSize: 20.0,
