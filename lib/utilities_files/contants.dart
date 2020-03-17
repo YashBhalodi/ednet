@@ -125,7 +125,17 @@ class Constant {
     }
   }
 
-  //TODO Country,State,City validator
+  static Future<String> topicNameValidator(String value) async {
+      //TODO add Spamming prevention mechanism
+      final topicDoc = await Firestore.instance.collection('Topics').where('title',isEqualTo: value).getDocuments();
+      if(topicDoc.documents.isEmpty){
+          return null;
+      } else {
+          return "This topic has been created already.";
+      }
+  }
+
+  //TODO Country,State,City,Topic validator
 
   static String nameValidator(String value) {
     Pattern pattern = r'^[a-zA-Z ]*$';
@@ -149,4 +159,10 @@ class Constant {
       return null;
     }
   }
+}
+
+extension StringExtension on String {
+    String capitalize() {
+        return "${this[0].toUpperCase()}${this.substring(1)}";
+    }
 }

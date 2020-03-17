@@ -16,6 +16,7 @@ class AdminProfileSetup extends StatefulWidget {
 class _AdminProfileSetupState extends State<AdminProfileSetup> {
   GlobalKey _userFormKey = GlobalKey<FormState>();
   GlobalKey _universityKey = GlobalKey<FormState>();
+  GlobalKey _topicFormKey = GlobalKey<FormState>();
   FocusNode _emailFocus = FocusNode();
   FocusNode _bioFocus = FocusNode();
   FocusNode _mobileNumberFocus = FocusNode();
@@ -27,14 +28,19 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
   FocusNode _universityStateFocus = FocusNode();
   FocusNode _universityCityFocus = FocusNode();
   FocusNode _submitPartOneFocus = FocusNode();
+  FocusNode _topicFieldFocus = FocusNode();
   FocusNode _submitPartTwoFocus = FocusNode();
-  FocusNode _finalSubmitFocus = FocusNode();
+  FocusNode _topicCreateButtonFocus = FocusNode();
   PageController _pageController = PageController();
   ScrollController _userDetailsScrollController = ScrollController();
   ScrollController _universityScrollController = ScrollController();
+  TextEditingController _topicFieldController = TextEditingController();
   TextEditingController _userNameController;
 
   DocumentSnapshot universitySnap;
+  bool _isLoading;
+  String _userNameValidator;
+  String _topicValidatorResponse;
 
   String _inputMobileNumber;
   String _inputBio;
@@ -45,12 +51,8 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
   String _inputUniversityCountry;
   String _inputUniversityState;
   String _inputUniversityCity;
-
   List<String> _selectedTopicList;
-
-  bool _isLoading;
-
-  String _userNameValidator;
+  String _inputTopicName;
 
   Future<void> uploadUserDetails() async {
     try {
@@ -174,6 +176,96 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
     return universitySnap;
   }
 
+  Future<void> _uploadTopicDetails(List<String> updatedTopicList) async {
+    try {
+      Firestore.instance.collection('University').document(universitySnap.documentID).updateData({
+        'topics': updatedTopicList,
+      });
+    } catch (e) {
+      print("uploadTopicDetails");
+      print(e);
+    }
+  }
+
+  Future<void> createTopic(String title) async {
+    try {
+      Firestore.instance.collection('Topics').add({
+        'title': title,
+      });
+    } catch (e) {
+      print("createTopic");
+      print(e);
+    }
+  }
+
+  Future<void> _showTopicCreatingDialog() async {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          elevation: 20.0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Form(
+                key: _topicFormKey,
+                child: TextFormField(
+                  controller: _topicFieldController,
+                  onSaved: (value) {
+                    _inputTopicName = value.capitalize().trim();
+                  },
+                  onEditingComplete: () {
+                    FocusScope.of(context).requestFocus(_topicCreateButtonFocus);
+                  },
+                  validator: (value) {
+                    return _topicValidatorResponse;
+                  },
+                  keyboardType: TextInputType.text,
+                  style: Constant.formFieldTextStyle,
+                  decoration: InputDecoration(
+                    counterStyle: Constant.counterStyle,
+                    contentPadding: Constant.formFieldContentPadding,
+                    hintText: "Kinematics",
+                    hintStyle: Constant.formFieldHintStyle,
+                    border: Constant.formFieldBorder,
+                    focusedBorder: Constant.formFieldFocusedBorder,
+                    labelText: "Topic Name",
+                    labelStyle: Constant.formFieldLabelStyle,
+                  ),
+                  focusNode: _topicFieldFocus,
+                ),
+              ),
+              SizedBox(
+                height: 16.0,
+              ),
+              RaisedButton(
+                onPressed: () async {
+                  var errorResponse = await Constant.topicNameValidator(
+                      _topicFieldController.text.capitalize().trim());
+                  setState(() {
+                    _topicValidatorResponse = errorResponse;
+                  });
+                  final FormState form = _topicFormKey.currentState;
+                  if (form.validate()) {
+                    form.save();
+                    await createTopic(_inputTopicName);
+                    Navigator.of(context).pop();
+                  } else {
+                    FocusScope.of(context).requestFocus(_topicFieldFocus);
+                  }
+                },
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -187,6 +279,9 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
   @override
   void dispose() {
     super.dispose();
+    _topicCreateButtonFocus.dispose();
+    _topicFieldFocus.dispose();
+    _topicFieldController.dispose();
     _pageController.dispose();
     _userDetailsScrollController.dispose();
     _submitPartOneFocus.dispose();
@@ -203,7 +298,6 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
     _universityCityFocus.dispose();
   }
 
-  //TODO implement Admin profile setup UI
   @override
   Widget build(BuildContext context) {
     final userForm = Form(
@@ -563,15 +657,12 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
           padding: Constant.edgePadding,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Topics",
-                  style: Constant.sectionSubHeadingStyle,
-                ),
+              Text(
+                "Topics",
+                style: Constant.sectionSubHeadingStyle,
               ),
               SizedBox(
                 height: 12.0,
@@ -580,10 +671,6 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
                 "Select or add topics taught at your university",
                 style: Constant.sectionSubHeadingDescriptionStyle,
               ),
-              SizedBox(
-                height: 12.0,
-              ),
-
             ],
           ),
         ),
@@ -604,8 +691,9 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
                     );
                   } else {
                     List<String> topicList =
-                    List.generate(docList.length, (i) => docList[i]['title']);
+                        List.generate(docList.length, (i) => docList[i]['title']);
                     print("topicList:-" + topicList.toString());
+                    //TODO sort the list alphabetically
 
                     return ListView.builder(
                       itemCount: docList.length,
@@ -656,8 +744,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
           children: <Widget>[
             RaisedButton(
               onPressed: () {
-                //TODO add topic dialog box
-                //Add topic to the topic collection
+                _showTopicCreatingDialog();
               },
               padding: Constant.raisedButtonPaddingHigh,
               shape: RoundedRectangleBorder(
@@ -689,9 +776,16 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
               ),
             ),
             RaisedButton(
-              onPressed: () {
+              onPressed: () async {
                 //TODO finish topic setup
                 //Upload list of topic to university collection
+                if(_selectedTopicList.length>=1){
+                  await _uploadTopicDetails(_selectedTopicList);
+                  await finalSubmission();
+                  print("Profile set up successfully!");
+                } else {
+                  print("Please select atleast one topic.");
+                }
               },
               padding: Constant.raisedButtonPaddingHigh,
               shape: RoundedRectangleBorder(
