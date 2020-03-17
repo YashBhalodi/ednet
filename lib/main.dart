@@ -87,13 +87,20 @@ class _EntryPointState extends State<EntryPoint> {
           } else {
             DocumentSnapshot universitySnap;
             Future<QuerySnapshot> retrieveData() async {
-              final userProfileResponse = await Firestore.instance
-                  .collection('Users')
-                  .where('email', isEqualTo: user.email)
-                  .getDocuments();
-              String uniName = userProfileResponse.documents[0].data['university'];
-              final universityResponse = await Firestore.instance.collection('University').where('name',isEqualTo: uniName).getDocuments();
-              universitySnap = universityResponse.documents[0];
+              QuerySnapshot userProfileResponse;
+              try {
+                userProfileResponse = await Firestore.instance
+                                  .collection('Users')
+                                  .where('email', isEqualTo: user.email)
+                                  .getDocuments();
+                String uniName = userProfileResponse.documents[0].data['university'];
+                final universityResponse = await Firestore.instance.collection('University').where('name',isEqualTo: uniName).getDocuments();
+                universitySnap = universityResponse.documents[0];
+
+              } catch (e) {
+                print("retrieveData:-");
+                print(e);
+              }
               return userProfileResponse;
             }
 
@@ -128,13 +135,14 @@ class _EntryPointState extends State<EntryPoint> {
                       body: Container(
                         child: Center(
                           child: Text(
-                            "state : waiting",
+                            "state : active",
                           ),
                         ),
                       ),
                     );
                     break;
                   case ConnectionState.done:
+//                    print("138"+profileSnapshot.data.toString());
                     if (!profileSnapshot.hasError) {
                       DocumentSnapshot userDocSnapshot = profileSnapshot.data.documents[0];
                       print("130 userDocSnap:- "+ userDocSnapshot.data.toString());
@@ -154,8 +162,7 @@ class _EntryPointState extends State<EntryPoint> {
                       return Scaffold(
                         body: Container(
                           child: Center(
-                            child: Text(
-                              "Error!",
+                            child: Text("Error"+snapshot.error.toString(),
                             ),
                           ),
                         ),

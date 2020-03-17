@@ -83,8 +83,13 @@ class _UniversityDetailsState extends State<UniversityDetails> {
             shrinkWrap: true,
             children: <Widget>[
                 Text(
-                    "University Details",
+                    widget.universitySnap.data['name'],
                     style: Constant.sectionSubHeadingStyle,
+                ),
+                SizedBox(height: 16.0,),
+                Text(
+                    "University Details",
+                    style: Constant.sectionSubHeadingDescriptionStyle,
                 ),
                 SizedBox(
                     height: 32.0,
