@@ -85,11 +85,20 @@ class _EntryPointState extends State<EntryPoint> {
               },
             );
           } else {
-            return FutureBuilder(
-              future: Firestore.instance
+            DocumentSnapshot universitySnap;
+            Future<QuerySnapshot> retrieveData() async {
+              final userProfileResponse = await Firestore.instance
                   .collection('Users')
                   .where('email', isEqualTo: user.email)
-                  .getDocuments(),
+                  .getDocuments();
+              String uniName = userProfileResponse.documents[0].data['university'];
+              final universityResponse = await Firestore.instance.collection('University').where('name',isEqualTo: uniName).getDocuments();
+              universitySnap = universityResponse.documents[0];
+              return userProfileResponse;
+            }
+
+            return FutureBuilder(
+              future: retrieveData(),
               builder: (context, profileSnapshot) {
                 switch (profileSnapshot.connectionState) {
                   case ConnectionState.none:
@@ -128,15 +137,15 @@ class _EntryPointState extends State<EntryPoint> {
                   case ConnectionState.done:
                     if (!profileSnapshot.hasError) {
                       DocumentSnapshot userDocSnapshot = profileSnapshot.data.documents[0];
-                      print("130 userDocSnap:- "+userDocSnapshot.data.toString());
+                      print("130 userDocSnap:- "+ userDocSnapshot.data.toString());
                       bool isProfileSet = userDocSnapshot['isProfileSet'];
-                      print("132 isProfileSet:- "+isProfileSet.toString());
+                      print("132 isProfileSet:- "+ isProfileSet.toString());
                       if (isProfileSet) {
                         return Home(userSnap: userDocSnapshot,);
                       } else {
                         bool isAdmin = userDocSnapshot['isAdmin'] as bool;
                         if(isAdmin){
-                          return AdminProfileSetup(userSnap: userDocSnapshot,);
+                          return AdminProfileSetup(userSnap: userDocSnapshot,universitySnap: universitySnap);
                         } else {
                           return StudentProfileSetup(userSnap: userDocSnapshot,);
                         }

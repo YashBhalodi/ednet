@@ -26,6 +26,7 @@ class _HomeState extends State<Home> {
         onPressed: () async {
           try {
             await FirebaseAuth.instance.signOut();
+            setState(() {});
           } catch (e) {
             print(e.toString());
           }

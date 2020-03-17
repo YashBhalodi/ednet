@@ -154,7 +154,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     }
   }
 
-  Future<void> _createUserDocument() async {
+  Future<void> _createRelevantDocument() async {
     bool isAdmin = docRef.documents[0]['type'] == "admin" ? true : false;
     String userUniversity = docRef.documents[0]['university'];
     //create user document
@@ -166,8 +166,19 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         'university': userUniversity,
       });
     } catch (e) {
-      print("_createUserDocument");
+      print("_createRelevantDocument_user");
       print(e);
+    }
+    //create university document if user is admin
+    if(isAdmin){
+      try {
+        await Firestore.instance.collection('University').add({
+                'name':userUniversity,
+              });
+      } catch (e) {
+        print("_createRelevntDocument_university");
+        print(e);
+      }
     }
   }
 
@@ -181,8 +192,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         if (signInMethod.length == 0) {
           //First time user sign up
           await _updateSignUpStatus();
-          await _createUserDocument();
-          //TODO if admin signs up for first time, create document in university collection
+          await _createRelevantDocument();
         }
         await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
         print("After login:-" + FirebaseAuth.instance.currentUser().toString());

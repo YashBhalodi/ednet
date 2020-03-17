@@ -1,5 +1,5 @@
 import 'dart:core';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -67,11 +67,11 @@ class Constant {
       );
 
   static get sectionSubHeadingDescriptionStyle => TextStyle(
-      fontFamily: 'VarelaRound',
-      fontWeight: FontWeight.w400,
-      fontSize: 16.0,
-      color: Colors.deepPurple[800],
-  );
+        fontFamily: 'VarelaRound',
+        fontWeight: FontWeight.w400,
+        fontSize: 16.0,
+        color: Colors.deepPurple[800],
+      );
 
   static get greenCircularProgressIndicator => SizedBox(
         height: 28.0,
@@ -126,13 +126,19 @@ class Constant {
   }
 
   static Future<String> topicNameValidator(String value) async {
-      //TODO add Spamming prevention mechanism
-      final topicDoc = await Firestore.instance.collection('Topics').where('title',isEqualTo: value).getDocuments();
-      if(topicDoc.documents.isEmpty){
-          return null;
-      } else {
-          return "This topic has been created already.";
-      }
+    //TODO add Spamming prevention mechanism
+    if (value.length == 0) {
+      return "Please provide topic name";
+    }
+    final topicDoc = await Firestore.instance
+        .collection('Topics')
+        .where('title', isEqualTo: value.capitalize().trim())
+        .getDocuments();
+    if (topicDoc.documents.isEmpty) {
+      return null;
+    } else {
+      return "This topic has been created already.";
+    }
   }
 
   //TODO Country,State,City,Topic validator
@@ -159,10 +165,30 @@ class Constant {
       return null;
     }
   }
+
+  static void showToastInstruction(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        fontSize: 18.0,
+        backgroundColor: Colors.deepPurple[800],
+        textColor: Colors.white,
+        gravity: ToastGravity.BOTTOM,
+        toastLength: Toast.LENGTH_LONG);
+  }
+
+  static void showToastSuccess(String msg) {
+      Fluttertoast.showToast(
+          msg: msg,
+          fontSize: 18.0,
+          backgroundColor: Colors.green[50],
+          textColor: Colors.green[900],
+          gravity: ToastGravity.BOTTOM,
+          toastLength: Toast.LENGTH_LONG);
+  }
 }
 
 extension StringExtension on String {
-    String capitalize() {
-        return "${this[0].toUpperCase()}${this.substring(1)}";
-    }
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1)}";
+  }
 }
