@@ -203,7 +203,7 @@ class _UserDetailsState extends State<UserDetails> {
                 ),
                 TextFormField(
                     controller: _userNameController,
-                    maxLength: 10,
+                    maxLength: 15,
                     validator: (value) {
                         return _userNameValidator;
                     },
