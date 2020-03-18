@@ -210,6 +210,16 @@ class Constant {
         toastLength: Toast.LENGTH_LONG);
   }
 
+  static void showToastError(String msg) {
+      Fluttertoast.showToast(
+          msg: msg,
+          fontSize: 18.0,
+          backgroundColor: Colors.grey[800],
+          textColor: Colors.red,
+          gravity: ToastGravity.BOTTOM,
+          toastLength: Toast.LENGTH_LONG);
+  }
+
   static void showToastSuccess(String msg) {
       Fluttertoast.showToast(
           msg: msg,

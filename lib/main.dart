@@ -70,8 +70,8 @@ class _EntryPointState extends State<EntryPoint> {
                   default:
                     if (!futureSnapshot.hasError) {
                       return futureSnapshot.data.getBool("welcome") != null
-                             ? LoginPage()
-                             : Onboarding();
+                             ? Onboarding(isLogin: true,)
+                             : Onboarding(isLogin: false,);
                     } else {
                       return Scaffold(
                         body: Container(

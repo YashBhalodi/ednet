@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ednet/setup/signup_instruction_page.dart';
 import 'package:ednet/utilities_files/contants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,7 +16,6 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   String _email;
   String _link;
   final _formKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   QuerySnapshot docRef;
 
   @override
@@ -98,7 +99,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                         onPressed: () {
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(builder: (context) {
-                            return LoginPage(); //TODO replace with sign up page instead.
+                            return SignUpInstruction();
                           }));
                         },
                         child: Text("Show me how to apply"),
@@ -193,6 +194,8 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
           //First time user sign up
           await _updateSignUpStatus();
           await _createRelevantDocument();
+          SharedPreferences pref = await SharedPreferences.getInstance();
+          pref.setBool("welcome", true);
         }
         await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
         print("After login:-" + FirebaseAuth.instance.currentUser().toString());
@@ -224,59 +227,53 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final snackBarEmailSent = SnackBar(
-      content: Text('Email Sent!'),
-    );
-    final snackBarEmailNotSent = SnackBar(
-      content: Text('Email Not Sent. Error.'),
-    );
 
     final email = TextFormField(
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
       validator: (value) => Constant.emailValidator(value),
       onSaved: (value) => _email = value,
+      style: Constant.formFieldTextStyle,
       decoration: InputDecoration(
-        hintText: 'Email',
-        prefixIcon: Icon(Icons.mail),
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+        alignLabelWithHint: true,
+        counterStyle: Constant.counterStyle,
+        contentPadding: Constant.formFieldContentPadding,
+        hintText: "john.doe@abc.com",
+        hintStyle: Constant.formFieldHintStyle,
+        border: Constant.formFieldBorder,
+        focusedBorder: Constant.formFieldFocusedBorder,
+        labelText: "Email",
+        labelStyle: Constant.formFieldLabelStyle,
       ),
     );
 
-    final loginButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: RaisedButton(
-        color: Colors.lightBlueAccent,
-        textColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-        child: Text("Send Verification Email"),
-        onPressed: (() async => await _validateAndSave()
-            ? _scaffoldKey.currentState.showSnackBar(snackBarEmailSent)
-            : _scaffoldKey.currentState.showSnackBar(snackBarEmailNotSent)),
-        padding: EdgeInsets.all(12),
+    final loginButton = RaisedButton(
+      autofocus: true,
+      elevation: 15.0,
+      child: Text("Request Login Email",style: TextStyle(fontSize: 18.0,color: Colors.blue[800],),),
+      onPressed: (() async => await _validateAndSave()
+          ? Constant.showToastInstruction("Email sent to $_email.")
+          : Constant.showToastError("Email not sent.")),
+      padding: Constant.raisedButtonPaddingHigh,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+        side: BorderSide(color: Colors.blue[800], width: 2.0),
       ),
+      color: Colors.blue[50],
     );
 
     final loginForm = Form(
       key: _formKey,
       child: ListView(
+        physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        padding: EdgeInsets.only(left: 24, right: 24),
         children: <Widget>[
-          SizedBox(height: 50),
           email,
-          SizedBox(height: 40),
+          SizedBox(height: 24),
           loginButton,
         ],
       ),
     );
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: Colors.white,
-      body: Center(
-        child: loginForm,
-      ),
-    );
+    return  loginForm;
   }
 }
