@@ -86,7 +86,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
             return sent;
           } else {
             //searchResult is zero, hence email is not a valid sign up email.
-            sent = false; //TODO this is undesired behavior. fix this.
+            sent = false;
             showDialog(
                 context: context,
                 builder: (context) {

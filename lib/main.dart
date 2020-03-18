@@ -17,9 +17,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  //TODO wrap inherited widget
-  //TODO add routing animation package
-  //TODO build a file for constants class throughout the app.
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
