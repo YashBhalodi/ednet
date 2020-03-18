@@ -1,198 +1,201 @@
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:ednet/setup/onboarding_page.dart';
+import 'package:ednet/setup/profile_setup_pages/admin_profile_page.dart';
+import 'package:ednet/setup/profile_setup_pages/student_profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ednet/setup/login_page.dart';
+import 'package:ednet/home/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+    runApp(MyApp());
+  });
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: StreamBuilder<FirebaseUser>(
-        stream: FirebaseAuth.instance.onAuthStateChanged,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            FirebaseUser user = snapshot.data;
-            if (user == null) {
-              return LoginPage();
-            }
-            return LoggedIn();
-          } else {
-            print("error");
-            return Container();
-            //Connection Inactive, show error dialog
-          }
-        },
-      ),
-    );
-  }
-}
-
-class LoggedIn extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-          child: Text("We're in"),
-        ));
-  }
-}
-
-class LoginPage extends StatefulWidget {
-  static String tag = "login page";
-  @override
-  LoginPageState createState() => new LoginPageState();
-}
-
-class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
-  String _email;
-  String _link;
-  final _formKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final snackBarEmailSent = SnackBar(content: Text('Email Sent!'));
-    final snackBarEmailNotSent = SnackBar(
-      content: Text('Email Not Sent. Error.'),
-    );
-
-    final email = TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      autofocus: false,
-      validator: (value) {
-        if (value.isEmpty) return "Email cannot be empty";
-        return null;
+    return GestureDetector(
+      onTap: () {
+        if (FocusScope.of(context).hasPrimaryFocus == false) {
+          FocusScope.of(context).unfocus();
+        }
       },
-      onSaved: (value) => _email = value,
-      decoration: InputDecoration(
-        hintText: 'Email',
-        prefixIcon: Icon(Icons.mail),
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      child: MaterialApp(
+        theme: ThemeData(
+          fontFamily: 'Inter',
+        ),
+        home: EntryPoint(),
       ),
     );
-
-    final loginButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: RaisedButton(
-        color: Colors.lightBlueAccent,
-        textColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-        child: Text("Send Verification Email"),
-        onPressed: (() async => await validateAndSave()
-                                ? _scaffoldKey.currentState.showSnackBar(snackBarEmailSent)
-                                : _scaffoldKey.currentState.showSnackBar(snackBarEmailNotSent)),
-        padding: EdgeInsets.all(12),
-      ),
-    );
-
-    final loginForm = Form(
-      key: _formKey,
-      child: ListView(
-        shrinkWrap: true,
-        padding: EdgeInsets.only(left: 24, right: 24),
-        children: <Widget>[
-          SizedBox(height: 50),
-          email,
-          SizedBox(height: 40),
-          loginButton
-        ],
-      ),
-    );
-    return Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: Colors.white,
-        body: Center(child: loginForm));
   }
+}
 
-  Future<bool> validateAndSave() async {
-    final FormState form = _formKey.currentState;
-    if (form.validate()) {
-      form.save();
-      bool sent = await _sendSignInWithEmailLink();
-      return sent;
-    }
-    return false;
-  }
-
-  Future<bool> _sendSignInWithEmailLink() async {
-    final FirebaseAuth user = FirebaseAuth.instance;
-    try {
-      user.sendSignInWithEmailLink(
-          email: _email,
-          androidInstallIfNotAvailable: true,
-          iOSBundleID: "com.ednet.ednet",
-          androidMinimumVersion: "21",
-          androidPackageName: "com.ednet.ednet",
-          url: "https://ednet.page.link/secureSignIn",
-          handleCodeInApp: true);
-    } catch (e) {
-      _showDialog(e.toString());
-      return false;
-    }
-    print(_email + "<< sent");
-    return true;
-  }
-
+//Stream builder widget to handle entry point decisions
+class EntryPoint extends StatefulWidget {
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      _retrieveDynamicLink();
-    }
-  }
+  _EntryPointState createState() => _EntryPointState();
+}
 
-  Future<void> _retrieveDynamicLink() async {
-    final PendingDynamicLinkData data =
-    await FirebaseDynamicLinks.instance.retrieveDynamicLink();
-
-    final Uri deepLink = data?.link;
-    print(deepLink.toString());
-
-    if (deepLink.toString() != null) {
-      _link = deepLink.toString();
-      _signInWithEmailAndLink();
-    }
-    return deepLink.toString();
-  }
-
-  Future<void> _signInWithEmailAndLink() async {
-    final FirebaseAuth user = FirebaseAuth.instance;
-    bool validLink = await user.isSignInWithEmailLink(_link);
-    if (validLink) {
-      try {
-        await user.signInWithEmailAndLink(email: _email, link: _link);
-      } catch (e) {
-        print(e);
-        _showDialog(e.toString());
-      }
-    }
-  }
-
-  void _showDialog(String error) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: new Text("Error"),
-          content: new Text("Please Try Again.Error code: " + error),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
+class _EntryPointState extends State<EntryPoint> {
+  //TODO FIX streamBuilder sometimes update two times in the beginning.
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<FirebaseUser>(
+      stream: FirebaseAuth.instance.onAuthStateChanged,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          FirebaseUser user = snapshot.data;
+          if (user == null) {
+            return FutureBuilder<SharedPreferences>(
+              future: SharedPreferences.getInstance(),
+              builder: (context, futureSnapshot) {
+                switch (futureSnapshot.connectionState) {
+                  case ConnectionState.none:
+                  case ConnectionState.waiting:
+                    return Scaffold(
+                      body: Container(
+                        child: Center(
+                          child: Text("Loading"),
+                        ),
+                      ),
+                    );
+                  default:
+                    if (!futureSnapshot.hasError) {
+                      return futureSnapshot.data.getBool("welcome") != null
+                             ? Onboarding(isLogin: true,)
+                             : Onboarding(isLogin: false,);
+                    } else {
+                      return Scaffold(
+                        body: Container(
+                          child: Center(
+                            child: Text("Error" + futureSnapshot.error.toString()),
+                          ),
+                        ),
+                      );
+                    }
+                }
               },
+            );
+          } else {
+            DocumentSnapshot universitySnap;
+            Future<QuerySnapshot> retrieveData() async {
+              QuerySnapshot userProfileResponse;
+              try {
+                userProfileResponse = await Firestore.instance
+                                  .collection('Users')
+                                  .where('email', isEqualTo: user.email)
+                                  .getDocuments();
+                String uniName = userProfileResponse.documents[0].data['university'];
+                final universityResponse = await Firestore.instance.collection('University').where('name',isEqualTo: uniName).getDocuments();
+                universitySnap = universityResponse.documents[0];
+
+              } catch (e) {
+                print("retrieveData:-");
+                print(e);
+              }
+              return userProfileResponse;
+            }
+
+            return FutureBuilder(
+              future: retrieveData(),
+              builder: (context, profileSnapshot) {
+                switch (profileSnapshot.connectionState) {
+                  case ConnectionState.none:
+                    return Scaffold(
+                      body: Container(
+                        child: Center(
+                          child: Text(
+                            "state : none",
+                          ),
+                        ),
+                      ),
+                    );
+                    break;
+                  case ConnectionState.waiting:
+                    return Scaffold(
+                      body: Container(
+                        child: Center(
+                          child: Text(
+                            "state : waiting",
+                          ),
+                        ),
+                      ),
+                    );
+                    break;
+                  case ConnectionState.active:
+                    return Scaffold(
+                      body: Container(
+                        child: Center(
+                          child: Text(
+                            "state : active",
+                          ),
+                        ),
+                      ),
+                    );
+                    break;
+                  case ConnectionState.done:
+//                    print("138"+profileSnapshot.data.toString());
+                    if (!profileSnapshot.hasError) {
+                      DocumentSnapshot userDocSnapshot = profileSnapshot.data.documents[0];
+                      print("130 userDocSnap:- "+ userDocSnapshot.data.toString());
+                      bool isProfileSet = userDocSnapshot['isProfileSet'];
+                      print("132 isProfileSet:- "+ isProfileSet.toString());
+                      if (isProfileSet) {
+                        return Home(userSnap: userDocSnapshot,);
+                      } else {
+                        bool isAdmin = userDocSnapshot['isAdmin'] as bool;
+                        if(isAdmin){
+                          return AdminProfileSetup(userSnap: userDocSnapshot,universitySnap: universitySnap);
+                        } else {
+                          return StudentProfileSetup(userSnap: userDocSnapshot,);
+                        }
+                      }
+                    } else {
+                      return Scaffold(
+                        body: Container(
+                          child: Center(
+                            child: Text("Error"+snapshot.error.toString(),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    break;
+                  default:
+                    {
+                      return Scaffold(
+                        body: Container(
+                          child: Center(
+                            child: Text(
+                              "state : default",
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                }
+              },
+            );
+          }
+        } else {
+          //Internet is not connected.
+          print("App main stream builder Snapshot connection state:- " +
+              snapshot.connectionState.toString());
+          return Scaffold(
+            body: Container(
+              child: Center(
+                child: Text("No Internet!"),
+              ),
             ),
-          ],
-        );
+          );
+        }
       },
     );
   }
 }
+
