@@ -194,11 +194,11 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
           //First time user sign up
           await _updateSignUpStatus();
           await _createRelevantDocument();
-          SharedPreferences pref = await SharedPreferences.getInstance();
-          pref.setBool("welcome", true);
         }
         await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
         print("After login:-" + FirebaseAuth.instance.currentUser().toString());
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setBool("welcome", true);
       } catch (e) {
         print("signInWithEmailLink function:- " + e.toString());
       }
