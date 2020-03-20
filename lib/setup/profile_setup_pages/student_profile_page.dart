@@ -81,11 +81,7 @@ class _StudentProfileSetupState extends State<StudentProfileSetup> {
                                 ),
                             ),
                         ),
-                        LinearProgressIndicator(
-                            value: _progressValue,
-                            backgroundColor: Colors.green[50],
-                            valueColor: AlwaysStoppedAnimation(Colors.green),
-                        ),
+                        Constant.myLinearProgressIndicator(_progressValue),
                         Expanded(
                             child: PageView(
                                 scrollDirection: Axis.horizontal,

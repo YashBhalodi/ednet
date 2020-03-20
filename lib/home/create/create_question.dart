@@ -29,6 +29,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
     @override
     Widget build(BuildContext context) {
         return Scaffold(
+            //TODO will pop scope for save draft confirmation before exiting
             appBar: AppBar(
                 title: Text(
                     "Ask Question...",
@@ -40,11 +41,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                    LinearProgressIndicator(
-                        backgroundColor: Colors.green[50],
-                        valueColor: AlwaysStoppedAnimation(Colors.green[700]),
-                        value: _progressValue,
-                    ),
+Constant.myLinearProgressIndicator(_progressValue),
                     Expanded(
                       child: PageView(
                           physics: NeverScrollableScrollPhysics(),

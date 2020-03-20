@@ -73,18 +73,15 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
               padding: Constant.edgePadding,
               color: Colors.green[50],
               child: Text(
-                _progressValue == 1 ? "Almost Done..." : "Let's set up your home.profile...",
+                _progressValue == 1 ? "Almost Done..." : "Let's set up your profile...",
                 style: TextStyle(
                   color: Colors.green[900],
                   fontSize: 20.0,
                 ),
               ),
             ),
-            LinearProgressIndicator(
-              value: _progressValue,
-              backgroundColor: Colors.green[50],
-              valueColor: AlwaysStoppedAnimation(Colors.green),
-            ),
+            Constant.myLinearProgressIndicator(_progressValue),
+
             Expanded(
               child: PageView(
                 scrollDirection: Axis.horizontal,

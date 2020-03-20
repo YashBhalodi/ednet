@@ -233,6 +233,14 @@ class Constant {
     }
   }
 
+  static Widget myLinearProgressIndicator(double progress){
+      return                     LinearProgressIndicator(
+          backgroundColor: Colors.green[50],
+          valueColor: AlwaysStoppedAnimation(Colors.green[700]),
+          value: progress,
+      )
+  }
+
   static void showToastInstruction(String msg) {
     Fluttertoast.showToast(
         msg: msg,

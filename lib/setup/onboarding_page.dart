@@ -42,11 +42,7 @@ class _OnboardingState extends State<Onboarding> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: <Widget>[
-          LinearProgressIndicator(
-            value: stepOfOnboarding / 5,
-            backgroundColor: Colors.green[50],
-            valueColor: AlwaysStoppedAnimation(Colors.green[600]),
-          ),
+          Constant.myLinearProgressIndicator(stepOfOnboarding/5),
           Expanded(
             child: PageView(
               controller: _pageController,
