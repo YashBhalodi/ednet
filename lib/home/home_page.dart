@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ednet/utilities_files/contants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -23,14 +24,8 @@ class _HomeState extends State<Home> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          try {
-            await FirebaseAuth.instance.signOut();
-            setState(() {});
-          } catch (e) {
-            print(e.toString());
-          }
-        },
+        child: Text("Logout"),
+          onPressed: ()=>Constant.logOut()
       ),
     );
   }

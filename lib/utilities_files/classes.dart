@@ -5,6 +5,7 @@ class User {
   String email;
   String userName;
   bool isAdmin;
+  bool isProf;
   bool isProfileSet;
   String university;
 
@@ -13,12 +14,14 @@ class User {
       @required this.email,
       @required this.isAdmin,
       @required this.university,
-      @required this.userName}) {
+      @required this.userName,
+      @required this.isProf}) {
     this.email = email;
     this.userName = userName;
     this.university = university;
     this.isAdmin = isAdmin;
     this.isProfileSet = isProfileSet;
+    this.isProf = isProf;
   }
 
   User.fromSnapshot(DocumentSnapshot snapshot) {
@@ -29,11 +32,13 @@ class User {
       isProfileSet: snapshot.data['isProfileSet'] as bool,
       university: snapshot.data['university'] as String,
       userName: snapshot.data['userName'] as String,
+      isProf: snapshot.data['isProf'] as bool,
     );
   }
 
   @override
   String toString() {
-    return "User:-\nUsername:-$userName\nEmail:-$email\nUniversity:-$university\nIsAdmin:{$isAdmin}\nisProfileSet:{$isProfileSet}";
+    return "User:-\nUsername:-$userName\nEmail:-$email\nUniversity:-$university\nIsAdmin:{$isAdmin}\nisProfileSet:{$isProfileSet}\nisProf:{$isProf}";
   }
 }
+

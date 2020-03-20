@@ -157,6 +157,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
 
   Future<void> _createRelevantDocument() async {
     bool isAdmin = docRef.documents[0]['type'] == "admin" ? true : false;
+    bool isProf = docRef.documents[0]['type'] == "prof" ? true : false;
     String userUniversity = docRef.documents[0]['university'];
     //create user document
     try {
@@ -165,6 +166,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         'isProfileSet': false,
         'isAdmin': isAdmin,
         'university': userUniversity,
+        'isProf': isProf,
       });
     } catch (e) {
       print("_createRelevantDocument_user");

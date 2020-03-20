@@ -229,6 +229,14 @@ class Constant {
           gravity: ToastGravity.BOTTOM,
           toastLength: Toast.LENGTH_LONG);
   }
+
+  static void logOut() async {
+      try {
+          await FirebaseAuth.instance.signOut();
+      } catch (e) {
+          print(e.toString());
+      }
+  }
 }
 
 extension StringExtension on String {
@@ -236,3 +244,4 @@ extension StringExtension on String {
     return "${this[0].toUpperCase()}${this.substring(1)}";
   }
 }
+
