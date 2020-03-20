@@ -159,7 +159,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     bool isAdmin = docRef.documents[0]['type'] == "admin" ? true : false;
     bool isProf = docRef.documents[0]['type'] == "prof" ? true : false;
     String userUniversity = docRef.documents[0]['university'];
-    //create user document
+    //home.create user document
     try {
       await Firestore.instance.collection('Users').add({
         'email': _email,
@@ -172,12 +172,12 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
       print("_createRelevantDocument_user");
       print(e);
     }
-    //create university document if user is admin
-    if(isAdmin){
+    //home.create university document if user is admin
+    if (isAdmin) {
       try {
         await Firestore.instance.collection('University').add({
-                'name':userUniversity,
-              });
+          'name': userUniversity,
+        });
       } catch (e) {
         print("_createRelevntDocument_university");
         print(e);
@@ -229,7 +229,6 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-
     final email = TextFormField(
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
@@ -252,7 +251,13 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     final loginButton = RaisedButton(
       autofocus: true,
       elevation: 15.0,
-      child: Text("Request Login Email",style: TextStyle(fontSize: 18.0,color: Colors.blue[800],),),
+      child: Text(
+        "Request Login Email",
+        style: TextStyle(
+          fontSize: 18.0,
+          color: Colors.blue[800],
+        ),
+      ),
       onPressed: (() async => await _validateAndSave()
           ? Constant.showToastInstruction("Email sent to $_email.")
           : Constant.showToastError("Email not sent.")),
@@ -276,6 +281,6 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         ],
       ),
     );
-    return  loginForm;
+    return loginForm;
   }
 }

@@ -74,7 +74,7 @@ class _StudentProfileSetupState extends State<StudentProfileSetup> {
                             padding: Constant.edgePadding,
                             color: Colors.green[50],
                             child: Text(
-                                _progressValue == 1 ? "Almost Done..." : "Let's set up your profile...",
+                                _progressValue == 1 ? "Almost Done..." : "Let's set up your home.profile...",
                                 style: TextStyle(
                                     color: Colors.green[900],
                                     fontSize: 20.0,
@@ -90,6 +90,7 @@ class _StudentProfileSetupState extends State<StudentProfileSetup> {
                             child: PageView(
                                 scrollDirection: Axis.horizontal,
                                 controller: _pageController,
+                                physics: NeverScrollableScrollPhysics(),
                                 children: <Widget>[
                                     UserDetails(
                                         userSnap: widget.userSnap,

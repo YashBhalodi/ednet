@@ -51,6 +51,7 @@ class _OnboardingState extends State<Onboarding> {
             child: PageView(
               controller: _pageController,
               scrollDirection: Axis.horizontal,
+              physics: NeverScrollableScrollPhysics(),
               pageSnapping: true,
               onPageChanged: (p) {
                 setState(() {

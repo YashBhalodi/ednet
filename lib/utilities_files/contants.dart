@@ -92,6 +92,39 @@ class Constant {
 
   static get pageAnimationDuration => Duration(milliseconds: 900);
 
+  //TODO style this
+  static get bottomNavigationTitleStyle => TextStyle();
+
+  //TODO style this
+  static get appDrawerMenuStyle => TextStyle();
+
+  //TODO style this
+  static get menuButtonTextStyle => TextStyle(
+      fontSize: 24.0,
+      color: Colors.blue[800],
+      fontWeight: FontWeight.w600,
+      fontFamily: 'ValeraRound');
+
+  static get primaryCTATextStyle => TextStyle(
+      fontSize: 24.0,
+      color: Colors.white,
+      fontWeight: FontWeight.w600,
+      fontFamily: 'ValeraRound');
+
+  static get secondaryCTATextStyle => TextStyle(
+      fontSize: 24.0,
+      color: Colors.blue[800],
+      fontWeight: FontWeight.w600,
+      fontFamily: 'ValeraRound');
+
+  static get negativeCTATextStyle => TextStyle(
+      fontSize: 24.0,
+      color: Colors.red[600],
+      fontWeight: FontWeight.w600,
+      fontFamily: 'ValeraRound');
+
+  static get appBarTextStyle => TextStyle(fontFamily: 'ValeraRound');
+
   static String emailValidator(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -154,39 +187,39 @@ class Constant {
   }
 
   static String countryValidator(String value) {
-      Pattern pattern = r'^[a-zA-Z ]*$';
-      RegExp regExp = new RegExp(pattern);
-      if (value.length == 0) {
-          return "Please provide Country.";
-      } else if (!regExp.hasMatch(value.trim())) {
-          return "Country name can contain only alphabets.";
-      } else {
-          return null;
-      }
+    Pattern pattern = r'^[a-zA-Z ]*$';
+    RegExp regExp = new RegExp(pattern);
+    if (value.length == 0) {
+      return "Please provide Country.";
+    } else if (!regExp.hasMatch(value.trim())) {
+      return "Country name can contain only alphabets.";
+    } else {
+      return null;
+    }
   }
 
   static String stateValidator(String value) {
-      Pattern pattern = r'^[a-zA-Z ]*$';
-      RegExp regExp = new RegExp(pattern);
-      if (value.length == 0) {
-          return "Please provide Region or State.";
-      } else if (!regExp.hasMatch(value.trim())) {
-          return "Region/State name can contain only alphabets.";
-      } else {
-          return null;
-      }
+    Pattern pattern = r'^[a-zA-Z ]*$';
+    RegExp regExp = new RegExp(pattern);
+    if (value.length == 0) {
+      return "Please provide Region or State.";
+    } else if (!regExp.hasMatch(value.trim())) {
+      return "Region/State name can contain only alphabets.";
+    } else {
+      return null;
+    }
   }
 
   static String cityValidator(String value) {
-      Pattern pattern = r'^[a-zA-Z ]*$';
-      RegExp regExp = new RegExp(pattern);
-      if (value.length == 0) {
-          return "Please provide City.";
-      } else if (!regExp.hasMatch(value.trim())) {
-          return "City name can contain only alphabets.";
-      } else {
-          return null;
-      }
+    Pattern pattern = r'^[a-zA-Z ]*$';
+    RegExp regExp = new RegExp(pattern);
+    if (value.length == 0) {
+      return "Please provide City.";
+    } else if (!regExp.hasMatch(value.trim())) {
+      return "City name can contain only alphabets.";
+    } else {
+      return null;
+    }
   }
 
   static String mobileNumberValidator(String value) {
@@ -211,31 +244,31 @@ class Constant {
   }
 
   static void showToastError(String msg) {
-      Fluttertoast.showToast(
-          msg: msg,
-          fontSize: 18.0,
-          backgroundColor: Colors.grey[800],
-          textColor: Colors.red,
-          gravity: ToastGravity.BOTTOM,
-          toastLength: Toast.LENGTH_LONG);
+    Fluttertoast.showToast(
+        msg: msg,
+        fontSize: 18.0,
+        backgroundColor: Colors.grey[800],
+        textColor: Colors.red,
+        gravity: ToastGravity.BOTTOM,
+        toastLength: Toast.LENGTH_LONG);
   }
 
   static void showToastSuccess(String msg) {
-      Fluttertoast.showToast(
-          msg: msg,
-          fontSize: 18.0,
-          backgroundColor: Colors.green[50],
-          textColor: Colors.green[900],
-          gravity: ToastGravity.BOTTOM,
-          toastLength: Toast.LENGTH_LONG);
+    Fluttertoast.showToast(
+        msg: msg,
+        fontSize: 18.0,
+        backgroundColor: Colors.green[50],
+        textColor: Colors.green[900],
+        gravity: ToastGravity.BOTTOM,
+        toastLength: Toast.LENGTH_LONG);
   }
 
   static void logOut() async {
-      try {
-          await FirebaseAuth.instance.signOut();
-      } catch (e) {
-          print(e.toString());
-      }
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
 
@@ -244,4 +277,3 @@ extension StringExtension on String {
     return "${this[0].toUpperCase()}${this.substring(1)}";
   }
 }
-

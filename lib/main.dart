@@ -142,10 +142,13 @@ class _EntryPointState extends State<EntryPoint> {
 //                    print("138"+profileSnapshot.data.toString());
                     if (!profileSnapshot.hasError) {
                       DocumentSnapshot userDocSnapshot = profileSnapshot.data.documents[0];
-                      print("130 userDocSnap:- "+ userDocSnapshot.data.toString());
+//                      print("130 userDocSnap:- "+ userDocSnapshot.data.toString());
                       bool isProfileSet = userDocSnapshot['isProfileSet'];
-                      print("132 isProfileSet:- "+ isProfileSet.toString());
+//                      print("132 isProfileSet:- "+ isProfileSet.toString());
                       if (isProfileSet) {
+/*                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+                          return Home(userSnap: userDocSnapshot,);
+                        }));*/
                         return Home(userSnap: userDocSnapshot,);
                       } else {
                         bool isAdmin = userDocSnapshot['isAdmin'] as bool;
