@@ -233,12 +233,28 @@ class Constant {
     }
   }
 
+  static String questionHeadingValidator(value) {
+      if(value.length<10){
+          return "Please describe question in atleast 10 characters";
+      } else {
+          return null;
+      }
+  }
+
+  static String questionDescriptionValidator(value) {
+      if(value.length<10){
+          return "Please describe question in atleast 10 characters";
+      } else {
+          return null;
+      }
+  }
+
   static Widget myLinearProgressIndicator(double progress){
       return                     LinearProgressIndicator(
           backgroundColor: Colors.green[50],
           valueColor: AlwaysStoppedAnimation(Colors.green[700]),
           value: progress,
-      )
+      );
   }
 
   static void showToastInstruction(String msg) {
@@ -277,6 +293,19 @@ class Constant {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  static Future<String> getCurrentUsername() async {
+      try {
+          FirebaseUser curUser = await FirebaseAuth.instance.currentUser();
+          QuerySnapshot curUserQuery = await Firestore.instance.collection('Users').where('email',isEqualTo: curUser.email).getDocuments();
+          String username = curUserQuery.documents[0].data['username'];
+          return username;
+      } catch (e) {
+          print("Constant.getCurrentUsername:");
+          print(e);
+          return null;
+      }
   }
 }
 

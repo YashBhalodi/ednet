@@ -1,3 +1,4 @@
+import 'package:ednet/utilities_files/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:ednet/utilities_files/contants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -225,26 +226,7 @@ class _TopicSelectionState extends State<TopicSelection> {
                     return ListView.builder(
                       itemCount: docList.length,
                       itemBuilder: (context, i) {
-                        return CheckboxListTile(
-                          checkColor: Colors.green[600],
-                          activeColor: Colors.green[50],
-                          controlAffinity: ListTileControlAffinity.leading,
-                          value: _selectedTopicList.contains(topicList[i]),
-                          title: Text(
-                            topicList[i],
-                          ),
-                          onChanged: (value) {
-                            if (value == true) {
-                              setState(() {
-                                _selectedTopicList.add(topicList[i]);
-                              });
-                            } else {
-                              setState(() {
-                                _selectedTopicList.remove(topicList[i]);
-                              });
-                            }
-                          },
-                        );
+                        return MyCheckBoxTile(title: topicList[i],outputList: _selectedTopicList,);
                       },
                     );
                   }

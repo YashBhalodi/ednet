@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class User {
   String email;
@@ -45,19 +46,6 @@ class User {
   String toString() {
     return 'User{email: $email, userName: $userName, isAdmin: $isAdmin, isProf: $isProf, isProfileSet: $isProfileSet, university: $university, fname: $fname, lname: $lname, bio: $bio, mobile: $mobile, topics: $topics}';
   }
-
-  static Future<String> getCurrentUsername() async {
-      try {
-          FirebaseUser curUser = await FirebaseAuth.instance.currentUser();
-          QuerySnapshot curUserQuery = await Firestore.instance.collection('Users').where('email',isEqualTo: curUser.email).getDocuments();
-          String username = curUserQuery.documents[0].data['username'];
-          return username;
-      } catch (e) {
-          print("User.getCurrentUsername:");
-          print(e);
-          return null;
-      }
-  }
 }
 
 class Question {
@@ -70,11 +58,11 @@ class Question {
   int downvoteCount;
   List<String> upvoters;
   List<String> downvoters;
-  String topic;
+  List<String> topics;
   String id;
 
   Question({this.heading, this.description, this.createdOn, this.editedOn, this.username,
-      this.upvoteCount, this.downvoteCount, this.upvoters, this.downvoters, this.topic});
+      this.upvoteCount, this.downvoteCount, this.upvoters, this.downvoters, this.topics});
 
   Question.fromSnapshot(DocumentSnapshot snapshot) {
     heading = snapshot.data['heading'];
@@ -86,7 +74,7 @@ class Question {
     downvoteCount = snapshot.data['downvoteCounts'] as int;
     upvoters = snapshot.data['upvoters'].cast<String>();
     downvoters = snapshot.data['downvoters'].cast<String>();
-    topic = snapshot.data['topic'];
+    topics = snapshot.data['topic'].cast<String>();
     id = snapshot.documentID;
   }
 
@@ -103,7 +91,7 @@ class Question {
             'downvoteCount': this.downvoteCount,
             'upvoters': this.upvoters,
             'downvoters': this.downvoters,
-            'topic': this.topic,
+            'topic': this.topics,
           });
       return true;
     } catch (e) {
@@ -115,7 +103,7 @@ class Question {
 
   @override
   String toString() {
-    return 'Question{heading: $heading, description: $description, createdOn: $createdOn, editedOn: $editedOn, username: $username, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topic: $topic, id: $id}';
+    return 'Question{heading: $heading, description: $description, createdOn: $createdOn, editedOn: $editedOn, username: $username, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topic: $topics, id: $id}';
   }
 //TODO edit,save question as draft
 
@@ -125,3 +113,41 @@ class Question {
 
 //TODO downvote question
 }
+
+class MyCheckBoxTile extends StatefulWidget {
+    final List<String> outputList;
+    final String title;
+
+    const MyCheckBoxTile({Key key,@required this.outputList,@required this.title}) : super(key: key);
+    @override
+    _MyCheckBoxTileState createState() => _MyCheckBoxTileState();
+}
+
+class _MyCheckBoxTileState extends State<MyCheckBoxTile> {
+    @override
+    Widget build(BuildContext context) {
+        return CheckboxListTile(
+            checkColor: Colors.green[600],
+            activeColor: Colors.green[50],
+            controlAffinity: ListTileControlAffinity.leading,
+            value: widget.outputList.contains(widget.title),
+            title: Text(
+                widget.title,
+            ),
+            onChanged: (value) {
+                if (value == true) {
+                    if (widget.outputList.length < 3) {
+                        setState(() {
+                            widget.outputList.add(widget.title);
+                        });
+                    }
+                } else {
+                    setState(() {
+                        widget.outputList.remove(widget.title);
+                    });
+                }
+            },
+        );
+    }
+}
+
