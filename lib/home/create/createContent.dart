@@ -50,7 +50,6 @@ class CreateContent extends StatelessWidget {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context){
                   return CreateQuestion();
                 }));
-                print("CreateQuestion launch");
               },
             ),
           ),

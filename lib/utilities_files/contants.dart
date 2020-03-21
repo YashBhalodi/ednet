@@ -10,6 +10,16 @@ class Constant {
         vertical: 16.0,
       );
 
+  static get cardPadding => EdgeInsets.symmetric(
+      vertical:12.0,
+      horizontal:8.0,
+  );
+
+  static get cardMargin => EdgeInsets.symmetric(
+      horizontal: 8.0,
+      vertical: 4.0,
+  );
+
   static get formFieldTextStyle => TextStyle(
         fontSize: 18.0,
         color: Colors.teal[900],
@@ -98,7 +108,6 @@ class Constant {
   //TODO style this
   static get appDrawerMenuStyle => TextStyle();
 
-  //TODO style this
   static get menuButtonTextStyle => TextStyle(
       fontSize: 24.0,
       color: Colors.blue[800],
@@ -106,16 +115,16 @@ class Constant {
       fontFamily: 'ValeraRound');
 
   static get primaryCTATextStyle => TextStyle(
-      fontSize: 20.0,
-      color: Colors.white,
-      fontWeight: FontWeight.w600,
+        fontSize: 20.0,
+        color: Colors.white,
+        fontWeight: FontWeight.w600,
       );
 
   static get secondaryCTATextStyle => TextStyle(
-      fontSize: 18.0,
-      color: Colors.grey[800],
-      fontWeight: FontWeight.w500,
-  );
+        fontSize: 18.0,
+        color: Colors.grey[800],
+        fontWeight: FontWeight.w500,
+      );
 
   static get negativeCTATextStyle => TextStyle(
       fontSize: 24.0,
@@ -123,7 +132,25 @@ class Constant {
       fontWeight: FontWeight.w600,
       fontFamily: 'ValeraRound');
 
-  static get appBarTextStyle => TextStyle(fontFamily: 'ValeraRound');
+  static get appBarTextStyle => TextStyle(
+        fontFamily: 'ValeraRound',
+        fontWeight: FontWeight.w700,
+      );
+
+  //TODO style this
+  static get questionHeadingStyle => TextStyle();
+
+  //TODO style this
+  static get questionDescriptionStyle => TextStyle();
+
+  //TODO style this
+  static get dateTimeStyle => TextStyle();
+
+  //TODO style this
+  static get usernameStyle => TextStyle();
+
+  //TODO style this
+  static get topicStyle => TextStyle();
 
   static String emailValidator(String value) {
     Pattern pattern =
@@ -234,27 +261,27 @@ class Constant {
   }
 
   static String questionHeadingValidator(value) {
-      if(value.length<10){
-          return "Please describe question in atleast 10 characters";
-      } else {
-          return null;
-      }
+    if (value.length < 10) {
+      return "Please describe question in atleast 10 characters";
+    } else {
+      return null;
+    }
   }
 
   static String questionDescriptionValidator(value) {
-      if(value.length<10){
-          return "Please describe question in atleast 10 characters";
-      } else {
-          return null;
-      }
+    if (value.length < 10) {
+      return "Please describe question in atleast 10 characters";
+    } else {
+      return null;
+    }
   }
 
-  static Widget myLinearProgressIndicator(double progress){
-      return                     LinearProgressIndicator(
-          backgroundColor: Colors.green[50],
-          valueColor: AlwaysStoppedAnimation(Colors.green[700]),
-          value: progress,
-      );
+  static Widget myLinearProgressIndicator(double progress) {
+    return LinearProgressIndicator(
+      backgroundColor: Colors.green[50],
+      valueColor: AlwaysStoppedAnimation(Colors.green[700]),
+      value: progress,
+    );
   }
 
   static void showToastInstruction(String msg) {
@@ -296,16 +323,19 @@ class Constant {
   }
 
   static Future<String> getCurrentUsername() async {
-      try {
-          FirebaseUser curUser = await FirebaseAuth.instance.currentUser();
-          QuerySnapshot curUserQuery = await Firestore.instance.collection('Users').where('email',isEqualTo: curUser.email).getDocuments();
-          String username = curUserQuery.documents[0].data['username'];
-          return username;
-      } catch (e) {
-          print("Constant.getCurrentUsername:");
-          print(e);
-          return null;
-      }
+    try {
+      FirebaseUser curUser = await FirebaseAuth.instance.currentUser();
+      QuerySnapshot curUserQuery = await Firestore.instance
+          .collection('Users')
+          .where('email', isEqualTo: curUser.email)
+          .getDocuments();
+      String username = curUserQuery.documents[0].data['username'];
+      return username;
+    } catch (e) {
+      print("Constant.getCurrentUsername:");
+      print(e);
+      return null;
+    }
   }
 }
 

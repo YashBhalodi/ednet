@@ -22,18 +22,22 @@ class _CreateQuestionState extends State<CreateQuestion> {
   List<String> _selectedTopics = List();
 
   Future<void> _publishQuestion() async {
-      _question.createdOn = DateTime.now();
-      _question.upvoteCount = 0;
-      _question.downvoteCount = 0;
-      _question.username = await Constant.getCurrentUsername();
-      _question.editedOn = null;
-      _question.topics = _selectedTopics;
-      final FormState form = _questionFormKey.currentState;
-      if (form.validate()) {
-          form.save();
-      }
+      await _saveQuestionForm();
       print(_question.toString());
       await _question.uploadQuestion();
+  }
+
+  Future<void> _saveQuestionForm() async {
+    _question.createdOn = DateTime.now();
+    _question.upvoteCount = 0;
+    _question.downvoteCount = 0;
+    _question.username = await Constant.getCurrentUsername();
+    _question.editedOn = null;
+    _question.topics = _selectedTopics;
+    final FormState form = _questionFormKey.currentState;
+    if (form.validate()) {
+      form.save();
+    }
   }
 
   @override
@@ -59,7 +63,10 @@ class _CreateQuestionState extends State<CreateQuestion> {
                 physics: NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 controller: _pageController,
-                onPageChanged: (p) {
+                onPageChanged: (p) async {
+                  if(p==3){
+                    await _saveQuestionForm();
+                  }
                   setState(() {
                     _progressValue = (p + 1) / 4;
                   });
@@ -80,7 +87,6 @@ class _CreateQuestionState extends State<CreateQuestion> {
                   ),
                   PreviewQuestion(
                     question: _question,
-                    parentPageController: _pageController,
                   ),
                 ],
               ),

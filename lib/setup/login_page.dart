@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/setup/signup_instruction_page.dart';
 import 'package:ednet/utilities_files/contants.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
@@ -95,14 +96,14 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text("Your university hasn't applied for ednet yet."),
-                      RaisedButton(
-                        onPressed: () {
+                      SecondaryCTA(
+                        child: Text("Show me how to apply",style: Constant.secondaryCTATextStyle,),
+                        callback: (){
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(builder: (context) {
                             return SignUpInstruction();
                           }));
                         },
-                        child: Text("Show me how to apply"),
                       ),
                     ],
                   );
@@ -248,25 +249,14 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
       ),
     );
 
-    final loginButton = RaisedButton(
-      autofocus: true,
-      elevation: 15.0,
+    final loginButton = PrimaryBlueCTA(
+      callback: (() async => await _validateAndSave()
+                             ? Constant.showToastInstruction("Email sent to $_email.")
+                             : Constant.showToastError("Email not sent.")),
       child: Text(
         "Request Login Email",
-        style: TextStyle(
-          fontSize: 18.0,
-          color: Colors.blue[800],
-        ),
+        style: Constant.primaryCTATextStyle,
       ),
-      onPressed: (() async => await _validateAndSave()
-          ? Constant.showToastInstruction("Email sent to $_email.")
-          : Constant.showToastError("Email not sent.")),
-      padding: Constant.raisedButtonPaddingHigh,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-        side: BorderSide(color: Colors.blue[800], width: 2.0),
-      ),
-      color: Colors.blue[50],
     );
 
     final loginForm = Form(

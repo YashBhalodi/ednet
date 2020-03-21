@@ -54,7 +54,6 @@ class _HeadingPageState extends State<HeadingPage> with AutomaticKeepAliveClient
           height: 64.0,
         ),
         TextFormField(
-          autofocus: true,
           onTap: () {
             _scrollController.animateTo(200.0,
                 duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
