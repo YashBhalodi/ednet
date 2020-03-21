@@ -23,7 +23,6 @@ class _CreateQuestionState extends State<CreateQuestion> {
 
   Future<void> _publishQuestion() async {
     await _saveQuestionForm();
-    print(_question.toString());
     bool success = await _question.uploadQuestion();
     if (success) {
       Constant.showToastSuccess("Question posted successfully");
@@ -39,6 +38,9 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question.username = await Constant.getCurrentUsername();
     _question.editedOn = null;
     _question.topics = _selectedTopics;
+    _question.byProf = await Constant.isUserProf(_question.username);
+    _question.upvoters = [];
+    _question.downvoters = [];
     final FormState form = _questionFormKey.currentState;
     if (form.validate()) {
       form.save();

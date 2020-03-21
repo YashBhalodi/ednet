@@ -355,6 +355,12 @@ class Constant {
     }
   }
 
+  static Future<bool> isUserProf(String username) async {
+      QuerySnapshot curUserQuery = await Firestore.instance.collection('Users').where('username',isEqualTo: username).getDocuments();
+      bool isProf = curUserQuery.documents[0].data['isProf'] as bool;
+      return isProf;
+  }
+
   static String formatDateTime(DateTime timestamp){
       return DateFormat.MMMEd().format(timestamp);
   }

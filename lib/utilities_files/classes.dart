@@ -60,6 +60,7 @@ class Question {
   List<String> downvoters;
   List<String> topics;
   String id;
+  bool byProf;
 
   Question(
       {this.heading,
@@ -71,7 +72,9 @@ class Question {
       this.downvoteCount,
       this.upvoters,
       this.downvoters,
-      this.topics});
+      this.topics,
+      this.byProf,
+      this.id});
 
   Question.fromSnapshot(DocumentSnapshot snapshot) {
     heading = snapshot.data['heading'];
@@ -85,6 +88,7 @@ class Question {
     downvoters = snapshot.data['downvoters'].cast<String>();
     topics = snapshot.data['topic'].cast<String>();
     id = snapshot.documentID;
+    byProf = snapshot.data['byProf'] as bool;
   }
 
   //TODO upload,publish question
@@ -101,6 +105,7 @@ class Question {
         'upvoters': this.upvoters,
         'downvoters': this.downvoters,
         'topic': this.topics,
+        'byProf': this.byProf,
       });
       return true;
     } catch (e) {
