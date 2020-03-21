@@ -9,15 +9,18 @@ class TopicSelection extends StatefulWidget {
   final PageController parentPageController;
   final List<String> topicsList;
 
-  const TopicSelection({Key key, @required this.question, @required this.parentPageController,@required this.topicsList,})
-      : super(key: key);
+  const TopicSelection({
+    Key key,
+    @required this.question,
+    @required this.parentPageController,
+    @required this.topicsList,
+  }) : super(key: key);
 
   @override
   _TopicSelectionState createState() => _TopicSelectionState();
 }
 
-class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAliveClientMixin{
-
+class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -40,40 +43,48 @@ class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAlive
           height: 16.0,
         ),
         StreamBuilder(
-          stream: Firestore.instance.collection('Topics').getDocuments().asStream(),
+          stream: Firestore.instance.collection('Topics').snapshots(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (!snapshot.hasError) {
-                List<DocumentSnapshot> docList = snapshot.data.documents;
-                if (docList.isEmpty) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData) {
+                if (snapshot.data.documents.length == 0) {
                   return Center(
                     child: Container(
-                      child: Text(
-                          "No Topics created by any university admin yet.\n\nPlease save your question as draft and tray again after some time."),
+                      child: Text("No topics created yet.\n\nPlease save your progress as Draft \nand try again at your leisure.",textAlign: TextAlign.center,),
                     ),
                   );
                 } else {
-                  List<String> topicList = List.generate(docList.length, (i) => docList[i]['title']);
+                  List<String> topicList = List.generate(
+                      snapshot.data.documents.length, (i) => snapshot.data.documents[i]['title']);
                   topicList.sort();
                   return ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: docList.length,
+                    itemCount: topicList.length,
                     itemBuilder: (context, i) {
-                      return MyCheckBoxTile(title: topicList[i],outputList: widget.topicsList,maxElement: 3,);
+                      return MyCheckBoxTile(
+                        title: topicList[i],
+                        outputList: widget.topicsList,
+                        maxElement: 3,
+                      );
                     },
                   );
                 }
               } else {
                 return Center(
                   child: Container(
-                    child: Text("Error"),
+                    child: Text(
+                        "Oops! Something went wrong.\nPlease save your progress as Draft if needed."),
                   ),
                 );
               }
             } else {
               return Center(
-                child: Constant.greenCircularProgressIndicator,
+                child: SizedBox(
+                  height: 28.0,
+                  width: 28.0,
+                  child: Constant.greenCircularProgressIndicator,
+                ),
               );
             }
           },

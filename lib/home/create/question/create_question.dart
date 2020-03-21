@@ -26,16 +26,19 @@ class _CreateQuestionState extends State<CreateQuestion> {
   List<String> _selectedTopics;
 
   Future<void> _publishQuestion() async {
-    await _validateSaveQuestionForm();
-    bool success = await _question.uploadQuestion();
-    if(widget.question!=null) {
-      //Draft question finally published. Need to delete the Draft instance of the question
-      await widget.question.delete();
-    }
-    if (success) {
-      Constant.showToastSuccess("Question posted successfully");
-    } else {
-      Constant.showToastError("Failed to post question");
+    bool validForm = await _validateSaveQuestionForm();
+    if(validForm){
+      bool success = await _question.uploadQuestion();
+      if(widget.question!=null) {
+        //Draft question finally published. Need to delete the Draft instance of the question
+        await widget.question.delete();
+      }
+      if (success) {
+        Constant.showToastSuccess("Question published successfully");
+      } else {
+        Constant.showToastError("Failed to post question");
+      }
+      Navigator.of(context).pop();
     }
   }
 
@@ -67,7 +70,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
     form.save();
   }
 
-  Future<void> _validateSaveQuestionForm() async {
+  Future<bool> _validateSaveQuestionForm() async {
     _question.createdOn = DateTime.now();
     _question.upvoteCount = 0;
     _question.downvoteCount = 0;
@@ -79,9 +82,13 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question.downvoters = [];
     _question.isDraft = false;
     final FormState form = _questionFormKey.currentState;
-    if (form.validate()) {
+    if (form.validate() && _selectedTopics.length != 0) {
       form.save();
-    } else {}
+      return true;
+    } else {
+      Constant.showToastInstruction("Heading should be atleast 10 characters.\nDescription should be atleast 20 character.\nAtleast one topic should be selected.");
+      return false;
+    }
   }
 
   @override
@@ -209,7 +216,6 @@ class _CreateQuestionState extends State<CreateQuestion> {
                           ),
                           callback: () async {
                             await _publishQuestion();
-                            Navigator.of(context).pop();
                           },
                         ),
                       ),

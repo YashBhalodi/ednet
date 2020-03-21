@@ -74,7 +74,7 @@ class QuestionPreviewCard extends StatelessWidget {
                 Expanded(
                   flex: 4,
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Icon(
@@ -167,9 +167,44 @@ class QuestionPreviewCard extends StatelessWidget {
                     ],
                   ),
                 ),
+                FutureBuilder(
+                  future: Constant.getCurrentUsername(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data == question.username) {
+                          return GestureDetector(
+                            onTap: ()async{
+                              await question.delete();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:8.0),
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                                size: 24.0,
+                              ),
+                            ),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      } else {
+                        return Container();
+                      }
+                    } else {
+                      return SizedBox(
+                        height: 12.0,
+                        width: 12.0,
+                        child: Constant.greenCircularProgressIndicator,
+                      );
+                    }
+                  },
+                ),
               ],
             ),
-            question.isDraft?SizedBox(height: 8.0,):Container(),
+
+            /*question.isDraft?SizedBox(height: 8.0,):Container(),
             question.isDraft?SecondaryCTA(
               callback: (){
                 Navigator.of(context).push(MaterialPageRoute(builder: (context){
@@ -177,7 +212,7 @@ class QuestionPreviewCard extends StatelessWidget {
                 }));
               },
               child: Text("Finish the draft",style: Constant.secondaryCTATextStyle,),
-            ):Container(),
+            ):Container(),*/
           ],
         ),
       ),

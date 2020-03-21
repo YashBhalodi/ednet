@@ -68,6 +68,7 @@ class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAli
           style: Constant.formFieldTextStyle,
           minLines: 20,
           maxLines: 25,
+          maxLength: 1000,
           validator: (value) => Constant.questionDescriptionValidator(value),
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
@@ -76,7 +77,7 @@ class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAli
             border: null,
             focusedBorder: null,
             contentPadding: Constant.formFieldContentPadding,
-            counterText: _descriptionController.text.length.toString(),
+//            counterText: _descriptionController.text.length.toString(),
             hintText: "Describe the question in details...",
           ),
         ),

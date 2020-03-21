@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 class HeadingPage extends StatefulWidget {
   final Question question;
   final PageController parentPageController;
-
   const HeadingPage({Key key, @required this.question, @required this.parentPageController})
       : super(key: key);
 

@@ -12,33 +12,21 @@ class _FeedPageState extends State<FeedPage> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: Firestore.instance
-          .collection('Questions')
-          .where('isDraft', isEqualTo: false)
-          .getDocuments()
-          .asStream(),
+      stream:
+          Firestore.instance.collection('Questions').where('isDraft', isEqualTo: false).snapshots(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return LinearProgressIndicator();
+        if(snapshot.connectionState == ConnectionState.active){
+          return ListView.builder(
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (context, i) {
+              Question q = Question.fromSnapshot(snapshot.data.documents[i]);
+              return QuestionPreviewCard(
+                question: q,
+              );
+            },
+          );
         } else {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data.documents.length,
-              itemBuilder: (context, i) {
-                Question q = Question.fromSnapshot(snapshot.data.documents[i]);
-//                print(q.toString());
-                return QuestionPreviewCard(
-                  question: q,
-                );
-              },
-            );
-          } else {
-            return Container(
-              child: Center(
-                child: Text("Error"),
-              ),
-            );
-          }
+          return LinearProgressIndicator();
         }
       },
     );

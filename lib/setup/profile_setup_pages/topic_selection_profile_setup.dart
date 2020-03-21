@@ -33,21 +33,24 @@ class _TopicSelectionState extends State<TopicSelection> {
 
   Future<void> _uploadTopicDetails(List<String> updatedTopicList) async {
     try {
-        if (widget.isStudent) {
-              await Firestore.instance.collection('Users').document(widget.userSnap.documentID).updateData({
-                'topics': updatedTopicList,
-              });
-            } else {
-              await Firestore.instance
-                  .collection('University')
-                  .document(widget.universitySnap.documentID)
-                  .updateData({
-                'topics': updatedTopicList,
-              });
-            }
+      if (widget.isStudent) {
+        await Firestore.instance
+            .collection('Users')
+            .document(widget.userSnap.documentID)
+            .updateData({
+          'topics': updatedTopicList,
+        });
+      } else {
+        await Firestore.instance
+            .collection('University')
+            .document(widget.universitySnap.documentID)
+            .updateData({
+          'topics': updatedTopicList,
+        });
+      }
     } catch (e) {
-        print("_uploadTopicDetails");
-        print(e);
+      print("_uploadTopicDetails");
+      print(e);
     }
   }
 
@@ -55,7 +58,7 @@ class _TopicSelectionState extends State<TopicSelection> {
     if (_selectedTopicList.length >= 1) {
       await _uploadTopicDetails(_selectedTopicList);
       await updateUserProfileStatus();
-      if(widget.isStudent){
+      if (widget.isStudent) {
         widget.onSuccess(2);
       } else {
         widget.onSuccess(3);
@@ -204,14 +207,11 @@ class _TopicSelectionState extends State<TopicSelection> {
         ),
         Expanded(
           child: StreamBuilder(
-            //TODO FIX synchronize with Firestore
-            //TODO FIX 'stream' has already been listened to.
-            stream: Firestore.instance.collection('Topics').getDocuments().asStream(),
+            stream: Firestore.instance.collection('Topics').snapshots(),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (!snapshot.hasError) {
-                  List<DocumentSnapshot> docList = snapshot.data.documents;
-                  if (docList.isEmpty) {
+              if (snapshot.connectionState == ConnectionState.active) {
+                if (snapshot.hasData) {
+                  if (snapshot.data.documents.length == 0) {
                     return Center(
                       child: Container(
                         child: Text(widget.isStudent
@@ -220,26 +220,34 @@ class _TopicSelectionState extends State<TopicSelection> {
                       ),
                     );
                   } else {
-                    List<String> topicList =
-                        List.generate(docList.length, (i) => docList[i]['title']);
+                    List<String> topicList = List.generate(
+                        snapshot.data.documents.length, (i) => snapshot.data.documents[i]['title']);
                     topicList.sort();
                     return ListView.builder(
-                      itemCount: docList.length,
+                      itemCount: topicList.length,
                       itemBuilder: (context, i) {
-                        return MyCheckBoxTile(title: topicList[i],outputList: _selectedTopicList,);
+                        return MyCheckBoxTile(
+                          title: topicList[i],
+                          outputList: _selectedTopicList,
+                        );
                       },
                     );
                   }
                 } else {
                   return Center(
                     child: Container(
-                      child: Text("Error"),
+                      child: Text(
+                          "Sorry, seems like something went wrong while fetching list of topics."),
                     ),
                   );
                 }
               } else {
                 return Center(
-                  child: Constant.greenCircularProgressIndicator,
+                  child: SizedBox(
+                    height: 28.0,
+                    width: 28.0,
+                    child: Constant.greenCircularProgressIndicator,
+                  ),
                 );
               }
             },
@@ -248,7 +256,8 @@ class _TopicSelectionState extends State<TopicSelection> {
         Row(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: widget.isStudent ? MainAxisAlignment.center: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment:
+              widget.isStudent ? MainAxisAlignment.center : MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             widget.isStudent
                 ? Container()

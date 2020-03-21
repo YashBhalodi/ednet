@@ -138,35 +138,30 @@ class Constant {
         fontWeight: FontWeight.w700,
       );
 
-  //TODO style this
   static get questionHeadingStyle => TextStyle(
       fontSize: 20.0,
       fontWeight: FontWeight.w600,
       color: Colors.black87,
   );
 
-  //TODO style this
   static get questionDescriptionStyle => TextStyle(
       fontSize: 16.0,
       fontWeight: FontWeight.w400,
       color: Colors.black87,
   );
 
-  //TODO style this
   static get dateTimeStyle => TextStyle(
       fontSize: 12.0,
       fontWeight: FontWeight.w300,
       color: Colors.black54,
   );
 
-  //TODO style this
   static get usernameStyle => TextStyle(
       fontSize: 14.0,
       fontWeight: FontWeight.w500,
 
   );
 
-  //TODO style this
   static get topicStyle => TextStyle();
 
   static String emailValidator(String value) {
