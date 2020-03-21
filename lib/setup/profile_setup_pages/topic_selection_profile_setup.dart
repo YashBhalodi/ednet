@@ -1,7 +1,7 @@
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:ednet/utilities_files/contants.dart';
+import 'package:ednet/utilities_files/constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TopicSelection extends StatefulWidget {

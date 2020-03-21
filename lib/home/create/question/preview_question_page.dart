@@ -1,6 +1,6 @@
 import 'package:ednet/home/create/question/question_preview_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
-import 'package:ednet/utilities_files/contants.dart';
+import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
 
 class PreviewQuestion extends StatefulWidget {
@@ -26,7 +26,6 @@ class _PreviewQuestionState extends State<PreviewQuestion> {
     } else {
       return ListView(
         shrinkWrap: true,
-        padding: Constant.edgePadding,
         children: <Widget>[
           QuestionPreviewCard(
             question: widget.question,

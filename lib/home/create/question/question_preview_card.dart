@@ -1,5 +1,7 @@
+import 'package:ednet/home/create/question/create_question.dart';
 import 'package:ednet/utilities_files/classes.dart';
-import 'package:ednet/utilities_files/contants.dart';
+import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 
 class QuestionPreviewCard extends StatelessWidget {
@@ -167,6 +169,15 @@ class QuestionPreviewCard extends StatelessWidget {
                 ),
               ],
             ),
+            question.isDraft?SizedBox(height: 8.0,):Container(),
+            question.isDraft?SecondaryCTA(
+              callback: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                  return CreateQuestion(question: question,);
+                }));
+              },
+              child: Text("Finish the draft",style: Constant.secondaryCTATextStyle,),
+            ):Container(),
           ],
         ),
       ),

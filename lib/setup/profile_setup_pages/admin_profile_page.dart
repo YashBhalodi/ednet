@@ -3,7 +3,7 @@ import 'package:ednet/home/home_page.dart';
 import 'package:ednet/setup/profile_setup_pages/topic_selection_profile_setup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ednet/utilities_files/contants.dart';
+import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/setup/profile_setup_pages/user_details_profile_setup_page.dart';
 import 'package:ednet/setup/profile_setup_pages/university_details_profile_setup_page.dart';
 

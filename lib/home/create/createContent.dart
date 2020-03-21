@@ -1,5 +1,5 @@
 import 'package:ednet/home/create/question/create_question.dart';
-import 'package:ednet/utilities_files/contants.dart';
+import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
 
 class CreateContent extends StatelessWidget {

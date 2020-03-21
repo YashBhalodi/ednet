@@ -3,27 +3,35 @@ import 'package:ednet/home/create/question/heading_page.dart';
 import 'package:ednet/home/create/question/preview_question_page.dart';
 import 'package:ednet/home/create/question/topic_selection_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
-import 'package:ednet/utilities_files/contants.dart';
+import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 
 class CreateQuestion extends StatefulWidget {
+  final Question question;
+
+  const CreateQuestion({Key key, this.question}) : super(key: key);
+
   @override
   _CreateQuestionState createState() => _CreateQuestionState();
 }
 
 class _CreateQuestionState extends State<CreateQuestion> {
   GlobalKey _questionFormKey = GlobalKey<FormState>();
-  Question _question = Question();
+  Question _question;
   double _progressValue = 1 / 4;
   PageController _pageController = PageController(
     initialPage: 0,
   );
-  List<String> _selectedTopics = List();
+  List<String> _selectedTopics;
 
   Future<void> _publishQuestion() async {
-    await _saveQuestionForm();
+    await _validateSaveQuestionForm();
     bool success = await _question.uploadQuestion();
+    if(widget.question!=null) {
+      //Draft question finally published. Need to delete the Draft instance of the question
+      await widget.question.delete();
+    }
     if (success) {
       Constant.showToastSuccess("Question posted successfully");
     } else {
@@ -31,21 +39,59 @@ class _CreateQuestionState extends State<CreateQuestion> {
     }
   }
 
+  Future<void> _saveAsDraft() async {
+    await _saveQuestionForm();
+    bool success =
+        widget.question == null ? await _question.uploadQuestion() : await _question.updateQuestion();
+    if (success) {
+      widget.question == null
+          ? Constant.showToastSuccess("Draft saved successfully")
+          : Constant.showToastSuccess("Draft updated successfully");
+    } else {
+      Constant.showToastError("Failed to save draft");
+    }
+  }
+
   Future<void> _saveQuestionForm() async {
-    _question.createdOn = DateTime.now();
+    _question.createdOn = _question.createdOn??DateTime.now();
     _question.upvoteCount = 0;
     _question.downvoteCount = 0;
     _question.username = await Constant.getCurrentUsername();
-    _question.editedOn = null;
+    _question.editedOn = DateTime.now();
     _question.topics = _selectedTopics;
     _question.byProf = await Constant.isUserProf(_question.username);
     _question.upvoters = [];
     _question.downvoters = [];
+    _question.isDraft = true;
+    final FormState form = _questionFormKey.currentState;
+    form.save();
+  }
+
+  Future<void> _validateSaveQuestionForm() async {
+    _question.createdOn = DateTime.now();
+    _question.upvoteCount = 0;
+    _question.downvoteCount = 0;
+    _question.username = await Constant.getCurrentUsername();
+    _question.editedOn = DateTime.now();
+    _question.topics = _selectedTopics;
+    _question.byProf = await Constant.isUserProf(_question.username);
+    _question.upvoters = [];
+    _question.downvoters = [];
+    _question.isDraft = false;
     final FormState form = _questionFormKey.currentState;
     if (form.validate()) {
       form.save();
-    }
+    } else {}
   }
+
+  @override
+  void initState() {
+    super.initState();
+    _question = widget.question == null ? Question() : widget.question;
+    _selectedTopics = widget.question == null ? List() : widget.question.topics;
+  }
+
+  //TODO Draft save implementation of preexisting question and new question
 
   @override
   Widget build(BuildContext context) {
@@ -149,10 +195,9 @@ class _CreateQuestionState extends State<CreateQuestion> {
                             "Save Draft",
                             style: Constant.secondaryCTATextStyle,
                           ),
-                          callback: () {
-                            print("In CreateQuestion page:-" + _question.toString());
-                            //TODO when saving/publish embed user name in _question object
-                            //TODO similarly embed created time, edited time,upvotecount,downvotecount,upvoters,downvoters
+                          callback: () async {
+                            await _saveAsDraft();
+                            Navigator.of(context).pop();
                           },
                         ),
                       ),

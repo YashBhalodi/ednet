@@ -1,5 +1,5 @@
 import 'package:ednet/utilities_files/classes.dart';
-import 'package:ednet/utilities_files/contants.dart';
+import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
 
 class DescriptionPage extends StatefulWidget {
@@ -50,7 +50,6 @@ class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAli
           height: 64.0,
         ),
         TextFormField(
-          autofocus: true,
           onTap: () {
             _scrollController.animateTo(200.0,
                 duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);

@@ -3,7 +3,7 @@ import 'package:ednet/home/app_drawer.dart';
 import 'package:ednet/home/create/createContent.dart';
 import 'package:ednet/home/feed/feed_page.dart';
 import 'package:ednet/home/profile/profile_page.dart';
-import 'package:ednet/utilities_files/contants.dart';
+import 'package:ednet/utilities_files/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

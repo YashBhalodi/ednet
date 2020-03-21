@@ -17,8 +17,8 @@ class Constant {
   );
 
   static get cardMargin => EdgeInsets.symmetric(
-      horizontal: 8.0,
-      vertical: 4.0,
+      horizontal: 12.0,
+      vertical: 8.0,
   );
 
   static get formFieldTextStyle => TextStyle(
@@ -297,7 +297,7 @@ class Constant {
     return LinearProgressIndicator(
       backgroundColor: Colors.green[50],
       valueColor: AlwaysStoppedAnimation(Colors.green[700]),
-      value: progress,
+      value: progress??null,
     );
   }
 
@@ -355,10 +355,21 @@ class Constant {
     }
   }
 
-  static Future<bool> isUserProf(String username) async {
+  static Future<DocumentReference> getUserDocRef(String username) async {
       QuerySnapshot curUserQuery = await Firestore.instance.collection('Users').where('username',isEqualTo: username).getDocuments();
-      bool isProf = curUserQuery.documents[0].data['isProf'] as bool;
-      return isProf;
+      DocumentReference userDoc = curUserQuery.documents[0].reference;
+      return userDoc;
+  }
+
+  static Future<bool> isUserProf(String username) async {
+      try {
+          QuerySnapshot curUserQuery = await Firestore.instance.collection('Users').where('username',isEqualTo: username).getDocuments();
+          bool isProf = curUserQuery.documents[0].data['isProf'] as bool;
+          return isProf;
+      } catch (e) {
+          print("isUserProf");
+          print(e);
+      }
   }
 
   static String formatDateTime(DateTime timestamp){
