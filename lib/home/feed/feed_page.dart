@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/create/question/question_preview_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
-import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
 
 class FeedPage extends StatefulWidget {

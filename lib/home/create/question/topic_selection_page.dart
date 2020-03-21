@@ -17,8 +17,6 @@ class TopicSelection extends StatefulWidget {
 }
 
 class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAliveClientMixin{
-  List<String> _selectedList = List();
-
 
   @override
   Widget build(BuildContext context) {

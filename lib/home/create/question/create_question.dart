@@ -91,8 +91,6 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _selectedTopics = widget.question == null ? List() : widget.question.topics;
   }
 
-  //TODO Draft save implementation of preexisting question and new question
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

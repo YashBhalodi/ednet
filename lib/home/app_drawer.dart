@@ -1,5 +1,4 @@
 import 'package:ednet/utilities_files/constant.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
