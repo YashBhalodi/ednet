@@ -13,7 +13,7 @@ class HeadingPage extends StatefulWidget {
   _HeadingPageState createState() => _HeadingPageState();
 }
 
-class _HeadingPageState extends State<HeadingPage> {
+class _HeadingPageState extends State<HeadingPage> with AutomaticKeepAliveClientMixin{
   TextEditingController _headingController;
   ScrollController _scrollController;
 
@@ -33,6 +33,7 @@ class _HeadingPageState extends State<HeadingPage> {
 
   @override
   Widget build(BuildContext context) {
+      super.build(context);
     return ListView(
       shrinkWrap: true,
       padding: Constant.edgePadding,
@@ -53,6 +54,7 @@ class _HeadingPageState extends State<HeadingPage> {
           height: 64.0,
         ),
         TextFormField(
+          autofocus: true,
           onTap: () {
             _scrollController.animateTo(200.0,
                 duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
@@ -69,7 +71,6 @@ class _HeadingPageState extends State<HeadingPage> {
             setState(() {
               widget.question.heading = h;
             });
-            print("save worked");
           },
           controller: _headingController,
           style: Constant.formFieldTextStyle,
@@ -84,10 +85,13 @@ class _HeadingPageState extends State<HeadingPage> {
             border: null,
             focusedBorder: null,
             contentPadding: Constant.formFieldContentPadding,
-            hintText: "Time Complexity of Merge-Sort Algorithm",
+            hintText: "What is the question about?",
           ),
         ),
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

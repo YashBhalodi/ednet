@@ -4,6 +4,7 @@ import 'package:ednet/home/create/question/preview_question_page.dart';
 import 'package:ednet/home/create/question/topic_selection_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/contants.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 
 class CreateQuestion extends StatefulWidget {
@@ -19,6 +20,21 @@ class _CreateQuestionState extends State<CreateQuestion> {
     initialPage: 0,
   );
   List<String> _selectedTopics = List();
+
+  Future<void> _publishQuestion() async {
+      _question.createdOn = DateTime.now();
+      _question.upvoteCount = 0;
+      _question.downvoteCount = 0;
+      _question.username = await Constant.getCurrentUsername();
+      _question.editedOn = null;
+      _question.topics = _selectedTopics;
+      final FormState form = _questionFormKey.currentState;
+      if (form.validate()) {
+          form.save();
+      }
+      print(_question.toString());
+      await _question.uploadQuestion();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,54 +131,24 @@ class _CreateQuestionState extends State<CreateQuestion> {
                       firstChild: SizedBox(
                         height: double.maxFinite,
                         width: double.maxFinite,
-                        child: RaisedButton(
-                          onPressed: () {
-                            print("In CreateQuestion page:-" + _question.toString());
-                            //TODO when saving/publish embed user name in _question object
-                            //TODO similarly embed created time, edited time,upvotecount,downvotecount,upvoters,downvoters
-                          },
-                          padding: Constant.raisedButtonPaddingLow,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                            side: BorderSide(color: Colors.grey[300], width: 1.0),
-                          ),
-                          color: Colors.white,
+                        child: SecondaryCTA(
                           child: Text(
                             "Save Draft",
                             style: Constant.secondaryCTATextStyle,
                           ),
-                          disabledColor: Colors.grey[300],
+                          callback: () {
+                            print("In CreateQuestion page:-" + _question.toString());
+                            //TODO when saving/publish embed user name in _question object
+                            //TODO similarly embed created time, edited time,upvotecount,downvotecount,upvoters,downvoters
+                          },
                         ),
                       ),
                       secondChild: SizedBox(
                         height: double.maxFinite,
                         width: double.maxFinite,
-                        child: RaisedButton(
-                          onPressed: () async {
-                            _question.createdOn = DateTime.now();
-                            _question.upvoteCount = 0;
-                            _question.downvoteCount = 0;
-                            _question.username = await Constant.getCurrentUsername();
-                            _question.editedOn = null;
-                            _question.topics = _selectedTopics;
-                            final FormState form = _questionFormKey.currentState;
-                            if (form.validate()) {
-                              form.save();
-                            }
-                            print(_question.toString());
-                            await _question.uploadQuestion();
-                          },
-                          padding: Constant.raisedButtonPaddingLow,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                            side: BorderSide(color: Colors.green[500], width: 1.0),
-                          ),
-                          color: Colors.green[700],
-                          child: Text(
-                            "Publish",
-                            style: Constant.primaryCTATextStyle,
-                          ),
-                          disabledColor: Colors.grey[300],
+                        child: PrimaryCTA(
+                          child: Text("Publish",style: Constant.primaryCTATextStyle,),
+                          callback: ()async {_publishQuestion();},
                         ),
                       ),
                       crossFadeState: _progressValue == 1

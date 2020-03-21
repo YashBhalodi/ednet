@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/contants.dart';
 import 'package:flutter/material.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 
 class TopicSelection extends StatefulWidget {
   final Question question;
@@ -15,12 +16,13 @@ class TopicSelection extends StatefulWidget {
   _TopicSelectionState createState() => _TopicSelectionState();
 }
 
-class _TopicSelectionState extends State<TopicSelection> {
+class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAliveClientMixin{
   List<String> _selectedList = List();
 
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ListView(
       padding: Constant.edgePadding,
       shrinkWrap: true,
@@ -81,4 +83,7 @@ class _TopicSelectionState extends State<TopicSelection> {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -106,16 +106,16 @@ class Constant {
       fontFamily: 'ValeraRound');
 
   static get primaryCTATextStyle => TextStyle(
-      fontSize: 24.0,
+      fontSize: 20.0,
       color: Colors.white,
       fontWeight: FontWeight.w600,
-      fontFamily: 'ValeraRound');
+      );
 
   static get secondaryCTATextStyle => TextStyle(
-      fontSize: 24.0,
-      color: Colors.blue[800],
-      fontWeight: FontWeight.w600,
-      fontFamily: 'ValeraRound');
+      fontSize: 18.0,
+      color: Colors.grey[800],
+      fontWeight: FontWeight.w500,
+  );
 
   static get negativeCTATextStyle => TextStyle(
       fontSize: 24.0,

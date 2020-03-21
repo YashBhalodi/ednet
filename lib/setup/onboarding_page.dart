@@ -1,6 +1,7 @@
 import 'package:ednet/setup/login_page.dart';
 import 'package:ednet/setup/signup_instruction_page.dart';
 import 'package:ednet/utilities_files/contants.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -42,7 +43,7 @@ class _OnboardingState extends State<Onboarding> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: <Widget>[
-          Constant.myLinearProgressIndicator(stepOfOnboarding/5),
+          Constant.myLinearProgressIndicator(stepOfOnboarding / 5),
           Expanded(
             child: PageView(
               controller: _pageController,
@@ -174,7 +175,12 @@ class Page5 extends StatelessWidget {
             ),
           ),
         ),
-        Divider(thickness: 1.5,color: Colors.blue[200],endIndent: 5.0,indent: 5.0,),
+        Divider(
+          thickness: 1.5,
+          color: Colors.blue[200],
+          endIndent: 5.0,
+          indent: 5.0,
+        ),
         Expanded(
           flex: 2,
           child: Padding(
@@ -185,24 +191,30 @@ class Page5 extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Text("Sign Up for Ednet",style: Constant.sectionSubHeadingStyle,),
-                  SizedBox(height: 8.0,),
-                  Text("To build authentic network of students, only verified Email address as users.",style: Constant.sectionSubHeadingDescriptionStyle,),
-                  SizedBox(height: 24.0,),
-                  RaisedButton(
-                    elevation: 2.0,
-                    child: Text("Sign up instruction",style: TextStyle(fontSize: 18.0,color: Colors.grey[800],),),
-                    onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                  Text(
+                    "Sign Up for Ednet",
+                    style: Constant.sectionSubHeadingStyle,
+                  ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  Text(
+                    "To build authentic network of students, only verified Email address as users.",
+                    style: Constant.sectionSubHeadingDescriptionStyle,
+                  ),
+                  SizedBox(
+                    height: 24.0,
+                  ),
+                  SecondaryCTA(
+                    child: Text(
+                      "Sign up instruction",
+                      style: Constant.secondaryCTATextStyle
+                    ),
+                    callback: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                         return SignUpInstruction();
                       }));
                     },
-                    padding: Constant.raisedButtonPaddingHigh,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                      side: BorderSide(color: Colors.grey[300], width: 2.0),
-                    ),
-                    color: Colors.white,
                   )
                 ],
               ),

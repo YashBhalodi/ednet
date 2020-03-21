@@ -11,7 +11,7 @@ class DescriptionPage extends StatefulWidget {
   _DescriptionPageState createState() => _DescriptionPageState();
 }
 
-class _DescriptionPageState extends State<DescriptionPage> {
+class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAliveClientMixin{
   ScrollController _scrollController = ScrollController();
   TextEditingController _descriptionController;
   @override
@@ -29,7 +29,8 @@ class _DescriptionPageState extends State<DescriptionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    super.build(context);
+      return ListView(
       shrinkWrap: true,
       padding: Constant.edgePadding,
       controller: _scrollController,
@@ -49,6 +50,7 @@ class _DescriptionPageState extends State<DescriptionPage> {
           height: 64.0,
         ),
         TextFormField(
+          autofocus: true,
           onTap: () {
             _scrollController.animateTo(200.0,
                 duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
@@ -56,6 +58,7 @@ class _DescriptionPageState extends State<DescriptionPage> {
           onEditingComplete: () {
             widget.parentPageController
                 .nextPage(duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);
+            FocusScope.of(context).unfocus();
           },
           onSaved: (d) {
             setState(() {
@@ -75,10 +78,13 @@ class _DescriptionPageState extends State<DescriptionPage> {
             focusedBorder: null,
             contentPadding: Constant.formFieldContentPadding,
             counterText: _descriptionController.text.length.toString(),
-            hintText: "Mergesort is a divide and conquer algorithm and is O(log n) because the input is repeatedly halved. But shouldn't it be O(n) because even though the input is halved each loop, each input item needs to be iterated on to do the swapping in each halved array?",
+            hintText: "Describe the question in details...",
           ),
         ),
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
