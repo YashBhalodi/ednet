@@ -60,7 +60,7 @@ class _TopicSelectionState extends State<TopicSelection> {
                     shrinkWrap: true,
                     itemCount: docList.length,
                     itemBuilder: (context, i) {
-                      return MyCheckBoxTile(title: topicList[i],outputList: widget.topicsList,);
+                      return MyCheckBoxTile(title: topicList[i],outputList: widget.topicsList,maxElement: 3,);
                     },
                   );
                 }

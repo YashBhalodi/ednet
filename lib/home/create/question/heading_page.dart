@@ -58,15 +58,18 @@ class _HeadingPageState extends State<HeadingPage> {
                 duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
           },
           onEditingComplete: () {
+              //For the first iteration onSaved of this textFormField is not being called for some reason. hence I put this hack. this actually compromises the validity criteria of heading parameter of question. so need to fix this. TODO FIX saving of heading of question
+              /*setState(() {
+                  widget.question.heading = _headingController.text;
+              });*/
             widget.parentPageController
                 .nextPage(duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);
           },
           onSaved: (h) {
-            print("h:-"+h);
-            print("controller:-"+_headingController.text);
             setState(() {
               widget.question.heading = h;
             });
+            print("save worked");
           },
           controller: _headingController,
           style: Constant.formFieldTextStyle,

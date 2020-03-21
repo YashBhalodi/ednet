@@ -61,8 +61,17 @@ class Question {
   List<String> topics;
   String id;
 
-  Question({this.heading, this.description, this.createdOn, this.editedOn, this.username,
-      this.upvoteCount, this.downvoteCount, this.upvoters, this.downvoters, this.topics});
+  Question(
+      {this.heading,
+      this.description,
+      this.createdOn,
+      this.editedOn,
+      this.username,
+      this.upvoteCount,
+      this.downvoteCount,
+      this.upvoters,
+      this.downvoters,
+      this.topics});
 
   Question.fromSnapshot(DocumentSnapshot snapshot) {
     heading = snapshot.data['heading'];
@@ -82,17 +91,17 @@ class Question {
   Future<bool> uploadQuestion() async {
     try {
       Firestore.instance.collection('Questions').add({
-            'heading': this.heading,
-            'description': this.description,
-            'createdOn': this.createdOn,
-            'editedOn': this.editedOn,
-            'username': this.username,
-            'upvoteCount': this.upvoteCount,
-            'downvoteCount': this.downvoteCount,
-            'upvoters': this.upvoters,
-            'downvoters': this.downvoters,
-            'topic': this.topics,
-          });
+        'heading': this.heading,
+        'description': this.description,
+        'createdOn': this.createdOn,
+        'editedOn': this.editedOn,
+        'username': this.username,
+        'upvoteCount': this.upvoteCount,
+        'downvoteCount': this.downvoteCount,
+        'upvoters': this.upvoters,
+        'downvoters': this.downvoters,
+        'topic': this.topics,
+      });
       return true;
     } catch (e) {
       print("Question.uploadQuestion()");
@@ -115,39 +124,47 @@ class Question {
 }
 
 class MyCheckBoxTile extends StatefulWidget {
-    final List<String> outputList;
-    final String title;
+  final List<String> outputList;
+  final String title;
+  final int maxElement;
 
-    const MyCheckBoxTile({Key key,@required this.outputList,@required this.title}) : super(key: key);
-    @override
-    _MyCheckBoxTileState createState() => _MyCheckBoxTileState();
+  const MyCheckBoxTile({Key key, @required this.outputList, @required this.title, this.maxElement})
+      : super(key: key);
+
+  @override
+  _MyCheckBoxTileState createState() => _MyCheckBoxTileState();
 }
 
 class _MyCheckBoxTileState extends State<MyCheckBoxTile> {
-    @override
-    Widget build(BuildContext context) {
-        return CheckboxListTile(
-            checkColor: Colors.green[600],
-            activeColor: Colors.green[50],
-            controlAffinity: ListTileControlAffinity.leading,
-            value: widget.outputList.contains(widget.title),
-            title: Text(
-                widget.title,
-            ),
-            onChanged: (value) {
-                if (value == true) {
-                    if (widget.outputList.length < 3) {
-                        setState(() {
-                            widget.outputList.add(widget.title);
-                        });
-                    }
-                } else {
-                    setState(() {
-                        widget.outputList.remove(widget.title);
-                    });
-                }
-            },
-        );
-    }
+  @override
+  Widget build(BuildContext context) {
+    return CheckboxListTile(
+      checkColor: Colors.green[600],
+      activeColor: Colors.green[50],
+      controlAffinity: ListTileControlAffinity.leading,
+      value: widget.outputList.contains(widget.title),
+      title: Text(
+        widget.title,
+      ),
+      onChanged: (value) {
+        if (value == true) {
+          if (widget.maxElement == null) {
+            setState(() {
+              widget.outputList.add(widget.title);
+            });
+          } else {
+            if (widget.outputList.length < widget.maxElement) {
+              setState(() {
+                widget.outputList.add(widget.title);
+              });
+            }
+          }
+        } else {
+          setState(() {
+            widget.outputList.remove(widget.title);
+          });
+        }
+      },
+    );
+  }
 }
-

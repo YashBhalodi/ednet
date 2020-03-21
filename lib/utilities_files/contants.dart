@@ -90,7 +90,7 @@ class Constant {
 
   static get scrollAnimationDuration => Duration(milliseconds: 400);
 
-  static get pageAnimationDuration => Duration(milliseconds: 900);
+  static get pageAnimationDuration => Duration(milliseconds: 600);
 
   //TODO style this
   static get bottomNavigationTitleStyle => TextStyle();

@@ -146,7 +146,9 @@ class _CreateQuestionState extends State<CreateQuestion> {
                             _question.editedOn = null;
                             _question.topics = _selectedTopics;
                             final FormState form = _questionFormKey.currentState;
-                            if(form.validate()){form.save();}
+                            if (form.validate()) {
+                              form.save();
+                            }
                             print(_question.toString());
                             await _question.uploadQuestion();
                           },
