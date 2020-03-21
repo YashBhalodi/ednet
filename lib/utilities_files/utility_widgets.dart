@@ -2,6 +2,7 @@ import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/contants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MyCheckBoxTile extends StatefulWidget {
   final List<String> outputList;
@@ -77,6 +78,7 @@ class PrimaryBlueCTA extends StatelessWidget {
   final Widget child;
 
   const PrimaryBlueCTA({Key key, this.callback, this.child}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
@@ -93,35 +95,6 @@ class PrimaryBlueCTA extends StatelessWidget {
     );
   }
 }
-
-class QuestionCard extends StatelessWidget {
-  final Question question;
-
-  const QuestionCard({Key key,@required this.question}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0),),),
-      elevation: 5.0,
-      margin: Constant.cardMargin,
-      clipBehavior: Clip.antiAlias,
-      child: Padding(
-        padding: Constant.cardPadding,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(question.heading,style: Constant.questionHeadingStyle,maxLines: 6,overflow: TextOverflow.ellipsis,),
-            SizedBox(height: 8.0,),
-            Text(question.description,style: Constant.questionDescriptionStyle,maxLines: 3,overflow: TextOverflow.ellipsis,)
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 
 class SecondaryCTA extends StatelessWidget {
   final Widget child;
@@ -145,7 +118,6 @@ class SecondaryCTA extends StatelessWidget {
   }
 }
 
-//TODO Negative CTA RaisedButton
 class NegativeCTA extends StatelessWidget {
   final Function callback;
   final Widget child;
@@ -165,7 +137,7 @@ class NegativeCTA extends StatelessWidget {
           width: 2.0,
         ),
       ),
-        color: Colors.white,
+      color: Colors.white,
     );
   }
 }

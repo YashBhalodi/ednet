@@ -121,7 +121,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                         padding: Constant.raisedButtonPaddingLow,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16.0),
-                          side: BorderSide(color: Colors.grey[300], width: 1.0),
+                          side: BorderSide(color: Colors.grey[300], width: 2.0),
                         ),
                         color: Colors.white,
                         child: Icon(
@@ -192,7 +192,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                         padding: Constant.raisedButtonPaddingLow,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16.0),
-                          side: BorderSide(color: Colors.grey[300], width: 1.0),
+                          side: BorderSide(color: Colors.grey[300], width: 2.0),
                         ),
                         color: Colors.white,
                         child: Icon(

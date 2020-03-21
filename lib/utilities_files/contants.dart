@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Constant {
   static get edgePadding => EdgeInsets.symmetric(
@@ -11,8 +12,8 @@ class Constant {
       );
 
   static get cardPadding => EdgeInsets.symmetric(
-      vertical:12.0,
-      horizontal:8.0,
+      vertical:16.0,
+      horizontal:12.0,
   );
 
   static get cardMargin => EdgeInsets.symmetric(
@@ -138,16 +139,32 @@ class Constant {
       );
 
   //TODO style this
-  static get questionHeadingStyle => TextStyle();
+  static get questionHeadingStyle => TextStyle(
+      fontSize: 20.0,
+      fontWeight: FontWeight.w600,
+      color: Colors.black87,
+  );
 
   //TODO style this
-  static get questionDescriptionStyle => TextStyle();
+  static get questionDescriptionStyle => TextStyle(
+      fontSize: 16.0,
+      fontWeight: FontWeight.w400,
+      color: Colors.black87,
+  );
 
   //TODO style this
-  static get dateTimeStyle => TextStyle();
+  static get dateTimeStyle => TextStyle(
+      fontSize: 12.0,
+      fontWeight: FontWeight.w300,
+      color: Colors.black54,
+  );
 
   //TODO style this
-  static get usernameStyle => TextStyle();
+  static get usernameStyle => TextStyle(
+      fontSize: 14.0,
+      fontWeight: FontWeight.w500,
+
+  );
 
   //TODO style this
   static get topicStyle => TextStyle();
@@ -262,15 +279,15 @@ class Constant {
 
   static String questionHeadingValidator(value) {
     if (value.length < 10) {
-      return "Please describe question in atleast 10 characters";
+      return "Heading needs atleast 10 characters";
     } else {
       return null;
     }
   }
 
   static String questionDescriptionValidator(value) {
-    if (value.length < 10) {
-      return "Please describe question in atleast 10 characters";
+    if (value.length < 20) {
+      return "Please, describe question in atleast 20 characters";
     } else {
       return null;
     }
@@ -336,6 +353,10 @@ class Constant {
       print(e);
       return null;
     }
+  }
+
+  static String formatDateTime(DateTime timestamp){
+      return DateFormat.MMMEd().format(timestamp);
   }
 }
 
