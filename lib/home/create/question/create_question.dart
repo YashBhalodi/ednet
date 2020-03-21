@@ -22,9 +22,14 @@ class _CreateQuestionState extends State<CreateQuestion> {
   List<String> _selectedTopics = List();
 
   Future<void> _publishQuestion() async {
-      await _saveQuestionForm();
-      print(_question.toString());
-      await _question.uploadQuestion();
+    await _saveQuestionForm();
+    print(_question.toString());
+    bool success = await _question.uploadQuestion();
+    if (success) {
+      Constant.showToastSuccess("Question posted successfully");
+    } else {
+      Constant.showToastError("Failed to post question");
+    }
   }
 
   Future<void> _saveQuestionForm() async {
@@ -64,7 +69,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                 scrollDirection: Axis.horizontal,
                 controller: _pageController,
                 onPageChanged: (p) async {
-                  if(p==3){
+                  if (p == 3) {
                     await _saveQuestionForm();
                   }
                   setState(() {
@@ -153,8 +158,14 @@ class _CreateQuestionState extends State<CreateQuestion> {
                         height: double.maxFinite,
                         width: double.maxFinite,
                         child: PrimaryCTA(
-                          child: Text("Publish",style: Constant.primaryCTATextStyle,),
-                          callback: ()async {_publishQuestion();},
+                          child: Text(
+                            "Publish",
+                            style: Constant.primaryCTATextStyle,
+                          ),
+                          callback: () async {
+                            await _publishQuestion();
+                            Navigator.of(context).pop();
+                          },
                         ),
                       ),
                       crossFadeState: _progressValue == 1
