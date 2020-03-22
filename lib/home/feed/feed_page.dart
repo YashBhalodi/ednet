@@ -1,14 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/create/article/article_preview_card.dart';
 import 'package:ednet/home/create/question/question_preview_card.dart';
+import 'package:ednet/home/feed/article_thumb_card.dart';
+import 'package:ednet/home/feed/question_thumb_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FeedPage extends StatefulWidget {
-    @override
-    _FeedPageState createState() => _FeedPageState();
+  @override
+  _FeedPageState createState() => _FeedPageState();
 }
 
 class _FeedPageState extends State<FeedPage> {
@@ -24,12 +26,15 @@ class _FeedPageState extends State<FeedPage> {
           children: <Widget>[
             Padding(
               padding: Constant.edgePadding,
-              child: Text("Questions",style: Constant.sectionSubHeadingStyle,),
+              child: Text(
+                "Questions",
+                style: Constant.sectionSubHeadingStyle,
+              ),
             ),
             Expanded(
               child: StreamBuilder(
-                stream:
-                Firestore.instance.collection('Questions')
+                stream: Firestore.instance
+                    .collection('Questions')
                     .where('isDraft', isEqualTo: false)
                     .snapshots(),
                 builder: (context, snapshot) {
@@ -39,7 +44,7 @@ class _FeedPageState extends State<FeedPage> {
                       itemCount: snapshot.data.documents.length,
                       itemBuilder: (context, i) {
                         Question q = Question.fromSnapshot(snapshot.data.documents[i]);
-                        return QuestionPreviewCard(
+                        return QuestionThumbCard(
                           question: q,
                         );
                       },
@@ -63,11 +68,17 @@ class _FeedPageState extends State<FeedPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Padding(padding: Constant.edgePadding,child: Text("Articles",style: Constant.sectionSubHeadingStyle,),),
+            Padding(
+              padding: Constant.edgePadding,
+              child: Text(
+                "Articles",
+                style: Constant.sectionSubHeadingStyle,
+              ),
+            ),
             Expanded(
               child: StreamBuilder(
-                stream:
-                Firestore.instance.collection('Articles')
+                stream: Firestore.instance
+                    .collection('Articles')
                     .where('isDraft', isEqualTo: false)
                     .snapshots(),
                 builder: (context, snapshot) {
@@ -77,7 +88,7 @@ class _FeedPageState extends State<FeedPage> {
                       shrinkWrap: true,
                       itemBuilder: (context, i) {
                         Article a = Article.fromSnapshot(snapshot.data.documents[i]);
-                        return ArticlePreviewCard(
+                        return ArticleThumbCard(
                           article: a,
                         );
                       },

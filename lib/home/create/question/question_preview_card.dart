@@ -1,7 +1,5 @@
-import 'package:ednet/home/create/question/create_question.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
-import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 
 class QuestionPreviewCard extends StatelessWidget {
@@ -27,35 +25,17 @@ class QuestionPreviewCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(
-              question.heading,
-              style: Constant.questionHeadingStyle,
-              maxLines: 4,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.justify,
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Text(
-              question.description,
-              style: Constant.questionDescriptionStyle,
-              maxLines: 6,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.justify,
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
             SingleChildScrollView(
+              padding: EdgeInsets.all(0.0),
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: List.generate(question.topics.length, (i) {
                   return Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
+                    padding: const EdgeInsets.only(right:4.0),
                     child: Chip(
                       label: Text(
                         question.topics[i],
+                        style: Constant.topicStyle,
                       ),
                       backgroundColor: Colors.grey[100],
                     ),
@@ -65,6 +45,22 @@ class QuestionPreviewCard extends StatelessWidget {
             ),
             SizedBox(
               height: 8.0,
+            ),
+            Text(
+              question.heading,
+              style: Constant.questionHeadingStyle,
+              textAlign: TextAlign.justify,
+            ),
+            SizedBox(
+              height: 16.0,
+            ),
+            Text(
+              question.description,
+              style: Constant.questionDescriptionStyle,
+              textAlign: TextAlign.justify,
+            ),
+            SizedBox(
+              height: 16.0,
             ),
             Row(
               mainAxisSize: MainAxisSize.max,
@@ -95,7 +91,6 @@ class QuestionPreviewCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Spacer(),
                 Expanded(
                   flex: 2,
                   child: Text(
@@ -106,69 +101,7 @@ class QuestionPreviewCard extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(4.0),
-                  decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
-                          ),
-                          side: BorderSide(color: Colors.green[100], width: 1.0)),
-                      color: Colors.green[50]),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.arrow_upward,
-                        color: Colors.green,
-                        size: 16.0,
-                      ),
-                      SizedBox(
-                        width: 2.0,
-                      ),
-                      Text(
-                        "Upvotes: " + question.upvoteCount.toString(),
-                        textAlign: TextAlign.end,
-                      ),
-                    ],
-                  ),
-                ),
-                Spacer(),
-                Container(
-                  padding: EdgeInsets.all(4.0),
-                  decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
-                          ),
-                          side: BorderSide(color: Colors.red[100], width: 1.0)),
-                      color: Colors.red[50]),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.arrow_downward,
-                        color: Colors.red,
-                        size: 16.0,
-                      ),
-                      SizedBox(
-                        width: 2.0,
-                      ),
-                      Text(
-                        "Downvotes: " + question.downvoteCount.toString(),
-                        textAlign: TextAlign.end,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            SizedBox(height: 16.0,),
           ],
         ),
       ),

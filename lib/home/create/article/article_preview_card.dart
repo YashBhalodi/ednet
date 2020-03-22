@@ -25,30 +25,6 @@ class ArticlePreviewCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(
-              article.title,
-              style: Constant.articleTitleStyle,
-              textAlign: TextAlign.justify,
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            Text(
-              article.subtitle,
-              style: Constant.articleSubtitleStyle,
-              textAlign: TextAlign.justify,
-            ),
-            SizedBox(
-              height: 12.0,
-            ),
-            Text(
-              article.content,
-              style: Constant.articleContentStyle,
-              textAlign: TextAlign.justify,
-            ),
-            SizedBox(
-              height: 12.0,
-            ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -67,6 +43,30 @@ class ArticlePreviewCard extends StatelessWidget {
             ),
             SizedBox(
               height: 8.0,
+            ),
+            Text(
+              article.title,
+              style: Constant.articleTitleStyle,
+              textAlign: TextAlign.justify,
+            ),
+            SizedBox(
+              height: 16.0,
+            ),
+            Text(
+              article.subtitle,
+              style: Constant.articleSubtitleStyle,
+              textAlign: TextAlign.justify,
+            ),
+            SizedBox(
+              height: 24.0,
+            ),
+            Text(
+              article.content,
+              style: Constant.articleContentStyle,
+              textAlign: TextAlign.justify,
+            ),
+            SizedBox(
+              height: 16.0,
             ),
             Row(
               mainAxisSize: MainAxisSize.max,
@@ -108,69 +108,7 @@ class ArticlePreviewCard extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(4.0),
-                  decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
-                          ),
-                          side: BorderSide(color: Colors.green[100], width: 1.0)),
-                      color: Colors.green[50]),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.arrow_upward,
-                        color: Colors.green,
-                        size: 16.0,
-                      ),
-                      SizedBox(
-                        width: 2.0,
-                      ),
-                      Text(
-                        "Upvotes: " + article.upvoteCount.toString(),
-                        textAlign: TextAlign.end,
-                      ),
-                    ],
-                  ),
-                ),
-                Spacer(),
-                Container(
-                  padding: EdgeInsets.all(4.0),
-                  decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
-                          ),
-                          side: BorderSide(color: Colors.red[100], width: 1.0)),
-                      color: Colors.red[50]),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.arrow_downward,
-                        color: Colors.red,
-                        size: 16.0,
-                      ),
-                      SizedBox(
-                        width: 2.0,
-                      ),
-                      Text(
-                        "Downvotes: " + article.downvoteCount.toString(),
-                        textAlign: TextAlign.end,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            SizedBox(height: 16.0,)
           ],
         ),
       ),

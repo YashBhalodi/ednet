@@ -11,9 +11,11 @@ class Constant {
         vertical: 16.0,
       );
 
-  static get cardPadding => EdgeInsets.symmetric(
-      vertical:16.0,
-      horizontal:12.0,
+  static get cardPadding => EdgeInsets.only(
+      left: 12.0,
+      right: 12.0,
+      bottom: 0.0,
+      top: 4.0,
   );
 
   static get cardMargin => EdgeInsets.symmetric(
@@ -162,24 +164,28 @@ class Constant {
 
   );
 
-  static get topicStyle => TextStyle();
+  static get topicStyle => TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 12.0,
+  );
 
   static get articleTitleStyle => TextStyle(
-      fontSize: 20.0,
+      fontSize: 22.0,
       fontWeight: FontWeight.w600,
-      color: Colors.black87,
+      color: Colors.black,
+      fontFamily: 'ValeraRound'
   );
 
   static get articleSubtitleStyle => TextStyle(
-      fontSize: 18.0,
-      fontWeight: FontWeight.w500,
-      color: Colors.black87,
+      fontSize: 20.0,
+      fontWeight: FontWeight.w400,
+      color: Colors.grey[800],
   );
 
   static get articleContentStyle => TextStyle(
       fontSize: 16.0,
       fontWeight: FontWeight.w400,
-      color: Colors.black87,
+      color: Colors.black,
   );
 
   static String emailValidator(String value) {
@@ -398,6 +404,13 @@ class Constant {
       return userDoc;
   }
 
+  static Future<DocumentReference> getCurrentUserDoc() async {
+      FirebaseUser curUser = await FirebaseAuth.instance.currentUser();
+      String email = curUser.email;
+      QuerySnapshot curUserQuery = await Firestore.instance.collection('Users').where('email',isEqualTo: email).getDocuments();
+      DocumentReference userDoc = curUserQuery.documents[0].reference;
+      return userDoc;
+  }
   static Future<bool> isUserProf(String username) async {
       try {
           QuerySnapshot curUserQuery = await Firestore.instance.collection('Users').where('username',isEqualTo: username).getDocuments();

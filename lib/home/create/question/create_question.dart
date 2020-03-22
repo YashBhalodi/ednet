@@ -127,7 +127,11 @@ class _CreateQuestionState extends State<CreateQuestion> {
                   controller: _pageController,
                   onPageChanged: (p) async {
                     if (p == 3) {
+                      FocusScope.of(context).unfocus();
                       await _saveQuestionForm();
+                    }
+                    if (p == 2) {
+                      FocusScope.of(context).unfocus();
                     }
                     setState(() {
                       _progressValue = (p + 1) / 4;

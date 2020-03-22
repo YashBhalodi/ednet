@@ -139,3 +139,140 @@ class NegativeCTA extends StatelessWidget {
     );
   }
 }
+
+class UpvoteBox extends StatelessWidget {
+  final int upvoteCount;
+
+  UpvoteBox({Key key,@required this.upvoteCount}) : super(key: key);
+
+  Color backgroundColor = Colors.green[50];
+  Color borderColor = Colors.green[100];
+  Color textColor = Colors.green[500];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: borderColor,
+            width: 1.0,
+          ),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10.0),
+          ),
+        ),
+        color: backgroundColor,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.keyboard_arrow_up,
+            color: textColor,
+            size: 16.0,
+          ),
+          SizedBox(
+            width: 8.0,
+          ),
+          Text(
+            upvoteCount.toString(),
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              color: textColor,
+              fontSize: 14.0,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class DownvoteBox extends StatelessWidget {
+  final int downvoteCount;
+
+  DownvoteBox({Key key,@required this.downvoteCount}) : super(key: key);
+
+  Color backgroundColor = Colors.red[50];
+  Color borderColor = Colors.red[100];
+  Color textColor = Colors.red[500];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: borderColor,
+            width: 1.0,
+          ),
+          borderRadius: BorderRadius.only(
+            topRight:Radius.circular(10.0),
+          ),
+        ),
+        color: backgroundColor,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.keyboard_arrow_down,
+            color: textColor,
+            size: 16.0,
+          ),
+          SizedBox(
+            width: 8.0,
+          ),
+          Text(
+            downvoteCount.toString(),
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              color: textColor,
+              fontSize: 14.0,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class AnswerCountBox extends StatelessWidget {
+  final int answerCount;
+
+  AnswerCountBox({Key key,@required this.answerCount}) : super(key: key);
+
+  Color backgroundColor = Colors.grey[50];
+  Color borderColor = Colors.grey[100];
+  Color textColor = Colors.grey[700];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: borderColor,
+            width: 1.0,
+          ),
+        ),
+        color: backgroundColor,
+      ),
+      child: Center(
+        child: Text(
+          answerCount.toString() +" Answers",
+          style: TextStyle(
+            fontWeight: FontWeight.w300,
+            color: textColor,
+            fontSize: 14.0,
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -129,7 +129,11 @@ class _CreateArticleState extends State<CreateArticle> {
                   controller: _pageController,
                   onPageChanged: (p) async {
                     if (p == 4) {
+                      FocusScope.of(context).unfocus();
                       await _saveArticleForm();
+                    }
+                    if (p == 2 || p ==3) {
+                      FocusScope.of(context).unfocus();
                     }
                     setState(() {
                       _progressValue = (p + 1) / 5;
