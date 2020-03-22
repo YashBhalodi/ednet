@@ -161,3 +161,111 @@ class Question {
 
 //TODO downvote question
 }
+
+class Article {
+  String title;
+  String subtitle;
+  String content;
+  DateTime createdOn;
+  DateTime editedOn;
+  String username;
+  int upvoteCount;
+  int downvoteCount;
+  List<String> upvoters;
+  List<String> downvoters;
+  List<String> topics;
+  String id;
+  bool byProf;
+  bool isDraft;
+
+  Article({this.title, this.subtitle, this.content, this.createdOn, this.editedOn, this.username, this.upvoteCount, this.downvoteCount, this.upvoters, this.downvoters, this.topics, this.id, this.byProf, this.isDraft});
+
+  Article.fromSnapshot(DocumentSnapshot snapshot) {
+    title = snapshot.data['title'];
+    subtitle = snapshot.data['subtitle'];
+    content = snapshot.data['content'];
+    createdOn = (snapshot.data['createdOn'] as Timestamp)?.toDate();
+    editedOn = (snapshot.data['editedOn'] as Timestamp)?.toDate();
+    username = snapshot.data['username'];
+    upvoteCount = snapshot.data['upvoteCount'] as int;
+    downvoteCount = snapshot.data['downvoteCount'] as int;
+    upvoters = snapshot.data['upvoters']?.cast<String>();
+    downvoters = snapshot.data['downvoters']?.cast<String>();
+    topics = snapshot.data['topic']?.cast<String>();
+    id = snapshot.documentID;
+    byProf = snapshot.data['byProf'] as bool;
+    isDraft = snapshot.data['isDraft'] as bool;
+  }
+
+  @override
+  String toString() {
+    return 'Article{title: $title, subtitle: $subtitle, content: $content, createdOn: $createdOn, editedOn: $editedOn, username: $username, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft}';
+  }
+
+Future<bool> updateArticle()async{
+  print('Articles/' + this.id);
+  try {
+    await Firestore.instance.document('Articles/' + this.id).updateData({
+      'title': this.title,
+      'subtitle': this.subtitle,
+      'content': this.content,
+      'createdOn': this.createdOn,
+      'editedOn': this.editedOn,
+      'username': this.username,
+      'upvoteCount': this.upvoteCount,
+      'downvoteCount': this.downvoteCount,
+      'upvoters': this.upvoters,
+      'downvoters': this.downvoters,
+      'topic': this.topics,
+      'byProf': this.byProf,
+      'isDraft': this.isDraft,
+    });
+    return true;
+  } catch (e) {
+    print("updateArticle");
+    print(e);
+    return false;
+  }
+}
+
+Future<bool> uploadArticle()async{
+  try {
+    Firestore.instance.collection('Articles').add({
+      'title': this.title,
+      'subtitle': this.subtitle,
+      'content': this.content,
+      'createdOn': this.createdOn,
+      'editedOn': this.editedOn,
+      'username': this.username,
+      'upvoteCount': this.upvoteCount,
+      'downvoteCount': this.downvoteCount,
+      'upvoters': this.upvoters,
+      'downvoters': this.downvoters,
+      'topic': this.topics,
+      'byProf': this.byProf,
+      'isDraft': this.isDraft,
+    });
+    return true;
+  } catch (e) {
+    print("Article.uploadArticle()");
+    print(e);
+    return false;
+  }
+}
+
+Future<bool> delete()async{
+  try {
+    await Firestore.instance.document('Articles/'+this.id).delete();
+    return true;
+  } catch (e) {
+    print("Article.delete()");
+    print(e);
+    return false;
+  }
+}
+//TODO upvote article
+
+//TODO downvote article
+
+
+}

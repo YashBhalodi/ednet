@@ -1,53 +1,54 @@
-import 'package:ednet/home/create/question/description_page.dart';
-import 'package:ednet/home/create/question/heading_page.dart';
-import 'package:ednet/home/create/question/preview_question_page.dart';
-import 'package:ednet/home/create/question/question_topic_selection_page.dart';
+import 'package:ednet/home/create/article/article_topic_selection_page.dart';
+import 'package:ednet/home/create/article/content_page.dart';
+import 'package:ednet/home/create/article/preview_article_page.dart';
+import 'package:ednet/home/create/article/subtitle_page.dart';
+import 'package:ednet/home/create/article/title_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 
-class CreateQuestion extends StatefulWidget {
-  final Question question;
+class CreateArticle extends StatefulWidget {
+  final Article article;
 
-  const CreateQuestion({Key key, this.question}) : super(key: key);
+  const CreateArticle({Key key, this.article}) : super(key: key);
 
   @override
-  _CreateQuestionState createState() => _CreateQuestionState();
+  _CreateArticleState createState() => _CreateArticleState();
 }
 
-class _CreateQuestionState extends State<CreateQuestion> {
-  GlobalKey _questionFormKey = GlobalKey<FormState>();
-  Question _question;
-  double _progressValue = 1 / 4;
+class _CreateArticleState extends State<CreateArticle> {
+  GlobalKey _articleFormKey = GlobalKey<FormState>();
+  Article _article;
+  double _progressValue = 1 / 5;
   PageController _pageController = PageController(
     initialPage: 0,
   );
   List<String> _selectedTopics;
 
-  Future<void> _publishQuestion() async {
-    bool validForm = await _validateSaveQuestionForm();
-    if(validForm){
-      bool success = await _question.uploadQuestion();
-      if(widget.question!=null) {
-        //Draft question finally published. Need to delete the Draft instance of the question
-        await widget.question.delete();
+  Future<void> _publishArticle() async {
+    bool validForm = await _validateSaveArticleForm();
+    if (validForm) {
+      bool success = await _article.uploadArticle();
+      if (widget.article != null) {
+        //Draft article finally published. Need to delete the Draft instance of the article
+        await widget.article.delete();
       }
       if (success) {
-        Constant.showToastSuccess("Question published successfully");
+        Constant.showToastSuccess("Article published successfully");
       } else {
-        Constant.showToastError("Failed to post question");
+        Constant.showToastError("Failed to publish article.");
       }
       Navigator.of(context).pop();
     }
   }
 
   Future<void> _saveAsDraft() async {
-    await _saveQuestionForm();
+    await _saveArticleForm();
     bool success =
-        widget.question == null ? await _question.uploadQuestion() : await _question.updateQuestion();
+        widget.article == null ? await _article.uploadArticle() : await _article.updateArticle();
     if (success) {
-      widget.question == null
+      widget.article == null
           ? Constant.showToastSuccess("Draft saved successfully")
           : Constant.showToastSuccess("Draft updated successfully");
     } else {
@@ -55,38 +56,39 @@ class _CreateQuestionState extends State<CreateQuestion> {
     }
   }
 
-  Future<void> _saveQuestionForm() async {
-    _question.createdOn = _question.createdOn??DateTime.now();
-    _question.upvoteCount = 0;
-    _question.downvoteCount = 0;
-    _question.username = await Constant.getCurrentUsername();
-    _question.editedOn = DateTime.now();
-    _question.topics = _selectedTopics;
-    _question.byProf = await Constant.isUserProf(_question.username);
-    _question.upvoters = [];
-    _question.downvoters = [];
-    _question.isDraft = true;
-    final FormState form = _questionFormKey.currentState;
+  Future<void> _saveArticleForm() async {
+    _article.createdOn = _article.createdOn ?? DateTime.now();
+    _article.upvoteCount = 0;
+    _article.downvoteCount = 0;
+    _article.username = await Constant.getCurrentUsername();
+    _article.editedOn = DateTime.now();
+    _article.topics = _selectedTopics;
+    _article.byProf = await Constant.isUserProf(_article.username);
+    _article.upvoters = [];
+    _article.downvoters = [];
+    _article.isDraft = true;
+    final FormState form = _articleFormKey.currentState;
     form.save();
   }
 
-  Future<bool> _validateSaveQuestionForm() async {
-    _question.createdOn = DateTime.now();
-    _question.upvoteCount = 0;
-    _question.downvoteCount = 0;
-    _question.username = await Constant.getCurrentUsername();
-    _question.editedOn = DateTime.now();
-    _question.topics = _selectedTopics;
-    _question.byProf = await Constant.isUserProf(_question.username);
-    _question.upvoters = [];
-    _question.downvoters = [];
-    _question.isDraft = false;
-    final FormState form = _questionFormKey.currentState;
+  Future<bool> _validateSaveArticleForm() async {
+    _article.createdOn = DateTime.now();
+    _article.upvoteCount = 0;
+    _article.downvoteCount = 0;
+    _article.username = await Constant.getCurrentUsername();
+    _article.editedOn = DateTime.now();
+    _article.topics = _selectedTopics;
+    _article.byProf = await Constant.isUserProf(_article.username);
+    _article.upvoters = [];
+    _article.downvoters = [];
+    _article.isDraft = false;
+    final FormState form = _articleFormKey.currentState;
     if (form.validate() && _selectedTopics.length != 0) {
       form.save();
       return true;
     } else {
-      Constant.showToastInstruction("Heading should be atleast 10 characters.\nDescription should be atleast 20 character.\nAtleast one topic should be selected.");
+      Constant.showToastInstruction(
+          "Title should be atleast 10 characters.\nContent should be atleast 100 character.\nAtleast one topic should be selected.");
       return false;
     }
   }
@@ -94,21 +96,21 @@ class _CreateQuestionState extends State<CreateQuestion> {
   @override
   void initState() {
     super.initState();
-    _question = widget.question == null ? Question() : widget.question;
-    _selectedTopics = widget.question == null ? List() : widget.question.topics;
+    _article = widget.article == null ? Article() : widget.article;
+    _selectedTopics = widget.article == null ? List() : widget.article.topics;
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async{
+      onWillPop: () async {
         //TODO implement dialog
         return true;
       },
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Ask Question...",
+            "Write an article...",
             style: Constant.appBarTextStyle,
           ),
         ),
@@ -120,35 +122,39 @@ class _CreateQuestionState extends State<CreateQuestion> {
             Constant.myLinearProgressIndicator(_progressValue),
             Expanded(
               child: Form(
-                key: _questionFormKey,
+                key: _articleFormKey,
                 child: PageView(
                   physics: NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   controller: _pageController,
                   onPageChanged: (p) async {
-                    if (p == 3) {
-                      await _saveQuestionForm();
+                    if (p == 4) {
+                      await _saveArticleForm();
                     }
                     setState(() {
-                      _progressValue = (p + 1) / 4;
+                      _progressValue = (p + 1) / 5;
                     });
                   },
                   children: <Widget>[
-                    HeadingPage(
-                      question: _question,
+                    TitlePage(
+                      article: _article,
                       parentPageController: _pageController,
                     ),
-                    DescriptionPage(
-                      question: _question,
+                    SubtitlePage(
+                      article: _article,
                       parentPageController: _pageController,
                     ),
-                    QuestionTopicSelection(
-                      question: _question,
+                    ContentPage(
+                      article: _article,
+                      parentPageController: _pageController,
+                    ),
+                    ArticleTopicSelection(
+                      article: _article,
                       parentPageController: _pageController,
                       topicsList: _selectedTopics,
                     ),
-                    PreviewQuestion(
-                      question: _question,
+                    ArticlePreview(
+                      article: _article,
                     ),
                   ],
                 ),
@@ -168,7 +174,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                       child: SizedBox(
                         height: double.maxFinite,
                         child: RaisedButton(
-                          onPressed: _progressValue == 1 / 4
+                          onPressed: _progressValue == 1 / 5
                               ? null
                               : () {
                                   _pageController.previousPage(
@@ -219,7 +225,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                               style: Constant.primaryCTATextStyle,
                             ),
                             callback: () async {
-                              await _publishQuestion();
+                              await _publishArticle();
                             },
                           ),
                         ),

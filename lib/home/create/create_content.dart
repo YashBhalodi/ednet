@@ -1,3 +1,4 @@
+import 'package:ednet/home/create/article/create_article.dart';
 import 'package:ednet/home/create/question/create_question.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +91,9 @@ class CreateContent extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                print("Write Article Launch");
+                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                  return CreateArticle();
+                }));
               },
             ),
           ),

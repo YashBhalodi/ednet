@@ -164,6 +164,24 @@ class Constant {
 
   static get topicStyle => TextStyle();
 
+  static get articleTitleStyle => TextStyle(
+      fontSize: 20.0,
+      fontWeight: FontWeight.w600,
+      color: Colors.black87,
+  );
+
+  static get articleSubtitleStyle => TextStyle(
+      fontSize: 18.0,
+      fontWeight: FontWeight.w500,
+      color: Colors.black87,
+  );
+
+  static get articleContentStyle => TextStyle(
+      fontSize: 16.0,
+      fontWeight: FontWeight.w400,
+      color: Colors.black87,
+  );
+
   static String emailValidator(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -286,6 +304,30 @@ class Constant {
     } else {
       return null;
     }
+  }
+
+  static String articleTitleValidator(value){
+      if(value.length<10) {
+          return "Article title should be atleast 10 charactes long";
+      } else {
+          return null;
+      }
+  }
+
+  static String articleSubtitleValidator(value){
+      if(value.length<20) {
+          return "Article Subtitle should be atleast 20 charactes long";
+      } else {
+          return null;
+      }
+  }
+
+  static String articleContentValidator(value){
+      if(value.length<100) {
+          return "Article content should be atleast 100 charactes long";
+      } else {
+          return null;
+      }
   }
 
   static Widget myLinearProgressIndicator(double progress) {

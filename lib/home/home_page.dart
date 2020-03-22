@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/app_drawer.dart';
-import 'package:ednet/home/create/createContent.dart';
+import 'package:ednet/home/create/create_content.dart';
 import 'package:ednet/home/feed/feed_page.dart';
 import 'package:ednet/home/profile/profile_page.dart';
 import 'package:ednet/utilities_files/constant.dart';

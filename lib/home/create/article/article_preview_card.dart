@@ -1,13 +1,11 @@
-import 'package:ednet/home/create/question/create_question.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
-import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 
-class QuestionPreviewCard extends StatelessWidget {
-  final Question question;
+class ArticlePreviewCard extends StatelessWidget {
+  final Article article;
 
-  const QuestionPreviewCard({Key key, @required this.question}) : super(key: key);
+  const ArticlePreviewCard({Key key, this.article}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,34 +26,38 @@ class QuestionPreviewCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
-              question.heading,
-              style: Constant.questionHeadingStyle,
-              maxLines: 4,
-              overflow: TextOverflow.ellipsis,
+              article.title,
+              style: Constant.articleTitleStyle,
               textAlign: TextAlign.justify,
             ),
             SizedBox(
-              height: 8.0,
+              height: 16.0,
             ),
             Text(
-              question.description,
-              style: Constant.questionDescriptionStyle,
-              maxLines: 6,
-              overflow: TextOverflow.ellipsis,
+              article.subtitle,
+              style: Constant.articleSubtitleStyle,
               textAlign: TextAlign.justify,
             ),
             SizedBox(
-              height: 8.0,
+              height: 12.0,
+            ),
+            Text(
+              article.content,
+              style: Constant.articleContentStyle,
+              textAlign: TextAlign.justify,
+            ),
+            SizedBox(
+              height: 12.0,
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: List.generate(question.topics.length, (i) {
+                children: List.generate(article.topics.length, (i) {
                   return Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Chip(
                       label: Text(
-                        question.topics[i],
+                        article.topics[i],
                       ),
                       backgroundColor: Colors.grey[100],
                     ),
@@ -81,7 +83,7 @@ class QuestionPreviewCard extends StatelessWidget {
                         Icons.person,
                         size: 16.0,
                       ),
-                      question.byProf
+                      article.byProf
                           ? Icon(
                               Icons.star,
                               color: Colors.orangeAccent,
@@ -89,7 +91,7 @@ class QuestionPreviewCard extends StatelessWidget {
                             )
                           : Container(),
                       Text(
-                        question.username,
+                        article.username,
                         style: Constant.usernameStyle,
                       ),
                     ],
@@ -99,7 +101,7 @@ class QuestionPreviewCard extends StatelessWidget {
                 Expanded(
                   flex: 2,
                   child: Text(
-                    Constant.formatDateTime(question.createdOn),
+                    Constant.formatDateTime(article.createdOn),
                     style: Constant.dateTimeStyle,
                     textAlign: TextAlign.end,
                   ),
@@ -134,7 +136,7 @@ class QuestionPreviewCard extends StatelessWidget {
                         width: 2.0,
                       ),
                       Text(
-                        "Upvotes: " + question.upvoteCount.toString(),
+                        "Upvotes: " + article.upvoteCount.toString(),
                         textAlign: TextAlign.end,
                       ),
                     ],
@@ -161,7 +163,7 @@ class QuestionPreviewCard extends StatelessWidget {
                         width: 2.0,
                       ),
                       Text(
-                        "Downvotes: " + question.downvoteCount.toString(),
+                        "Downvotes: " + article.downvoteCount.toString(),
                         textAlign: TextAlign.end,
                       ),
                     ],

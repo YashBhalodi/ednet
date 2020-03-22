@@ -2,48 +2,48 @@ import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
 
-class DescriptionPage extends StatefulWidget {
-  final Question question;
+class ContentPage extends StatefulWidget {
+  final Article article;
   final PageController parentPageController;
 
-  const DescriptionPage({Key key,@required this.question,@required this.parentPageController}) : super(key: key);
-    @override
-  _DescriptionPageState createState() => _DescriptionPageState();
+  const ContentPage({Key key,@required this.article,@required this.parentPageController}) : super(key: key);
+  @override
+  _ContentPageState createState() => _ContentPageState();
 }
 
-class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAliveClientMixin{
+class _ContentPageState extends State<ContentPage> with AutomaticKeepAliveClientMixin{
   ScrollController _scrollController = ScrollController();
-  TextEditingController _descriptionController;
+  TextEditingController _contentController;
   @override
   void initState() {
     super.initState();
-    _descriptionController = TextEditingController(text: widget.question.description);
+    _contentController = TextEditingController(text: widget.article.content);
   }
 
   @override
   void dispose() {
     super.dispose();
     _scrollController.dispose();
-    _descriptionController.dispose();
+    _contentController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-      return ListView(
+    return ListView(
       shrinkWrap: true,
       padding: Constant.edgePadding,
       controller: _scrollController,
       children: <Widget>[
         Text(
-          "Description",
+          "Content",
           style: Constant.sectionSubHeadingStyle,
         ),
         SizedBox(
           height: 8.0,
         ),
         Text(
-          "Explain your question in details\n\nIt's best to be clear, concise and to the point.",
+          "Feel free to distribute your knowledge with detailed description.",
           style: Constant.sectionSubHeadingDescriptionStyle,
         ),
         SizedBox(
@@ -51,7 +51,7 @@ class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAli
         ),
         TextFormField(
           onTap: () {
-            _scrollController.animateTo(200.0,
+            _scrollController.animateTo(175.0,
                 duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
           },
           onEditingComplete: () {
@@ -61,15 +61,15 @@ class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAli
           },
           onSaved: (d) {
             setState(() {
-              widget.question.description = d;
+              widget.article.content = d;
             });
           },
-          controller: _descriptionController,
+          controller: _contentController,
           style: Constant.formFieldTextStyle,
           minLines: 20,
           maxLines: 25,
-          maxLength: 1000,
-          validator: (value) => Constant.questionDescriptionValidator(value),
+          maxLength: 10000,
+          validator: (value) => Constant.articleContentValidator(value),
           keyboardType: TextInputType.multiline,
           decoration: InputDecoration(
             filled: true,
@@ -77,7 +77,7 @@ class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAli
             border: null,
             focusedBorder: null,
             contentPadding: Constant.formFieldContentPadding,
-            hintText: "Describe the question in details...",
+            hintText: "The main content of article...",
           ),
         ),
       ],

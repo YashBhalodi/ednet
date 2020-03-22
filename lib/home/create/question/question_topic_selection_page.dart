@@ -4,12 +4,12 @@ import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 
-class TopicSelection extends StatefulWidget {
+class QuestionTopicSelection extends StatefulWidget {
   final Question question;
   final PageController parentPageController;
   final List<String> topicsList;
 
-  const TopicSelection({
+  const QuestionTopicSelection({
     Key key,
     @required this.question,
     @required this.parentPageController,
@@ -17,10 +17,10 @@ class TopicSelection extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TopicSelectionState createState() => _TopicSelectionState();
+  _QuestionTopicSelectionState createState() => _QuestionTopicSelectionState();
 }
 
-class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAliveClientMixin {
+class _QuestionTopicSelectionState extends State<QuestionTopicSelection> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
