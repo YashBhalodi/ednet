@@ -43,7 +43,7 @@ class _ContentPageState extends State<ContentPage> with AutomaticKeepAliveClient
           height: 8.0,
         ),
         Text(
-          "Feel free to distribute your knowledge with detailed description.",
+          "Feel free to write to your heart's content.",
           style: Constant.sectionSubHeadingDescriptionStyle,
         ),
         SizedBox(
