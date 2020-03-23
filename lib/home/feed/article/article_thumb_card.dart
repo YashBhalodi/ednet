@@ -1,3 +1,4 @@
+import 'package:ednet/home/profile/article_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
@@ -14,6 +15,9 @@ class ArticleThumbCard extends StatelessWidget {
     return GestureDetector(
         onTap: (){
             //TODO Navigate to article screen
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return ArticlePage(article: article,);
+            }),);
             print(article.toString());
         },
       child: Card(
@@ -130,16 +134,9 @@ class ArticleThumbCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: <Widget>[
                                   Expanded(
-                                      flex: 2,
                                       child: UpvoteBox(upvoteCount: article.upvoteCount,),
                                   ),
                                   Expanded(
-                                      flex: 5,
-                                      //TODO answercountbox is not applicable
-                                      child: AnswerCountBox(answerCount: 0,),
-                                  ),
-                                  Expanded(
-                                      flex: 2,
                                       child: DownvoteBox(downvoteCount: article.downvoteCount,),
                                   ),
                               ],

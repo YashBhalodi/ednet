@@ -162,11 +162,19 @@ class Constant {
       color: Colors.black54,
   );
 
+  static get dateTimeMediumStyle => TextStyle(
+      fontSize: 18.0,
+      fontWeight: FontWeight.w300,
+      color: Colors.black54,
+  );
+
   static get usernameStyle => TextStyle(
       fontSize: 14.0,
       fontWeight: FontWeight.w500,
 
   );
+
+  static get usernameMediumStyle => TextStyle(fontSize: 20.0,fontWeight: FontWeight.w600,);
 
   static get topicStyle => TextStyle(
       fontWeight: FontWeight.w400,
