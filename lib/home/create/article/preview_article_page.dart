@@ -15,38 +15,44 @@ class ArticlePreview extends StatefulWidget {
 class _ArticlePreviewState extends State<ArticlePreview> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: Constant.edgePadding,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            "Preview Article",
-            style: Constant.sectionSubHeadingStyle,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: Constant.edgePadding,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                "Preview Article",
+                style: Constant.sectionSubHeadingStyle,
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              Text(
+                "Please review your article before finally publishing.",
+                style: Constant.sectionSubHeadingDescriptionStyle,
+              ),
+            ],
           ),
-          SizedBox(
-            height: 8.0,
-          ),
-          Text(
-            "Please review your article before finally publishing.",
-            style: Constant.sectionSubHeadingDescriptionStyle,
-          ),
-          SizedBox(
-            height: 12.0,
-          ),
-          (widget.article.title == null ||
-                  widget.article.subtitle == null ||
-                  widget.article.content == null)
-              ? Center(
-                  child: SizedBox(
-                    height: 28.0,
-                    width: 28.0,
-                    child: Constant.greenCircularProgressIndicator,
-                  ),
-                )
-              : ListView(
+        ),
+        (widget.article.title == null ||
+                widget.article.subtitle == null ||
+                widget.article.content == null)
+            ? Center(
+                child: SizedBox(
+                  height: 28.0,
+                  width: 28.0,
+                  child: Constant.greenCircularProgressIndicator,
+                ),
+              )
+            : Expanded(
+              child: ListView(
                   shrinkWrap: true,
                   children: <Widget>[
                     ArticlePreviewCard(
@@ -54,8 +60,8 @@ class _ArticlePreviewState extends State<ArticlePreview> {
                     ),
                   ],
                 ),
-        ],
-      ),
+            ),
+      ],
     );
   }
 }
