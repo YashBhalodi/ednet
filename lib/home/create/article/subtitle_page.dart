@@ -50,10 +50,10 @@ class _SubtitlePageState extends State<SubtitlePage> with AutomaticKeepAliveClie
                     height: 64.0,
                 ),
                 TextFormField(
-                    onTap: () {
+                    /*onTap: () {
                         _scrollController.animateTo(175.0,
                             duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
-                    },
+                    },*/
                     onEditingComplete: () {
                         widget.parentPageController
                             .nextPage(duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);

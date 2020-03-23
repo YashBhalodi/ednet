@@ -143,7 +143,7 @@ class NegativeCTA extends StatelessWidget {
 class UpvoteBox extends StatelessWidget {
   final int upvoteCount;
 
-  UpvoteBox({Key key,@required this.upvoteCount}) : super(key: key);
+  UpvoteBox({Key key, @required this.upvoteCount}) : super(key: key);
 
   Color backgroundColor = Colors.green[50];
   Color borderColor = Colors.green[100];
@@ -194,7 +194,7 @@ class UpvoteBox extends StatelessWidget {
 class DownvoteBox extends StatelessWidget {
   final int downvoteCount;
 
-  DownvoteBox({Key key,@required this.downvoteCount}) : super(key: key);
+  DownvoteBox({Key key, @required this.downvoteCount}) : super(key: key);
 
   Color backgroundColor = Colors.red[50];
   Color borderColor = Colors.red[100];
@@ -210,7 +210,7 @@ class DownvoteBox extends StatelessWidget {
             width: 1.0,
           ),
           borderRadius: BorderRadius.only(
-            topRight:Radius.circular(10.0),
+            topRight: Radius.circular(10.0),
           ),
         ),
         color: backgroundColor,
@@ -245,7 +245,7 @@ class DownvoteBox extends StatelessWidget {
 class AnswerCountBox extends StatelessWidget {
   final int answerCount;
 
-  AnswerCountBox({Key key,@required this.answerCount}) : super(key: key);
+  AnswerCountBox({Key key, @required this.answerCount}) : super(key: key);
 
   Color backgroundColor = Colors.grey[50];
   Color borderColor = Colors.grey[100];
@@ -265,7 +265,7 @@ class AnswerCountBox extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          answerCount.toString() +" Answers",
+          answerCount.toString() + " Answers",
           style: TextStyle(
             fontWeight: FontWeight.w300,
             color: textColor,
@@ -276,3 +276,51 @@ class AnswerCountBox extends StatelessWidget {
     );
   }
 }
+
+class SecondaryNegativeCardButton extends StatelessWidget {
+  final Function callback;
+  final Widget child;
+
+  const SecondaryNegativeCardButton({Key key, @required this.callback, @required this.child})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+        onPressed: callback,
+        color: Colors.red[50],
+        padding: EdgeInsets.all(8.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10.0),
+            bottomLeft: Radius.circular(10.0),
+          ),
+          side: BorderSide(
+            color: Colors.red[300],
+            width: 1.0,
+          ),
+        ),
+        child: child);
+  }
+}
+
+class SecondaryBlueCardButton extends StatelessWidget {
+  final Function callback;
+  final Widget child;
+
+  const SecondaryBlueCardButton({Key key, this.callback, this.child}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: callback,
+      color: Colors.blue[50],
+      padding: EdgeInsets.all(8.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topRight:Radius.circular(10.0),bottomRight:Radius.circular(10.0),),
+        side: BorderSide(color: Colors.blue[300],width: 1.0,),
+      ),
+      child: child,
+    );
+  }
+}
+

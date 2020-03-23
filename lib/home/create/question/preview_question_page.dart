@@ -15,44 +15,47 @@ class PreviewQuestion extends StatefulWidget {
 class _PreviewQuestionState extends State<PreviewQuestion> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          "Preview Question",
-          style: Constant.sectionSubHeadingStyle,
-        ),
-        SizedBox(
-          height: 8.0,
-        ),
-        Text(
-          "Please review your question before finally publishing.",
-          style: Constant.sectionSubHeadingDescriptionStyle,
-        ),
-        SizedBox(
-          height: 12.0,
-        ),
-        (widget.question.heading == null || widget.question.description == null)
-            ? Center(
-                child: SizedBox(
-                  height: 28.0,
-                  width: 28.0,
-                  child: Constant.greenCircularProgressIndicator,
-                ),
-              )
-            : Expanded(
-              child: ListView(
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    QuestionPreviewCard(
-                      question: widget.question,
-                    ),
-                  ],
-                ),
-            ),
-      ],
+    return Padding(
+      padding: Constant.edgePadding,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            "Preview Question",
+            style: Constant.sectionSubHeadingStyle,
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Text(
+            "Please review your question before finally publishing.",
+            style: Constant.sectionSubHeadingDescriptionStyle,
+          ),
+          SizedBox(
+            height: 12.0,
+          ),
+          (widget.question.heading == null || widget.question.description == null)
+              ? Center(
+                  child: SizedBox(
+                    height: 28.0,
+                    width: 28.0,
+                    child: Constant.greenCircularProgressIndicator,
+                  ),
+                )
+              : Expanded(
+                child: ListView(
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      QuestionPreviewCard(
+                        question: widget.question,
+                      ),
+                    ],
+                  ),
+              ),
+        ],
+      ),
     );
   }
 }

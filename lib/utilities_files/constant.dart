@@ -133,7 +133,11 @@ class Constant {
       fontSize: 24.0,
       color: Colors.red[600],
       fontWeight: FontWeight.w600,
-      fontFamily: 'ValeraRound');
+  );
+
+  static get secondaryNegativeTextStyle => TextStyle(color: Colors.red[500],fontSize: 16.0,fontWeight: FontWeight.w600,);
+
+  static get secondaryBlueTextStyle => TextStyle(color: Colors.blue[500],fontSize: 16.0,fontWeight: FontWeight.w600,);
 
   static get appBarTextStyle => TextStyle(
         fontFamily: 'ValeraRound',

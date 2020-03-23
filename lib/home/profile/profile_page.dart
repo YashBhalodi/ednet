@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/create/question/question_preview_card.dart';
+import 'package:ednet/home/profile/question_draft_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     itemCount: snapshot.data.documents.length,
                     itemBuilder: (context, i) {
                       Question q = Question.fromSnapshot(snapshot.data.documents[i]);
-                      return QuestionPreviewCard(
+                      return QuestionDraftCard(
                         question: q,
                       );
                     },

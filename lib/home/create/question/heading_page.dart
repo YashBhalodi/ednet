@@ -53,10 +53,10 @@ class _HeadingPageState extends State<HeadingPage> with AutomaticKeepAliveClient
           height: 64.0,
         ),
         TextFormField(
-          onTap: () {
+          /*onTap: () {
             _scrollController.animateTo(200.0,
                 duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
-          },
+          },*/
           onEditingComplete: () {
             widget.parentPageController
                 .nextPage(duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);

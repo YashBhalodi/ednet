@@ -50,10 +50,10 @@ class _TitlePageState extends State<TitlePage> with AutomaticKeepAliveClientMixi
                     height: 64.0,
                 ),
                 TextFormField(
-                    onTap: () {
+                    /*onTap: () {
                         _scrollController.animateTo(175.0,
                             duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
-                    },
+                    },*/
                     onEditingComplete: () {
                         widget.parentPageController
                             .nextPage(duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);
