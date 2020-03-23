@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Inter',
         ),
         home: EntryPoint(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }

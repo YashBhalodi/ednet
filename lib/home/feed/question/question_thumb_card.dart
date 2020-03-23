@@ -1,3 +1,4 @@
+import 'package:ednet/home/feed/question/question_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,8 +13,17 @@ class QuestionThumbCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         //TODO navigate to Question screen
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return QuestionPage(
+                question: question,
+              );
+            },
+          ),
+        );
         print(question.toString());
       },
       child: Card(
@@ -38,7 +48,7 @@ class QuestionThumbCard extends StatelessWidget {
                 child: Row(
                   children: List.generate(question.topics.length, (i) {
                     return Padding(
-                      padding: const EdgeInsets.only(right:4.0),
+                      padding: const EdgeInsets.only(right: 4.0),
                       child: Chip(
                         label: Text(
                           question.topics[i],
@@ -89,12 +99,12 @@ class QuestionThumbCard extends StatelessWidget {
                           size: 16.0,
                         ),
                         question.byProf
-                        ? Icon(
-                          Icons.star,
-                          color: Colors.orangeAccent,
-                          size: 16.0,
-                        )
-                        : Container(),
+                            ? Icon(
+                                Icons.star,
+                                color: Colors.orangeAccent,
+                                size: 16.0,
+                              )
+                            : Container(),
                         Text(
                           question.username,
                           style: Constant.usernameStyle,
@@ -112,7 +122,9 @@ class QuestionThumbCard extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(height: 12,),
+              SizedBox(
+                height: 12,
+              ),
               SizedBox(
                 height: 32.0,
                 child: Row(
@@ -122,15 +134,21 @@ class QuestionThumbCard extends StatelessWidget {
                   children: <Widget>[
                     Expanded(
                       flex: 2,
-                      child: UpvoteBox(upvoteCount: question.upvoteCount,),
+                      child: UpvoteBox(
+                        upvoteCount: question.upvoteCount,
+                      ),
                     ),
                     Expanded(
                       flex: 5,
-                      child: AnswerCountBox(answerCount: 0,),
+                      child: AnswerCountBox(
+                        answerCount: 0,
+                      ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: DownvoteBox(downvoteCount: question.downvoteCount,),
+                      child: DownvoteBox(
+                        downvoteCount: question.downvoteCount,
+                      ),
                     ),
                   ],
                 ),

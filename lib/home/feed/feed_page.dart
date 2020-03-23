@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ednet/home/create/article/article_preview_card.dart';
-import 'package:ednet/home/create/question/question_preview_card.dart';
-import 'package:ednet/home/feed/article_thumb_card.dart';
-import 'package:ednet/home/feed/question_thumb_card.dart';
+import 'package:ednet/home/feed/article/article_thumb_card.dart';
+import 'package:ednet/home/feed/question/question_thumb_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/cupertino.dart';

@@ -86,10 +86,10 @@ class PrimaryBlueCTA extends StatelessWidget {
       elevation: 15.0,
       padding: Constant.raisedButtonPaddingHigh,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-        side: BorderSide(color: Colors.blue[500], width: 2.0),
+        borderRadius: BorderRadius.circular(10.0),
+        side: BorderSide(color: Colors.blue[700], width: 2.0),
       ),
-      color: Colors.blue[800],
+      color: Colors.blue[600],
     );
   }
 }
@@ -323,4 +323,79 @@ class SecondaryBlueCardButton extends StatelessWidget {
     );
   }
 }
+
+class UpvoteButton extends StatelessWidget {
+  final Function callback;
+  final int count;
+
+  const UpvoteButton({Key key,@required this.callback,@required this.count}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: callback,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Icon(Icons.arrow_upward,color: Colors.green[800],size: 18.0,),
+          SizedBox(width: 8.0,),
+          Text(
+            count.toString() + " Upvote",
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              color: Colors.green[800]
+            ),
+          ),
+        ],
+      ),
+      color: Colors.green[50],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0),bottomLeft: Radius.circular(10.0),),
+        side: BorderSide(color: Colors.green[100],width: 1.0,),
+      ),
+      elevation: 2.0,
+      padding: Constant.raisedButtonPaddingLow,
+    );
+  }
+}
+
+class DownvoteButton extends StatelessWidget {
+  final Function callback;
+  final int count;
+
+  const DownvoteButton({Key key, this.callback, this.count}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: callback,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Icon(Icons.arrow_downward,color: Colors.red[800],size: 18.0,),
+          SizedBox(width: 8.0,),
+          Text(
+            count.toString() + " Downvote",
+            style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w400,
+                color: Colors.red[800]
+            ),
+          ),
+        ],
+      ),
+      color: Colors.red[50],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topRight: Radius.circular(10.0),bottomRight: Radius.circular(10.0),),
+        side: BorderSide(color: Colors.red[100],width: 1.0,),
+      ),
+      elevation: 2.0,
+      padding: Constant.raisedButtonPaddingLow,
+    );
+  }
+}
+
 
