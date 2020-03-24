@@ -20,7 +20,7 @@ class Constant {
 
   static get cardMargin => EdgeInsets.symmetric(
       horizontal: 12.0,
-      vertical: 8.0,
+      vertical: 16.0,
   );
 
   static get formFieldTextStyle => TextStyle(
@@ -185,7 +185,6 @@ class Constant {
       fontSize: 22.0,
       fontWeight: FontWeight.w600,
       color: Colors.black,
-      fontFamily: 'ValeraRound'
   );
 
   static get articleSubtitleStyle => TextStyle(
@@ -196,6 +195,18 @@ class Constant {
 
   static get articleContentStyle => TextStyle(
       fontSize: 16.0,
+      fontWeight: FontWeight.w400,
+      color: Colors.black,
+  );
+
+  static get answerThumbContentStyle => TextStyle(
+      fontSize: 16.0,
+      fontWeight: FontWeight.w300,
+      color: Colors.black,
+  );
+
+  static get answerContentStyle => TextStyle(
+      fontSize: 18.0,
       fontWeight: FontWeight.w400,
       color: Colors.black,
   );

@@ -145,8 +145,8 @@ class UpvoteBox extends StatelessWidget {
 
   UpvoteBox({Key key, @required this.upvoteCount}) : super(key: key);
 
-  Color backgroundColor = Colors.green[50];
-  Color borderColor = Colors.green[100];
+  Color backgroundColor = Colors.grey[50];
+  Color borderColor = Colors.grey[200];
   Color textColor = Colors.green[500];
 
   @override
@@ -196,8 +196,8 @@ class DownvoteBox extends StatelessWidget {
 
   DownvoteBox({Key key, @required this.downvoteCount}) : super(key: key);
 
-  Color backgroundColor = Colors.red[50];
-  Color borderColor = Colors.red[100];
+  Color backgroundColor = Colors.grey[50];
+  Color borderColor = Colors.grey[200];
   Color textColor = Colors.red[500];
 
   @override

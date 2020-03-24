@@ -1,4 +1,4 @@
-import 'package:ednet/home/profile/article_page.dart';
+import 'package:ednet/home/feed/article/article_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';

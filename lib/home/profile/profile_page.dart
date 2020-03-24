@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/create/question/question_preview_card.dart';
-import 'package:ednet/home/feed/question/create_answer.dart';
+import 'package:ednet/home/create/answer/create_answer.dart';
 import 'package:ednet/home/profile/article_draft_card.dart';
 import 'package:ednet/home/profile/question_draft_card.dart';
 import 'package:ednet/utilities_files/classes.dart';

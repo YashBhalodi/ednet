@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/question/question_page.dart';
+import 'package:ednet/home/feed/question/question_tile_header.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
@@ -27,8 +28,6 @@ class _CreateAnswerState extends State<CreateAnswer> {
   }
 
   Future<void> _publishAnswer() async {
-    //TODO if draft is finally published, publish the answer and delete the draft instance
-
     bool validForm = await _validateAndSave();
     if (validForm) {
       if (widget.answer != null) {
