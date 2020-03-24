@@ -11,6 +11,10 @@ class Constant {
         vertical: 16.0,
       );
 
+  static get sidePadding => EdgeInsets.symmetric(
+      horizontal: 24.0,
+  );
+
   static get cardPadding => EdgeInsets.only(
       left: 12.0,
       right: 12.0,
@@ -95,15 +99,15 @@ class Constant {
         ),
       );
 
-  static get raisedButtonPaddingHigh => EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0);
+  static get raisedButtonPaddingHigh => EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0,);
 
-  static get raisedButtonPaddingMedium => EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0);
+  static get raisedButtonPaddingMedium => EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0,);
 
-  static get raisedButtonPaddingLow => EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0);
+  static get raisedButtonPaddingLow => EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0,);
 
-  static get scrollAnimationDuration => Duration(milliseconds: 400);
+  static get scrollAnimationDuration => Duration(milliseconds: 400,);
 
-  static get pageAnimationDuration => Duration(milliseconds: 600);
+  static get pageAnimationDuration => Duration(milliseconds: 600,);
 
   //TODO style this
   static get bottomNavigationTitleStyle => TextStyle();
