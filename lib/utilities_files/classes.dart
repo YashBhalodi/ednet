@@ -317,7 +317,7 @@ class Answer {
     queID = snapshot.data['questionId'] as String;
   }
 
-  Future<bool> uploadAnswer() async {
+  Future<bool> uploadAnswer(bool doIncrement) async {
     //uploading answer
     try {
       await Firestore.instance.collection('Answers').add({
@@ -333,17 +333,19 @@ class Answer {
         'questionId': this.queID,
       });
       //updating answer count in the relevant question
-      int currentAnswerCount;
-      await Firestore.instance.document('Questions/' + this.queID).get().then((snapshot) {
-        currentAnswerCount = snapshot.data['answerCount'];
-      }).catchError((e) {
-        print("InGetting currentAnswerCount");
-        print(e);
-        return false;
-      });
-      await Firestore.instance.document('Questions/' + this.queID).updateData({
-        'answerCount': currentAnswerCount + 1,
-      });
+      if (doIncrement) {
+        int currentAnswerCount;
+        await Firestore.instance.document('Questions/' + this.queID).get().then((snapshot) {
+          currentAnswerCount = snapshot.data['answerCount'];
+        }).catchError((e) {
+          print("InGetting currentAnswerCount");
+          print(e);
+          return false;
+        });
+        await Firestore.instance.document('Questions/' + this.queID).updateData({
+          'answerCount': currentAnswerCount + 1,
+        });
+      }
       return true;
     } catch (e) {
       print("Answer.upload()");

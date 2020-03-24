@@ -33,7 +33,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
       if (widget.answer != null) {
         await widget.answer.delete();
       }
-      bool success = await _answer.uploadAnswer();
+      bool success = await _answer.uploadAnswer(true);
       if (success) {
         Constant.showToastSuccess("Answer posted successfully");
         Navigator.of(context).pop();
@@ -67,7 +67,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
     if (valid) {
       if (widget.answer == null) {
         //first time saving as draft
-        bool success = await _answer.uploadAnswer();
+        bool success = await _answer.uploadAnswer(false);
         if (success) {
           Constant.showToastSuccess("Draft saved successfully");
           FocusScope.of(context).unfocus();

@@ -104,16 +104,29 @@ class MyQuestions extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: snapshot.data.documents.length,
-            itemBuilder: (context, i) {
-              Question q = Question.fromSnapshot(snapshot.data.documents[i]);
-              return QuestionThumbCard(
-                question: q,
-              );
-            },
-          );
+          if (snapshot.data.documents.length > 0) {
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: snapshot.data.documents.length,
+              itemBuilder: (context, i) {
+                Question q = Question.fromSnapshot(snapshot.data.documents[i]);
+                return QuestionThumbCard(
+                  question: q,
+                );
+              },
+            );
+          } else {
+            return Padding(
+              padding: Constant.sidePadding,
+              child: Center(
+                child: Text(
+                  "You haven't asked any questions yet.\n\nStart feeding your curiosity.",
+                  textAlign: TextAlign.center,
+                  style: Constant.secondaryBlueTextStyle,
+                ),
+              ),
+            );
+          }
         } else {
           return Center(
             child: SizedBox(
@@ -143,16 +156,29 @@ class MyArticles extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
-          return ListView.builder(
-            itemCount: snapshot.data.documents.length,
-            shrinkWrap: true,
-            itemBuilder: (context, i) {
-              Article a = Article.fromSnapshot(snapshot.data.documents[i]);
-              return ArticleThumbCard(
-                article: a,
-              );
-            },
-          );
+          if (snapshot.data.documents.length > 0) {
+            return ListView.builder(
+              itemCount: snapshot.data.documents.length,
+              shrinkWrap: true,
+              itemBuilder: (context, i) {
+                Article a = Article.fromSnapshot(snapshot.data.documents[i]);
+                return ArticleThumbCard(
+                  article: a,
+                );
+              },
+            );
+          } else {
+            return Padding(
+              padding: Constant.sidePadding,
+              child: Center(
+                child: Text(
+                  "Strengthen your knowledge by sharing.",
+                  textAlign: TextAlign.center,
+                  style: Constant.secondaryBlueTextStyle,
+                ),
+              ),
+            );
+          }
         } else {
           return Center(
             child: SizedBox(
@@ -182,16 +208,29 @@ class MyAnswers extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
-          return ListView.builder(
-            itemCount: snapshot.data.documents.length,
-            shrinkWrap: true,
-            itemBuilder: (context, i) {
-              Answer a = Answer.fromSnapshot(snapshot.data.documents[i]);
-              return AnswerThumbCard(
-                answer: a,
-              );
-            },
-          );
+          if (snapshot.data.documents.length > 0) {
+            return ListView.builder(
+              itemCount: snapshot.data.documents.length,
+              shrinkWrap: true,
+              itemBuilder: (context, i) {
+                Answer a = Answer.fromSnapshot(snapshot.data.documents[i]);
+                return AnswerThumbCard(
+                  answer: a,
+                );
+              },
+            );
+          } else {
+            return Padding(
+              padding: Constant.sidePadding,
+              child: Center(
+                child: Text(
+                  "You haven't answered any questions yet.\n\nSomeone might be looking forward to your contribution.",
+                  textAlign: TextAlign.center,
+                  style: Constant.secondaryBlueTextStyle,
+                ),
+              ),
+            );
+          }
         } else {
           return Center(
             child: SizedBox(
@@ -218,7 +257,10 @@ class MyDrafts extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: Constant.sidePadding,
-          child: Text("Questions",style: Constant.sectionSubHeadingStyle,),
+          child: Text(
+            "Questions",
+            style: Constant.sectionSubHeadingStyle,
+          ),
         ),
         StreamBuilder(
           stream: Firestore.instance
@@ -228,17 +270,30 @@ class MyDrafts extends StatelessWidget {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (context, i) {
-                  Question q = Question.fromSnapshot(snapshot.data.documents[i]);
-                  return QuestionDraftCard(
-                    question: q,
-                  );
-                },
-              );
+              if (snapshot.data.documents.length > 0) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: snapshot.data.documents.length,
+                  itemBuilder: (context, i) {
+                    Question q = Question.fromSnapshot(snapshot.data.documents[i]);
+                    return QuestionDraftCard(
+                      question: q,
+                    );
+                  },
+                );
+              } else {
+                return Padding(
+                  padding: Constant.edgePadding,
+                  child: Center(
+                    child: Text(
+                      "You don't have any draft questions so far.\n\nCongratulations.",
+                      textAlign: TextAlign.center,
+                      style: Constant.secondaryBlueTextStyle,
+                    ),
+                  ),
+                );
+              }
             } else {
               return Center(
                 child: SizedBox(
@@ -254,10 +309,15 @@ class MyDrafts extends StatelessWidget {
           endIndent: 24.0,
           indent: 24.0,
         ),
-        SizedBox(height: 16.0,),
+        SizedBox(
+          height: 16.0,
+        ),
         Padding(
           padding: Constant.sidePadding,
-          child: Text("Articles",style: Constant.sectionSubHeadingStyle,),
+          child: Text(
+            "Articles",
+            style: Constant.sectionSubHeadingStyle,
+          ),
         ),
         StreamBuilder(
           stream: Firestore.instance
@@ -267,17 +327,30 @@ class MyDrafts extends StatelessWidget {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
-              return ListView.builder(
-                itemCount: snapshot.data.documents.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, i) {
-                  Article a = Article.fromSnapshot(snapshot.data.documents[i]);
-                  return ArticleDraftCard(
-                    article: a,
-                  );
-                },
-              );
+              if (snapshot.data.documents.length > 0) {
+                return ListView.builder(
+                  itemCount: snapshot.data.documents.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, i) {
+                    Article a = Article.fromSnapshot(snapshot.data.documents[i]);
+                    return ArticleDraftCard(
+                      article: a,
+                    );
+                  },
+                );
+              } else {
+                return Padding(
+                  padding: Constant.edgePadding,
+                  child: Center(
+                    child: Text(
+                      "Wow!\nNo draft article pending to publish!\n\nWhen are you planning for next?",
+                      textAlign: TextAlign.center,
+                      style: Constant.secondaryBlueTextStyle,
+                    ),
+                  ),
+                );
+              }
             } else {
               return Center(
                 child: SizedBox(
@@ -293,10 +366,15 @@ class MyDrafts extends StatelessWidget {
           endIndent: 24.0,
           indent: 24.0,
         ),
-        SizedBox(height: 16.0,),
+        SizedBox(
+          height: 16.0,
+        ),
         Padding(
           padding: Constant.sidePadding,
-          child: Text("Answers",style: Constant.sectionSubHeadingStyle,),
+          child: Text(
+            "Answers",
+            style: Constant.sectionSubHeadingStyle,
+          ),
         ),
         StreamBuilder(
           stream: Firestore.instance
@@ -306,17 +384,30 @@ class MyDrafts extends StatelessWidget {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
-              return ListView.builder(
-                itemCount: snapshot.data.documents.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, i) {
-                  Answer a = Answer.fromSnapshot(snapshot.data.documents[i]);
-                  return AnswerDraftCard(
-                    answer: a,
-                  );
-                },
-              );
+              if (snapshot.data.documents.length > 0) {
+                return ListView.builder(
+                  itemCount: snapshot.data.documents.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, i) {
+                    Answer a = Answer.fromSnapshot(snapshot.data.documents[i]);
+                    return AnswerDraftCard(
+                      answer: a,
+                    );
+                  },
+                );
+              } else {
+                return Padding(
+                  padding: Constant.edgePadding,
+                  child: Center(
+                    child: Text(
+                      "WhooHoo!\nNo draft answer to write up.",
+                      textAlign: TextAlign.center,
+                      style: Constant.secondaryBlueTextStyle,
+                    ),
+                  ),
+                );
+              }
             } else {
               return Center(
                 child: SizedBox(

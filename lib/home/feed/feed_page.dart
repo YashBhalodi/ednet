@@ -55,35 +55,52 @@ class QuestionFeed extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Expanded(
-          child: StreamBuilder(
-            stream: Firestore.instance
-                .collection('Questions')
-                .where('isDraft', isEqualTo: false)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.active) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, i) {
-                    Question q = Question.fromSnapshot(snapshot.data.documents[i]);
-                    return QuestionThumbCard(
-                      question: q,
-                    );
-                  },
+        StreamBuilder(
+          stream: Firestore.instance
+              .collection('Questions')
+              .where('isDraft', isEqualTo: false)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.data.documents.length > 0) {
+                return Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (context, i) {
+                      Question q = Question.fromSnapshot(snapshot.data.documents[i]);
+                      return QuestionThumbCard(
+                        question: q,
+                      );
+                    },
+                  ),
                 );
               } else {
-                return Center(
+                return Expanded(
+                  child: Padding(
+                    padding: Constant.sidePadding,
+                    child: Center(
+                      child: Text(
+                        "Be the first to satisfy your curiousity.",
+                        textAlign: TextAlign.center,
+                        style: Constant.secondaryBlueTextStyle,
+                      ),
+                    ),
+                  ),
+                );
+              }
+            } else {
+              return Expanded(
+                child: Center(
                   child: SizedBox(
                     height: 32.0,
                     width: 32.0,
                     child: Constant.greenCircularProgressIndicator,
                   ),
-                );
-              }
-            },
-          ),
+                ),
+              );
+            }
+          },
         ),
       ],
     );
@@ -98,35 +115,52 @@ class ArticleFeed extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        Expanded(
-          child: StreamBuilder(
-            stream: Firestore.instance
-                .collection('Articles')
-                .where('isDraft', isEqualTo: false)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.active) {
-                return ListView.builder(
-                  itemCount: snapshot.data.documents.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, i) {
-                    Article a = Article.fromSnapshot(snapshot.data.documents[i]);
-                    return ArticleThumbCard(
-                      article: a,
-                    );
-                  },
+        StreamBuilder(
+          stream: Firestore.instance
+              .collection('Articles')
+              .where('isDraft', isEqualTo: false)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.data.documents.length > 0) {
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: snapshot.data.documents.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, i) {
+                      Article a = Article.fromSnapshot(snapshot.data.documents[i]);
+                      return ArticleThumbCard(
+                        article: a,
+                      );
+                    },
+                  ),
                 );
               } else {
-                return Center(
+                return Expanded(
+                  child: Padding(
+                    padding: Constant.sidePadding,
+                    child: Center(
+                      child: Text(
+                        "Be the first to write for the sake of knowledge.",
+                        textAlign: TextAlign.center,
+                        style: Constant.secondaryBlueTextStyle,
+                      ),
+                    ),
+                  ),
+                );
+              }
+            } else {
+              return Expanded(
+                child: Center(
                   child: SizedBox(
                     height: 32.0,
                     width: 32.0,
                     child: Constant.greenCircularProgressIndicator,
                   ),
-                );
-              }
-            },
-          ),
+                ),
+              );
+            }
+          },
         )
       ],
     );
