@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/create/question/question_preview_card.dart';
+import 'package:ednet/home/feed/question/create_answer.dart';
 import 'package:ednet/home/profile/article_draft_card.dart';
 import 'package:ednet/home/profile/question_draft_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
@@ -39,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Padding(
                     padding: Constant.edgePadding,
                     child: Text(
-                      "Questions",
+                      "Draft Questions",
                       style: Constant.sectionSubHeadingStyle,
                     ),
                   ),
@@ -48,6 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       stream: Firestore.instance
                           .collection('Questions')
                           .where('isDraft', isEqualTo: true)
+                          .where('username', isEqualTo: currentUser.userName)
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.active) {
@@ -83,7 +85,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Padding(
                     padding: Constant.edgePadding,
                     child: Text(
-                      "Articles",
+                      "Draft Articles",
                       style: Constant.sectionSubHeadingStyle,
                     ),
                   ),
@@ -92,6 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       stream: Firestore.instance
                           .collection('Articles')
                           .where('isDraft', isEqualTo: true)
+                          .where('username', isEqualTo: currentUser.userName)
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.active) {
@@ -102,6 +105,62 @@ class _ProfilePageState extends State<ProfilePage> {
                               Article a = Article.fromSnapshot(snapshot.data.documents[i]);
                               return ArticleDraftCard(
                                 article: a,
+                              );
+                            },
+                          );
+                        } else {
+                          return Center(
+                            child: SizedBox(
+                              height: 32.0,
+                              width: 32.0,
+                              child: Constant.greenCircularProgressIndicator,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: Constant.edgePadding,
+                    child: Text(
+                      "Draft Answers",
+                      style: Constant.sectionSubHeadingStyle,
+                    ),
+                  ),
+                  Expanded(
+                    child: StreamBuilder(
+                      stream: Firestore.instance
+                          .collection('Answers')
+                          .where('isDraft', isEqualTo: true)
+                          .where('username', isEqualTo: currentUser.userName)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.active) {
+                          return ListView.builder(
+                            itemCount: snapshot.data.documents.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, i) {
+                              Answer a = Answer.fromSnapshot(snapshot.data.documents[i]);
+                              //TODO Answer thumb implementation
+                              return GestureDetector(
+                                onTap: (){
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                    return CreateAnswer(answer: a,);
+                                  }));
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Text(
+                                    a.toString(),
+                                  ),
+                                ),
                               );
                             },
                           );

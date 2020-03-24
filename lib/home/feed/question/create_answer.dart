@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/question/question_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
@@ -6,130 +7,250 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CreateAnswer extends StatefulWidget {
-    final Question question;
-    final Answer answer;
+  final Question question;
+  final Answer answer;
 
-    const CreateAnswer({Key key, @required this.question, this.answer}) : super(key: key);
+  const CreateAnswer({Key key, this.question, this.answer}) : super(key: key);
 
-    @override
-    _CreateAnswerState createState() => _CreateAnswerState();
+  @override
+  _CreateAnswerState createState() => _CreateAnswerState();
 }
 
 class _CreateAnswerState extends State<CreateAnswer> {
-    final GlobalKey _answerFormKey = GlobalKey<FormState>();
-    Answer _answer;
+  final GlobalKey _answerFormKey = GlobalKey<FormState>();
+  Answer _answer;
 
-    @override
-    void initState() {
-        super.initState();
-        _answer = widget.answer ?? Answer();
+  @override
+  void initState() {
+    super.initState();
+    _answer = widget.answer ?? Answer();
+  }
+
+  Future<void> _publishAnswer() async {
+    //TODO if draft is finally published, publish the answer and delete the draft instance
+
+    bool validForm = await _validateAndSave();
+    if (validForm) {
+      if (widget.answer != null) {
+        await widget.answer.delete();
+      }
+      bool success = await _answer.uploadAnswer();
+      if (success) {
+        Constant.showToastSuccess("Answer posted successfully");
+        Navigator.of(context).pop();
+      } else {
+        Constant.showToastError("Failed to post answer.");
+      }
+    } else {}
+  }
+
+  Future<bool> _validateAndSave() async {
+    final FormState form = _answerFormKey.currentState;
+    if (form.validate()) {
+      _answer.queID = widget?.question?.id ?? _answer.queID;
+      _answer.username = await Constant.getCurrentUsername();
+      _answer.createdOn = DateTime.now();
+      _answer.byProf = await Constant.isUserProf(_answer.username);
+      _answer.upvoteCount = 0;
+      _answer.downvoteCount = 0;
+      _answer.upvoters = [];
+      _answer.downvoters = [];
+      _answer.isDraft = false;
+      form.save();
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    @override
-    Widget build(BuildContext context) {
-        return Scaffold(
-            extendBody: true,
-            extendBodyBehindAppBar: true,
-            body: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                    Expanded(
-                        child: ListView(
-                            shrinkWrap: true,
-                            children: <Widget>[
-                                QuestionTile(
-                                    question: widget.question,
-                                ),
-                                ListView(
-                                    shrinkWrap: true,
-                                    padding: Constant.edgePadding,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    children: <Widget>[
-                                        Text(
-                                            "Answer to question...",
-                                            style: Constant.sectionSubHeadingStyle,
-                                        ),
-                                        SizedBox(
-                                            height: 20.0,
-                                        ),
-                                        Form(
-                                            key: _answerFormKey,
-                                            child: TextFormField(
-                                                onSaved: (d) {
-                                                    setState(() {
-                                                        _answer.content = d;
-                                                    });
-                                                },
-                                                style: Constant.formFieldTextStyle,
-                                                minLines: 15,
-                                                maxLines: 25,
-                                                maxLength: 10000,
-                                                validator: (value) =>
-                                                    Constant.answerValidator(value),
-                                                keyboardType: TextInputType.multiline,
-                                                decoration: InputDecoration(
-                                                    filled: true,
-                                                    fillColor: Colors.grey[200],
-                                                    border: null,
-                                                    focusedBorder: null,
-                                                    contentPadding: Constant
-                                                        .formFieldContentPadding,
-                                                    hintText: "Clear and concise answer will get you more upvotes...",
-                                                ),
-                                            ),
-                                        )
-                                    ],
-                                )
-                            ],
-                        ),
+  Future<void> _saveAnswerDraft() async {
+    bool valid = await _saveAnswerForm();
+    if (valid) {
+      if (widget.answer == null) {
+        //first time saving as draft
+        bool success = await _answer.uploadAnswer();
+        if (success) {
+          Constant.showToastSuccess("Draft saved successfully");
+          FocusScope.of(context).unfocus();
+        } else {
+          Constant.showToastError("Failed to save draft");
+        }
+      } else {
+        bool success = await _answer.update();
+        if(success){
+          Constant.showToastSuccess("Draft saved successfully");
+          FocusScope.of(context).unfocus();
+        } else {
+          Constant.showToastError("Failed to update draft");
+        }
+      }
+    } else {
+      Constant.showToastError("Failed to save draft");
+    }
+  }
+
+  Future<bool> _saveAnswerForm() async {
+    try {
+      final FormState form = _answerFormKey.currentState;
+      form.save();
+      _answer.queID = widget?.question?.id ?? _answer.queID;
+      _answer.username = widget?.answer?.username ?? await Constant.getCurrentUsername();
+      _answer.createdOn = DateTime.now();
+      _answer.byProf = widget?.answer?.byProf ?? await Constant.isUserProf(_answer.username);
+      _answer.upvoteCount = 0;
+      _answer.downvoteCount = 0;
+      _answer.upvoters = [];
+      _answer.downvoters = [];
+      _answer.isDraft = true;
+      return true;
+    } catch (e) {
+      print("_saveAnswerForm()");
+      print(e);
+      return false;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
+      body: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                widget.question == null
+                    ? StreamBuilder(
+                        stream: Firestore.instance
+                            .collection('Questions')
+                            .document(_answer.queID)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.active) {
+                            Question q = Question.fromSnapshot(snapshot.data);
+                            return QuestionTile(
+                              question: q,
+                            );
+                          } else {
+                            return Center(
+                              child: SizedBox(
+                                height: 32.0,
+                                width: 32.0,
+                                child: Constant.greenCircularProgressIndicator,
+                              ),
+                            );
+                          }
+                        },
+                      )
+                    : QuestionTile(
+                        question: widget.question,
+                      ),
+                ListView(
+                  shrinkWrap: true,
+                  padding: Constant.edgePadding,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: <Widget>[
+                    Text(
+                      "Answer to question...",
+                      style: Constant.sectionSubHeadingStyle,
                     ),
                     SizedBox(
-                        height: 54.0,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                                Expanded(
-                                    child: RaisedButton(
-                                        child: Text("Save Draft",style: Constant.secondaryCTATextStyle,),
-                                        onPressed: () {
-                                            //TODO implement save draft
-                                        },
-                                        padding: Constant.raisedButtonPaddingHigh,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(10.0),
-                                                bottomLeft: Radius.circular(10.0),),
-                                            side: BorderSide(color: Colors.grey[300], width: 2.0),
-                                        ),
-                                        color: Colors.white,
-                                        disabledColor: Colors.grey[300],
-                                    ),
-                                ),
-                                Expanded(
-                                    child: RaisedButton(
-                                        onPressed: (){
-                                            //TODO implement Post answer
-                                        },
-                                        textColor: Colors.white,
-                                        child: Text("Post Answer",style: Constant.primaryCTATextStyle,),
-                                        padding: Constant.raisedButtonPaddingHigh,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(topRight:Radius.circular(10.0),bottomRight: Radius.circular(10.0),),
-                                            side: BorderSide(color: Colors.blue[400], width: 2.0),
-                                        ),
-                                        color: Colors.blue[700],
-                                        disabledColor: Colors.grey[300],
-                                    ),
-                                ),
-                            ],
+                      height: 20.0,
+                    ),
+                    Form(
+                      key: _answerFormKey,
+                      child: TextFormField(
+                        onSaved: (d) {
+                          setState(() {
+                            _answer.content = d;
+                          });
+                        },
+                        //TODO scroll physics to "neverscrollable'
+                        initialValue: widget?.answer?.content ?? null,
+                        style: Constant.formFieldTextStyle,
+                        minLines: 15,
+                        maxLines: 1000,
+                        maxLength: 10000,
+                        validator: (value) => Constant.answerValidator(value),
+                        keyboardType: TextInputType.multiline,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                          border: null,
+                          focusedBorder: null,
+                          contentPadding: Constant.formFieldContentPadding,
+                          hintText: "Clear and concise answer will get you more upvotes...",
                         ),
+                      ),
                     )
-                ],
+                  ],
+                )
+              ],
             ),
-        );
-    }
+          ),
+          SizedBox(
+            height: 54.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Expanded(
+                  child: RaisedButton(
+                    //TODO loading indicator
+
+                    child: Text(
+                      "Save Draft",
+                      style: Constant.secondaryCTATextStyle,
+                    ),
+                    onPressed: () async {
+                      await _saveAnswerDraft();
+                    },
+                    padding: Constant.raisedButtonPaddingHigh,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        bottomLeft: Radius.circular(10.0),
+                      ),
+                      side: BorderSide(color: Colors.grey[300], width: 2.0),
+                    ),
+                    color: Colors.white,
+                    disabledColor: Colors.grey[300],
+                  ),
+                ),
+                Expanded(
+                  child: RaisedButton(
+                    onPressed: () async {
+                      await _publishAnswer();
+                    },
+                    textColor: Colors.white,
+                    //TODO loading indicator
+                    child: Text(
+                      "Post Answer",
+                      style: Constant.primaryCTATextStyle,
+                    ),
+                    padding: Constant.raisedButtonPaddingHigh,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10.0),
+                        bottomRight: Radius.circular(10.0),
+                      ),
+                      side: BorderSide(color: Colors.blue[400], width: 2.0),
+                    ),
+                    color: Colors.blue[700],
+                    disabledColor: Colors.grey[300],
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }

@@ -140,7 +140,7 @@ class QuestionThumbCard extends StatelessWidget {
                     Expanded(
                       flex: 5,
                       child: AnswerCountBox(
-                        answerCount: 0,
+                        answerCount: question.answerCount,
                       ),
                     ),
                     Expanded(

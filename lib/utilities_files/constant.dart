@@ -351,7 +351,8 @@ class Constant {
   }
 
   static String answerValidator(value){
-      if(value.lenght<100) {
+      if(value.length<100) {
+          Constant.showToastInstruction("Answer should be atleast 100 characters long.");
           return "Please write answer atleast 100 characters long";
       } else {
           return null;
@@ -370,7 +371,7 @@ class Constant {
     Fluttertoast.showToast(
         msg: msg,
         fontSize: 18.0,
-        backgroundColor: Colors.deepPurple[800],
+        backgroundColor: Colors.grey[800],
         textColor: Colors.white,
         gravity: ToastGravity.BOTTOM,
         toastLength: Toast.LENGTH_LONG);
@@ -380,7 +381,7 @@ class Constant {
     Fluttertoast.showToast(
         msg: msg,
         fontSize: 18.0,
-        backgroundColor: Colors.grey[800],
+        backgroundColor: Colors.grey[900],
         textColor: Colors.red,
         gravity: ToastGravity.BOTTOM,
         toastLength: Toast.LENGTH_LONG);

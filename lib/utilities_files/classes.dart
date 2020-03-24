@@ -314,10 +314,9 @@ class Answer {
     id = snapshot.documentID;
     byProf = snapshot.data['byProf'] as bool;
     isDraft = snapshot.data['isDraft'] as bool;
+    queID = snapshot.data['questionId'] as String;
   }
 
-  //TODO upload answer
-  //increase answer count in question
   Future<bool> uploadAnswer() async {
     //uploading answer
     try {
@@ -348,15 +347,50 @@ class Answer {
       return true;
     } catch (e) {
       print("Answer.upload()");
-      print(e);
+      print(e.toString());
       return false;
     }
   }
 
-//TODO update answer
+Future<bool> update() async {
+    try {
+      Firestore.instance.document('Answers/'+this.id).updateData({
+            'content': this.content,
+            'createdOn': this.createdOn,
+            'username': this.username,
+            'upvoteCount': this.upvoteCount,
+            'downvoteCount': this.downvoteCount,
+            'upvoters': this.upvoters,
+            'downvoters': this.downvoters,
+            'byProf': this.byProf,
+            'isDraft': this.isDraft,
+            'questionId': this.queID,
+          });
+      return true;
+    } catch (e) {
+      print("Answer.update()");
+      print(e);
+      return false;
+    }
+}
+
+  @override
+  String toString() {
+    return 'Answer{content: $content, queID: $queID, id: $id, username: $username, createdOn: $createdOn, upvoters: $upvoters, downvoters: $downvoters, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, byProf: $byProf, isDraft: $isDraft}';
+  }
 
 //TODO delete answer
-//decrease answer count in question
+//decrease answer count in question if applicable
+ Future<bool> delete() async {
+    try {
+      Firestore.instance.document('Answers/'+this.id).delete();
+      return true;
+    } catch (e) {
+      print("Answer.delete()");
+      print(e);
+      return false;
+    }
+ }
 
 //TODO upvote answer
 
