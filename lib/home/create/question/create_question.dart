@@ -66,6 +66,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question.upvoters = [];
     _question.downvoters = [];
     _question.isDraft = true;
+    _question.answerCount = widget?.question?.answerCount??0;
     final FormState form = _questionFormKey.currentState;
     form.save();
   }
@@ -81,6 +82,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question.upvoters = [];
     _question.downvoters = [];
     _question.isDraft = false;
+    _question.answerCount = widget?.question?.answerCount??0;
     final FormState form = _questionFormKey.currentState;
     if (form.validate() && _selectedTopics.length != 0) {
       form.save();

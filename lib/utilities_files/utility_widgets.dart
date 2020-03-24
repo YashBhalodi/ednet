@@ -60,7 +60,7 @@ class PrimaryCTA extends StatelessWidget {
       onPressed: callback,
       textColor: Colors.white,
       child: child,
-      padding: Constant.raisedButtonPaddingLow,
+      padding: Constant.raisedButtonPaddingHigh,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
         side: BorderSide(color: Colors.green[400], width: 2.0),

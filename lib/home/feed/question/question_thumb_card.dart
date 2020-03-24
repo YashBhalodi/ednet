@@ -24,7 +24,6 @@ class QuestionThumbCard extends StatelessWidget {
             },
           ),
         );
-        print(question.toString());
       },
       child: Card(
         shape: RoundedRectangleBorder(

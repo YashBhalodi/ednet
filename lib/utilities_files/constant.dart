@@ -249,6 +249,8 @@ class Constant {
     }
   }
 
+  //TODO toast instruction for validator violations
+
   static String nameValidator(String value) {
     Pattern pattern = r'^[a-zA-Z ]*$';
     RegExp regExp = new RegExp(pattern);
@@ -343,6 +345,14 @@ class Constant {
   static String articleContentValidator(value){
       if(value.length<100) {
           return "Article content should be atleast 100 charactes long";
+      } else {
+          return null;
+      }
+  }
+
+  static String answerValidator(value){
+      if(value.lenght<100) {
+          return "Please write answer atleast 100 characters long";
       } else {
           return null;
       }

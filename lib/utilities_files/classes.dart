@@ -60,6 +60,7 @@ class Question {
   String id;
   bool byProf;
   bool isDraft;
+  int answerCount;
 
   Question(
       {this.heading,
@@ -74,7 +75,8 @@ class Question {
       this.topics,
       this.byProf,
       this.id,
-      this.isDraft});
+      this.isDraft,
+      this.answerCount});
 
   Question.fromSnapshot(DocumentSnapshot snapshot) {
     heading = snapshot.data['heading'];
@@ -90,6 +92,7 @@ class Question {
     id = snapshot.documentID;
     byProf = snapshot.data['byProf'] as bool;
     isDraft = snapshot.data['isDraft'] as bool;
+    answerCount = snapshot.data['answerCount'] as int;
   }
 
   //TODO upload,publish question
@@ -108,6 +111,7 @@ class Question {
         'topic': this.topics,
         'byProf': this.byProf,
         'isDraft': this.isDraft,
+        'answerCount': this.answerCount,
       });
       return true;
     } catch (e) {
@@ -119,10 +123,9 @@ class Question {
 
   @override
   String toString() {
-    return 'Question{heading: $heading, description: $description, createdOn: $createdOn, editedOn: $editedOn, username: $username, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft}';
+    return 'Question{heading: $heading, description: $description, createdOn: $createdOn, editedOn: $editedOn, username: $username, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, answerCount: $answerCount}';
   }
 
-//TODO edit,save question as draft
   Future<bool> updateQuestion() async {
     print('Questions/' + this.id);
     try {
@@ -139,6 +142,7 @@ class Question {
         'topic': this.topics,
         'byProf': this.byProf,
         'isDraft': this.isDraft,
+        'answerCount': this.answerCount,
       });
       return true;
     } catch (e) {
@@ -147,16 +151,17 @@ class Question {
       return false;
     }
   }
-    Future<bool> delete() async {
-      try {
-          await Firestore.instance.document('Questions/'+this.id).delete();
-          return true;
-      } catch (e) {
-          print("Question.delete()");
-          print(e);
-          return false;
-      }
+
+  Future<bool> delete() async {
+    try {
+      await Firestore.instance.document('Questions/' + this.id).delete();
+      return true;
+    } catch (e) {
+      print("Question.delete()");
+      print(e);
+      return false;
     }
+  }
 //TODO upvote question
 
 //TODO downvote question
@@ -178,7 +183,21 @@ class Article {
   bool byProf;
   bool isDraft;
 
-  Article({this.title, this.subtitle, this.content, this.createdOn, this.editedOn, this.username, this.upvoteCount, this.downvoteCount, this.upvoters, this.downvoters, this.topics, this.id, this.byProf, this.isDraft});
+  Article(
+      {this.title,
+      this.subtitle,
+      this.content,
+      this.createdOn,
+      this.editedOn,
+      this.username,
+      this.upvoteCount,
+      this.downvoteCount,
+      this.upvoters,
+      this.downvoters,
+      this.topics,
+      this.id,
+      this.byProf,
+      this.isDraft});
 
   Article.fromSnapshot(DocumentSnapshot snapshot) {
     title = snapshot.data['title'];
@@ -202,70 +221,145 @@ class Article {
     return 'Article{title: $title, subtitle: $subtitle, content: $content, createdOn: $createdOn, editedOn: $editedOn, username: $username, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft}';
   }
 
-Future<bool> updateArticle()async{
-  print('Articles/' + this.id);
-  try {
-    await Firestore.instance.document('Articles/' + this.id).updateData({
-      'title': this.title,
-      'subtitle': this.subtitle,
-      'content': this.content,
-      'createdOn': this.createdOn,
-      'editedOn': this.editedOn,
-      'username': this.username,
-      'upvoteCount': this.upvoteCount,
-      'downvoteCount': this.downvoteCount,
-      'upvoters': this.upvoters,
-      'downvoters': this.downvoters,
-      'topic': this.topics,
-      'byProf': this.byProf,
-      'isDraft': this.isDraft,
-    });
-    return true;
-  } catch (e) {
-    print("updateArticle");
-    print(e);
-    return false;
+  Future<bool> updateArticle() async {
+    print('Articles/' + this.id);
+    try {
+      await Firestore.instance.document('Articles/' + this.id).updateData({
+        'title': this.title,
+        'subtitle': this.subtitle,
+        'content': this.content,
+        'createdOn': this.createdOn,
+        'editedOn': this.editedOn,
+        'username': this.username,
+        'upvoteCount': this.upvoteCount,
+        'downvoteCount': this.downvoteCount,
+        'upvoters': this.upvoters,
+        'downvoters': this.downvoters,
+        'topic': this.topics,
+        'byProf': this.byProf,
+        'isDraft': this.isDraft,
+      });
+      return true;
+    } catch (e) {
+      print("updateArticle");
+      print(e);
+      return false;
+    }
   }
-}
 
-Future<bool> uploadArticle()async{
-  try {
-    Firestore.instance.collection('Articles').add({
-      'title': this.title,
-      'subtitle': this.subtitle,
-      'content': this.content,
-      'createdOn': this.createdOn,
-      'editedOn': this.editedOn,
-      'username': this.username,
-      'upvoteCount': this.upvoteCount,
-      'downvoteCount': this.downvoteCount,
-      'upvoters': this.upvoters,
-      'downvoters': this.downvoters,
-      'topic': this.topics,
-      'byProf': this.byProf,
-      'isDraft': this.isDraft,
-    });
-    return true;
-  } catch (e) {
-    print("Article.uploadArticle()");
-    print(e);
-    return false;
+  Future<bool> uploadArticle() async {
+    try {
+      Firestore.instance.collection('Articles').add({
+        'title': this.title,
+        'subtitle': this.subtitle,
+        'content': this.content,
+        'createdOn': this.createdOn,
+        'editedOn': this.editedOn,
+        'username': this.username,
+        'upvoteCount': this.upvoteCount,
+        'downvoteCount': this.downvoteCount,
+        'upvoters': this.upvoters,
+        'downvoters': this.downvoters,
+        'topic': this.topics,
+        'byProf': this.byProf,
+        'isDraft': this.isDraft,
+      });
+      return true;
+    } catch (e) {
+      print("Article.uploadArticle()");
+      print(e);
+      return false;
+    }
   }
-}
 
-Future<bool> delete()async{
-  try {
-    await Firestore.instance.document('Articles/'+this.id).delete();
-    return true;
-  } catch (e) {
-    print("Article.delete()");
-    print(e);
-    return false;
+  Future<bool> delete() async {
+    try {
+      await Firestore.instance.document('Articles/' + this.id).delete();
+      return true;
+    } catch (e) {
+      print("Article.delete()");
+      print(e);
+      return false;
+    }
   }
-}
 //TODO upvote article
 
 //TODO downvote article
+}
 
+class Answer {
+  String content;
+  String queID;
+  String id;
+  String username;
+  DateTime createdOn;
+  List<String> upvoters;
+  List<String> downvoters;
+  int upvoteCount;
+  int downvoteCount;
+  bool byProf;
+  bool isDraft;
+
+  Answer({this.content, this.queID, this.id, this.username, this.createdOn, this.upvoters,
+      this.downvoters, this.upvoteCount, this.downvoteCount, this.byProf, this.isDraft});
+
+  Answer.fromSnapshot(DocumentSnapshot snapshot) {
+    content = snapshot.data['content'];
+    createdOn = (snapshot.data['createdOn'] as Timestamp)?.toDate();
+    username = snapshot.data['username'];
+    upvoteCount = snapshot.data['upvoteCount'] as int;
+    downvoteCount = snapshot.data['downvoteCount'] as int;
+    upvoters = snapshot.data['upvoters']?.cast<String>();
+    downvoters = snapshot.data['downvoters']?.cast<String>();
+    id = snapshot.documentID;
+    byProf = snapshot.data['byProf'] as bool;
+    isDraft = snapshot.data['isDraft'] as bool;
+  }
+
+  //TODO upload answer
+  //increase answer count in question
+  Future<bool> uploadAnswer() async {
+    //uploading answer
+    try {
+      await Firestore.instance.collection('Answers').add({
+        'content': this.content,
+        'createdOn': this.createdOn,
+        'username': this.username,
+        'upvoteCount': this.upvoteCount,
+        'downvoteCount': this.downvoteCount,
+        'upvoters': this.upvoters,
+        'downvoters': this.downvoters,
+        'byProf': this.byProf,
+        'isDraft': this.isDraft,
+        'questionId': this.queID,
+      });
+      //updating answer count in the relevant question
+      int currentAnswerCount;
+      await Firestore.instance.document('Questions/' + this.queID).get().then((snapshot) {
+        currentAnswerCount = snapshot.data['answerCount'];
+      }).catchError((e) {
+        print("InGetting currentAnswerCount");
+        print(e);
+        return false;
+      });
+      await Firestore.instance.document('Questions/' + this.queID).updateData({
+        'answerCount': currentAnswerCount + 1,
+      });
+      return true;
+    } catch (e) {
+      print("Answer.upload()");
+      print(e);
+      return false;
+    }
+  }
+
+//TODO update answer
+
+//TODO delete answer
+//decrease answer count in question
+
+//TODO upvote answer
+
+//TODO downvote answer
 
 }

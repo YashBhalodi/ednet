@@ -1,3 +1,4 @@
+import 'package:ednet/home/feed/question/create_answer.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
@@ -47,7 +48,17 @@ class QuestionPage extends StatelessWidget {
                   ),
                 ],
               ),
-              callback: () {},
+              callback: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return CreateAnswer(
+                        question: question,
+                      );
+                    },
+                  ),
+                );
+              },
             ),
           ),
         ],
