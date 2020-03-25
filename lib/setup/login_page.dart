@@ -18,6 +18,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   String _link;
   final _formKey = GlobalKey<FormState>();
   QuerySnapshot docRef;
+  bool _loginLoading = false;
 
   @override
   void initState() {
@@ -64,6 +65,9 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   }
 
   Future<bool> _validateAndSave() async {
+    setState(() {
+      _loginLoading = true;
+    });
     bool sent;
     final FormState form = _formKey.currentState;
     if (form.validate()) {
@@ -84,6 +88,9 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
           if (searchResult.documents.length > 0) {
             //searchResult is not zero, hence email is a valid sign up email.
             sent = await _sendSignInWithEmailLink();
+            setState(() {
+              _loginLoading = false;
+            });
             return sent;
           } else {
             //searchResult is zero, hence email is not a valid sign up email.
@@ -91,23 +98,44 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
             showDialog(
                 context: context,
                 builder: (context) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text("Your university hasn't applied for ednet yet."),
-                      SecondaryCTA(
-                        child: Text("Show me how to apply",style: Constant.secondaryCTATextStyle,),
-                        callback: (){
-                          Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(builder: (context) {
-                            return SignUpInstruction();
-                          }));
-                        },
+                  return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(16.0),
                       ),
-                    ],
+                    ),
+                    content: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text("Your university hasn't applied for ednet yet."),
+                        SizedBox(
+                          height: 32.0,
+                        ),
+                        SecondaryCTA(
+                          child: Text(
+                            "Sign up instruction",
+                            style: Constant.secondaryCTATextStyle,
+                          ),
+                          callback: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return SignUpInstruction();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   );
                 });
+            setState(() {
+              _loginLoading = false;
+            });
             return sent;
           }
         } else {
@@ -117,8 +145,14 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
       } catch (error) {
         print("134 " + error.toString());
       }
+      setState(() {
+        _loginLoading = false;
+      });
       return sent;
     }
+    setState(() {
+      _loginLoading = false;
+    });
     return false;
   }
 
@@ -214,7 +248,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
       builder: (BuildContext context) {
         return AlertDialog(
           title: new Text("Error"),
-          content: new Text("Please Try Again.Error code: " + error),
+          content: new Text("Please Try Again.\nError code: " + error),
           actions: <Widget>[
             new FlatButton(
               child: new Text("Close"),
@@ -250,13 +284,36 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     );
 
     final loginButton = PrimaryBlueCTA(
-      callback: (() async => await _validateAndSave()
-                             ? Constant.showToastInstruction("Email sent to $_email.")
-                             : Constant.showToastError("Email not sent.")),
-      child: Text(
-        "Request Login Email",
-        style: Constant.primaryCTATextStyle,
-      ),
+      callback: () async {
+        if(_loginLoading==false){
+          bool status = await _validateAndSave();
+          if(status){
+            Constant.showToastInstruction("Email sent to $_email.");
+          } else {
+            Constant.showToastError("Email not sent.");
+          }
+        }
+      },
+      /*callback: _loginLoading
+          ? null
+          : (() async => await _validateAndSave()
+              ? Constant.showToastInstruction("Email sent to $_email.")
+              : Constant.showToastError("Email not sent.")),*/
+      child: _loginLoading
+          ? Center(
+              child: SizedBox(
+                height: 24.0,
+                width: 24.0,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Colors.white),
+                  backgroundColor: Colors.blue[50],
+                ),
+              ),
+            )
+          : Text(
+              "Request Login Email",
+              style: Constant.primaryCTATextStyle,
+            ),
     );
 
     final loginForm = Form(
