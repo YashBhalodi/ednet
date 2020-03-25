@@ -24,12 +24,17 @@ class _CreateQuestionState extends State<CreateQuestion> {
     initialPage: 0,
   );
   List<String> _selectedTopics;
+  bool _draftLoading = false;
+  bool _postLoading = false;
 
   Future<void> _publishQuestion() async {
+    setState(() {
+      _postLoading = true;
+    });
     bool validForm = await _validateSaveQuestionForm();
-    if(validForm){
+    if (validForm) {
       bool success = await _question.uploadQuestion();
-      if(widget.question!=null) {
+      if (widget.question != null) {
         //Draft question finally published. Need to delete the Draft instance of the question
         await widget.question.delete();
       }
@@ -40,12 +45,19 @@ class _CreateQuestionState extends State<CreateQuestion> {
       }
       Navigator.of(context).pop();
     }
+    setState(() {
+      _postLoading = false;
+    });
   }
 
   Future<void> _saveAsDraft() async {
+    setState(() {
+      _draftLoading = true;
+    });
     await _saveQuestionForm();
-    bool success =
-        widget.question == null ? await _question.uploadQuestion() : await _question.updateQuestion();
+    bool success = widget.question == null
+        ? await _question.uploadQuestion()
+        : await _question.updateQuestion();
     if (success) {
       widget.question == null
           ? Constant.showToastSuccess("Draft saved successfully")
@@ -53,10 +65,13 @@ class _CreateQuestionState extends State<CreateQuestion> {
     } else {
       Constant.showToastError("Failed to save draft");
     }
+    setState(() {
+      _draftLoading = false;
+    });
   }
 
   Future<void> _saveQuestionForm() async {
-    _question.createdOn = _question.createdOn??DateTime.now();
+    _question.createdOn = _question.createdOn ?? DateTime.now();
     _question.upvoteCount = 0;
     _question.downvoteCount = 0;
     _question.username = await Constant.getCurrentUsername();
@@ -66,7 +81,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question.upvoters = [];
     _question.downvoters = [];
     _question.isDraft = true;
-    _question.answerCount = widget?.question?.answerCount??0;
+    _question.answerCount = widget?.question?.answerCount ?? 0;
     final FormState form = _questionFormKey.currentState;
     form.save();
   }
@@ -82,13 +97,14 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question.upvoters = [];
     _question.downvoters = [];
     _question.isDraft = false;
-    _question.answerCount = widget?.question?.answerCount??0;
+    _question.answerCount = widget?.question?.answerCount ?? 0;
     final FormState form = _questionFormKey.currentState;
     if (form.validate() && _selectedTopics.length != 0) {
       form.save();
       return true;
     } else {
-      Constant.showToastInstruction("Heading should be atleast 10 characters.\nDescription should be atleast 20 character.\nAtleast one topic should be selected.");
+      Constant.showToastInstruction(
+          "Heading should be atleast 10 characters.\nDescription should be atleast 20 character.\nAtleast one topic should be selected.");
       return false;
     }
   }
@@ -103,7 +119,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async{
+      onWillPop: () async {
         //TODO implement dialog
         return true;
       },
@@ -206,26 +222,49 @@ class _CreateQuestionState extends State<CreateQuestion> {
                           height: double.maxFinite,
                           width: double.maxFinite,
                           child: SecondaryCTA(
-                            child: Text(
-                              "Save Draft",
-                              style: Constant.secondaryCTATextStyle,
-                            ),
+                            child: _draftLoading
+                                ? Center(
+                                    child: SizedBox(
+                                      height: 24.0,
+                                      width: 24.0,
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  )
+                                : Text(
+                                    "Save Draft",
+                                    style: Constant.secondaryCTATextStyle,
+                                  ),
                             callback: () async {
-                              await _saveAsDraft();
-                              Navigator.of(context).pop();
+                              if (_draftLoading == false) {
+                                await _saveAsDraft();
+                                Navigator.of(context).pop();
+                              }
                             },
                           ),
                         ),
                         secondChild: SizedBox(
                           height: double.maxFinite,
                           width: double.maxFinite,
-                          child: PrimaryCTA(
-                            child: Text(
-                              "Publish",
-                              style: Constant.primaryCTATextStyle,
-                            ),
+                          child: PrimaryBlueCTA(
+                            child: _postLoading
+                                ? Center(
+                                    child: SizedBox(
+                                      height: 24.0,
+                                      width: 24.0,
+                                      child: CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                                        backgroundColor: Colors.blue[50],
+                                      ),
+                                    ),
+                                  )
+                                : Text(
+                                    "Publish",
+                                    style: Constant.primaryCTATextStyle,
+                                  ),
                             callback: () async {
-                              await _publishQuestion();
+                              if (_postLoading==false) {
+                                await _publishQuestion();
+                              }
                             },
                           ),
                         ),

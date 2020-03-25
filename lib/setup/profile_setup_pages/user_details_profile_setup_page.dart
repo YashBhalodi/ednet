@@ -226,6 +226,8 @@ class _UserDetailsState extends State<UserDetails> {
                         focusedBorder: Constant.formFieldFocusedBorder,
                         labelText: "Username",
                         labelStyle: Constant.formFieldLabelStyle,
+                        helperText: "Can't be changed later.",
+                        helperStyle: Constant.formFieldLabelStyle,
                     ),
                     focusNode: _userNameFocus,
                 ),

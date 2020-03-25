@@ -53,7 +53,7 @@ class ArticleDraftCard extends StatelessWidget {
                             height: 8.0,
                         ),
                         Text(
-                            article.title,
+                            article.title ?? " ",
                             style: Constant.articleTitleStyle,
                             textAlign: TextAlign.justify,
                         ),
@@ -61,7 +61,7 @@ class ArticleDraftCard extends StatelessWidget {
                             height: 16.0,
                         ),
                         Text(
-                            article.subtitle,
+                            article.subtitle ?? " ",
                             style: Constant.articleSubtitleStyle,
                             textAlign: TextAlign.justify,
                         ),
@@ -69,7 +69,7 @@ class ArticleDraftCard extends StatelessWidget {
                             height: 24.0,
                         ),
                         Text(
-                            article.content,
+                            article.content??" ",
                             style: Constant.articleContentStyle,
                             textAlign: TextAlign.justify,
                         ),

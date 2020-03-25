@@ -25,8 +25,13 @@ class _CreateArticleState extends State<CreateArticle> {
     initialPage: 0,
   );
   List<String> _selectedTopics;
+  bool _draftLoading=false;
+  bool _postLoading=false;
 
   Future<void> _publishArticle() async {
+    setState(() {
+      _postLoading = true;
+    });
     bool validForm = await _validateSaveArticleForm();
     if (validForm) {
       bool success = await _article.uploadArticle();
@@ -41,9 +46,15 @@ class _CreateArticleState extends State<CreateArticle> {
       }
       Navigator.of(context).pop();
     }
+    setState(() {
+      _postLoading = false;
+    });
   }
 
   Future<void> _saveAsDraft() async {
+    setState(() {
+      _draftLoading = true;
+    });
     await _saveArticleForm();
     bool success =
         widget.article == null ? await _article.uploadArticle() : await _article.updateArticle();
@@ -54,6 +65,9 @@ class _CreateArticleState extends State<CreateArticle> {
     } else {
       Constant.showToastError("Failed to save draft");
     }
+    setState(() {
+      _draftLoading = false;
+    });
   }
 
   Future<void> _saveArticleForm() async {
@@ -210,26 +224,30 @@ class _CreateArticleState extends State<CreateArticle> {
                           height: double.maxFinite,
                           width: double.maxFinite,
                           child: SecondaryCTA(
-                            child: Text(
+                            child: _draftLoading?Center(child: SizedBox(height: 24.0,width: 24.0,child: CircularProgressIndicator(),),):Text(
                               "Save Draft",
                               style: Constant.secondaryCTATextStyle,
                             ),
                             callback: () async {
-                              await _saveAsDraft();
-                              Navigator.of(context).pop();
+                              if (_draftLoading==false) {
+                                await _saveAsDraft();
+                                Navigator.of(context).pop();
+                              }
                             },
                           ),
                         ),
                         secondChild: SizedBox(
                           height: double.maxFinite,
                           width: double.maxFinite,
-                          child: PrimaryCTA(
-                            child: Text(
+                          child: PrimaryBlueCTA(
+                            child: _postLoading?Center(child: SizedBox(height: 24.0,width: 24.0,child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.white),backgroundColor: Colors.blue[50],),),):Text(
                               "Publish",
                               style: Constant.primaryCTATextStyle,
                             ),
                             callback: () async {
-                              await _publishArticle();
+                              if (_postLoading==false) {
+                                await _publishArticle();
+                              }
                             },
                           ),
                         ),

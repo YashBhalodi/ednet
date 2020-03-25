@@ -14,7 +14,10 @@ class AppDrawer extends StatelessWidget {
               "Log out",
               style: Constant.appDrawerMenuStyle,
             ),
-            onTap: () => Constant.logOut(),
+            onTap: () {
+              Navigator.of(context).pop();
+              Constant.logOut();
+            },
           ),
           ListTile(
             title: Text(

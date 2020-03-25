@@ -20,6 +20,8 @@ class CreateAnswer extends StatefulWidget {
 class _CreateAnswerState extends State<CreateAnswer> {
   final GlobalKey _answerFormKey = GlobalKey<FormState>();
   Answer _answer;
+  bool _draftLoading = false;
+  bool _postLoading = false;
 
   @override
   void initState() {
@@ -28,6 +30,9 @@ class _CreateAnswerState extends State<CreateAnswer> {
   }
 
   Future<void> _publishAnswer() async {
+      setState(() {
+        _postLoading=true;
+      });
     bool validForm = await _validateAndSave();
     if (validForm) {
       if (widget.answer != null) {
@@ -40,7 +45,10 @@ class _CreateAnswerState extends State<CreateAnswer> {
       } else {
         Constant.showToastError("Failed to post answer.");
       }
-    } else {}
+    }
+    setState(() {
+      _postLoading=false;
+    });
   }
 
   Future<bool> _validateAndSave() async {
@@ -63,6 +71,9 @@ class _CreateAnswerState extends State<CreateAnswer> {
   }
 
   Future<void> _saveAnswerDraft() async {
+    setState(() {
+      _draftLoading = true;
+    });
     bool valid = await _saveAnswerForm();
     if (valid) {
       if (widget.answer == null) {
@@ -71,14 +82,16 @@ class _CreateAnswerState extends State<CreateAnswer> {
         if (success) {
           Constant.showToastSuccess("Draft saved successfully");
           FocusScope.of(context).unfocus();
+          Navigator.of(context).pop();
         } else {
           Constant.showToastError("Failed to save draft");
         }
       } else {
         bool success = await _answer.update();
-        if(success){
+        if (success) {
           Constant.showToastSuccess("Draft saved successfully");
           FocusScope.of(context).unfocus();
+          Navigator.of(context).pop();
         } else {
           Constant.showToastError("Failed to update draft");
         }
@@ -86,6 +99,9 @@ class _CreateAnswerState extends State<CreateAnswer> {
     } else {
       Constant.showToastError("Failed to save draft");
     }
+    setState(() {
+      _draftLoading = false;
+    });
   }
 
   Future<bool> _saveAnswerForm() async {
@@ -201,14 +217,19 @@ class _CreateAnswerState extends State<CreateAnswer> {
               children: <Widget>[
                 Expanded(
                   child: RaisedButton(
-                    //TODO loading indicator
-
-                    child: Text(
-                      "Save Draft",
-                      style: Constant.secondaryCTATextStyle,
-                    ),
+                    child: _draftLoading
+                        ? Center(
+                            child: SizedBox(
+                                height: 24.0, width: 24.0, child: CircularProgressIndicator(),),
+                          )
+                        : Text(
+                            "Save Draft",
+                            style: Constant.secondaryCTATextStyle,
+                          ),
                     onPressed: () async {
-                      await _saveAnswerDraft();
+                      if (_draftLoading == false) {
+                        await _saveAnswerDraft();
+                      }
                     },
                     padding: Constant.raisedButtonPaddingHigh,
                     shape: RoundedRectangleBorder(
@@ -225,14 +246,26 @@ class _CreateAnswerState extends State<CreateAnswer> {
                 Expanded(
                   child: RaisedButton(
                     onPressed: () async {
-                      await _publishAnswer();
+                      if (_postLoading == false) {
+                        await _publishAnswer();
+                      }
                     },
                     textColor: Colors.white,
-                    //TODO loading indicator
-                    child: Text(
-                      "Post Answer",
-                      style: Constant.primaryCTATextStyle,
-                    ),
+                    child: _postLoading
+                        ? Center(
+                            child: SizedBox(
+                              height: 24.0,
+                              width: 24.0,
+                              child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation(Colors.white),
+                                  backgroundColor: Colors.blue[50],
+                              ),
+                            ),
+                          )
+                        : Text(
+                            "Post Answer",
+                            style: Constant.primaryCTATextStyle,
+                          ),
                     padding: Constant.raisedButtonPaddingHigh,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(

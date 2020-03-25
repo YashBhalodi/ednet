@@ -17,7 +17,7 @@ class _SubtitlePageState extends State<SubtitlePage> with AutomaticKeepAliveClie
     @override
     void initState() {
         super.initState();
-        _subtitleController = TextEditingController(text: widget.article.title);
+        _subtitleController = TextEditingController(text: widget.article.subtitle);
         _scrollController = ScrollController();
     }
 
