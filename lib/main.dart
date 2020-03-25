@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ednet/setup/login_page.dart';
 import 'package:ednet/home/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,6 +29,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Inter',
         ),
         home: EntryPoint(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
@@ -142,10 +142,13 @@ class _EntryPointState extends State<EntryPoint> {
 //                    print("138"+profileSnapshot.data.toString());
                     if (!profileSnapshot.hasError) {
                       DocumentSnapshot userDocSnapshot = profileSnapshot.data.documents[0];
-                      print("130 userDocSnap:- "+ userDocSnapshot.data.toString());
+//                      print("130 userDocSnap:- "+ userDocSnapshot.data.toString());
                       bool isProfileSet = userDocSnapshot['isProfileSet'];
-                      print("132 isProfileSet:- "+ isProfileSet.toString());
+//                      print("132 isProfileSet:- "+ isProfileSet.toString());
                       if (isProfileSet) {
+/*                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+                          return Home(userSnap: userDocSnapshot,);
+                        }));*/
                         return Home(userSnap: userDocSnapshot,);
                       } else {
                         bool isAdmin = userDocSnapshot['isAdmin'] as bool;

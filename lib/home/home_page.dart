@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ednet/home/app_drawer.dart';
+import 'package:ednet/home/create/create_content.dart';
+import 'package:ednet/home/feed/feed_page.dart';
+import 'package:ednet/home/profile/profile_page.dart';
+import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -11,27 +15,45 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int _selectedIndex = 1;
+
   @override
   Widget build(BuildContext context) {
+
+    Widget _body = IndexedStack(
+      index: _selectedIndex,
+      children: <Widget>[
+        CreateContent(),
+        FeedPage(),
+        ProfilePage(userSnap:widget.userSnap),
+      ],
+    );
+
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Text("Home Page"),
-            Text(widget.userSnap.data.toString()),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          try {
-            await FirebaseAuth.instance.signOut();
-            setState(() {});
-          } catch (e) {
-            print(e.toString());
-          }
+      body: _body,
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            title: Text("Create",style: Constant.bottomNavigationTitleStyle,),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.rss_feed),
+            title: Text("Learn",style: Constant.bottomNavigationTitleStyle,),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            title: Text("Manage",style: Constant.bottomNavigationTitleStyle,),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: (i){
+          setState(() {
+            _selectedIndex = i;
+          });
         },
       ),
+      drawer: AppDrawer(),
     );
   }
 }

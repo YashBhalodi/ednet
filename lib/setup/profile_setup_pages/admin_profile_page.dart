@@ -3,7 +3,7 @@ import 'package:ednet/home/home_page.dart';
 import 'package:ednet/setup/profile_setup_pages/topic_selection_profile_setup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ednet/utilities_files/contants.dart';
+import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/setup/profile_setup_pages/user_details_profile_setup_page.dart';
 import 'package:ednet/setup/profile_setup_pages/university_details_profile_setup_page.dart';
 
@@ -80,15 +80,13 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
                 ),
               ),
             ),
-            LinearProgressIndicator(
-              value: _progressValue,
-              backgroundColor: Colors.green[50],
-              valueColor: AlwaysStoppedAnimation(Colors.green),
-            ),
+            Constant.myLinearProgressIndicator(_progressValue),
+
             Expanded(
               child: PageView(
                 scrollDirection: Axis.horizontal,
                 controller: _pageController,
+                physics: NeverScrollableScrollPhysics(),
                 children: <Widget>[
                   UserDetails(
                     userSnap: widget.userSnap,

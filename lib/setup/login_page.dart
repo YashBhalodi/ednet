@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/setup/signup_instruction_page.dart';
-import 'package:ednet/utilities_files/contants.dart';
+import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
@@ -95,14 +96,14 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text("Your university hasn't applied for ednet yet."),
-                      RaisedButton(
-                        onPressed: () {
+                      SecondaryCTA(
+                        child: Text("Show me how to apply",style: Constant.secondaryCTATextStyle,),
+                        callback: (){
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(builder: (context) {
                             return SignUpInstruction();
                           }));
                         },
-                        child: Text("Show me how to apply"),
                       ),
                     ],
                   );
@@ -157,25 +158,27 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
 
   Future<void> _createRelevantDocument() async {
     bool isAdmin = docRef.documents[0]['type'] == "admin" ? true : false;
+    bool isProf = docRef.documents[0]['type'] == "prof" ? true : false;
     String userUniversity = docRef.documents[0]['university'];
-    //create user document
+    //home.create user document
     try {
       await Firestore.instance.collection('Users').add({
         'email': _email,
         'isProfileSet': false,
         'isAdmin': isAdmin,
         'university': userUniversity,
+        'isProf': isProf,
       });
     } catch (e) {
       print("_createRelevantDocument_user");
       print(e);
     }
-    //create university document if user is admin
-    if(isAdmin){
+    //home.create university document if user is admin
+    if (isAdmin) {
       try {
         await Firestore.instance.collection('University').add({
-                'name':userUniversity,
-              });
+          'name': userUniversity,
+        });
       } catch (e) {
         print("_createRelevntDocument_university");
         print(e);
@@ -227,7 +230,6 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-
     final email = TextFormField(
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
@@ -247,19 +249,14 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
       ),
     );
 
-    final loginButton = RaisedButton(
-      autofocus: true,
-      elevation: 15.0,
-      child: Text("Request Login Email",style: TextStyle(fontSize: 18.0,color: Colors.blue[800],),),
-      onPressed: (() async => await _validateAndSave()
-          ? Constant.showToastInstruction("Email sent to $_email.")
-          : Constant.showToastError("Email not sent.")),
-      padding: Constant.raisedButtonPaddingHigh,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-        side: BorderSide(color: Colors.blue[800], width: 2.0),
+    final loginButton = PrimaryBlueCTA(
+      callback: (() async => await _validateAndSave()
+                             ? Constant.showToastInstruction("Email sent to $_email.")
+                             : Constant.showToastError("Email not sent.")),
+      child: Text(
+        "Request Login Email",
+        style: Constant.primaryCTATextStyle,
       ),
-      color: Colors.blue[50],
     );
 
     final loginForm = Form(
@@ -274,6 +271,6 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         ],
       ),
     );
-    return  loginForm;
+    return loginForm;
   }
 }

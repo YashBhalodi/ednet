@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:ednet/utilities_files/contants.dart';
+import 'package:ednet/utilities_files/constant.dart';
 
 class UserDetails extends StatefulWidget {
   final DocumentSnapshot userSnap;
@@ -226,6 +226,8 @@ class _UserDetailsState extends State<UserDetails> {
                         focusedBorder: Constant.formFieldFocusedBorder,
                         labelText: "Username",
                         labelStyle: Constant.formFieldLabelStyle,
+                        helperText: "Can't be changed later.",
+                        helperStyle: Constant.formFieldLabelStyle,
                     ),
                     focusNode: _userNameFocus,
                 ),

@@ -1,0 +1,88 @@
+import 'package:ednet/utilities_files/classes.dart';
+import 'package:ednet/utilities_files/constant.dart';
+import 'package:flutter/material.dart';
+
+class TitlePage extends StatefulWidget {
+  final Article article;
+  final PageController parentPageController;
+  const TitlePage({Key key,@required this.article,@required this.parentPageController}) : super(key: key);
+    @override
+  _TitlePageState createState() => _TitlePageState();
+}
+
+class _TitlePageState extends State<TitlePage> with AutomaticKeepAliveClientMixin{
+    TextEditingController _titleController;
+    ScrollController _scrollController;
+
+    @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(text: widget.article.title);
+    _scrollController = ScrollController();
+  }
+
+    @override
+    void dispose() {
+        super.dispose();
+        _titleController.dispose();
+        _scrollController.dispose();
+    }
+    @override
+  Widget build(BuildContext context) {
+    super.build(context);
+        return ListView(
+            shrinkWrap: true,
+            padding: Constant.edgePadding,
+            controller: _scrollController,
+            children: <Widget>[
+                Text(
+                    "Title",
+                    style: Constant.sectionSubHeadingStyle,
+                ),
+                SizedBox(
+                    height: 8.0,
+                ),
+                Text(
+                    "Catchy title of your article.\n\nUsually, the name of relevant domain, concepts, theorms etc.",
+                    style: Constant.sectionSubHeadingDescriptionStyle,
+                ),
+                SizedBox(
+                    height: 64.0,
+                ),
+                TextFormField(
+                    /*onTap: () {
+                        _scrollController.animateTo(175.0,
+                            duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
+                    },*/
+                    onEditingComplete: () {
+                        widget.parentPageController
+                            .nextPage(duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);
+                    },
+                    onSaved: (h) {
+                        setState(() {
+                            widget.article.title = h;
+                        });
+                    },
+                    controller: _titleController,
+                    style: Constant.formFieldTextStyle,
+                    minLines: 12,
+                    maxLines: 12,
+                    validator: (value) => Constant.articleTitleValidator(value),
+                    maxLength: 100,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        border: null,
+                        focusedBorder: null,
+                        contentPadding: Constant.formFieldContentPadding,
+                        hintText: "Attract readers with catchy, crispy and clear title...",
+                    ),
+                ),
+            ],
+        );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
