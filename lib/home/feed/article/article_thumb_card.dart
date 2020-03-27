@@ -14,7 +14,6 @@ class ArticleThumbCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: (){
-            //TODO Navigate to article screen
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                 return ArticlePage(article: article,);
             }),);

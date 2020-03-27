@@ -60,7 +60,7 @@ class _EntryPointState extends State<EntryPoint> {
                     return Scaffold(
                       body: Container(
                         child: Center(
-                          child: Text("Loading"),
+                          child: CircularProgressIndicator(),
                         ),
                       ),
                     );
@@ -109,9 +109,7 @@ class _EntryPointState extends State<EntryPoint> {
                     return Scaffold(
                       body: Container(
                         child: Center(
-                          child: Text(
-                            "state : none",
-                          ),
+                          child: CircularProgressIndicator(),
                         ),
                       ),
                     );
@@ -120,9 +118,7 @@ class _EntryPointState extends State<EntryPoint> {
                     return Scaffold(
                       body: Container(
                         child: Center(
-                          child: Text(
-                            "state : waiting",
-                          ),
+                          child: CircularProgressIndicator(),
                         ),
                       ),
                     );
@@ -131,24 +127,16 @@ class _EntryPointState extends State<EntryPoint> {
                     return Scaffold(
                       body: Container(
                         child: Center(
-                          child: Text(
-                            "state : active",
-                          ),
+                          child: CircularProgressIndicator(),
                         ),
                       ),
                     );
                     break;
                   case ConnectionState.done:
-//                    print("138"+profileSnapshot.data.toString());
                     if (!profileSnapshot.hasError) {
                       DocumentSnapshot userDocSnapshot = profileSnapshot.data.documents[0];
-//                      print("130 userDocSnap:- "+ userDocSnapshot.data.toString());
                       bool isProfileSet = userDocSnapshot['isProfileSet'];
-//                      print("132 isProfileSet:- "+ isProfileSet.toString());
                       if (isProfileSet) {
-/*                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
-                          return Home(userSnap: userDocSnapshot,);
-                        }));*/
                         return Home(userSnap: userDocSnapshot,);
                       } else {
                         bool isAdmin = userDocSnapshot['isAdmin'] as bool;
@@ -174,9 +162,7 @@ class _EntryPointState extends State<EntryPoint> {
                       return Scaffold(
                         body: Container(
                           child: Center(
-                            child: Text(
-                              "state : default",
-                            ),
+                            child: CircularProgressIndicator(),
                           ),
                         ),
                       );

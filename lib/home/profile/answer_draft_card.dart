@@ -8,6 +8,7 @@ class AnswerDraftCard extends StatelessWidget {
   final Answer answer;
 
   const AnswerDraftCard({Key key, this.answer}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -59,12 +60,12 @@ class AnswerDraftCard extends StatelessWidget {
                             size: 16.0,
                           ),
                           answer.byProf
-                          ? Icon(
-                            Icons.star,
-                            color: Colors.orangeAccent,
-                            size: 16.0,
-                          )
-                          : Container(),
+                              ? Icon(
+                                  Icons.star,
+                                  color: Colors.orangeAccent,
+                                  size: 16.0,
+                                )
+                              : Container(),
                           Text(
                             answer.username,
                             style: Constant.usernameStyle,
@@ -102,8 +103,22 @@ class AnswerDraftCard extends StatelessWidget {
                       style: Constant.secondaryNegativeTextStyle,
                     ),
                     callback: () {
-                      //TODO alert dialog box
-                      answer.delete();
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Constant.deleteConfirmationAlertBox(
+                            title: "Delete answer draft?",
+                            msg: "You will lose this content permenantly.",
+                            deleteCallback: () async {
+                              await answer.delete();
+                              Navigator.of(context).pop();
+                            },
+                            cancelCallback: () {
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        },
+                      );
                     },
                   ),
                 ),

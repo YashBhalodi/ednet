@@ -14,7 +14,6 @@ class QuestionThumbCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //TODO navigate to Question screen
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {

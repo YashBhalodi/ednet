@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,20 +13,20 @@ class Constant {
       );
 
   static get sidePadding => EdgeInsets.symmetric(
-      horizontal: 24.0,
-  );
+        horizontal: 24.0,
+      );
 
   static get cardPadding => EdgeInsets.only(
-      left: 12.0,
-      right: 12.0,
-      bottom: 0.0,
-      top: 4.0,
-  );
+        left: 12.0,
+        right: 12.0,
+        bottom: 0.0,
+        top: 4.0,
+      );
 
   static get cardMargin => EdgeInsets.symmetric(
-      horizontal: 12.0,
-      vertical: 16.0,
-  );
+        horizontal: 12.0,
+        vertical: 16.0,
+      );
 
   static get formFieldTextStyle => TextStyle(
         fontSize: 18.0,
@@ -99,15 +100,28 @@ class Constant {
         ),
       );
 
-  static get raisedButtonPaddingHigh => EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0,);
+  static get raisedButtonPaddingHigh => EdgeInsets.symmetric(
+        horizontal: 24.0,
+        vertical: 16.0,
+      );
 
-  static get raisedButtonPaddingMedium => EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0,);
+  static get raisedButtonPaddingMedium => EdgeInsets.symmetric(
+        horizontal: 20.0,
+        vertical: 12.0,
+      );
 
-  static get raisedButtonPaddingLow => EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0,);
+  static get raisedButtonPaddingLow => EdgeInsets.symmetric(
+        horizontal: 16.0,
+        vertical: 8.0,
+      );
 
-  static get scrollAnimationDuration => Duration(milliseconds: 400,);
+  static get scrollAnimationDuration => Duration(
+        milliseconds: 400,
+      );
 
-  static get pageAnimationDuration => Duration(milliseconds: 600,);
+  static get pageAnimationDuration => Duration(
+        milliseconds: 600,
+      );
 
   //TODO style this
   static get bottomNavigationTitleStyle => TextStyle();
@@ -134,14 +148,22 @@ class Constant {
       );
 
   static get negativeCTATextStyle => TextStyle(
-      fontSize: 24.0,
-      color: Colors.red[600],
-      fontWeight: FontWeight.w600,
-  );
+        fontSize: 24.0,
+        color: Colors.red[600],
+        fontWeight: FontWeight.w600,
+      );
 
-  static get secondaryNegativeTextStyle => TextStyle(color: Colors.red[500],fontSize: 16.0,fontWeight: FontWeight.w600,);
+  static get secondaryNegativeTextStyle => TextStyle(
+        color: Colors.red[500],
+        fontSize: 16.0,
+        fontWeight: FontWeight.w600,
+      );
 
-  static get secondaryBlueTextStyle => TextStyle(color: Colors.blue[500],fontSize: 16.0,fontWeight: FontWeight.w600,);
+  static get secondaryBlueTextStyle => TextStyle(
+        color: Colors.blue[500],
+        fontSize: 16.0,
+        fontWeight: FontWeight.w600,
+      );
 
   static get appBarTextStyle => TextStyle(
         fontFamily: 'ValeraRound',
@@ -149,71 +171,73 @@ class Constant {
       );
 
   static get questionHeadingStyle => TextStyle(
-      fontSize: 20.0,
-      fontWeight: FontWeight.w600,
-      color: Colors.black87,
-  );
+        fontSize: 20.0,
+        fontWeight: FontWeight.w600,
+        color: Colors.black87,
+      );
 
   static get questionDescriptionStyle => TextStyle(
-      fontSize: 16.0,
-      fontWeight: FontWeight.w400,
-      color: Colors.black87,
-  );
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.black87,
+      );
 
   static get dateTimeStyle => TextStyle(
-      fontSize: 12.0,
-      fontWeight: FontWeight.w300,
-      color: Colors.black54,
-  );
+        fontSize: 12.0,
+        fontWeight: FontWeight.w300,
+        color: Colors.black54,
+      );
 
   static get dateTimeMediumStyle => TextStyle(
-      fontSize: 18.0,
-      fontWeight: FontWeight.w300,
-      color: Colors.black54,
-  );
+        fontSize: 18.0,
+        fontWeight: FontWeight.w300,
+        color: Colors.black54,
+      );
 
   static get usernameStyle => TextStyle(
-      fontSize: 14.0,
-      fontWeight: FontWeight.w500,
+        fontSize: 14.0,
+        fontWeight: FontWeight.w500,
+      );
 
-  );
-
-  static get usernameMediumStyle => TextStyle(fontSize: 20.0,fontWeight: FontWeight.w600,);
+  static get usernameMediumStyle => TextStyle(
+        fontSize: 20.0,
+        fontWeight: FontWeight.w600,
+      );
 
   static get topicStyle => TextStyle(
-      fontWeight: FontWeight.w400,
-      fontSize: 12.0,
-  );
+        fontWeight: FontWeight.w400,
+        fontSize: 12.0,
+      );
 
   static get articleTitleStyle => TextStyle(
-      fontSize: 22.0,
-      fontWeight: FontWeight.w600,
-      color: Colors.black,
-  );
+        fontSize: 22.0,
+        fontWeight: FontWeight.w600,
+        color: Colors.black,
+      );
 
   static get articleSubtitleStyle => TextStyle(
-      fontSize: 20.0,
-      fontWeight: FontWeight.w400,
-      color: Colors.grey[800],
-  );
+        fontSize: 20.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.grey[800],
+      );
 
   static get articleContentStyle => TextStyle(
-      fontSize: 16.0,
-      fontWeight: FontWeight.w400,
-      color: Colors.black,
-  );
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.black,
+      );
 
   static get answerThumbContentStyle => TextStyle(
-      fontSize: 16.0,
-      fontWeight: FontWeight.w300,
-      color: Colors.black,
-  );
+        fontSize: 16.0,
+        fontWeight: FontWeight.w300,
+        color: Colors.black,
+      );
 
   static get answerContentStyle => TextStyle(
-      fontSize: 18.0,
-      fontWeight: FontWeight.w400,
-      color: Colors.black,
-  );
+        fontSize: 18.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.black,
+      );
 
   static String emailValidator(String value) {
     Pattern pattern =
@@ -341,44 +365,44 @@ class Constant {
     }
   }
 
-  static String articleTitleValidator(value){
-      if(value.length<10) {
-          return "Article title should be atleast 10 charactes long";
-      } else {
-          return null;
-      }
+  static String articleTitleValidator(value) {
+    if (value.length < 10) {
+      return "Article title should be atleast 10 charactes long";
+    } else {
+      return null;
+    }
   }
 
-  static String articleSubtitleValidator(value){
-      if(value.length<20) {
-          return "Article Subtitle should be atleast 20 charactes long";
-      } else {
-          return null;
-      }
+  static String articleSubtitleValidator(value) {
+    if (value.length < 20) {
+      return "Article Subtitle should be atleast 20 charactes long";
+    } else {
+      return null;
+    }
   }
 
-  static String articleContentValidator(value){
-      if(value.length<100) {
-          return "Article content should be atleast 100 charactes long";
-      } else {
-          return null;
-      }
+  static String articleContentValidator(value) {
+    if (value.length < 100) {
+      return "Article content should be atleast 100 charactes long";
+    } else {
+      return null;
+    }
   }
 
-  static String answerValidator(value){
-      if(value.length<100) {
-          Constant.showToastInstruction("Answer should be atleast 100 characters long.");
-          return "Please write answer atleast 100 characters long";
-      } else {
-          return null;
-      }
+  static String answerValidator(value) {
+    if (value.length < 100) {
+      Constant.showToastInstruction("Answer should be atleast 100 characters long.");
+      return "Please write answer atleast 100 characters long";
+    } else {
+      return null;
+    }
   }
 
   static Widget myLinearProgressIndicator(double progress) {
     return LinearProgressIndicator(
       backgroundColor: Colors.green[50],
       valueColor: AlwaysStoppedAnimation(Colors.green[700]),
-      value: progress??null,
+      value: progress ?? null,
     );
   }
 
@@ -436,32 +460,115 @@ class Constant {
     }
   }
 
+  static Widget deleteConfirmationAlertBox(
+      {String title, String msg, Function deleteCallback, Function cancelCallback}) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(16.0),
+        ),
+      ),
+      title: Text(title),
+      contentPadding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0.0),
+      content: Column(
+        children: <Widget>[
+          Text(msg),
+          SizedBox(
+            height: 32.0,
+          ),
+          SizedBox(
+              height: 32.0,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Colors.red,
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16.0),
+                        bottomLeft: Radius.circular(16.0),
+                      ),
+                    ),
+                    color: Colors.white,
+                    child: Text(
+                      "Delete",
+                      style: negativeCTATextStyle,
+                    ),
+                    padding: Constant.raisedButtonPaddingMedium,
+                    onPressed: deleteCallback,
+                  ),
+                ),
+                Expanded(
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(16.0),
+                          topRight: Radius.circular(16.0),
+                        ),
+                        side: BorderSide(
+                          color: Colors.blue[700],
+                          width: 2.0,
+                        ),
+                    ),
+                    color: Colors.blue[800],
+                    padding: Constant.raisedButtonPaddingMedium,
+                    onPressed: deleteCallback,
+                    child: Text(
+                      "Cancle",
+                      style: primaryCTATextStyle,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   static Future<DocumentReference> getUserDocRef(String username) async {
-      QuerySnapshot curUserQuery = await Firestore.instance.collection('Users').where('username',isEqualTo: username).getDocuments();
-      DocumentReference userDoc = curUserQuery.documents[0].reference;
-      return userDoc;
+    QuerySnapshot curUserQuery = await Firestore.instance
+        .collection('Users')
+        .where('username', isEqualTo: username)
+        .getDocuments();
+    DocumentReference userDoc = curUserQuery.documents[0].reference;
+    return userDoc;
   }
 
   static Future<DocumentReference> getCurrentUserDoc() async {
-      FirebaseUser curUser = await FirebaseAuth.instance.currentUser();
-      String email = curUser.email;
-      QuerySnapshot curUserQuery = await Firestore.instance.collection('Users').where('email',isEqualTo: email).getDocuments();
-      DocumentReference userDoc = curUserQuery.documents[0].reference;
-      return userDoc;
-  }
-  static Future<bool> isUserProf(String username) async {
-      try {
-          QuerySnapshot curUserQuery = await Firestore.instance.collection('Users').where('username',isEqualTo: username).getDocuments();
-          bool isProf = curUserQuery.documents[0].data['isProf'] as bool;
-          return isProf;
-      } catch (e) {
-          print("isUserProf");
-          print(e);
-      }
+    FirebaseUser curUser = await FirebaseAuth.instance.currentUser();
+    String email = curUser.email;
+    QuerySnapshot curUserQuery = await Firestore.instance
+        .collection('Users')
+        .where('email', isEqualTo: email)
+        .getDocuments();
+    DocumentReference userDoc = curUserQuery.documents[0].reference;
+    return userDoc;
   }
 
-  static String formatDateTime(DateTime timestamp){
-      return DateFormat.MMMEd().format(timestamp);
+  static Future<bool> isUserProf(String username) async {
+    try {
+      QuerySnapshot curUserQuery = await Firestore.instance
+          .collection('Users')
+          .where('username', isEqualTo: username)
+          .getDocuments();
+      bool isProf = curUserQuery.documents[0].data['isProf'] as bool;
+      return isProf;
+    } catch (e) {
+      print("isUserProf");
+      print(e);
+    }
+  }
+
+  static String formatDateTime(DateTime timestamp) {
+    return DateFormat.MMMEd().format(timestamp);
   }
 }
 

@@ -254,6 +254,7 @@ class MyDrafts extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
+      padding: EdgeInsets.symmetric(vertical: 16.0),
       children: <Widget>[
         Padding(
           padding: Constant.sidePadding,
@@ -401,7 +402,7 @@ class MyDrafts extends StatelessWidget {
                   padding: Constant.edgePadding,
                   child: Center(
                     child: Text(
-                      "WhooHoo!\nNo draft answer to write up.",
+                      "WhooHoo!\n\nNo draft answer to write up.",
                       textAlign: TextAlign.center,
                       style: Constant.secondaryBlueTextStyle,
                     ),

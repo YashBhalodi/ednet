@@ -294,11 +294,6 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
           }
         }
       },
-      /*callback: _loginLoading
-          ? null
-          : (() async => await _validateAndSave()
-              ? Constant.showToastInstruction("Email sent to $_email.")
-              : Constant.showToastError("Email not sent.")),*/
       child: _loginLoading
           ? Center(
               child: SizedBox(

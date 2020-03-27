@@ -87,8 +87,22 @@ class QuestionDraftCard extends StatelessWidget {
                       style: Constant.secondaryNegativeTextStyle,
                     ),
                     callback: () {
-                      //TODO alert dialog box
-                      question.delete();
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Constant.deleteConfirmationAlertBox(
+                            title: "Delete question draft?",
+                            msg: "You will lose this content permenantly.",
+                            deleteCallback: () async {
+                              await question.delete();
+                              Navigator.of(context).pop();
+                            },
+                            cancelCallback: () {
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        },
+                      );
                     },
                   ),
                 ),

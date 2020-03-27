@@ -37,7 +37,7 @@ class User {
     fname = snapshot.data['fname'] as String;
     lname = snapshot.data['lname'] as String;
     mobile = snapshot.data['mobile_number'] as String;
-    topics = snapshot.data['topics'].cast<String>();
+    topics = snapshot.data['topics']?.cast<String>();
   }
 
   @override
@@ -95,7 +95,6 @@ class Question {
     answerCount = snapshot.data['answerCount'] as int;
   }
 
-  //TODO upload,publish question
   Future<bool> uploadQuestion() async {
     try {
       Firestore.instance.collection('Questions').add({
@@ -381,7 +380,6 @@ Future<bool> update() async {
     return 'Answer{content: $content, queID: $queID, id: $id, username: $username, createdOn: $createdOn, upvoters: $upvoters, downvoters: $downvoters, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, byProf: $byProf, isDraft: $isDraft}';
   }
 
-//TODO delete answer
 //decrease answer count in question if applicable
  Future<bool> delete() async {
     try {
