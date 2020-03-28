@@ -4,6 +4,7 @@ import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -221,6 +222,22 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   }
 
   Future<void> _signInWithEmailAndLink() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(
+                  height: 32.0,
+                  width: 32.0,
+                  child: CircularProgressIndicator(),
+                ),
+              ],
+            ),
+          );
+        });
     final FirebaseAuth user = FirebaseAuth.instance;
     bool validLink = await user.isSignInWithEmailLink(_link);
     if (validLink) {
@@ -232,6 +249,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
           await _updateSignUpStatus();
           await _createRelevantDocument();
         }
+        Navigator.of(context).pop();
         await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
         print("After login:-" + FirebaseAuth.instance.currentUser().toString());
         SharedPreferences pref = await SharedPreferences.getInstance();
@@ -240,6 +258,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         print("signInWithEmailLink function:- " + e.toString());
       }
     }
+
   }
 
   void _showDialog(String error) {
@@ -285,9 +304,9 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
 
     final loginButton = PrimaryBlueCTA(
       callback: () async {
-        if(_loginLoading==false){
+        if (_loginLoading == false) {
           bool status = await _validateAndSave();
-          if(status){
+          if (status) {
             Constant.showToastInstruction("Email sent to $_email.");
           } else {
             Constant.showToastError("Email not sent.");
