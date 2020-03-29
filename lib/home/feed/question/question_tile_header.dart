@@ -9,7 +9,8 @@ import 'package:shimmer/shimmer.dart';
 class QuestionTile extends StatelessWidget {
   final Question question;
   final bool scrollDescription;
-  const QuestionTile({Key key, this.question,@required this.scrollDescription}) : super(key: key);
+
+  const QuestionTile({Key key, this.question, @required this.scrollDescription}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,20 +66,21 @@ class QuestionTile extends StatelessWidget {
                 SizedBox(
                   height: 8.0,
                 ),
-                //TODO deal with long description viewport blocking
-                scrollDescription?Container(
-                  constraints: BoxConstraints.loose(Size(double.maxFinite,100.0)),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Text(
-                      question.description,
-                      style: Constant.questionDescriptionStyle,
-                    ),
-                  ),
-                ):Text(
-                  question.description,
-                  style: Constant.questionDescriptionStyle,
-                ),
+                scrollDescription
+                    ? Container(
+                        constraints: BoxConstraints.loose(Size(double.maxFinite, 100.0)),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Text(
+                            question.description,
+                            style: Constant.questionDescriptionStyle,
+                          ),
+                        ),
+                      )
+                    : Text(
+                        question.description,
+                        style: Constant.questionDescriptionStyle,
+                      ),
                 SizedBox(
                   height: 20.0,
                 ),
@@ -90,7 +92,7 @@ class QuestionTile extends StatelessWidget {
                     Expanded(
                       flex: 4,
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Constant.userProfileView(context, userId: question.userId);
                         },
                         child: Column(
