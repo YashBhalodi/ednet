@@ -75,9 +75,10 @@ class _CreateArticleState extends State<CreateArticle> {
     _article.upvoteCount = 0;
     _article.downvoteCount = 0;
     _article.editedOn = DateTime.now();
-    _article.userId = await Constant.getCurrentUserDocId();
+    //Following will result in same output every time, but it will reduce one computation.
+    _article.userId = _article?.userId ?? await Constant.getCurrentUserDocId();
     _article.topics = _selectedTopics;
-    _article.byProf = await Constant.isUserProfById(userId: _article.userId);
+    _article.byProf = _article?.byProf ?? await Constant.isUserProfById(userId: _article.userId);
     _article.upvoters = [];
     _article.downvoters = [];
     _article.isDraft = true;
@@ -91,8 +92,8 @@ class _CreateArticleState extends State<CreateArticle> {
     _article.downvoteCount = 0;
     _article.editedOn = DateTime.now();
     _article.topics = _selectedTopics;
-    _article.userId = await Constant.getCurrentUserDocId();
-    _article.byProf = await Constant.isUserProfById(userId: _article.userId);
+    _article.userId = _article?.userId ?? await Constant.getCurrentUserDocId();
+    _article.byProf = _article?.byProf ?? await Constant.isUserProfById(userId: _article.userId);
     _article.upvoters = [];
     _article.downvoters = [];
     _article.isDraft = false;

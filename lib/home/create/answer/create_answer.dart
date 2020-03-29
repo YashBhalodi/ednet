@@ -54,10 +54,12 @@ class _CreateAnswerState extends State<CreateAnswer> {
   Future<bool> _validateAndSave() async {
     final FormState form = _answerFormKey.currentState;
     if (form.validate()) {
+      //[widget?.question?.id] is for writing a new answer to a published question,
+      //[_answer.queID] is for editing a draft answer.
       _answer.queID = widget?.question?.id ?? _answer.queID;
-      _answer.username = await Constant.getCurrentUsername();
+      _answer.userId = widget?.answer?.userId ?? await Constant.getCurrentUserDocId();
       _answer.createdOn = DateTime.now();
-      _answer.byProf = await Constant.isUserProf(_answer.username);
+      _answer.byProf = widget?.answer?.byProf ?? await Constant.isUserProfById(userId: _answer.userId);
       _answer.upvoteCount = 0;
       _answer.downvoteCount = 0;
       _answer.upvoters = [];
@@ -109,9 +111,10 @@ class _CreateAnswerState extends State<CreateAnswer> {
       final FormState form = _answerFormKey.currentState;
       form.save();
       _answer.queID = widget?.question?.id ?? _answer.queID;
-      _answer.username = widget?.answer?.username ?? await Constant.getCurrentUsername();
+      //Following will result in same output every time, but it will reduce one computation.
+      _answer.userId = widget?.answer?.userId ?? await Constant.getCurrentUserDocId();
       _answer.createdOn = DateTime.now();
-      _answer.byProf = widget?.answer?.byProf ?? await Constant.isUserProf(_answer.username);
+      _answer.byProf = widget?.answer?.byProf ?? await Constant.isUserProfById(userId: _answer.userId);
       _answer.upvoteCount = 0;
       _answer.downvoteCount = 0;
       _answer.upvoters = [];

@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/answer/answer_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AnswerThumbCard extends StatelessWidget {
   final Answer answer;
@@ -71,9 +73,31 @@ class AnswerThumbCard extends StatelessWidget {
                                 size: 16.0,
                               )
                             : Container(),
-                        Text(
-                          answer.username,
-                          style: Constant.usernameStyle,
+                        StreamBuilder(
+                          stream: Firestore.instance
+                              .collection('Users')
+                              .document(answer.userId)
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Shimmer.fromColors(
+                                child: Container(
+                                  width: 100.0,
+                                  height: 18.0,
+                                  color: Colors.white,
+                                ),
+                                baseColor: Colors.grey[300],
+                                highlightColor: Colors.grey[100],
+                                period: Duration(milliseconds: 300),
+                              );
+                            } else {
+                              DocumentSnapshot userDoc = snapshot.data;
+                              return Text(
+                                userDoc.data['username'],
+                                style: Constant.usernameStyle,
+                              );
+                            }
+                          },
                         ),
                       ],
                     ),

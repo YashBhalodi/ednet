@@ -296,7 +296,7 @@ class Answer {
   String content;
   String queID;
   String id;
-  String username;
+  String userId;
   DateTime createdOn;
   List<String> upvoters;
   List<String> downvoters;
@@ -309,7 +309,7 @@ class Answer {
       {this.content,
       this.queID,
       this.id,
-      this.username,
+      this.userId,
       this.createdOn,
       this.upvoters,
       this.downvoters,
@@ -321,7 +321,7 @@ class Answer {
   Answer.fromSnapshot(DocumentSnapshot snapshot) {
     content = snapshot.data['content'];
     createdOn = (snapshot.data['createdOn'] as Timestamp)?.toDate();
-    username = snapshot.data['username'];
+    userId = snapshot.data['userid'];
     upvoteCount = snapshot.data['upvoteCount'] as int;
     downvoteCount = snapshot.data['downvoteCount'] as int;
     upvoters = snapshot.data['upvoters']?.cast<String>();
@@ -338,7 +338,7 @@ class Answer {
       await Firestore.instance.collection('Answers').add({
         'content': this.content,
         'createdOn': this.createdOn,
-        'username': this.username,
+        'userid': this.userId,
         'upvoteCount': this.upvoteCount,
         'downvoteCount': this.downvoteCount,
         'upvoters': this.upvoters,
@@ -374,7 +374,7 @@ class Answer {
       Firestore.instance.document('Answers/' + this.id).updateData({
         'content': this.content,
         'createdOn': this.createdOn,
-        'username': this.username,
+        'userid': this.userId,
         'upvoteCount': this.upvoteCount,
         'downvoteCount': this.downvoteCount,
         'upvoters': this.upvoters,
@@ -393,7 +393,7 @@ class Answer {
 
   @override
   String toString() {
-    return 'Answer{content: $content, queID: $queID, id: $id, username: $username, createdOn: $createdOn, upvoters: $upvoters, downvoters: $downvoters, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, byProf: $byProf, isDraft: $isDraft}';
+    return 'Answer{content: $content, queID: $queID, id: $id, userId: $userId, createdOn: $createdOn, upvoters: $upvoters, downvoters: $downvoters, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, byProf: $byProf, isDraft: $isDraft}';
   }
 
 //decrease answer count in question if applicable
