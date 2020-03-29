@@ -3,12 +3,13 @@ import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
 class QuestionTile extends StatelessWidget {
   final Question question;
-
-  const QuestionTile({Key key, this.question}) : super(key: key);
+  final bool scrollDescription;
+  const QuestionTile({Key key, this.question,@required this.scrollDescription}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,17 +56,26 @@ class QuestionTile extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 12.0,
+                  height: 8.0,
                 ),
                 Text(
                   question.heading,
                   style: Constant.questionHeadingStyle,
                 ),
                 SizedBox(
-                  height: 20.0,
+                  height: 8.0,
                 ),
                 //TODO deal with long description viewport blocking
-                Text(
+                scrollDescription?Container(
+                  constraints: BoxConstraints.loose(Size(double.maxFinite,100.0)),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Text(
+                      question.description,
+                      style: Constant.questionDescriptionStyle,
+                    ),
+                  ),
+                ):Text(
                   question.description,
                   style: Constant.questionDescriptionStyle,
                 ),

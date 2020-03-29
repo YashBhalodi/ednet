@@ -153,6 +153,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
                             Question q = Question.fromSnapshot(snapshot.data);
                             return QuestionTile(
                               question: q,
+                              scrollDescription: false,
                             );
                           } else {
                             return Center(
@@ -167,6 +168,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
                       )
                     : QuestionTile(
                         question: widget.question,
+                  scrollDescription: false,
                       ),
                 ListView(
                   shrinkWrap: true,
@@ -188,6 +190,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
                             _answer.content = d;
                           });
                         },
+                        autofocus: true,
                         //TODO scroll physics to "neverscrollable'
                         initialValue: widget?.answer?.content ?? null,
                         style: Constant.formFieldTextStyle,
