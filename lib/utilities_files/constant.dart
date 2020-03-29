@@ -569,12 +569,12 @@ class Constant {
     return userDoc;
   }
 
-  static Future<String> getUsernameById({@required String userId}) async {
+ /* static Future<String> getUsernameById({@required String userId}) async {
       final userDoc = await Firestore.instance.collection('Users').document(userId).get();
       return userDoc.data['username'];
-  }
+  }*/
 
-  static Future<bool> isUserProf(String username) async {
+  /*static Future<bool> isUserProf(String username) async {
     try {
       QuerySnapshot curUserQuery = await Firestore.instance
           .collection('Users')
@@ -586,7 +586,7 @@ class Constant {
       print("isUserProf");
       print(e);
     }
-  }
+  }*/
 
   static Future<bool> isUserProfById({@required String userId}) async {
       try {

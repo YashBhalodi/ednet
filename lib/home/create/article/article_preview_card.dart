@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/create/article/create_article.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ArticlePreviewCard extends StatelessWidget {
   final Article article;
@@ -92,10 +94,32 @@ class ArticlePreviewCard extends StatelessWidget {
                               size: 16.0,
                             )
                           : Container(),
-                      Text(
-                        article.username,
-                        style: Constant.usernameStyle,
-                      ),
+                      StreamBuilder(
+                        stream: Firestore.instance
+                            .collection('Users')
+                            .document(article.userId)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return Shimmer.fromColors(
+                              child: Container(
+                                width: 100.0,
+                                height: 18.0,
+                                color: Colors.white,
+                              ),
+                              baseColor: Colors.grey[300],
+                              highlightColor: Colors.grey[100],
+                              period: Duration(milliseconds: 300),
+                            );
+                          } else {
+                            DocumentSnapshot userDoc = snapshot.data;
+                            return Text(
+                              userDoc.data['username'],
+                              style: Constant.usernameStyle,
+                            );
+                          }
+                        },
+                      )
                     ],
                   ),
                 ),

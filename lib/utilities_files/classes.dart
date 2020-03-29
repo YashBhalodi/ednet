@@ -51,7 +51,6 @@ class Question {
   String description;
   DateTime createdOn;
   DateTime editedOn;
-//  String username;
   int upvoteCount;
   int downvoteCount;
   List<String> upvoters;
@@ -68,7 +67,6 @@ class Question {
       this.description,
       this.createdOn,
       this.editedOn,
-//      this.username,
       this.upvoteCount,
       this.downvoteCount,
       this.upvoters,
@@ -85,7 +83,6 @@ class Question {
     description = snapshot.data['description'];
     createdOn = (snapshot.data['createdOn'] as Timestamp)?.toDate();
     editedOn = (snapshot.data['editedOn'] as Timestamp)?.toDate();
-//    username = snapshot.data['username'];
     upvoteCount = snapshot.data['upvoteCount'] as int;
     downvoteCount = snapshot.data['downvoteCount'] as int;
     upvoters = snapshot.data['upvoters']?.cast<String>();
@@ -96,7 +93,6 @@ class Question {
     isDraft = snapshot.data['isDraft'] as bool;
     answerCount = snapshot.data['answerCount'] as int;
     userId = snapshot.data['userid'] as String;
-
   }
 
   Future<bool> uploadQuestion() async {
@@ -106,7 +102,6 @@ class Question {
         'description': this.description,
         'createdOn': this.createdOn,
         'editedOn': this.editedOn,
-//        'username': this.username,
         'upvoteCount': this.upvoteCount,
         'downvoteCount': this.downvoteCount,
         'upvoters': this.upvoters,
@@ -115,7 +110,7 @@ class Question {
         'byProf': this.byProf,
         'isDraft': this.isDraft,
         'answerCount': this.answerCount,
-        'userid':this.userId,
+        'userid': this.userId,
       });
       return true;
     } catch (e) {
@@ -138,7 +133,6 @@ class Question {
         'description': this.description,
         'createdOn': this.createdOn,
         'editedOn': this.editedOn,
-//        'username': this.username,
         'upvoteCount': this.upvoteCount,
         'downvoteCount': this.downvoteCount,
         'upvoters': this.upvoters,
@@ -147,7 +141,7 @@ class Question {
         'byProf': this.byProf,
         'isDraft': this.isDraft,
         'answerCount': this.answerCount,
-        'userid':this.userId,
+        'userid': this.userId,
       });
       return true;
     } catch (e) {
@@ -178,7 +172,8 @@ class Article {
   String content;
   DateTime createdOn;
   DateTime editedOn;
-  String username;
+
+//  String username;
   int upvoteCount;
   int downvoteCount;
   List<String> upvoters;
@@ -187,6 +182,7 @@ class Article {
   String id;
   bool byProf;
   bool isDraft;
+  String userId;
 
   Article(
       {this.title,
@@ -194,7 +190,7 @@ class Article {
       this.content,
       this.createdOn,
       this.editedOn,
-      this.username,
+//      this.username,
       this.upvoteCount,
       this.downvoteCount,
       this.upvoters,
@@ -202,7 +198,8 @@ class Article {
       this.topics,
       this.id,
       this.byProf,
-      this.isDraft});
+      this.isDraft,
+      this.userId});
 
   Article.fromSnapshot(DocumentSnapshot snapshot) {
     title = snapshot.data['title'];
@@ -210,7 +207,7 @@ class Article {
     content = snapshot.data['content'];
     createdOn = (snapshot.data['createdOn'] as Timestamp)?.toDate();
     editedOn = (snapshot.data['editedOn'] as Timestamp)?.toDate();
-    username = snapshot.data['username'];
+//    username = snapshot.data['username'];
     upvoteCount = snapshot.data['upvoteCount'] as int;
     downvoteCount = snapshot.data['downvoteCount'] as int;
     upvoters = snapshot.data['upvoters']?.cast<String>();
@@ -219,11 +216,12 @@ class Article {
     id = snapshot.documentID;
     byProf = snapshot.data['byProf'] as bool;
     isDraft = snapshot.data['isDraft'] as bool;
+    userId = snapshot.data['userid'] as String;
   }
 
   @override
   String toString() {
-    return 'Article{title: $title, subtitle: $subtitle, content: $content, createdOn: $createdOn, editedOn: $editedOn, username: $username, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft}';
+    return 'Article{title: $title, subtitle: $subtitle, content: $content, createdOn: $createdOn, editedOn: $editedOn, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, userId: $userId}';
   }
 
   Future<bool> updateArticle() async {
@@ -235,7 +233,7 @@ class Article {
         'content': this.content,
         'createdOn': this.createdOn,
         'editedOn': this.editedOn,
-        'username': this.username,
+//        'username': this.username,
         'upvoteCount': this.upvoteCount,
         'downvoteCount': this.downvoteCount,
         'upvoters': this.upvoters,
@@ -243,6 +241,7 @@ class Article {
         'topic': this.topics,
         'byProf': this.byProf,
         'isDraft': this.isDraft,
+        'userid': this.userId,
       });
       return true;
     } catch (e) {
@@ -260,7 +259,7 @@ class Article {
         'content': this.content,
         'createdOn': this.createdOn,
         'editedOn': this.editedOn,
-        'username': this.username,
+//        'username': this.username,
         'upvoteCount': this.upvoteCount,
         'downvoteCount': this.downvoteCount,
         'upvoters': this.upvoters,
@@ -268,6 +267,7 @@ class Article {
         'topic': this.topics,
         'byProf': this.byProf,
         'isDraft': this.isDraft,
+        'userid': this.userId,
       });
       return true;
     } catch (e) {
@@ -305,8 +305,18 @@ class Answer {
   bool byProf;
   bool isDraft;
 
-  Answer({this.content, this.queID, this.id, this.username, this.createdOn, this.upvoters,
-      this.downvoters, this.upvoteCount, this.downvoteCount, this.byProf, this.isDraft});
+  Answer(
+      {this.content,
+      this.queID,
+      this.id,
+      this.username,
+      this.createdOn,
+      this.upvoters,
+      this.downvoters,
+      this.upvoteCount,
+      this.downvoteCount,
+      this.byProf,
+      this.isDraft});
 
   Answer.fromSnapshot(DocumentSnapshot snapshot) {
     content = snapshot.data['content'];
@@ -359,27 +369,27 @@ class Answer {
     }
   }
 
-Future<bool> update() async {
+  Future<bool> update() async {
     try {
-      Firestore.instance.document('Answers/'+this.id).updateData({
-            'content': this.content,
-            'createdOn': this.createdOn,
-            'username': this.username,
-            'upvoteCount': this.upvoteCount,
-            'downvoteCount': this.downvoteCount,
-            'upvoters': this.upvoters,
-            'downvoters': this.downvoters,
-            'byProf': this.byProf,
-            'isDraft': this.isDraft,
-            'questionId': this.queID,
-          });
+      Firestore.instance.document('Answers/' + this.id).updateData({
+        'content': this.content,
+        'createdOn': this.createdOn,
+        'username': this.username,
+        'upvoteCount': this.upvoteCount,
+        'downvoteCount': this.downvoteCount,
+        'upvoters': this.upvoters,
+        'downvoters': this.downvoters,
+        'byProf': this.byProf,
+        'isDraft': this.isDraft,
+        'questionId': this.queID,
+      });
       return true;
     } catch (e) {
       print("Answer.update()");
       print(e);
       return false;
     }
-}
+  }
 
   @override
   String toString() {
@@ -387,16 +397,16 @@ Future<bool> update() async {
   }
 
 //decrease answer count in question if applicable
- Future<bool> delete() async {
+  Future<bool> delete() async {
     try {
-      Firestore.instance.document('Answers/'+this.id).delete();
+      Firestore.instance.document('Answers/' + this.id).delete();
       return true;
     } catch (e) {
       print("Answer.delete()");
       print(e);
       return false;
     }
- }
+  }
 
 //TODO upvote answer
 
