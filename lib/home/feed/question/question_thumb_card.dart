@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/question/question_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
@@ -104,8 +105,11 @@ class QuestionThumbCard extends StatelessWidget {
                                 size: 16.0,
                               )
                             : Container(),
-                        FutureBuilder(
-                          future: Constant.getUsernameById(userId: question.userId),
+                        StreamBuilder(
+                          stream: Firestore.instance
+                              .collection('Users')
+                              .document(question.userId)
+                              .snapshots(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
                               return Shimmer.fromColors(
@@ -119,8 +123,9 @@ class QuestionThumbCard extends StatelessWidget {
                                 period: Duration(milliseconds: 300),
                               );
                             } else {
+                              DocumentSnapshot userDoc = snapshot.data;
                               return Text(
-                                snapshot.data,
+                                userDoc.data['username'],
                                 style: Constant.usernameStyle,
                               );
                             }

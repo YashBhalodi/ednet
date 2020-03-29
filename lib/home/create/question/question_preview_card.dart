@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
@@ -85,28 +86,32 @@ class QuestionPreviewCard extends StatelessWidget {
                               size: 16.0,
                             )
                           : Container(),
-                      FutureBuilder(
-                        future: Constant.getUsernameById(userId: question.userId),
+                      StreamBuilder(
+                        stream: Firestore.instance
+                            .collection('Users')
+                            .document(question.userId)
+                            .snapshots(),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
                             return Shimmer.fromColors(
-                                                        child: Container(
-                                                          width: 100.0,
-                                                          height: 18.0,
-                                                          color: Colors.white,
-                                                        ),
-                                                        baseColor: Colors.grey[300],
-                                                        highlightColor: Colors.grey[100],
-                                                        period: Duration(milliseconds: 300),
-                                                      );
+                              child: Container(
+                                width: 100.0,
+                                height: 18.0,
+                                color: Colors.white,
+                              ),
+                              baseColor: Colors.grey[300],
+                              highlightColor: Colors.grey[100],
+                              period: Duration(milliseconds: 300),
+                            );
                           } else {
+                            DocumentSnapshot userDoc = snapshot.data;
                             return Text(
-                              snapshot.data,
+                              userDoc.data['username'],
                               style: Constant.usernameStyle,
                             );
                           }
                         },
-                      ),
+                      )
                     ],
                   ),
                 ),
