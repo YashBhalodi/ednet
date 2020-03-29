@@ -469,19 +469,25 @@ class Constant {
         ),
       ),
       title: Text(title),
-      contentPadding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0.0),
+      contentPadding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
       content: Column(
+          mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+
         children: <Widget>[
-          Text(msg),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal:20.0),
+            child: Text(msg),
+          ),
           SizedBox(
             height: 32.0,
           ),
           SizedBox(
-              height: 32.0,
+              height: 40.0,
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Expanded(
                   child: RaisedButton(
@@ -498,9 +504,9 @@ class Constant {
                     color: Colors.white,
                     child: Text(
                       "Delete",
-                      style: negativeCTATextStyle,
+                      style: TextStyle(color: Colors.red,fontSize: 18.0,fontWeight: FontWeight.w500),
                     ),
-                    padding: Constant.raisedButtonPaddingMedium,
+                    padding: Constant.raisedButtonPaddingLow,
                     onPressed: deleteCallback,
                   ),
                 ),
@@ -517,11 +523,11 @@ class Constant {
                         ),
                     ),
                     color: Colors.blue[800],
-                    padding: Constant.raisedButtonPaddingMedium,
+                    padding: Constant.raisedButtonPaddingLow,
                     onPressed: deleteCallback,
                     child: Text(
                       "Cancle",
-                      style: primaryCTATextStyle,
+                      style: TextStyle(color: Colors.white,fontSize: 18.0,fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),

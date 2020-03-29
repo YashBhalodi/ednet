@@ -226,6 +226,8 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         context: context,
         builder: (context) {
           return AlertDialog(
+              title: Text("Logging In..."),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0),),),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[

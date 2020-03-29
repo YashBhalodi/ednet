@@ -73,7 +73,7 @@ class _StudentProfileSetupState extends State<StudentProfileSetup> {
                             padding: Constant.edgePadding,
                             color: Colors.green[50],
                             child: Text(
-                                _progressValue == 1 ? "Almost Done..." : "Let's set up your home.profile...",
+                                _progressValue == 1 ? "Almost Done..." : "Let's set up your profile...",
                                 style: TextStyle(
                                     color: Colors.green[900],
                                     fontSize: 20.0,
