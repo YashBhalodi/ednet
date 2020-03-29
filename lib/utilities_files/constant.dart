@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:ednet/utilities_files/classes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -500,6 +501,128 @@ class Constant {
       print(e);
       return false;
     }
+  }
+
+  static void userProfileView(context, {@required String userId}) async {
+    showModalBottomSheet(
+        context: context,
+        elevation: 5.0,
+        backgroundColor: Colors.grey[200],
+        isDismissible: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(16.0),
+            topLeft: Radius.circular(16.0),
+          ),
+        ),
+        builder: (BuildContext context) {
+          return StreamBuilder(
+              stream: Firestore.instance.collection('Users').document(userId).snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  User user = User.fromSnapshot(snapshot.data);
+                  return Container(
+                    padding: Constant.edgePadding,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              user.userName,
+                              style: Constant.sectionSubHeadingStyle,
+                            ),
+                            user.isProf
+                                ? Icon(
+                                    Icons.star,
+                                    color: Colors.orangeAccent,
+                                    size: 24.0,
+                                  )
+                                : Container(),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        Text(
+                          user.fname + " " + user.lname,
+                          style: Constant.sectionSubHeadingDescriptionStyle,
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        Text(user.bio),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            user.isProf
+                                ? Text("Professor")
+                                : (user.isAdmin ? Text("Admin") : Text("Student")),
+                            Text(" @ " + user.university),
+                          ],
+                        ),
+                          SizedBox(height: 8.0,),
+                          SingleChildScrollView(
+                              padding: EdgeInsets.all(0.0),
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                  children: List.generate(user.topics.length, (i) {
+                                      return Padding(
+                                          padding: const EdgeInsets.only(right: 4.0),
+                                          child: Chip(
+                                              label: Text(
+                                                  user.topics[i],
+                                                  style: Constant.topicStyle,
+                                              ),
+                                              backgroundColor: Colors.grey[300],
+                                          ),
+                                      );
+                                  }),
+                              ),
+                          ),
+                        SizedBox(height: 8.0,),
+                        SizedBox(
+                            width: double.maxFinite,
+                          child: RaisedButton(
+                            onPressed: () {
+                                //TODO Navigate to user content screen.
+                                //If the current user page then profile
+                                //else, don't show the "Drafts" tab
+                            },
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              side: BorderSide(color: Colors.blue[500], width: 2.0),
+                            ),
+                            color: Colors.white,
+                              padding: Constant.raisedButtonPaddingMedium,
+                            child: Text(
+                              "Explore Content",
+                              style: Constant.secondaryBlueTextStyle,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return SizedBox(
+                    height: 28.0,
+                    width: 28.0,
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              });
+        });
   }
 
   static String formatDateTime(DateTime timestamp) {

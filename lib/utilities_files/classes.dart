@@ -47,6 +47,11 @@ class User {
   String toString() {
     return 'User{email: $email, userName: $userName, isAdmin: $isAdmin, isProf: $isProf, isProfileSet: $isProfileSet, university: $university, fname: $fname, lname: $lname, bio: $bio, mobile: $mobile, topics: $topics, id: $id}';
   }
+
+  static Future<User> getUserFromID(String id) async {
+    DocumentSnapshot userDoc = await Firestore.instance.collection('Users').document(id).get();
+    return User.fromSnapshot(userDoc);
+  }
 }
 
 class Question {

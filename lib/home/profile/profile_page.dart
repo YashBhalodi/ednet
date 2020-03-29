@@ -33,6 +33,11 @@ class _ProfilePageState extends State<ProfilePage> {
       child: DefaultTabController(
         length: 4,
         child: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: (){
+              Constant.userProfileView(context, userId: currentUser.id);
+            },
+          ),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

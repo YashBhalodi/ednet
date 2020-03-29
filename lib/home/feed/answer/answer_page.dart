@@ -71,62 +71,67 @@ class AnswerPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Text(
-                                "Answered by",
-                                style: Constant.dateTimeStyle,
-                              ),
-                              SizedBox(
-                                height: 8.0,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.person,
-                                    size: 20.0,
-                                  ),
-                                  answer.byProf
-                                      ? Icon(
-                                          Icons.star,
-                                          color: Colors.orangeAccent,
-                                          size: 20.0,
-                                        )
-                                      : Container(),
-                                  StreamBuilder(
-                                    stream: Firestore.instance
-                                        .collection('Users')
-                                        .document(answer.userId)
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return Shimmer.fromColors(
-                                          child: Container(
-                                            width: 100.0,
-                                            height: 18.0,
-                                            color: Colors.white,
-                                          ),
-                                          baseColor: Colors.grey[300],
-                                          highlightColor: Colors.grey[100],
-                                          period: Duration(milliseconds: 300),
-                                        );
-                                      } else {
-                                        DocumentSnapshot userDoc = snapshot.data;
-                                        return Text(
-                                          userDoc.data['username'],
-                                          style: Constant.usernameStyle,
-                                        );
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
+                          child: GestureDetector(
+                            onTap: (){
+                              Constant.userProfileView(context, userId: answer.userId);
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  "Answered by",
+                                  style: Constant.dateTimeStyle,
+                                ),
+                                SizedBox(
+                                  height: 8.0,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.person,
+                                      size: 20.0,
+                                    ),
+                                    answer.byProf
+                                        ? Icon(
+                                            Icons.star,
+                                            color: Colors.orangeAccent,
+                                            size: 20.0,
+                                          )
+                                        : Container(),
+                                    StreamBuilder(
+                                      stream: Firestore.instance
+                                          .collection('Users')
+                                          .document(answer.userId)
+                                          .snapshots(),
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return Shimmer.fromColors(
+                                            child: Container(
+                                              width: 100.0,
+                                              height: 18.0,
+                                              color: Colors.white,
+                                            ),
+                                            baseColor: Colors.grey[300],
+                                            highlightColor: Colors.grey[100],
+                                            period: Duration(milliseconds: 300),
+                                          );
+                                        } else {
+                                          DocumentSnapshot userDoc = snapshot.data;
+                                          return Text(
+                                            userDoc.data['username'],
+                                            style: Constant.usernameStyle,
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         Expanded(
