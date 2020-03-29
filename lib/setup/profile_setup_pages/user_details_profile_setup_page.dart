@@ -126,7 +126,6 @@ class _UserDetailsState extends State<UserDetails> {
           TextFormField(
             onSaved: (value) {
               _inputFname = value;
-              print("122:--_inputFname:-$_inputLname");
             },
             onEditingComplete: () {
               FocusScope.of(context).requestFocus(_lNameFocus);
@@ -234,7 +233,6 @@ class _UserDetailsState extends State<UserDetails> {
               focusedBorder: Constant.formFieldFocusedBorder,
               labelText: "Username",
               labelStyle: Constant.formFieldLabelStyle,
-              helperText: "Can't be changed later.",
             ),
             focusNode: _userNameFocus,
           ),

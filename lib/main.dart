@@ -67,8 +67,12 @@ class _EntryPointState extends State<EntryPoint> {
                   default:
                     if (!futureSnapshot.hasError) {
                       return futureSnapshot.data.getBool("welcome") != null
-                             ? Onboarding(isLogin: true,)
-                             : Onboarding(isLogin: false,);
+                          ? Onboarding(
+                              isLogin: true,
+                            )
+                          : Onboarding(
+                              isLogin: false,
+                            );
                     } else {
                       return Scaffold(
                         body: Container(
@@ -87,13 +91,15 @@ class _EntryPointState extends State<EntryPoint> {
               QuerySnapshot userProfileResponse;
               try {
                 userProfileResponse = await Firestore.instance
-                                  .collection('Users')
-                                  .where('email', isEqualTo: user.email)
-                                  .getDocuments();
+                    .collection('Users')
+                    .where('email', isEqualTo: user.email)
+                    .getDocuments();
                 String uniName = userProfileResponse.documents[0].data['university'];
-                final universityResponse = await Firestore.instance.collection('University').where('name',isEqualTo: uniName).getDocuments();
+                final universityResponse = await Firestore.instance
+                    .collection('University')
+                    .where('name', isEqualTo: uniName)
+                    .getDocuments();
                 universitySnap = universityResponse.documents[0];
-
               } catch (e) {
                 print("retrieveData:-");
                 print(e);
@@ -137,20 +143,26 @@ class _EntryPointState extends State<EntryPoint> {
                       DocumentSnapshot userDocSnapshot = profileSnapshot.data.documents[0];
                       bool isProfileSet = userDocSnapshot['isProfileSet'];
                       if (isProfileSet) {
-                        return Home(userSnap: userDocSnapshot,);
+                        return Home(
+                          userSnap: userDocSnapshot,
+                        );
                       } else {
                         bool isAdmin = userDocSnapshot['isAdmin'] as bool;
-                        if(isAdmin){
-                          return AdminProfileSetup(userSnap: userDocSnapshot,universitySnap: universitySnap);
+                        if (isAdmin) {
+                          return AdminProfileSetup(
+                              userSnap: userDocSnapshot, universitySnap: universitySnap);
                         } else {
-                          return StudentProfileSetup(userSnap: userDocSnapshot,);
+                          return StudentProfileSetup(
+                            userSnap: userDocSnapshot,
+                          );
                         }
                       }
                     } else {
                       return Scaffold(
                         body: Container(
                           child: Center(
-                            child: Text("Error"+snapshot.error.toString(),
+                            child: Text(
+                              "Error" + snapshot.error.toString(),
                             ),
                           ),
                         ),
@@ -187,4 +199,3 @@ class _EntryPointState extends State<EntryPoint> {
     );
   }
 }
-

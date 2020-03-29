@@ -12,6 +12,7 @@ class AnswerPage extends StatelessWidget {
   final Question question;
 
   const AnswerPage({Key key, this.answer, this.question}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,38 +28,43 @@ class AnswerPage extends StatelessWidget {
               shrinkWrap: true,
               children: <Widget>[
                 question == null
-                ? StreamBuilder(
-                  stream: Firestore.instance
-                      .collection('Questions')
-                      .document(answer.queID)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.active) {
-                      Question q = Question.fromSnapshot(snapshot.data);
-                      return QuestionTile(
-                        question: q,
-                      );
-                    } else {
-                      return Center(
-                        child: SizedBox(
-                          height: 32.0,
-                          width: 32.0,
-                          child: Constant.greenCircularProgressIndicator,
-                        ),
-                      );
-                    }
-                  },
-                )
-                : QuestionTile(
-                  question: question,
-                ),
+                    ? StreamBuilder(
+                        stream: Firestore.instance
+                            .collection('Questions')
+                            .document(answer.queID)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.active) {
+                            Question q = Question.fromSnapshot(snapshot.data);
+                            return QuestionTile(
+                              question: q,
+                            );
+                          } else {
+                            return Center(
+                              child: SizedBox(
+                                height: 32.0,
+                                width: 32.0,
+                                child: Constant.greenCircularProgressIndicator,
+                              ),
+                            );
+                          }
+                        },
+                      )
+                    : QuestionTile(
+                        question: question,
+                      ),
                 ListView(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   padding: Constant.edgePadding,
                   children: <Widget>[
-                    Text(answer.content,style: Constant.answerContentStyle,),
-                    SizedBox(height: 32.0,),
+                    Text(
+                      answer.content,
+                      style: Constant.answerContentStyle,
+                    ),
+                    SizedBox(
+                      height: 32.0,
+                    ),
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,8 +76,13 @@ class AnswerPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              Text("Answered by",style: Constant.dateTimeStyle,),
-                              SizedBox(height: 8.0,),
+                              Text(
+                                "Answered by",
+                                style: Constant.dateTimeStyle,
+                              ),
+                              SizedBox(
+                                height: 8.0,
+                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -81,12 +92,12 @@ class AnswerPage extends StatelessWidget {
                                     size: 20.0,
                                   ),
                                   answer.byProf
-                                  ? Icon(
-                                    Icons.star,
-                                    color: Colors.orangeAccent,
-                                    size: 20.0,
-                                  )
-                                  : Container(),
+                                      ? Icon(
+                                          Icons.star,
+                                          color: Colors.orangeAccent,
+                                          size: 20.0,
+                                        )
+                                      : Container(),
                                   StreamBuilder(
                                     stream: Firestore.instance
                                         .collection('Users')
@@ -124,8 +135,13 @@ class AnswerPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              Text("On",style: Constant.dateTimeStyle,),
-                              SizedBox(height: 8.0,),
+                              Text(
+                                "On",
+                                style: Constant.dateTimeStyle,
+                              ),
+                              SizedBox(
+                                height: 8.0,
+                              ),
                               Text(
                                 Constant.formatDateTime(answer.createdOn),
                                 style: Constant.dateTimeMediumStyle,
@@ -167,7 +183,9 @@ class AnswerPage extends StatelessWidget {
                       style: Constant.sectionSubHeadingDescriptionStyle,
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 32.0,),
+                    SizedBox(
+                      height: 32.0,
+                    ),
                   ],
                 )
               ],
@@ -182,7 +200,7 @@ class AnswerPage extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: UpvoteButton(
-                    callback: (){
+                    callback: () {
                       //TODO implement upvote function
                     },
                     count: answer.upvoteCount,
@@ -190,7 +208,7 @@ class AnswerPage extends StatelessWidget {
                 ),
                 Expanded(
                   child: DownvoteButton(
-                    callback: (){
+                    callback: () {
                       //TODO implement downvote function
                     },
                     count: answer.downvoteCount,

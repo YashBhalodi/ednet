@@ -50,7 +50,7 @@ class CreateContent extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                       return CreateQuestion();
                     }));
                   },
@@ -93,7 +93,7 @@ class CreateContent extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                       return CreateArticle();
                     }));
                   },

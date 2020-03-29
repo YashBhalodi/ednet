@@ -55,8 +55,13 @@ class ArticlePage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Text("Written by",style: Constant.dateTimeStyle,),
-                            SizedBox(height: 8.0,),
+                            Text(
+                              "Written by",
+                              style: Constant.dateTimeStyle,
+                            ),
+                            SizedBox(
+                              height: 8.0,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -98,7 +103,6 @@ class ArticlePage extends StatelessWidget {
                                     }
                                   },
                                 )
-
                               ],
                             ),
                           ],
@@ -110,8 +114,13 @@ class ArticlePage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Text("On",style: Constant.dateTimeStyle,),
-                            SizedBox(height: 8.0,),
+                            Text(
+                              "On",
+                              style: Constant.dateTimeStyle,
+                            ),
+                            SizedBox(
+                              height: 8.0,
+                            ),
                             Text(
                               Constant.formatDateTime(article.createdOn),
                               style: Constant.dateTimeMediumStyle,

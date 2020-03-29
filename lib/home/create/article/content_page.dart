@@ -6,14 +6,17 @@ class ContentPage extends StatefulWidget {
   final Article article;
   final PageController parentPageController;
 
-  const ContentPage({Key key,@required this.article,@required this.parentPageController}) : super(key: key);
+  const ContentPage({Key key, @required this.article, @required this.parentPageController})
+      : super(key: key);
+
   @override
   _ContentPageState createState() => _ContentPageState();
 }
 
-class _ContentPageState extends State<ContentPage> with AutomaticKeepAliveClientMixin{
+class _ContentPageState extends State<ContentPage> with AutomaticKeepAliveClientMixin {
   ScrollController _scrollController = ScrollController();
   TextEditingController _contentController;
+
   @override
   void initState() {
     super.initState();
@@ -50,10 +53,6 @@ class _ContentPageState extends State<ContentPage> with AutomaticKeepAliveClient
           height: 64.0,
         ),
         TextFormField(
-          /*onTap: () {
-            _scrollController.animateTo(175.0,
-                duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
-          },*/
           onEditingComplete: () {
             widget.parentPageController
                 .nextPage(duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);

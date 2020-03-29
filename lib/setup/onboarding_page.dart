@@ -77,7 +77,8 @@ class _OnboardingState extends State<Onboarding> {
                           ? null
                           : () {
                               _pageController.previousPage(
-                                  duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);
+                                  duration: Constant.pageAnimationDuration,
+                                  curve: Curves.easeInOut);
                             },
                       padding: Constant.raisedButtonPaddingLow,
                       shape: RoundedRectangleBorder(
@@ -102,7 +103,8 @@ class _OnboardingState extends State<Onboarding> {
                           ? null
                           : () {
                               _pageController.nextPage(
-                                  duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);
+                                  duration: Constant.pageAnimationDuration,
+                                  curve: Curves.easeInOut);
                             },
                       padding: Constant.raisedButtonPaddingLow,
                       shape: RoundedRectangleBorder(
@@ -123,19 +125,6 @@ class _OnboardingState extends State<Onboarding> {
             ),
           ],
         ),
-        /*floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            SharedPreferences pref = await SharedPreferences.getInstance();
-            pref.setBool("welcome", true);
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) {
-                  return LoginPage();
-                },
-              ),
-            );
-          },
-        ),*/
       ),
     );
   }
@@ -207,14 +196,15 @@ class Page5 extends StatelessWidget {
                     height: 24.0,
                   ),
                   SecondaryCTA(
-                    child: Text(
-                      "Sign up instruction",
-                      style: Constant.secondaryCTATextStyle
-                    ),
+                    child: Text("Sign up instruction", style: Constant.secondaryCTATextStyle),
                     callback: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                        return SignUpInstruction();
-                      }));
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return SignUpInstruction();
+                          },
+                        ),
+                      );
                     },
                   )
                 ],
@@ -227,6 +217,7 @@ class Page5 extends StatelessWidget {
   }
 }
 
+//TODO Fill the content of onboarding
 class Page1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

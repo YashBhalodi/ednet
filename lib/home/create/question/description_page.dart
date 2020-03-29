@@ -6,14 +6,17 @@ class DescriptionPage extends StatefulWidget {
   final Question question;
   final PageController parentPageController;
 
-  const DescriptionPage({Key key,@required this.question,@required this.parentPageController}) : super(key: key);
-    @override
+  const DescriptionPage({Key key, @required this.question, @required this.parentPageController})
+      : super(key: key);
+
+  @override
   _DescriptionPageState createState() => _DescriptionPageState();
 }
 
-class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAliveClientMixin{
+class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAliveClientMixin {
   ScrollController _scrollController = ScrollController();
   TextEditingController _descriptionController;
+
   @override
   void initState() {
     super.initState();
@@ -30,7 +33,7 @@ class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAli
   @override
   Widget build(BuildContext context) {
     super.build(context);
-      return ListView(
+    return ListView(
       shrinkWrap: true,
       padding: Constant.edgePadding,
       controller: _scrollController,
@@ -50,10 +53,6 @@ class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAli
           height: 64.0,
         ),
         TextFormField(
-          /*onTap: () {
-            _scrollController.animateTo(200.0,
-                duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
-          },*/
           onEditingComplete: () {
             widget.parentPageController
                 .nextPage(duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);

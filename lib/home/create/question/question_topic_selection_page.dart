@@ -20,7 +20,8 @@ class QuestionTopicSelection extends StatefulWidget {
   _QuestionTopicSelectionState createState() => _QuestionTopicSelectionState();
 }
 
-class _QuestionTopicSelectionState extends State<QuestionTopicSelection> with AutomaticKeepAliveClientMixin {
+class _QuestionTopicSelectionState extends State<QuestionTopicSelection>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -50,7 +51,10 @@ class _QuestionTopicSelectionState extends State<QuestionTopicSelection> with Au
                 if (snapshot.data.documents.length == 0) {
                   return Center(
                     child: Container(
-                      child: Text("No topics created yet.\n\nPlease save your progress as Draft \nand try again at your leisure.",textAlign: TextAlign.center,),
+                      child: Text(
+                        "No topics created yet.\n\nPlease save your progress as Draft \nand try again at your leisure.",
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   );
                 } else {

@@ -398,4 +398,98 @@ class DownvoteButton extends StatelessWidget {
   }
 }
 
+class DeleteConfirmationAlert extends StatelessWidget {
+  final String title;
+  final String msg;
+  final Function deleteCallback;
+  final Function cancelCallback;
+
+  const DeleteConfirmationAlert({Key key, this.title, this.msg, this.deleteCallback, this.cancelCallback}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(16.0),
+        ),
+      ),
+      title: Text(title),
+      contentPadding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(msg),
+          ),
+          SizedBox(
+            height: 32.0,
+          ),
+          SizedBox(
+            height: 40.0,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Colors.red,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16.0),
+                        bottomLeft: Radius.circular(16.0),
+                      ),
+                    ),
+                    color: Colors.white,
+                    child: Text(
+                      "Delete",
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    padding: Constant.raisedButtonPaddingLow,
+                    onPressed: deleteCallback,
+                  ),
+                ),
+                Expanded(
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(16.0),
+                        topRight: Radius.circular(16.0),
+                      ),
+                      side: BorderSide(
+                        color: Colors.blue[700],
+                        width: 1.0,
+                      ),
+                    ),
+                    color: Colors.blue[800],
+                    padding: Constant.raisedButtonPaddingLow,
+                    onPressed: cancelCallback,
+                    child: Text(
+                      "Cancle",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
 

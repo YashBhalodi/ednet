@@ -52,7 +52,7 @@ class _ArticlePreviewState extends State<ArticlePreview> {
                 ),
               )
             : Expanded(
-              child: ListView(
+                child: ListView(
                   shrinkWrap: true,
                   children: <Widget>[
                     ArticlePreviewCard(
@@ -60,7 +60,7 @@ class _ArticlePreviewState extends State<ArticlePreview> {
                     ),
                   ],
                 ),
-            ),
+              ),
       ],
     );
   }

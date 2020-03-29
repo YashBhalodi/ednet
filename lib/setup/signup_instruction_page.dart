@@ -36,7 +36,7 @@ class InstructionBox extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(2),
+      padding: EdgeInsets.all(4),
       height: 120,
       child: Card(
         child: Row(

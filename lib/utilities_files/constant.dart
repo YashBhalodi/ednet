@@ -120,13 +120,15 @@ class Constant {
       );
 
   static get pageAnimationDuration => Duration(
-        milliseconds: 600,
+        milliseconds: 500,
       );
 
-  //TODO style this
-  static get bottomNavigationTitleStyle => TextStyle();
+  static get bottomNavigationTitleStyle => TextStyle(
+        fontSize: 16.0,
+        fontWeight: FontWeight.w500,
+        color: Colors.blue[800],
+      );
 
-  //TODO style this
   static get appDrawerMenuStyle => TextStyle();
 
   static get menuButtonTextStyle => TextStyle(
@@ -360,6 +362,7 @@ class Constant {
 
   static String questionHeadingValidator(value) {
     if (value.length < 10) {
+      Constant.showToastInstruction("Heading needs atleast 10 characters");
       return "Heading needs atleast 10 characters";
     } else {
       return null;
@@ -368,6 +371,7 @@ class Constant {
 
   static String questionDescriptionValidator(value) {
     if (value.length < 20) {
+      Constant.showToastInstruction("Question Description should be at least 20 characters.");
       return "Please, describe question in atleast 20 characters";
     } else {
       return null;
@@ -376,6 +380,7 @@ class Constant {
 
   static String articleTitleValidator(value) {
     if (value.length < 10) {
+      Constant.showToastInstruction("Article title should be atleast 10 charactes long");
       return "Article title should be atleast 10 charactes long";
     } else {
       return null;
@@ -384,6 +389,8 @@ class Constant {
 
   static String articleSubtitleValidator(value) {
     if (value.length < 20) {
+      Constant.showToastInstruction("Article Subtitle should be atleast 20 charactes long");
+
       return "Article Subtitle should be atleast 20 charactes long";
     } else {
       return null;
@@ -392,6 +399,8 @@ class Constant {
 
   static String articleContentValidator(value) {
     if (value.length < 100) {
+      Constant.showToastInstruction("Article content should be atleast 100 charactes long");
+
       return "Article content should be atleast 100 charactes long";
     } else {
       return null;
@@ -469,95 +478,6 @@ class Constant {
     }
   }
 
-  static Widget deleteConfirmationAlertBox(
-      {String title, String msg, Function deleteCallback, Function cancelCallback}) {
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(16.0),
-        ),
-      ),
-      title: Text(title),
-      contentPadding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Text(msg),
-          ),
-          SizedBox(
-            height: 32.0,
-          ),
-          SizedBox(
-            height: 40.0,
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Expanded(
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: Colors.red,
-                        width: 2.0,
-                      ),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(16.0),
-                        bottomLeft: Radius.circular(16.0),
-                      ),
-                    ),
-                    color: Colors.white,
-                    child: Text(
-                      "Delete",
-                      style:
-                          TextStyle(color: Colors.red, fontSize: 18.0, fontWeight: FontWeight.w500),
-                    ),
-                    padding: Constant.raisedButtonPaddingLow,
-                    onPressed: deleteCallback,
-                  ),
-                ),
-                Expanded(
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(16.0),
-                        topRight: Radius.circular(16.0),
-                      ),
-                      side: BorderSide(
-                        color: Colors.blue[700],
-                        width: 2.0,
-                      ),
-                    ),
-                    color: Colors.blue[800],
-                    padding: Constant.raisedButtonPaddingLow,
-                    onPressed: deleteCallback,
-                    child: Text(
-                      "Cancle",
-                      style: TextStyle(
-                          color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  /*static Future<DocumentReference> getUserDocRef(String username) async {
-    QuerySnapshot curUserQuery = await Firestore.instance
-        .collection('Users')
-        .where('username', isEqualTo: username)
-        .getDocuments();
-    DocumentReference userDoc = curUserQuery.documents[0].reference;
-    return userDoc;
-  }*/
-
   static Future<DocumentReference> getCurrentUserDoc() async {
     FirebaseUser curUser = await FirebaseAuth.instance.currentUser();
     String email = curUser.email;
@@ -569,36 +489,17 @@ class Constant {
     return userDoc;
   }
 
- /* static Future<String> getUsernameById({@required String userId}) async {
-      final userDoc = await Firestore.instance.collection('Users').document(userId).get();
-      return userDoc.data['username'];
-  }*/
-
-  /*static Future<bool> isUserProf(String username) async {
+  static Future<bool> isUserProfById({@required String userId}) async {
     try {
-      QuerySnapshot curUserQuery = await Firestore.instance
-          .collection('Users')
-          .where('username', isEqualTo: username)
-          .getDocuments();
-      bool isProf = curUserQuery.documents[0].data['isProf'] as bool;
+      DocumentSnapshot curUser =
+          await Firestore.instance.collection('Users').document(userId).get();
+      bool isProf = curUser.data['isProf'] as bool;
       return isProf;
     } catch (e) {
-      print("isUserProf");
+      print("isUserProfId");
       print(e);
+      return false;
     }
-  }*/
-
-  static Future<bool> isUserProfById({@required String userId}) async {
-      try {
-          DocumentSnapshot curUser = await Firestore.instance
-              .collection('Users')
-              .document(userId).get();
-          bool isProf = curUser.data['isProf'] as bool;
-          return isProf;
-      } catch (e) {
-          print("isUserProf by id");
-          print(e);
-      }
   }
 
   static String formatDateTime(DateTime timestamp) {

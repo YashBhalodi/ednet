@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class HeadingPage extends StatefulWidget {
   final Question question;
   final PageController parentPageController;
+
   const HeadingPage({Key key, @required this.question, @required this.parentPageController})
       : super(key: key);
 
@@ -12,7 +13,7 @@ class HeadingPage extends StatefulWidget {
   _HeadingPageState createState() => _HeadingPageState();
 }
 
-class _HeadingPageState extends State<HeadingPage> with AutomaticKeepAliveClientMixin{
+class _HeadingPageState extends State<HeadingPage> with AutomaticKeepAliveClientMixin {
   TextEditingController _headingController;
   ScrollController _scrollController;
 
@@ -32,7 +33,7 @@ class _HeadingPageState extends State<HeadingPage> with AutomaticKeepAliveClient
 
   @override
   Widget build(BuildContext context) {
-      super.build(context);
+    super.build(context);
     return ListView(
       shrinkWrap: true,
       padding: Constant.edgePadding,
@@ -53,10 +54,6 @@ class _HeadingPageState extends State<HeadingPage> with AutomaticKeepAliveClient
           height: 64.0,
         ),
         TextFormField(
-          /*onTap: () {
-            _scrollController.animateTo(200.0,
-                duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
-          },*/
           onEditingComplete: () {
             widget.parentPageController
                 .nextPage(duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);

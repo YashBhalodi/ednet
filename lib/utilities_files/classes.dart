@@ -12,6 +12,7 @@ class User {
   String bio;
   String mobile;
   List<String> topics;
+  String id;
 
   User(
       {this.email,
@@ -24,10 +25,12 @@ class User {
       this.lname,
       this.bio,
       this.mobile,
-      this.topics});
+      this.topics,
+      this.id});
 
   User.fromSnapshot(DocumentSnapshot snapshot) {
     isAdmin = snapshot.data['isAdmin'] as bool;
+    id = snapshot.documentID;
     email = snapshot.data['email'] as String;
     isProfileSet = snapshot.data['isProfileSet'] as bool;
     university = snapshot.data['university'] as String;
@@ -42,7 +45,7 @@ class User {
 
   @override
   String toString() {
-    return 'User{email: $email, userName: $userName, isAdmin: $isAdmin, isProf: $isProf, isProfileSet: $isProfileSet, university: $university, fname: $fname, lname: $lname, bio: $bio, mobile: $mobile, topics: $topics}';
+    return 'User{email: $email, userName: $userName, isAdmin: $isAdmin, isProf: $isProf, isProfileSet: $isProfileSet, university: $university, fname: $fname, lname: $lname, bio: $bio, mobile: $mobile, topics: $topics, id: $id}';
   }
 }
 
@@ -172,8 +175,6 @@ class Article {
   String content;
   DateTime createdOn;
   DateTime editedOn;
-
-//  String username;
   int upvoteCount;
   int downvoteCount;
   List<String> upvoters;
@@ -190,7 +191,6 @@ class Article {
       this.content,
       this.createdOn,
       this.editedOn,
-//      this.username,
       this.upvoteCount,
       this.downvoteCount,
       this.upvoters,
@@ -207,7 +207,6 @@ class Article {
     content = snapshot.data['content'];
     createdOn = (snapshot.data['createdOn'] as Timestamp)?.toDate();
     editedOn = (snapshot.data['editedOn'] as Timestamp)?.toDate();
-//    username = snapshot.data['username'];
     upvoteCount = snapshot.data['upvoteCount'] as int;
     downvoteCount = snapshot.data['downvoteCount'] as int;
     upvoters = snapshot.data['upvoters']?.cast<String>();
@@ -233,7 +232,6 @@ class Article {
         'content': this.content,
         'createdOn': this.createdOn,
         'editedOn': this.editedOn,
-//        'username': this.username,
         'upvoteCount': this.upvoteCount,
         'downvoteCount': this.downvoteCount,
         'upvoters': this.upvoters,
@@ -259,7 +257,6 @@ class Article {
         'content': this.content,
         'createdOn': this.createdOn,
         'editedOn': this.editedOn,
-//        'username': this.username,
         'upvoteCount': this.upvoteCount,
         'downvoteCount': this.downvoteCount,
         'upvoters': this.upvoters,
@@ -396,7 +393,8 @@ class Answer {
     return 'Answer{content: $content, queID: $queID, id: $id, userId: $userId, createdOn: $createdOn, upvoters: $upvoters, downvoters: $downvoters, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, byProf: $byProf, isDraft: $isDraft}';
   }
 
-//decrease answer count in question if applicable
+  //decrease answer count in question if applicable
+  //For now we are only deleting draft answer, that's why we don't need to decrease answerCount.
   Future<bool> delete() async {
     try {
       Firestore.instance.document('Answers/' + this.id).delete();

@@ -51,7 +51,7 @@ class _PreviewQuestionState extends State<PreviewQuestion> {
                 ),
               )
             : Expanded(
-              child: ListView(
+                child: ListView(
                   shrinkWrap: true,
                   children: <Widget>[
                     QuestionPreviewCard(
@@ -59,7 +59,7 @@ class _PreviewQuestionState extends State<PreviewQuestion> {
                     ),
                   ],
                 ),
-            ),
+              ),
       ],
     );
   }

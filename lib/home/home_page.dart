@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 class Home extends StatefulWidget {
   final DocumentSnapshot userSnap;
 
-  const Home({Key key,@required this.userSnap}) : super(key: key);
+  const Home({Key key, @required this.userSnap}) : super(key: key);
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -19,13 +20,12 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-
     Widget _body = IndexedStack(
       index: _selectedIndex,
       children: <Widget>[
         CreateContent(),
         FeedPage(),
-        ProfilePage(userSnap:widget.userSnap),
+        ProfilePage(userSnap: widget.userSnap),
       ],
     );
 
@@ -35,19 +35,28 @@ class _HomeState extends State<Home> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
-            title: Text("Create",style: Constant.bottomNavigationTitleStyle,),
+            title: Text(
+              "Create",
+              style: Constant.bottomNavigationTitleStyle,
+            ),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.rss_feed),
-            title: Text("Learn",style: Constant.bottomNavigationTitleStyle,),
+            title: Text(
+              "Learn",
+              style: Constant.bottomNavigationTitleStyle,
+            ),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            title: Text("Manage",style: Constant.bottomNavigationTitleStyle,),
+            title: Text(
+              "Manage",
+              style: Constant.bottomNavigationTitleStyle,
+            ),
           ),
         ],
         currentIndex: _selectedIndex,
-        onTap: (i){
+        onTap: (i) {
           setState(() {
             _selectedIndex = i;
           });

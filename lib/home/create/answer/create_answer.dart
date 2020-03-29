@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ednet/home/feed/question/question_page.dart';
 import 'package:ednet/home/feed/question/question_tile_header.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
-import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -30,9 +28,9 @@ class _CreateAnswerState extends State<CreateAnswer> {
   }
 
   Future<void> _publishAnswer() async {
-      setState(() {
-        _postLoading=true;
-      });
+    setState(() {
+      _postLoading = true;
+    });
     bool validForm = await _validateAndSave();
     if (validForm) {
       if (widget.answer != null) {
@@ -47,7 +45,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
       }
     }
     setState(() {
-      _postLoading=false;
+      _postLoading = false;
     });
   }
 
@@ -59,7 +57,8 @@ class _CreateAnswerState extends State<CreateAnswer> {
       _answer.queID = widget?.question?.id ?? _answer.queID;
       _answer.userId = widget?.answer?.userId ?? await Constant.getCurrentUserDocId();
       _answer.createdOn = DateTime.now();
-      _answer.byProf = widget?.answer?.byProf ?? await Constant.isUserProfById(userId: _answer.userId);
+      _answer.byProf =
+          widget?.answer?.byProf ?? await Constant.isUserProfById(userId: _answer.userId);
       _answer.upvoteCount = 0;
       _answer.downvoteCount = 0;
       _answer.upvoters = [];
@@ -114,7 +113,8 @@ class _CreateAnswerState extends State<CreateAnswer> {
       //Following will result in same output every time, but it will reduce one computation.
       _answer.userId = widget?.answer?.userId ?? await Constant.getCurrentUserDocId();
       _answer.createdOn = DateTime.now();
-      _answer.byProf = widget?.answer?.byProf ?? await Constant.isUserProfById(userId: _answer.userId);
+      _answer.byProf =
+          widget?.answer?.byProf ?? await Constant.isUserProfById(userId: _answer.userId);
       _answer.upvoteCount = 0;
       _answer.downvoteCount = 0;
       _answer.upvoters = [];
@@ -223,7 +223,10 @@ class _CreateAnswerState extends State<CreateAnswer> {
                     child: _draftLoading
                         ? Center(
                             child: SizedBox(
-                                height: 24.0, width: 24.0, child: CircularProgressIndicator(),),
+                              height: 24.0,
+                              width: 24.0,
+                              child: CircularProgressIndicator(),
+                            ),
                           )
                         : Text(
                             "Save Draft",
@@ -260,8 +263,8 @@ class _CreateAnswerState extends State<CreateAnswer> {
                               height: 24.0,
                               width: 24.0,
                               child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation(Colors.white),
-                                  backgroundColor: Colors.blue[50],
+                                valueColor: AlwaysStoppedAnimation(Colors.white),
+                                backgroundColor: Colors.blue[50],
                               ),
                             ),
                           )

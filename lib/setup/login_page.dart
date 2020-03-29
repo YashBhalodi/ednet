@@ -56,7 +56,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
 
       if (deepLink != null) {
         _link = deepLink.toString();
-        print("204 _link:-" + _link);
+        print("59 _link:-" + _link);
         _signInWithEmailAndLink();
       }
     }, onError: (OnLinkErrorException e) async {
@@ -144,7 +144,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
           sent = await _sendSignInWithEmailLink();
         }
       } catch (error) {
-        print("134 " + error.toString());
+        print("147 " + error.toString());
       }
       setState(() {
         _loginLoading = false;
@@ -195,7 +195,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     bool isAdmin = docRef.documents[0]['type'] == "admin" ? true : false;
     bool isProf = docRef.documents[0]['type'] == "prof" ? true : false;
     String userUniversity = docRef.documents[0]['university'];
-    //home.create user document
+    //create user document
     try {
       await Firestore.instance.collection('Users').add({
         'email': _email,
@@ -208,7 +208,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
       print("_createRelevantDocument_user");
       print(e);
     }
-    //home.create university document if user is admin
+    //create university document if user is admin
     if (isAdmin) {
       try {
         await Firestore.instance.collection('University').add({
@@ -226,8 +226,12 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         context: context,
         builder: (context) {
           return AlertDialog(
-              title: Text("Logging In..."),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0),),),
+            title: Text("Logging you in..."),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(16.0),
+              ),
+            ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -259,8 +263,10 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
       } catch (e) {
         print("signInWithEmailLink function:- " + e.toString());
       }
+    } else {
+      Navigator.of(context).pop();
+      print("264:--Invalid login link");
     }
-
   }
 
   void _showDialog(String error) {
@@ -309,7 +315,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         if (_loginLoading == false) {
           bool status = await _validateAndSave();
           if (status) {
-            Constant.showToastInstruction("Email sent to $_email.");
+            Constant.showToastInstruction("Email sent to\n$_email.");
           } else {
             Constant.showToastError("Email not sent.");
           }
@@ -322,7 +328,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                 width: 24.0,
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation(Colors.white),
-                  backgroundColor: Colors.blue[50],
+                  backgroundColor: Colors.blue[200],
                 ),
               ),
             )

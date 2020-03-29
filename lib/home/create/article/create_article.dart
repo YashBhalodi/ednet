@@ -25,8 +25,8 @@ class _CreateArticleState extends State<CreateArticle> {
     initialPage: 0,
   );
   List<String> _selectedTopics;
-  bool _draftLoading=false;
-  bool _postLoading=false;
+  bool _draftLoading = false;
+  bool _postLoading = false;
 
   Future<void> _publishArticle() async {
     setState(() {
@@ -147,7 +147,7 @@ class _CreateArticleState extends State<CreateArticle> {
                       FocusScope.of(context).unfocus();
                       await _saveArticleForm();
                     }
-                    if (p == 2 || p ==3) {
+                    if (p == 2 || p == 3) {
                       FocusScope.of(context).unfocus();
                     }
                     setState(() {
@@ -225,12 +225,20 @@ class _CreateArticleState extends State<CreateArticle> {
                           height: double.maxFinite,
                           width: double.maxFinite,
                           child: SecondaryCTA(
-                            child: _draftLoading?Center(child: SizedBox(height: 24.0,width: 24.0,child: CircularProgressIndicator(),),):Text(
-                              "Save Draft",
-                              style: Constant.secondaryCTATextStyle,
-                            ),
+                            child: _draftLoading
+                                ? Center(
+                                    child: SizedBox(
+                                      height: 24.0,
+                                      width: 24.0,
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  )
+                                : Text(
+                                    "Save Draft",
+                                    style: Constant.secondaryCTATextStyle,
+                                  ),
                             callback: () async {
-                              if (_draftLoading==false) {
+                              if (_draftLoading == false) {
                                 await _saveAsDraft();
                                 Navigator.of(context).pop();
                               }
@@ -241,12 +249,23 @@ class _CreateArticleState extends State<CreateArticle> {
                           height: double.maxFinite,
                           width: double.maxFinite,
                           child: PrimaryBlueCTA(
-                            child: _postLoading?Center(child: SizedBox(height: 24.0,width: 24.0,child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.white),backgroundColor: Colors.blue[50],),),):Text(
-                              "Publish",
-                              style: Constant.primaryCTATextStyle,
-                            ),
+                            child: _postLoading
+                                ? Center(
+                                    child: SizedBox(
+                                      height: 24.0,
+                                      width: 24.0,
+                                      child: CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                                        backgroundColor: Colors.blue[50],
+                                      ),
+                                    ),
+                                  )
+                                : Text(
+                                    "Publish",
+                                    style: Constant.primaryCTATextStyle,
+                                  ),
                             callback: () async {
-                              if (_postLoading==false) {
+                              if (_postLoading == false) {
                                 await _publishArticle();
                               }
                             },

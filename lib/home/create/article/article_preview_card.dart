@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ednet/home/create/article/create_article.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
-import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -134,7 +132,9 @@ class ArticlePreviewCard extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 16.0,)
+            SizedBox(
+              height: 16.0,
+            )
           ],
         ),
       ),

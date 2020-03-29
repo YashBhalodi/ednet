@@ -90,7 +90,7 @@ class QuestionDraftCard extends StatelessWidget {
                       showDialog(
                         context: context,
                         builder: (context) {
-                          return Constant.deleteConfirmationAlertBox(
+                          return DeleteConfirmationAlert(
                             title: "Delete question draft?",
                             msg: "You will lose this content permenantly.",
                             deleteCallback: () async {
