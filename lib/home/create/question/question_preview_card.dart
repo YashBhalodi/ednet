@@ -1,6 +1,7 @@
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class QuestionPreviewCard extends StatelessWidget {
   final Question question;
@@ -31,7 +32,7 @@ class QuestionPreviewCard extends StatelessWidget {
               child: Row(
                 children: List.generate(question.topics.length, (i) {
                   return Padding(
-                    padding: const EdgeInsets.only(right:4.0),
+                    padding: const EdgeInsets.only(right: 4.0),
                     child: Chip(
                       label: Text(
                         question.topics[i],
@@ -84,9 +85,27 @@ class QuestionPreviewCard extends StatelessWidget {
                               size: 16.0,
                             )
                           : Container(),
-                      Text(
-                        question.username,
-                        style: Constant.usernameStyle,
+                      FutureBuilder(
+                        future: Constant.getUsernameById(userId: question.userId),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return Shimmer.fromColors(
+                                                        child: Container(
+                                                          width: 100.0,
+                                                          height: 18.0,
+                                                          color: Colors.white,
+                                                        ),
+                                                        baseColor: Colors.grey[300],
+                                                        highlightColor: Colors.grey[100],
+                                                        period: Duration(milliseconds: 300),
+                                                      );
+                          } else {
+                            return Text(
+                              snapshot.data,
+                              style: Constant.usernameStyle,
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),
@@ -101,7 +120,9 @@ class QuestionPreviewCard extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 16.0,),
+            SizedBox(
+              height: 16.0,
+            ),
           ],
         ),
       ),

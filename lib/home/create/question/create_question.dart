@@ -74,10 +74,11 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question.createdOn = _question.createdOn ?? DateTime.now();
     _question.upvoteCount = 0;
     _question.downvoteCount = 0;
-    _question.username = await Constant.getCurrentUsername();
+//    _question.username = await Constant.getCurrentUsername(); //todo remove
+    _question.userId = await Constant.getCurrentUserDocId();
     _question.editedOn = DateTime.now();
     _question.topics = _selectedTopics;
-    _question.byProf = await Constant.isUserProf(_question.username);
+    _question.byProf = await Constant.isUserProfById(userId: _question.userId);
     _question.upvoters = [];
     _question.downvoters = [];
     _question.isDraft = true;
@@ -90,10 +91,11 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question.createdOn = DateTime.now();
     _question.upvoteCount = 0;
     _question.downvoteCount = 0;
-    _question.username = await Constant.getCurrentUsername();
+//    _question.username = await Constant.getCurrentUsername(); //todo remove
+    _question.userId = await Constant.getCurrentUserDocId();
     _question.editedOn = DateTime.now();
     _question.topics = _selectedTopics;
-    _question.byProf = await Constant.isUserProf(_question.username);
+    _question.byProf = await Constant.isUserProfById(userId: _question.userId); //todo identify wrt to doc
     _question.upvoters = [];
     _question.downvoters = [];
     _question.isDraft = false;

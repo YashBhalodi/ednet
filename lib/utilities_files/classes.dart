@@ -51,7 +51,7 @@ class Question {
   String description;
   DateTime createdOn;
   DateTime editedOn;
-  String username;
+//  String username;
   int upvoteCount;
   int downvoteCount;
   List<String> upvoters;
@@ -61,13 +61,14 @@ class Question {
   bool byProf;
   bool isDraft;
   int answerCount;
+  String userId;
 
   Question(
       {this.heading,
       this.description,
       this.createdOn,
       this.editedOn,
-      this.username,
+//      this.username,
       this.upvoteCount,
       this.downvoteCount,
       this.upvoters,
@@ -76,14 +77,15 @@ class Question {
       this.byProf,
       this.id,
       this.isDraft,
-      this.answerCount});
+      this.answerCount,
+      this.userId});
 
   Question.fromSnapshot(DocumentSnapshot snapshot) {
     heading = snapshot.data['heading'];
     description = snapshot.data['description'];
     createdOn = (snapshot.data['createdOn'] as Timestamp)?.toDate();
     editedOn = (snapshot.data['editedOn'] as Timestamp)?.toDate();
-    username = snapshot.data['username'];
+//    username = snapshot.data['username'];
     upvoteCount = snapshot.data['upvoteCount'] as int;
     downvoteCount = snapshot.data['downvoteCount'] as int;
     upvoters = snapshot.data['upvoters']?.cast<String>();
@@ -93,6 +95,8 @@ class Question {
     byProf = snapshot.data['byProf'] as bool;
     isDraft = snapshot.data['isDraft'] as bool;
     answerCount = snapshot.data['answerCount'] as int;
+    userId = snapshot.data['userid'] as String;
+
   }
 
   Future<bool> uploadQuestion() async {
@@ -102,7 +106,7 @@ class Question {
         'description': this.description,
         'createdOn': this.createdOn,
         'editedOn': this.editedOn,
-        'username': this.username,
+//        'username': this.username,
         'upvoteCount': this.upvoteCount,
         'downvoteCount': this.downvoteCount,
         'upvoters': this.upvoters,
@@ -111,6 +115,7 @@ class Question {
         'byProf': this.byProf,
         'isDraft': this.isDraft,
         'answerCount': this.answerCount,
+        'userid':this.userId,
       });
       return true;
     } catch (e) {
@@ -122,7 +127,7 @@ class Question {
 
   @override
   String toString() {
-    return 'Question{heading: $heading, description: $description, createdOn: $createdOn, editedOn: $editedOn, username: $username, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, answerCount: $answerCount}';
+    return 'Question{heading: $heading, description: $description, createdOn: $createdOn, editedOn: $editedOn, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, answerCount: $answerCount, userId: $userId}';
   }
 
   Future<bool> updateQuestion() async {
@@ -133,7 +138,7 @@ class Question {
         'description': this.description,
         'createdOn': this.createdOn,
         'editedOn': this.editedOn,
-        'username': this.username,
+//        'username': this.username,
         'upvoteCount': this.upvoteCount,
         'downvoteCount': this.downvoteCount,
         'upvoters': this.upvoters,
@@ -142,6 +147,7 @@ class Question {
         'byProf': this.byProf,
         'isDraft': this.isDraft,
         'answerCount': this.answerCount,
+        'userid':this.userId,
       });
       return true;
     } catch (e) {

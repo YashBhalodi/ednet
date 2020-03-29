@@ -136,7 +136,7 @@ class Constant {
       fontFamily: 'ValeraRound');
 
   static get primaryCTATextStyle => TextStyle(
-        fontSize: 20.0,
+        fontSize: 18.0,
         color: Colors.white,
         fontWeight: FontWeight.w600,
       );
@@ -250,6 +250,15 @@ class Constant {
     } else {
       return null;
     }
+  }
+
+  static Future<String> getCurrentUserDocId() async {
+    final currentUser = await FirebaseAuth.instance.currentUser();
+    final userDoc = await Firestore.instance
+        .collection('Users')
+        .where('email', isEqualTo: currentUser.email)
+        .getDocuments();
+    return userDoc.documents[0].documentID;
   }
 
   static Future<String> userNameAvailableValidator(String value) async {
@@ -471,19 +480,18 @@ class Constant {
       title: Text(title),
       contentPadding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
       content: Column(
-          mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
-
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal:20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Text(msg),
           ),
           SizedBox(
             height: 32.0,
           ),
           SizedBox(
-              height: 40.0,
+            height: 40.0,
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -504,7 +512,8 @@ class Constant {
                     color: Colors.white,
                     child: Text(
                       "Delete",
-                      style: TextStyle(color: Colors.red,fontSize: 18.0,fontWeight: FontWeight.w500),
+                      style:
+                          TextStyle(color: Colors.red, fontSize: 18.0, fontWeight: FontWeight.w500),
                     ),
                     padding: Constant.raisedButtonPaddingLow,
                     onPressed: deleteCallback,
@@ -513,21 +522,22 @@ class Constant {
                 Expanded(
                   child: RaisedButton(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(16.0),
-                          topRight: Radius.circular(16.0),
-                        ),
-                        side: BorderSide(
-                          color: Colors.blue[700],
-                          width: 2.0,
-                        ),
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(16.0),
+                        topRight: Radius.circular(16.0),
+                      ),
+                      side: BorderSide(
+                        color: Colors.blue[700],
+                        width: 2.0,
+                      ),
                     ),
                     color: Colors.blue[800],
                     padding: Constant.raisedButtonPaddingLow,
                     onPressed: deleteCallback,
                     child: Text(
                       "Cancle",
-                      style: TextStyle(color: Colors.white,fontSize: 18.0,fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),
@@ -539,14 +549,14 @@ class Constant {
     );
   }
 
-  static Future<DocumentReference> getUserDocRef(String username) async {
+  /*static Future<DocumentReference> getUserDocRef(String username) async {
     QuerySnapshot curUserQuery = await Firestore.instance
         .collection('Users')
         .where('username', isEqualTo: username)
         .getDocuments();
     DocumentReference userDoc = curUserQuery.documents[0].reference;
     return userDoc;
-  }
+  }*/
 
   static Future<DocumentReference> getCurrentUserDoc() async {
     FirebaseUser curUser = await FirebaseAuth.instance.currentUser();
@@ -557,6 +567,11 @@ class Constant {
         .getDocuments();
     DocumentReference userDoc = curUserQuery.documents[0].reference;
     return userDoc;
+  }
+
+  static Future<String> getUsernameById({@required String userId}) async {
+      final userDoc = await Firestore.instance.collection('Users').document(userId).get();
+      return userDoc.data['username'];
   }
 
   static Future<bool> isUserProf(String username) async {
@@ -571,6 +586,19 @@ class Constant {
       print("isUserProf");
       print(e);
     }
+  }
+
+  static Future<bool> isUserProfById({@required String userId}) async {
+      try {
+          DocumentSnapshot curUser = await Firestore.instance
+              .collection('Users')
+              .document(userId).get();
+          bool isProf = curUser.data['isProf'] as bool;
+          return isProf;
+      } catch (e) {
+          print("isUserProf by id");
+          print(e);
+      }
   }
 
   static String formatDateTime(DateTime timestamp) {
