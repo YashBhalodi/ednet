@@ -57,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     text: "Answers",
                   ),
                   Tab(
-                    text: "Draft",
+                    text: "Drafts",
                   ),
                 ],
               ),
@@ -98,7 +98,7 @@ class MyQuestions extends StatelessWidget {
       stream: Firestore.instance
           .collection('Questions')
           .where('isDraft', isEqualTo: false)
-          .where('username', isEqualTo: currentUser.userName)
+          .where('userid', isEqualTo: currentUser.id)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
@@ -150,7 +150,7 @@ class MyArticles extends StatelessWidget {
       stream: Firestore.instance
           .collection('Articles')
           .where('isDraft', isEqualTo: false)
-          .where('username', isEqualTo: currentUser.userName)
+          .where('userid', isEqualTo: currentUser.id)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
@@ -202,7 +202,7 @@ class MyAnswers extends StatelessWidget {
       stream: Firestore.instance
           .collection('Answers')
           .where('isDraft', isEqualTo: false)
-          .where('username', isEqualTo: currentUser.userName)
+          .where('userid', isEqualTo: currentUser.id)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
@@ -265,7 +265,7 @@ class MyDrafts extends StatelessWidget {
           stream: Firestore.instance
               .collection('Questions')
               .where('isDraft', isEqualTo: true)
-              .where('username', isEqualTo: currentUser.userName)
+              .where('userid', isEqualTo: currentUser.id)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
@@ -322,7 +322,7 @@ class MyDrafts extends StatelessWidget {
           stream: Firestore.instance
               .collection('Articles')
               .where('isDraft', isEqualTo: true)
-              .where('username', isEqualTo: currentUser.userName)
+              .where('userid', isEqualTo: currentUser.id)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
@@ -379,7 +379,7 @@ class MyDrafts extends StatelessWidget {
           stream: Firestore.instance
               .collection('Answers')
               .where('isDraft', isEqualTo: true)
-              .where('username', isEqualTo: currentUser.userName)
+              .where('userid', isEqualTo: currentUser.id)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {

@@ -102,8 +102,6 @@ class _CreateArticleState extends State<CreateArticle> {
       form.save();
       return true;
     } else {
-      Constant.showToastInstruction(
-          "Title should be atleast 10 characters.\nContent should be atleast 100 character.\nAtleast one topic should be selected.");
       return false;
     }
   }

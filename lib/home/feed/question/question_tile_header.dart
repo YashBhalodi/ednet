@@ -78,56 +78,84 @@ class QuestionTile extends StatelessWidget {
                   children: <Widget>[
                     Expanded(
                       flex: 4,
-                      child: Row(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Icon(
-                            Icons.person,
-                            size: 16.0,
+                          Text(
+                            "Asked by",
+                            style: Constant.dateTimeStyle,
                           ),
-                          question.byProf
-                              ? Icon(
-                                  Icons.star,
-                                  color: Colors.orangeAccent,
-                                  size: 16.0,
-                                )
-                              : Container(),
-                          StreamBuilder(
-                            stream: Firestore.instance
-                                .collection('Users')
-                                .document(question.userId)
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return Shimmer.fromColors(
-                                  child: Container(
-                                    width: 100.0,
-                                    height: 18.0,
-                                    color: Colors.white,
-                                  ),
-                                  baseColor: Colors.grey[300],
-                                  highlightColor: Colors.grey[100],
-                                  period: Duration(milliseconds: 300),
-                                );
-                              } else {
-                                DocumentSnapshot userDoc = snapshot.data;
-                                return Text(
-                                  userDoc.data['username'],
-                                  style: Constant.usernameStyle,
-                                );
-                              }
-                            },
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.person,
+                                size: 16.0,
+                              ),
+                              question.byProf
+                                  ? Icon(
+                                      Icons.star,
+                                      color: Colors.orangeAccent,
+                                      size: 16.0,
+                                    )
+                                  : Container(),
+                              StreamBuilder(
+                                stream: Firestore.instance
+                                    .collection('Users')
+                                    .document(question.userId)
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return Shimmer.fromColors(
+                                      child: Container(
+                                        width: 100.0,
+                                        height: 18.0,
+                                        color: Colors.white,
+                                      ),
+                                      baseColor: Colors.grey[300],
+                                      highlightColor: Colors.grey[100],
+                                      period: Duration(milliseconds: 300),
+                                    );
+                                  } else {
+                                    DocumentSnapshot userDoc = snapshot.data;
+                                    return Text(
+                                      userDoc.data['username'],
+                                      style: Constant.usernameStyle,
+                                    );
+                                  }
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text(
-                        Constant.formatDateTime(question.createdOn),
-                        style: Constant.dateTimeStyle,
-                        textAlign: TextAlign.end,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(
+                            "On",
+                            style: Constant.dateTimeStyle,
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          Text(
+                            Constant.formatDateTime(question.createdOn),
+                            style: Constant.dateTimeStyle,
+                            textAlign: TextAlign.end,
+                          ),
+                        ],
                       ),
                     )
                   ],
