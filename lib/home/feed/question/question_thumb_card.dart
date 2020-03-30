@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/question/question_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
 class QuestionThumbCard extends StatelessWidget {
@@ -91,7 +91,7 @@ class QuestionThumbCard extends StatelessWidget {
                   Expanded(
                     flex: 4,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Constant.userProfileView(context, userId: question.userId);
                       },
                       child: Row(

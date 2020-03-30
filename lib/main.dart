@@ -1,11 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ednet/home/home_page.dart';
 import 'package:ednet/setup/onboarding_page.dart';
 import 'package:ednet/setup/profile_setup_pages/admin_profile_page.dart';
 import 'package:ednet/setup/profile_setup_pages/student_profile_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ednet/home/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {

@@ -168,7 +168,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
                       )
                     : QuestionTile(
                         question: widget.question,
-                  scrollDescription: false,
+                        scrollDescription: false,
                       ),
                 ListView(
                   shrinkWrap: true,

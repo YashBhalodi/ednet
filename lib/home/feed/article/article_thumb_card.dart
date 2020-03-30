@@ -99,7 +99,7 @@ class ArticleThumbCard extends StatelessWidget {
                   Expanded(
                     flex: 4,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Constant.userProfileView(context, userId: article.userId);
                       },
                       child: Row(

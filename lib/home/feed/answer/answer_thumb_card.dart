@@ -59,7 +59,7 @@ class AnswerThumbCard extends StatelessWidget {
                   Expanded(
                     flex: 4,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Constant.userProfileView(context, userId: answer.userId);
                       },
                       child: Row(

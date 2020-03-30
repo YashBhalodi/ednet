@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/home_page.dart';
 import 'package:ednet/setup/profile_setup_pages/topic_selection_profile_setup.dart';
 import 'package:ednet/setup/profile_setup_pages/user_details_profile_setup_page.dart';
-import 'package:flutter/material.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:flutter/material.dart';
 
 class StudentProfileSetup extends StatefulWidget {
   final DocumentSnapshot userSnap;

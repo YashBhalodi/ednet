@@ -72,7 +72,7 @@ class AnswerPage extends StatelessWidget {
                       children: <Widget>[
                         Expanded(
                           child: GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               Constant.userProfileView(context, userId: answer.userId);
                             },
                             child: Column(

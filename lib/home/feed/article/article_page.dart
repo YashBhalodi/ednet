@@ -50,7 +50,7 @@ class ArticlePage extends StatelessWidget {
                     children: <Widget>[
                       Expanded(
                         child: GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             Constant.userProfileView(context, userId: article.userId);
                           },
                           child: Column(

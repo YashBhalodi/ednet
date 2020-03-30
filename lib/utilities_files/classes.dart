@@ -55,17 +55,29 @@ class User {
 
   Future<bool> updateUser() async {
     try {
-      Firestore.instance.collection('Users').document(this.id).updateData({
-            'username': this.userName,
-            'bio': this.bio,
-            'mobile': this.mobile,
-            'topics': this.topics,
-            'fname': this.fname,
-            'lname': this.lname,
-          });
+      await Firestore.instance.collection('Users').document(this.id).updateData({
+        'username': this.userName,
+        'bio': this.bio,
+        'mobile_number': this.mobile,
+        'fname': this.fname,
+        'lname': this.lname,
+      });
       return true;
     } catch (e) {
       print("User.updateUser");
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> updateTopicList() async {
+    try {
+      await Firestore.instance.collection('Users').document(this.id).updateData({
+        'topics': this.topics,
+      });
+      return true;
+    } catch (e) {
+      print("User.updateTopicList");
       print(e);
       return false;
     }
