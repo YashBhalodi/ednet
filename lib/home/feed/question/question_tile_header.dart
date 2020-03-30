@@ -8,9 +8,9 @@ import 'package:shimmer/shimmer.dart';
 
 class QuestionTile extends StatelessWidget {
   final Question question;
-  final bool scrollDescription;
+  final bool scrollDescriptionEnabled;
 
-  const QuestionTile({Key key, this.question, @required this.scrollDescription}) : super(key: key);
+  const QuestionTile({Key key, this.question, @required this.scrollDescriptionEnabled}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class QuestionTile extends StatelessWidget {
                 SizedBox(
                   height: 8.0,
                 ),
-                scrollDescription
+                scrollDescriptionEnabled
                     ? Container(
                         constraints: BoxConstraints.loose(Size(double.maxFinite, 100.0)),
                         child: SingleChildScrollView(

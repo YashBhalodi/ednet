@@ -153,7 +153,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
                             Question q = Question.fromSnapshot(snapshot.data);
                             return QuestionTile(
                               question: q,
-                              scrollDescription: false,
+                              scrollDescriptionEnabled: false,
                             );
                           } else {
                             return Center(
@@ -168,7 +168,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
                       )
                     : QuestionTile(
                         question: widget.question,
-                        scrollDescription: false,
+                        scrollDescriptionEnabled: false,
                       ),
                 ListView(
                   shrinkWrap: true,

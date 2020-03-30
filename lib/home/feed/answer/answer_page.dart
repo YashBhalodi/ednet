@@ -38,6 +38,7 @@ class AnswerPage extends StatelessWidget {
                             Question q = Question.fromSnapshot(snapshot.data);
                             return QuestionTile(
                               question: q,
+                              scrollDescriptionEnabled: false,
                             );
                           } else {
                             return Center(
@@ -52,6 +53,7 @@ class AnswerPage extends StatelessWidget {
                       )
                     : QuestionTile(
                         question: question,
+                        scrollDescriptionEnabled: false,
                       ),
                 ListView(
                   shrinkWrap: true,
