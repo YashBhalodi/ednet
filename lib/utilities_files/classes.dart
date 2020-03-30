@@ -52,6 +52,24 @@ class User {
     DocumentSnapshot userDoc = await Firestore.instance.collection('Users').document(id).get();
     return User.fromSnapshot(userDoc);
   }
+
+  Future<bool> updateUser() async {
+    try {
+      Firestore.instance.collection('Users').document(this.id).updateData({
+            'username': this.userName,
+            'bio': this.bio,
+            'mobile': this.mobile,
+            'topics': this.topics,
+            'fname': this.fname,
+            'lname': this.lname,
+          });
+      return true;
+    } catch (e) {
+      print("User.updateUser");
+      print(e);
+      return false;
+    }
+  }
 }
 
 class Question {

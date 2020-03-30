@@ -7,6 +7,7 @@ import 'package:ednet/home/profile/my_profile/article_draft_card.dart';
 import 'package:ednet/home/profile/my_profile/question_draft_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: DefaultTabController(
-        length: 4,
+        length: 5,
         child: Scaffold(
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -47,6 +48,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 unselectedLabelColor: Colors.blue,
                 tabs: <Widget>[
+                  Tab(
+                    text: "Profile",
+                  ),
                   Tab(
                     text: "Questions",
                   ),
@@ -64,17 +68,20 @@ class _ProfilePageState extends State<ProfilePage> {
               Expanded(
                 child: TabBarView(
                   children: <Widget>[
+                    MyProfile(
+                      user: currentUser,
+                    ),
                     MyQuestions(
-                      currentUser: currentUser,
+                      user: currentUser,
                     ),
                     MyArticles(
-                      currentUser: currentUser,
+                      user: currentUser,
                     ),
                     MyAnswers(
-                      currentUser: currentUser,
+                      user: currentUser,
                     ),
                     MyDrafts(
-                      currentUser: currentUser,
+                      user: currentUser,
                     ),
                   ],
                 ),
@@ -87,10 +94,238 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-class MyQuestions extends StatelessWidget {
-  final User currentUser;
+class MyProfile extends StatefulWidget {
+  final User user;
 
-  const MyQuestions({Key key, @required this.currentUser}) : super(key: key);
+  MyProfile({Key key, @required this.user}) : super(key: key);
+
+  @override
+  _MyProfileState createState() => _MyProfileState();
+}
+
+class _MyProfileState extends State<MyProfile> {
+  String _inputFname;
+  String _inputLname;
+  String _inputMobileNumber;
+  TextEditingController _userNameController;
+  String _userNameValidator;
+  String _inputUsername;
+  String _inputBio;
+  bool _loading = false;
+  GlobalKey<FormState> _userProfileFormKey = GlobalKey<FormState>();
+
+  Future<bool> updateUserDetails() async {
+    setState(() {
+      _loading = true;
+    });
+    final FormState form = _userProfileFormKey.currentState;
+    String response = await Constant.userNameAvailableValidator(_userNameController.text);
+    setState(() {
+      _userNameValidator = response;
+    });
+    if (form.validate()) {
+      form.save();
+      widget.user.bio = _inputBio;
+      widget.user.fname = _inputFname;
+      widget.user.lname = _inputLname;
+      widget.user.userName = _inputUsername;
+      widget.user.mobile = _inputMobileNumber;
+      bool uploadSuccess = await widget.user.updateUser();
+      if (uploadSuccess) {
+        setState(() {
+          _loading = false;
+        });
+        return true;
+      } else {
+        setState(() {
+          _loading = false;
+        });
+        return false;
+      }
+    } else {
+      setState(() {
+        _loading = false;
+      });
+      return false;
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _userNameController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _userNameController = TextEditingController(text: widget.user.userName);
+    //A special buttons for admin to take them to admin panel
+    return Form(
+      key: _userProfileFormKey,
+      child: ListView(
+        padding: Constant.edgePadding,
+        shrinkWrap: true,
+        children: <Widget>[
+          Text(
+            "Edit Details",
+            style: Constant.sectionSubHeadingStyle,
+          ),
+          SizedBox(
+            height: 32.0,
+          ),
+          TextFormField(
+            onSaved: (value) {
+              _inputFname = value;
+            },
+            initialValue: widget.user.fname,
+            validator: (value) => Constant.nameValidator(value),
+            keyboardType: TextInputType.text,
+            style: Constant.formFieldTextStyle,
+            enabled: false,
+            decoration: InputDecoration(
+              counterStyle: Constant.counterStyle,
+              contentPadding: Constant.formFieldContentPadding,
+              hintText: "John",
+              hintStyle: Constant.formFieldHintStyle,
+              border: Constant.formFieldBorder,
+              focusedBorder: Constant.formFieldFocusedBorder,
+              labelText: "First Name",
+              labelStyle: Constant.formFieldLabelStyle,
+            ),
+          ),
+          SizedBox(
+            height: 32.0,
+          ),
+          TextFormField(
+            onSaved: (value) {
+              _inputLname = value;
+            },
+            initialValue: widget.user.lname,
+            validator: (value) => Constant.nameValidator(value),
+            keyboardType: TextInputType.text,
+            style: Constant.formFieldTextStyle,
+            decoration: InputDecoration(
+              counterStyle: Constant.counterStyle,
+              contentPadding: Constant.formFieldContentPadding,
+              hintText: "Doe",
+              hintStyle: Constant.formFieldHintStyle,
+              border: Constant.formFieldBorder,
+              focusedBorder: Constant.formFieldFocusedBorder,
+              labelText: "Last Name",
+              labelStyle: Constant.formFieldLabelStyle,
+            ),
+          ),
+          SizedBox(
+            height: 32.0,
+          ),
+          TextFormField(
+            validator: (value) => Constant.mobileNumberValidator(value),
+            onSaved: (value) {
+              _inputMobileNumber = value;
+            },
+            initialValue: widget.user.mobile,
+            maxLength: 10,
+            style: Constant.formFieldTextStyle,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              counterStyle: Constant.counterStyle,
+              contentPadding: Constant.formFieldContentPadding,
+              hintText: "94578xxxx5",
+              hintStyle: Constant.formFieldHintStyle,
+              border: Constant.formFieldBorder,
+              focusedBorder: Constant.formFieldFocusedBorder,
+              labelText: "Mobile Number",
+              labelStyle: Constant.formFieldLabelStyle,
+            ),
+          ),
+          SizedBox(
+            height: 32.0,
+          ),
+          TextFormField(
+            controller: _userNameController,
+            maxLength: 15,
+            validator: (value) {
+              return _userNameValidator;
+            },
+            onSaved: (value) {
+              _inputUsername = value;
+            },
+            style: Constant.formFieldTextStyle,
+            decoration: InputDecoration(
+              counterStyle: Constant.counterStyle,
+              contentPadding: Constant.formFieldContentPadding,
+              hintText: "johnDoe12",
+              hintStyle: Constant.formFieldHintStyle,
+              border: Constant.formFieldBorder,
+              focusedBorder: Constant.formFieldFocusedBorder,
+              labelText: "Username",
+              labelStyle: Constant.formFieldLabelStyle,
+            ),
+          ),
+          SizedBox(
+            height: 32.0,
+          ),
+          TextFormField(
+            maxLength: 100,
+            onSaved: (value) {
+              _inputBio = value;
+            },
+            initialValue: widget.user.bio,
+            minLines: 3,
+            maxLines: 7,
+            style: Constant.formFieldTextStyle,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              alignLabelWithHint: true,
+              counterStyle: Constant.counterStyle,
+              contentPadding: Constant.formFieldContentPadding,
+              hintText: "Brief description about yourself...",
+              hintStyle: Constant.formFieldHintStyle,
+              border: Constant.formFieldBorder,
+              focusedBorder: Constant.formFieldFocusedBorder,
+              labelText: "Bio",
+              labelStyle: Constant.formFieldLabelStyle,
+            ),
+          ),
+          SizedBox(
+            height: 32.0,
+          ),
+          PrimaryBlueCTA(
+            callback: () async {
+              FocusScope.of(context).unfocus();
+              if (!_loading) {
+                bool stat = await updateUserDetails();
+                if (stat) {
+                  Constant.showToastSuccess("Profile updated successfully");
+                } else {
+                  Constant.showToastError("Profile failed to update");
+                }
+              }
+            },
+            child: _loading
+                ? SizedBox(
+                    height: 24.0,
+                    width: 24.0,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(Colors.white),
+                      backgroundColor: Colors.blue[200],
+                    ),
+                  )
+                : Text(
+                    "Update Details",
+                    style: Constant.primaryCTATextStyle,
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MyQuestions extends StatelessWidget {
+  final User user;
+
+  const MyQuestions({Key key, @required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +333,7 @@ class MyQuestions extends StatelessWidget {
       stream: Firestore.instance
           .collection('Questions')
           .where('isDraft', isEqualTo: false)
-          .where('userid', isEqualTo: currentUser.id)
+          .where('userid', isEqualTo: user.id)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
@@ -140,9 +375,9 @@ class MyQuestions extends StatelessWidget {
 }
 
 class MyArticles extends StatelessWidget {
-  final User currentUser;
+  final User user;
 
-  const MyArticles({Key key, @required this.currentUser}) : super(key: key);
+  const MyArticles({Key key, @required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +385,7 @@ class MyArticles extends StatelessWidget {
       stream: Firestore.instance
           .collection('Articles')
           .where('isDraft', isEqualTo: false)
-          .where('userid', isEqualTo: currentUser.id)
+          .where('userid', isEqualTo: user.id)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
@@ -192,9 +427,9 @@ class MyArticles extends StatelessWidget {
 }
 
 class MyAnswers extends StatelessWidget {
-  final User currentUser;
+  final User user;
 
-  const MyAnswers({Key key, @required this.currentUser}) : super(key: key);
+  const MyAnswers({Key key, @required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +437,7 @@ class MyAnswers extends StatelessWidget {
       stream: Firestore.instance
           .collection('Answers')
           .where('isDraft', isEqualTo: false)
-          .where('userid', isEqualTo: currentUser.id)
+          .where('userid', isEqualTo: user.id)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
@@ -244,9 +479,9 @@ class MyAnswers extends StatelessWidget {
 }
 
 class MyDrafts extends StatelessWidget {
-  final User currentUser;
+  final User user;
 
-  const MyDrafts({Key key, this.currentUser}) : super(key: key);
+  const MyDrafts({Key key, this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -265,7 +500,7 @@ class MyDrafts extends StatelessWidget {
           stream: Firestore.instance
               .collection('Questions')
               .where('isDraft', isEqualTo: true)
-              .where('userid', isEqualTo: currentUser.id)
+              .where('userid', isEqualTo: user.id)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
@@ -322,7 +557,7 @@ class MyDrafts extends StatelessWidget {
           stream: Firestore.instance
               .collection('Articles')
               .where('isDraft', isEqualTo: true)
-              .where('userid', isEqualTo: currentUser.id)
+              .where('userid', isEqualTo: user.id)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
@@ -379,7 +614,7 @@ class MyDrafts extends StatelessWidget {
           stream: Firestore.instance
               .collection('Answers')
               .where('isDraft', isEqualTo: true)
-              .where('userid', isEqualTo: currentUser.id)
+              .where('userid', isEqualTo: user.id)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
