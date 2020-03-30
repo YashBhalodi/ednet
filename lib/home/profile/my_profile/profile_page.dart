@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/answer/answer_thumb_card.dart';
 import 'package:ednet/home/feed/article/article_thumb_card.dart';
 import 'package:ednet/home/feed/question/question_thumb_card.dart';
-import 'package:ednet/home/profile/answer_draft_card.dart';
-import 'package:ednet/home/profile/article_draft_card.dart';
-import 'package:ednet/home/profile/question_draft_card.dart';
+import 'package:ednet/home/profile/my_profile/answer_draft_card.dart';
+import 'package:ednet/home/profile/my_profile/article_draft_card.dart';
+import 'package:ednet/home/profile/my_profile/question_draft_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
@@ -33,11 +33,6 @@ class _ProfilePageState extends State<ProfilePage> {
       child: DefaultTabController(
         length: 4,
         child: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: (){
-              Constant.userProfileView(context, userId: currentUser.id);
-            },
-          ),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,3 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ednet/home/feed/question/question_thumb_card.dart';
+import 'package:ednet/home/profile/other_user_profile/explore_content.dart';
+import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -309,6 +313,7 @@ class SecondaryBlueCardButton extends StatelessWidget {
   final Widget child;
 
   const SecondaryBlueCardButton({Key key, this.callback, this.child}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
@@ -316,8 +321,14 @@ class SecondaryBlueCardButton extends StatelessWidget {
       color: Colors.blue[50],
       padding: EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topRight:Radius.circular(10.0),bottomRight:Radius.circular(10.0),),
-        side: BorderSide(color: Colors.blue[300],width: 1.0,),
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(10.0),
+          bottomRight: Radius.circular(10.0),
+        ),
+        side: BorderSide(
+          color: Colors.blue[300],
+          width: 1.0,
+        ),
       ),
       child: child,
     );
@@ -328,7 +339,8 @@ class UpvoteButton extends StatelessWidget {
   final Function callback;
   final int count;
 
-  const UpvoteButton({Key key,@required this.callback,@required this.count}) : super(key: key);
+  const UpvoteButton({Key key, @required this.callback, @required this.count}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
@@ -338,22 +350,30 @@ class UpvoteButton extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Icon(Icons.arrow_upward,color: Colors.green[800],size: 18.0,),
-          SizedBox(width: 8.0,),
+          Icon(
+            Icons.arrow_upward,
+            color: Colors.green[800],
+            size: 18.0,
+          ),
+          SizedBox(
+            width: 8.0,
+          ),
           Text(
             count.toString() + " Upvote",
-            style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w400,
-              color: Colors.green[800]
-            ),
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400, color: Colors.green[800]),
           ),
         ],
       ),
       color: Colors.green[50],
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0),bottomLeft: Radius.circular(10.0),),
-        side: BorderSide(color: Colors.green[100],width: 1.0,),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10.0),
+          bottomLeft: Radius.circular(10.0),
+        ),
+        side: BorderSide(
+          color: Colors.green[100],
+          width: 1.0,
+        ),
       ),
       elevation: 2.0,
       padding: Constant.raisedButtonPaddingLow,
@@ -366,6 +386,7 @@ class DownvoteButton extends StatelessWidget {
   final int count;
 
   const DownvoteButton({Key key, this.callback, this.count}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
@@ -375,22 +396,30 @@ class DownvoteButton extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Icon(Icons.arrow_downward,color: Colors.red[800],size: 18.0,),
-          SizedBox(width: 8.0,),
+          Icon(
+            Icons.arrow_downward,
+            color: Colors.red[800],
+            size: 18.0,
+          ),
+          SizedBox(
+            width: 8.0,
+          ),
           Text(
             count.toString() + " Downvote",
-            style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w400,
-                color: Colors.red[800]
-            ),
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400, color: Colors.red[800]),
           ),
         ],
       ),
       color: Colors.red[50],
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topRight: Radius.circular(10.0),bottomRight: Radius.circular(10.0),),
-        side: BorderSide(color: Colors.red[100],width: 1.0,),
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(10.0),
+          bottomRight: Radius.circular(10.0),
+        ),
+        side: BorderSide(
+          color: Colors.red[100],
+          width: 1.0,
+        ),
       ),
       elevation: 2.0,
       padding: Constant.raisedButtonPaddingLow,
@@ -404,7 +433,10 @@ class DeleteConfirmationAlert extends StatelessWidget {
   final Function deleteCallback;
   final Function cancelCallback;
 
-  const DeleteConfirmationAlert({Key key, this.title, this.msg, this.deleteCallback, this.cancelCallback}) : super(key: key);
+  const DeleteConfirmationAlert(
+      {Key key, this.title, this.msg, this.deleteCallback, this.cancelCallback})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -492,4 +524,164 @@ class DeleteConfirmationAlert extends StatelessWidget {
   }
 }
 
+class UserProfile extends StatefulWidget {
+  final String userId;
 
+  const UserProfile({Key key, @required this.userId}) : super(key: key);
+
+  @override
+  _UserProfileState createState() => _UserProfileState();
+}
+
+class _UserProfileState extends State<UserProfile> {
+  bool isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: Firestore.instance.collection('Users').document(widget.userId).snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            User user = User.fromSnapshot(snapshot.data);
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  padding: Constant.edgePadding,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            user.userName,
+                            style: Constant.sectionSubHeadingStyle,
+                          ),
+                          user.isProf
+                              ? Icon(
+                                  Icons.star,
+                                  color: Colors.orangeAccent,
+                                  size: 24.0,
+                                )
+                              : Container(),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      Text(
+                        user.fname + " " + user.lname,
+                        style: Constant.sectionSubHeadingDescriptionStyle,
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      Text(user.bio),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          user.isProf
+                              ? Text("Professor")
+                              : (user.isAdmin ? Text("Admin") : Text("Student")),
+                          Text(" @ " + user.university),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      SingleChildScrollView(
+                        padding: EdgeInsets.all(0.0),
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: List.generate(user.topics.length, (i) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 4.0),
+                              child: Chip(
+                                label: Text(
+                                  user.topics[i],
+                                  style: Constant.topicStyle,
+                                ),
+                                backgroundColor: Colors.grey[300],
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      SizedBox(
+                        width: double.maxFinite,
+                        child: RaisedButton(
+                          onPressed: () {
+                            setState(() {
+                              isExpanded = !isExpanded;
+                            });
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            side: BorderSide(color: Colors.blue[500], width: 2.0),
+                          ),
+                          color: Colors.white,
+                          padding: Constant.raisedButtonPaddingMedium,
+                          child: Text(
+                            isExpanded ? "Hide Content" : "Explore Content",
+                            style: Constant.secondaryBlueTextStyle,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                isExpanded
+                    ? Expanded(
+                        child: ExploreContent(
+                          user: user,
+                        ),
+                      )
+                    : Container(),
+                //TODO implement AnimatedCrossFade properly
+                /*Flexible(
+                  fit: FlexFit.loose,
+                  child: AnimatedCrossFade(
+                    firstChild: ExploreContent(
+                      user: user,
+                    ),
+                    secondChild: Container(
+                      constraints: BoxConstraints.tight(
+                        Size(
+                          double.maxFinite,
+                          0.0,
+                        ),
+                      ),
+                    ),
+                    sizeCurve: Curves.easeInOut,
+                    duration: Duration(milliseconds: 700),
+                    crossFadeState:
+                        isExpanded ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                  ),
+                ),*/
+              ],
+            );
+          } else {
+            return SizedBox(
+              height: 28.0,
+              width: 28.0,
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
+  }
+}
