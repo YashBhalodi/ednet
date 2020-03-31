@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/profile/my_profile/my_drafts_page.dart';
 import 'package:ednet/home/profile/my_profile/my_profile_info_page.dart';
-import 'package:ednet/home/profile/other_user_profile/user_answers_page.dart';
-import 'package:ednet/home/profile/other_user_profile/user_articles_page.dart';
-import 'package:ednet/home/profile/other_user_profile/user_questions_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
