@@ -59,13 +59,14 @@ class QuestionPage extends StatelessWidget {
                   }
                 } else {
                   return Expanded(
-                      child: Center(
-                    child: SizedBox(
-                      height: 32.0,
-                      width: 32.0,
-                      child: Constant.greenCircularProgressIndicator,
+                    child: Center(
+                      child: SizedBox(
+                        height: 32.0,
+                        width: 32.0,
+                        child: Constant.greenCircularProgressIndicator,
+                      ),
                     ),
-                  ));
+                  );
                 }
               },
             ),

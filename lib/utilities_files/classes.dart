@@ -446,3 +446,35 @@ class Answer {
 //TODO downvote answer
 
 }
+
+class University {
+  String name;
+  String country;
+  String state;
+  String city;
+  List<String> topics;
+  String id;
+
+  University({this.name, this.country, this.state, this.city, this.topics,this.id});
+
+  University.fromSnapshot(DocumentSnapshot snapshot){
+    this.name = snapshot.data['name'] as String;
+    this.country = snapshot.data['country'] as String;
+    this.state = snapshot.data['state'] as String;
+    this.topics = snapshot.data['topics']?.cast<String>();
+    this.id = snapshot.documentID;
+  }
+
+  Future<bool> updateTopics()async{
+    try {
+      await Firestore.instance.collection('University').document(this.id).updateData({
+            'topics':this.topics,
+          });
+      return true;
+    } catch (e) {
+      print("University.updateTopics()");
+      print(e);
+      return false;
+    }
+  }
+}

@@ -519,3 +519,25 @@ class DeleteConfirmationAlert extends StatelessWidget {
     );
   }
 }
+
+class BlueOutlineButton extends StatelessWidget {
+  final Widget child;
+  final Function callback;
+
+  const BlueOutlineButton({Key key,@required this.callback,@required this.child}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: callback,
+      child: child,
+      padding: Constant.raisedButtonPaddingMedium,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+        side: BorderSide(color: Colors.blue[600], width: 2.0),
+      ),
+      color: Colors.grey[100],
+      disabledColor: Colors.grey[300],
+      elevation: 4.0,
+    );
+  }
+}

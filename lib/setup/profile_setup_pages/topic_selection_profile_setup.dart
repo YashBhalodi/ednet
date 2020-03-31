@@ -15,7 +15,7 @@ class TopicSelection extends StatefulWidget {
       @required this.userSnap,
       this.universitySnap,
       @required this.onSuccess,
-      this.isStudent})
+      @required this.isStudent})
       : super(key: key);
 
   @override

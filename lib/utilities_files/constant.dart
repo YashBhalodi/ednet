@@ -169,6 +169,18 @@ class Constant {
         fontWeight: FontWeight.w600,
       );
 
+  static get dropDownMenuTitleStyle => TextStyle(
+      color: Colors.grey[700],
+      fontSize: 16.0,
+      fontWeight: FontWeight.w600,
+  );
+
+  static get outlineBlueButtonTextStyle => TextStyle(
+      color: Colors.blue[600],
+      fontSize: 18.0,
+      fontWeight: FontWeight.w500,
+  );
+
   static get appBarTextStyle => TextStyle(
         fontFamily: 'ValeraRound',
         fontWeight: FontWeight.w700,
@@ -522,7 +534,7 @@ class Constant {
           constraints: BoxConstraints.loose(
             Size(
               MediaQuery.of(context).size.width,
-              MediaQuery.of(context).size.height - 60,
+              MediaQuery.of(context).size.height - 40,
             ),
           ),
           child: UserProfile(

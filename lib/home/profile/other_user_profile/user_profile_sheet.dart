@@ -3,6 +3,7 @@ import 'package:ednet/home/profile/other_user_profile/explore_content.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class UserProfile extends StatefulWidget {
   final String userId;
@@ -81,24 +82,71 @@ class _UserProfileState extends State<UserProfile> {
                       SizedBox(
                         height: 8.0,
                       ),
-                      SingleChildScrollView(
-                        padding: EdgeInsets.all(0.0),
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: List.generate(user.topics.length, (i) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 4.0),
-                              child: Chip(
-                                label: Text(
-                                  user.topics[i],
-                                  style: Constant.topicStyle,
-                                ),
-                                backgroundColor: Colors.grey[300],
+                      user.isAdmin ? Divider(indent: 5.0,endIndent: 5.0,) : Container(),
+                      user.isAdmin ? Padding(
+                        padding: EdgeInsets.only(bottom:4.0),
+                        child: Text("Topics taught at ${user.university}",),
+                      ): Container(),
+                      user.isAdmin
+                          ? StreamBuilder(
+                              stream: Firestore.instance
+                                  .collection('University')
+                                  .where('name', isEqualTo: user.university)
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return Shimmer.fromColors(
+                                    child: Container(
+                                      width: double.maxFinite,
+                                      height: 32.0,
+                                      color: Colors.white,
+                                    ),
+                                    baseColor: Colors.grey[100],
+                                    highlightColor: Colors.grey[400],
+                                    period: Duration(milliseconds: 400),
+                                  );
+                                } else {
+                                  University university =
+                                      University.fromSnapshot(snapshot.data.documents[0]);
+                                  return SingleChildScrollView(
+                                    padding: EdgeInsets.all(0.0),
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: List.generate(university.topics.length, (i) {
+                                        return Padding(
+                                          padding: const EdgeInsets.only(right: 4.0),
+                                          child: Chip(
+                                            label: Text(
+                                              university.topics[i],
+                                              style: Constant.topicStyle,
+                                            ),
+                                            backgroundColor: Colors.grey[300],
+                                          ),
+                                        );
+                                      }),
+                                    ),
+                                  );
+                                }
+                              },
+                            )
+                          : SingleChildScrollView(
+                              padding: EdgeInsets.all(0.0),
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: List.generate(user.topics.length, (i) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 4.0),
+                                    child: Chip(
+                                      label: Text(
+                                        user.topics[i],
+                                        style: Constant.topicStyle,
+                                      ),
+                                      backgroundColor: Colors.grey[300],
+                                    ),
+                                  );
+                                }),
                               ),
-                            );
-                          }),
-                        ),
-                      ),
+                            ),
                       SizedBox(
                         height: 8.0,
                       ),

@@ -102,6 +102,7 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
                     userSnap: widget.userSnap,
                     universitySnap: widget.universitySnap,
                     onSuccess: _onSuccessOfStep,
+                    isStudent: false,
                   ),
                 ],
               ),
