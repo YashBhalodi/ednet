@@ -171,8 +171,8 @@ class Constant {
 
   static get dropDownMenuTitleStyle => TextStyle(
       color: Colors.grey[700],
-      fontSize: 16.0,
-      fontWeight: FontWeight.w600,
+      fontSize: 18.0,
+      fontWeight: FontWeight.w500,
   );
 
   static get outlineBlueButtonTextStyle => TextStyle(

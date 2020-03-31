@@ -11,173 +11,184 @@ class MyDrafts extends StatelessWidget {
 
   const MyDrafts({Key key, this.user}) : super(key: key);
 
-  //TODO convert the list into 3 seperate expansionTile list
   @override
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
-      padding: EdgeInsets.symmetric(vertical: 16.0),
       children: <Widget>[
-        Padding(
-          padding: Constant.sidePadding,
-          child: Text(
+        ExpansionTile(
+          title: Text(
             "Questions",
-            style: Constant.sectionSubHeadingStyle,
+            style: Constant.dropDownMenuTitleStyle,
           ),
-        ),
-        StreamBuilder(
-          stream: Firestore.instance
-              .collection('Questions')
-              .where('isDraft', isEqualTo: true)
-              .where('userid', isEqualTo: user.id)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              if (snapshot.data.documents.length > 0) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, i) {
-                    Question q = Question.fromSnapshot(snapshot.data.documents[i]);
-                    return QuestionDraftCard(
-                      question: q,
-                    );
+          initiallyExpanded: true,
+          backgroundColor: Colors.grey[50],
+          children: <Widget>[
+            ListView(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                StreamBuilder(
+                  stream: Firestore.instance
+                      .collection('Questions')
+                      .where('isDraft', isEqualTo: true)
+                      .where('userid', isEqualTo: user.id)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.active) {
+                      if (snapshot.data.documents.length > 0) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: snapshot.data.documents.length,
+                          itemBuilder: (context, i) {
+                            Question q = Question.fromSnapshot(snapshot.data.documents[i]);
+                            return QuestionDraftCard(
+                              question: q,
+                            );
+                          },
+                        );
+                      } else {
+                        return Padding(
+                          padding: Constant.edgePadding,
+                          child: Center(
+                            child: Text(
+                              "You don't have any draft questions so far.\n\nCongratulations.",
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      }
+                    } else {
+                      return Center(
+                        child: SizedBox(
+                          height: 32.0,
+                          width: 32.0,
+                          child: Constant.greenCircularProgressIndicator,
+                        ),
+                      );
+                    }
                   },
-                );
-              } else {
-                return Padding(
-                  padding: Constant.edgePadding,
-                  child: Center(
-                    child: Text(
-                      "You don't have any draft questions so far.\n\nCongratulations.",
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                );
-              }
-            } else {
-              return Center(
-                child: SizedBox(
-                  height: 32.0,
-                  width: 32.0,
-                  child: Constant.greenCircularProgressIndicator,
                 ),
-              );
-            }
-          },
+              ],
+            )
+          ],
         ),
-        Divider(
-          endIndent: 24.0,
-          indent: 24.0,
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        Padding(
-          padding: Constant.sidePadding,
-          child: Text(
+        ExpansionTile(
+          title: Text(
             "Articles",
-            style: Constant.sectionSubHeadingStyle,
+            style: Constant.dropDownMenuTitleStyle,
           ),
-        ),
-        StreamBuilder(
-          stream: Firestore.instance
-              .collection('Articles')
-              .where('isDraft', isEqualTo: true)
-              .where('userid', isEqualTo: user.id)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              if (snapshot.data.documents.length > 0) {
-                return ListView.builder(
-                  itemCount: snapshot.data.documents.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, i) {
-                    Article a = Article.fromSnapshot(snapshot.data.documents[i]);
-                    return ArticleDraftCard(
-                      article: a,
-                    );
+          initiallyExpanded: false,
+          backgroundColor: Colors.grey[50],
+          children: <Widget>[
+            ListView(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                StreamBuilder(
+                  stream: Firestore.instance
+                      .collection('Articles')
+                      .where('isDraft', isEqualTo: true)
+                      .where('userid', isEqualTo: user.id)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.active) {
+                      if (snapshot.data.documents.length > 0) {
+                        return ListView.builder(
+                          itemCount: snapshot.data.documents.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, i) {
+                            Article a = Article.fromSnapshot(snapshot.data.documents[i]);
+                            return ArticleDraftCard(
+                              article: a,
+                            );
+                          },
+                        );
+                      } else {
+                        return Padding(
+                          padding: Constant.edgePadding,
+                          child: Center(
+                            child: Text(
+                              "Wow!\nNo draft article pending to publish!\n\nWhen are you planning for next?",
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      }
+                    } else {
+                      return Center(
+                        child: SizedBox(
+                          height: 32.0,
+                          width: 32.0,
+                          child: Constant.greenCircularProgressIndicator,
+                        ),
+                      );
+                    }
                   },
-                );
-              } else {
-                return Padding(
-                  padding: Constant.edgePadding,
-                  child: Center(
-                    child: Text(
-                      "Wow!\nNo draft article pending to publish!\n\nWhen are you planning for next?",
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                );
-              }
-            } else {
-              return Center(
-                child: SizedBox(
-                  height: 32.0,
-                  width: 32.0,
-                  child: Constant.greenCircularProgressIndicator,
                 ),
-              );
-            }
-          },
+              ],
+            )
+          ],
         ),
-        Divider(
-          endIndent: 24.0,
-          indent: 24.0,
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        Padding(
-          padding: Constant.sidePadding,
-          child: Text(
+        ExpansionTile(
+          title: Text(
             "Answers",
-            style: Constant.sectionSubHeadingStyle,
+            style: Constant.dropDownMenuTitleStyle,
           ),
-        ),
-        StreamBuilder(
-          stream: Firestore.instance
-              .collection('Answers')
-              .where('isDraft', isEqualTo: true)
-              .where('userid', isEqualTo: user.id)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              if (snapshot.data.documents.length > 0) {
-                return ListView.builder(
-                  itemCount: snapshot.data.documents.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, i) {
-                    Answer a = Answer.fromSnapshot(snapshot.data.documents[i]);
-                    return AnswerDraftCard(
-                      answer: a,
-                    );
+          initiallyExpanded: false,
+          backgroundColor: Colors.grey[50],
+          children: <Widget>[
+            ListView(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                StreamBuilder(
+                  stream: Firestore.instance
+                      .collection('Answers')
+                      .where('isDraft', isEqualTo: true)
+                      .where('userid', isEqualTo: user.id)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.active) {
+                      if (snapshot.data.documents.length > 0) {
+                        return ListView.builder(
+                          itemCount: snapshot.data.documents.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, i) {
+                            Answer a = Answer.fromSnapshot(snapshot.data.documents[i]);
+                            return AnswerDraftCard(
+                              answer: a,
+                            );
+                          },
+                        );
+                      } else {
+                        return Padding(
+                          padding: Constant.edgePadding,
+                          child: Center(
+                            child: Text(
+                              "WhooHoo!\n\nNo draft answer to write up.",
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      }
+                    } else {
+                      return Center(
+                        child: SizedBox(
+                          height: 32.0,
+                          width: 32.0,
+                          child: Constant.greenCircularProgressIndicator,
+                        ),
+                      );
+                    }
                   },
-                );
-              } else {
-                return Padding(
-                  padding: Constant.edgePadding,
-                  child: Center(
-                    child: Text(
-                      "WhooHoo!\n\nNo draft answer to write up.",
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                );
-              }
-            } else {
-              return Center(
-                child: SizedBox(
-                  height: 32.0,
-                  width: 32.0,
-                  child: Constant.greenCircularProgressIndicator,
                 ),
-              );
-            }
-          },
+              ],
+            )
+          ],
         ),
       ],
     );
