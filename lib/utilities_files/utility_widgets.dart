@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -540,6 +541,83 @@ class BlueOutlineButton extends StatelessWidget {
       color: Colors.grey[100],
       disabledColor: Colors.grey[300],
       elevation: 4.0,
+    );
+  }
+}
+
+class TextWithCounter extends StatefulWidget {
+  final Widget child;
+  final int count;
+
+  const TextWithCounter({Key key,@required this.count,@required this.child}) : super(key: key);
+
+  @override
+  _TextWithCounterState createState() => _TextWithCounterState();
+}
+
+class _TextWithCounterState extends State<TextWithCounter> {
+  Color _badgeColor;
+
+  load() {
+    switch (widget.count) {
+      case (0):
+        {
+          _badgeColor = Color(0xffFFFF33);
+          break;
+        }
+      case (1):
+        {
+          _badgeColor = Color(0xffFFFF33);
+          break;
+        }
+      case (2):
+        {
+          _badgeColor = Color(0xffCCFF4D);
+          break;
+        }
+      case (3):
+        {
+          _badgeColor = Color(0xff99FF66);
+          break;
+        }
+      case (4):
+        {
+          _badgeColor = Color(0xff66FF80);
+          break;
+        }
+      case (5):
+        {
+          _badgeColor = Color(0xff33FF99);
+          break;
+        }
+      default:
+        {
+          _badgeColor = Color(0xff33FF99);
+          break;
+        }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    load();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Badge(
+      child: Padding(
+        padding: const EdgeInsets.only(right:12.0),
+        child: widget.child,
+      ),
+      badgeContent: Text(
+        widget.count >= 100 ? "99+" : widget.count.toString(),
+        style: TextStyle(fontSize: 8.0),
+      ),
+      badgeColor: _badgeColor,
+      elevation: 1,
+
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:ednet/home/feed/question/question_thumb_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/shimmer_widgets.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class _FeedPageState extends State<FeedPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
           appBar: AppBar(
             flexibleSpace: Column(
@@ -31,7 +32,6 @@ class _FeedPageState extends State<FeedPage> {
                     Tab(
                       text: "Articles",
                     ),
-                    Tab(text: "test")
                   ],
                 )
               ],
@@ -41,11 +41,6 @@ class _FeedPageState extends State<FeedPage> {
             children: [
               QuestionFeed(),
               ArticleFeed(),
-              Column(
-                children: <Widget>[
-                  ShimmerTopicTile(),
-                ],
-              ),
             ],
           ),
         ),
