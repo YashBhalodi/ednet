@@ -3,6 +3,7 @@ import 'package:ednet/home/home_page.dart';
 import 'package:ednet/setup/onboarding_page.dart';
 import 'package:ednet/setup/profile_setup_pages/admin_profile_page.dart';
 import 'package:ednet/setup/profile_setup_pages/student_profile_page.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -58,11 +59,7 @@ class _EntryPointState extends State<EntryPoint> {
                   case ConnectionState.none:
                   case ConnectionState.waiting:
                     return Scaffold(
-                      body: Container(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
+                      body: ShimmerMainHome(),
                     );
                   default:
                     if (!futureSnapshot.hasError) {
@@ -113,29 +110,17 @@ class _EntryPointState extends State<EntryPoint> {
                 switch (profileSnapshot.connectionState) {
                   case ConnectionState.none:
                     return Scaffold(
-                      body: Container(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
+                      body: ShimmerMainHome(),
                     );
                     break;
                   case ConnectionState.waiting:
                     return Scaffold(
-                      body: Container(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
+                      body: ShimmerMainHome(),
                     );
                     break;
                   case ConnectionState.active:
                     return Scaffold(
-                      body: Container(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
+                      body: ShimmerMainHome(),
                     );
                     break;
                   case ConnectionState.done:
@@ -172,11 +157,7 @@ class _EntryPointState extends State<EntryPoint> {
                   default:
                     {
                       return Scaffold(
-                        body: Container(
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
+                        body: ShimmerMainHome(),
                       );
                     }
                 }

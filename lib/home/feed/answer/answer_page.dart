@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/question/question_tile_header.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,13 +42,7 @@ class AnswerPage extends StatelessWidget {
                               scrollDescriptionEnabled: false,
                             );
                           } else {
-                            return Center(
-                              child: SizedBox(
-                                height: 32.0,
-                                width: 32.0,
-                                child: Constant.greenCircularProgressIndicator,
-                              ),
-                            );
+                            return ShimmerQuestionTile();
                           }
                         },
                       )

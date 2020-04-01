@@ -4,6 +4,7 @@ import 'package:ednet/home/feed/answer/answer_thumb_card.dart';
 import 'package:ednet/home/feed/question/question_tile_header.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -59,11 +60,11 @@ class QuestionPage extends StatelessWidget {
                   }
                 } else {
                   return Expanded(
-                    child: Center(
-                      child: SizedBox(
-                        height: 32.0,
-                        width: 32.0,
-                        child: Constant.greenCircularProgressIndicator,
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: List.generate(
+                        3,
+                        (i) => ShimmerAnswerThumbCard(),
                       ),
                     ),
                   );

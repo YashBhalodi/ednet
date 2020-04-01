@@ -1,0 +1,80 @@
+[33mf033b57[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/sprint2finishing[m[33m, [m[1;31morigin/master[m[33m)[m cleared unused import
+[33m8846a7a[m Implemented Draft as ExpansionTile. Removed Published content from "manage" screen as they are visible in Profile's "Explore content".
+[33m946b286[m implemented profile edit part for admin. Modified profile preview to accommodate admin profiles.
+[33m782c0c5[m resolved a missing parameter warning.
+[33m7ab7530[m Students,Professor Profile Edit implemented. Restructured Files. Reduced boilerplate.
+[33mb6e5956[m rudimentary profile edit implemented.
+[33mc9e7b5a[m User profile info, and User content view in bottomsheet.
+[33mb29c581[m reformatting and removal of TODO
+[33m18e2a50[m Question tile height limited according to importance of screen
+[33m26b851e[m User Profile View implemented all over the app. {questions,answers,articles}
+[33m78f9e36[m Tested previous untested commits
+[33mfe4c2da[m Tidied up the code.
+[33ma579e74[m username realtime synchronization in all Answers entities (Untested)
+[33m2938d01[m username realtime synchronization in all Articles entities (Untested)
+[33m6537d48[m username realtime synchronization in all Questions entities
+[33m86d2df4[m rudimentary implementation of username synchronised using futurebuilder
+[33mba838f6[m Improved UI of previous commit.
+[33mb8a859d[m Login Link Loading Feedback indicator implemented.
+[33m8f4b559[m added delete confirmation dialogs, cleared finished TODOs,minor bug fixes
+[33m016232b[m Applied final touch to login and onboarding screen. prevented multiple accidental login request.
+[33m1d78044[m Merge pull request #3 from YashBhalodi/signing
+[33m609f692[m[33m ([m[1;31morigin/signing[m[33m)[m Signed the app
+[33m0123e1a[m reformatted the code
+[33m8418968[m Merge branch 'sprint2'
+[33m9887c20[m[33m ([m[1;31morigin/sprint2[m[33m)[m Loading state indicators and prevention of accidental multiple upload of same content.
+[33m869229f[m Zero state message UI implementation
+[33md5c6baf[m Rudimentary Home UI implemented.
+[33m2f10bce[m Answer:- AnswerPage,AnswerThumbCard UI implemented.
+[33m6d4e9b6[m Answer:- {Answer a question, save answer as draft, edit draft answer, post an answer} implemented.
+[33m8daafdb[m AnswerUI:- create answer page UI implemented
+[33mcbaa862[m ArticleUI :- ArticlePage implemented
+[33m9bce450[m repaired overflow in question preview page
+[33me3f8688[m repaired overflow in article preview page
+[33m8d2f504[m Article UI: ArticleDraftCard implemented
+[33md2097b9[m Question UI: QuestionPage implemented
+[33m27df5c5[m Question UI: QuestionDraftCard implemented
+[33m732d1a0[m Question,Article UI:- 2 PreviewCard, 2 ThumbCard
+[33m2ac8af7[m Article create,save as draft, publish implemented
+[33maa9b09b[m Major FIX: Topic List,Feed content Synchronized with Firebase.
+[33mf8d3d91[m cleared warnings wherever possible
+[33m82d1fc0[m Question creating, save as draft, edit the draft, publishing it. implemented.
+[33m009d63d[m Added star for questions by professor
+[33m90ce337[m UI of question preview card
+[33ma094473[m After successful publishing of question, toast and routing.
+[33mf40b26d[m Question publishing implemented with preview in last page
+[33m1d9e866[m Question publishing implemented
+[33m691f9c3[m Bug Spotted for the first formfield in form inside pageview and inside listview.
+[33md74df8a[m Create and Publish Question:- UI flow has been implemented.
+[33ma957a72[m Merge pull request #2 from YashBhalodi/janvi
+[33mb4320ea[m[33m ([m[1;31morigin/janvi[m[33m)[m Implemented the SignUp Instructions
+[33mb5aa032[m replaced LinearProgressIndicator everywhere with a constant
+[33m6a658ba[m Created rough UI and classes for creating question
+[33m109c1c5[m Had forgotten about prof user type. included it.
+[33ma1ac0ef[m Merge pull request #1 from YashBhalodi/sprint1
+[33m55b38c8[m[33m ([m[1;31morigin/sprint1[m[33m)[m made the branch merge ready. Assigned "Sign Up Instruction" screen implementation to fellows.
+[33m7c32caa[m Onboarding Implemented: improved the storing of sharedpreference 'welcome'
+[33meaa97c6[m Onboarding Implemented
+[33md39c8a1[m Increased the username max length to 15 character
+[33md372b1c[m Student Profile Setup workflow complete.
+[33mb921929[m Resolved A major scheming bug. :-P
+[33m1458b3c[m Admin Profile SetUp flow Complete. Refactored the code for better state management and re usability.
+[33m311ba5a[m Admin Profile Set up complete except for few minor things to repair.
+[33m9a16950[m Step 3: Selection of Topic UI implemented part 1.
+[33mbc1a980[m step 2 university registration complete
+[33m89fde13[m Username availability validator foolproof
+[33m78df815[m unfocused the focus on completion of 1st step
+[33mb129f9d[m Admin profile Setup: 1st step, User details complete.
+[33m16cebea[m First step of admin profile setup, except username availability is done.
+[33meb8dfd1[m restructured files
+[33m477de9a[m Login Flow updated with latest version of plugin. Fixed major bugs.
+[33m09f2cc3[m Transition to Profile set up or Home screen. User type aware transition is remaining
+[33mc43b641[m User document upon first registration improved
+[33m113d92d[m Verified login + User document creation + application status foolproofed
+[33mee9fd79[m Updated and foolproofed verified login and user registering flow.
+[33mc9d7f15[m verified login and user registering
+[33m5df02da[m email validator regex
+[33m4fabfc3[m Default Font Changed
+[33m5166828[m Implemented Onboarding trigger
+[33m78c799b[m Implemented Login & Logout flow.
+[33mafac49d[m Firebase authentication integrated

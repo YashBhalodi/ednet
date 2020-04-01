@@ -524,7 +524,9 @@ class BlueOutlineButton extends StatelessWidget {
   final Widget child;
   final Function callback;
 
-  const BlueOutlineButton({Key key,@required this.callback,@required this.child}) : super(key: key);
+  const BlueOutlineButton({Key key, @required this.callback, @required this.child})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return RaisedButton(

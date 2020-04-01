@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -83,12 +84,10 @@ class _QuestionTopicSelectionState extends State<QuestionTopicSelection>
                 );
               }
             } else {
-              return Center(
-                child: SizedBox(
-                  height: 28.0,
-                  width: 28.0,
-                  child: Constant.greenCircularProgressIndicator,
-                ),
+              return ListView(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                children: List.generate(7, (i) => ShimmerTopicTile()),
               );
             }
           },
