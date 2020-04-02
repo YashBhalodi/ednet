@@ -72,7 +72,7 @@ class ArticleThumbCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(
-                height: 16.0,
+                height: 12.0,
               ),
               Text(
                 article.subtitle,
@@ -82,12 +82,13 @@ class ArticleThumbCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(
-                height: 16.0,
+                height: 12.0,
               ),
               Container(
                 constraints: BoxConstraints.loose(Size(double.maxFinite,130.0)),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
+                  physics: NeverScrollableScrollPhysics(),
                   child: ZefyrView(
                     document: NotusDocument.fromJson(
                       jsonDecode(article.contentJson),
@@ -96,7 +97,7 @@ class ArticleThumbCard extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 16.0,
+                height: 12.0,
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,

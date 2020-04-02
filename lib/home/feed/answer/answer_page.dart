@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/question/question_tile_header.dart';
 import 'package:ednet/utilities_files/classes.dart';
@@ -7,6 +8,7 @@ import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:zefyr/zefyr.dart';
 
 class AnswerPage extends StatelessWidget {
   final Answer answer;
@@ -31,7 +33,6 @@ class AnswerPage extends StatelessWidget {
                       Question q = Question.fromSnapshot(snapshot.data);
                       return QuestionTile(
                         question: q,
-                        scrollDescriptionEnabled: false,
                       );
                     } else {
                       return ShimmerQuestionTile();
@@ -40,16 +41,16 @@ class AnswerPage extends StatelessWidget {
                 )
               : QuestionTile(
                   question: question,
-                  scrollDescriptionEnabled: false,
                 ),
           ListView(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             padding: Constant.edgePadding,
             children: <Widget>[
-              Text(
-                answer.content,
-                style: Constant.answerContentStyle,
+              ZefyrView(
+                document: NotusDocument.fromJson(
+                  jsonDecode(answer.contentJson),
+                ),
               ),
               SizedBox(
                 height: 8.0,

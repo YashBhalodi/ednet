@@ -11,9 +11,8 @@ import 'package:zefyr/zefyr.dart';
 
 class QuestionTile extends StatelessWidget {
   final Question question;
-  final bool scrollDescriptionEnabled;
 
-  const QuestionTile({Key key, this.question, @required this.scrollDescriptionEnabled})
+  const QuestionTile({Key key, this.question})
       : super(key: key);
 
   @override
@@ -70,19 +69,7 @@ class QuestionTile extends StatelessWidget {
                 SizedBox(
                   height: 8.0,
                 ),
-                scrollDescriptionEnabled
-                    ? Container(
-                        constraints: BoxConstraints.loose(Size(double.maxFinite, 100.0)),
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: ZefyrView(
-                            document: NotusDocument.fromJson(
-                              jsonDecode(question.descriptionJson),
-                            ),
-                          ),
-                        ),
-                      )
-                    : ZefyrView(
+                ZefyrView(
                         document: NotusDocument.fromJson(
                           jsonDecode(question.descriptionJson),
                         ),

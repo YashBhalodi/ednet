@@ -24,7 +24,6 @@ class QuestionPage extends StatelessWidget {
           children: <Widget>[
             QuestionTile(
               question: question,
-              scrollDescriptionEnabled: true,
             ),
             StreamBuilder(
               stream: Firestore.instance

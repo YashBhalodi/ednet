@@ -44,7 +44,8 @@ class AnswerDraftCard extends StatelessWidget {
                   constraints: BoxConstraints.loose(Size(double.maxFinite,100.0)),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
-                    child: ZefyrView(
+                      physics: NeverScrollableScrollPhysics(),
+                      child: ZefyrView(
                       document: NotusDocument.fromJson(
                         jsonDecode(answer.contentJson),
                       ),

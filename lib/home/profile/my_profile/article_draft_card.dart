@@ -76,6 +76,7 @@ class ArticleDraftCard extends StatelessWidget {
                   constraints: BoxConstraints.loose(Size(double.maxFinite,100.0)),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
+                    physics: NeverScrollableScrollPhysics(),
                     child: ZefyrView(
                       document: NotusDocument.fromJson(
                         jsonDecode(article.contentJson),
