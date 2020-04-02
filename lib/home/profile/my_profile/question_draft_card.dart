@@ -55,7 +55,7 @@ class QuestionDraftCard extends StatelessWidget {
                   height: 8.0,
                 ),
                 Text(
-                  question.heading,
+                  question.heading??"",
                   style: Constant.questionHeadingStyle,
                   textAlign: TextAlign.justify,
                 ),
@@ -63,7 +63,7 @@ class QuestionDraftCard extends StatelessWidget {
                   height: 16.0,
                 ),
                 Text(
-                  question.description,
+                  question.description??"",
                   style: Constant.questionDescriptionStyle,
                   textAlign: TextAlign.justify,
                 ),

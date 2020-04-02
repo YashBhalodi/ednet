@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -545,6 +544,7 @@ class BlueOutlineButton extends StatelessWidget {
   }
 }
 
+/*
 class TextWithCounter extends StatefulWidget {
   final Widget child;
   final int count;
@@ -621,3 +621,4 @@ class _TextWithCounterState extends State<TextWithCounter> {
     );
   }
 }
+*/

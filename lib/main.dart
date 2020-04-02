@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(
           fontFamily: 'Inter',
+          buttonTheme: ButtonThemeData(minWidth: 40.0,),
         ),
         home: EntryPoint(),
         debugShowCheckedModeBanner: false,

@@ -31,6 +31,7 @@ dependencies:
   intl: ^0.16.1
   shimmer: ^1.1.0
   badges: ^1.1.1
+  zefyr: ^0.10.0
 
 dev_dependencies:
   flutter_test:
