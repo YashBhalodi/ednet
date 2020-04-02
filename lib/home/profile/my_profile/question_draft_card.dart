@@ -65,8 +65,8 @@ class QuestionDraftCard extends StatelessWidget {
                 SizedBox(
                   height: 16.0,
                 ),
-                SizedBox(
-                  height: 100.0,
+                Container(
+                  constraints: BoxConstraints.loose(Size(MediaQuery.of(context).size.width,100.0)),,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: ZefyrView(
@@ -76,11 +76,6 @@ class QuestionDraftCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                /*Text(
-                  question.description??"",
-                  style: Constant.questionDescriptionStyle,
-                  textAlign: TextAlign.justify,
-                ),*/
                 SizedBox(
                   height: 16.0,
                 ),

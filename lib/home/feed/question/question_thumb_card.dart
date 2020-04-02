@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/question/question_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
@@ -6,6 +8,7 @@ import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:zefyr/zefyr.dart';
 
 class QuestionThumbCard extends StatelessWidget {
   final Question question;
@@ -73,12 +76,16 @@ class QuestionThumbCard extends StatelessWidget {
               SizedBox(
                 height: 16.0,
               ),
-              Text(
-                question.description,
-                style: Constant.questionDescriptionStyle,
-                textAlign: TextAlign.justify,
-                maxLines: 5,
-                overflow: TextOverflow.ellipsis,
+              Container(
+                constraints: BoxConstraints.loose(Size(MediaQuery.of(context).size.width,100.0)),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: ZefyrView(
+                    document: NotusDocument.fromJson(
+                      jsonDecode(question.descriptionJson),
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
                 height: 16.0,
