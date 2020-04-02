@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:zefyr/zefyr.dart';
 
 class QuestionPreviewCard extends StatelessWidget {
   final Question question;
@@ -56,10 +59,10 @@ class QuestionPreviewCard extends StatelessWidget {
             SizedBox(
               height: 16.0,
             ),
-            Text(
-              question.description,
-              style: Constant.questionDescriptionStyle,
-              textAlign: TextAlign.justify,
+            ZefyrView(
+              document: NotusDocument.fromJson(
+                jsonDecode(question.descriptionJson),
+              ),
             ),
             SizedBox(
               height: 16.0,
