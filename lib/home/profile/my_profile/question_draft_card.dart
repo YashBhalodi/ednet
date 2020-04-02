@@ -66,7 +66,7 @@ class QuestionDraftCard extends StatelessWidget {
                   height: 16.0,
                 ),
                 Container(
-                  constraints: BoxConstraints.loose(Size(MediaQuery.of(context).size.width,100.0)),,
+                  constraints: BoxConstraints.loose(Size(double.maxFinite,100.0)),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: ZefyrView(
