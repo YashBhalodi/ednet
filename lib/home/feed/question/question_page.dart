@@ -17,10 +17,8 @@ class QuestionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
+        body: ListView(
+          shrinkWrap: true,
           children: <Widget>[
             QuestionTile(
               question: question,
@@ -34,20 +32,21 @@ class QuestionPage extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
                   if (snapshot.data.documents.length > 0) {
-                    return Expanded(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.documents.length,
-                        itemBuilder: (context, i) {
-                          Answer a = Answer.fromSnapshot(snapshot.data.documents[i]);
-                          return AnswerThumbCard(
-                            answer: a,
-                          );
-                        },
-                      ),
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, i) {
+                        Answer a = Answer.fromSnapshot(snapshot.data.documents[i]);
+                        return AnswerThumbCard(
+                          answer: a,
+                        );
+                      },
                     );
                   } else {
-                    return Expanded(
+                    return SizedBox(
+                      height: 350,
+                      width: double.maxFinite,
                       child: Center(
                         child: Text(
                           "Be the first person to answer.",
@@ -58,18 +57,18 @@ class QuestionPage extends StatelessWidget {
                     );
                   }
                 } else {
-                  return Expanded(
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: List.generate(
-                        3,
-                        (i) => ShimmerAnswerThumbCard(),
-                      ),
+                  return ListView(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: List.generate(
+                      3,
+                      (i) => ShimmerAnswerThumbCard(),
                     ),
                   );
                 }
               },
             ),
+            SizedBox(height: 16.0,),
             SizedBox(
               height: 64.0,
               width: double.maxFinite,

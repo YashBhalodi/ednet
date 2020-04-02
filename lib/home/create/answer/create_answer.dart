@@ -75,7 +75,6 @@ class _CreateAnswerState extends State<CreateAnswer> {
     String contentResponse = Constant.answerValidator(_answer.content);
     if(contentResponse==null){
       _answer.contentJson = jsonEncode(_zefyrController.document.toJson());
-
       //[widget?.question?.id] is for writing a new answer to a published question,
       //[_answer.queID] is for editing a draft answer.
       _answer.queID = widget?.question?.id ?? _answer.queID;
@@ -191,8 +190,13 @@ class _CreateAnswerState extends State<CreateAnswer> {
               physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
                 Text(
-                  "Answer to question...",
+                  "Your Answer...",
                   style: Constant.sectionSubHeadingStyle,
+                ),
+                SizedBox(height: 8.0,),
+                Text(
+                  "Write to your heart's content.\nClear and Concise answer encourages more upvotes.\nUse formatting to structure your answer.",
+                  style: Constant.formFieldHintStyle,
                 ),
                 SizedBox(
                   height: 20.0,
@@ -208,7 +212,6 @@ class _CreateAnswerState extends State<CreateAnswer> {
                     border: null,
                     focusedBorder: null,
                     contentPadding: Constant.zefyrFieldContentPadding,
-                    hintText: "Clear and concise answer will get you more upvotes...",
                   ),
                   autofocus: false,
                 ),
