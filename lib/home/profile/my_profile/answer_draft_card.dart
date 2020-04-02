@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/create/answer/create_answer.dart';
 import 'package:ednet/utilities_files/classes.dart';
@@ -5,6 +7,7 @@ import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:zefyr/zefyr.dart';
 
 class AnswerDraftCard extends StatelessWidget {
   final Answer answer;
@@ -37,14 +40,19 @@ class AnswerDraftCard extends StatelessWidget {
                 SizedBox(
                   height: 12.0,
                 ),
-                Text(
-                  answer.content.trimLeft(),
-                  style: Constant.answerThumbContentStyle,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
+                Container(
+                  constraints: BoxConstraints.loose(Size(double.maxFinite,100.0)),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: ZefyrView(
+                      document: NotusDocument.fromJson(
+                        jsonDecode(answer.contentJson),
+                      ),
+                    ),
+                  ),
                 ),
                 SizedBox(
-                  height: 22.0,
+                  height: 16.0,
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.max,
