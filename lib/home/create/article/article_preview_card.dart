@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:zefyr/zefyr.dart';
 
 class ArticlePreviewCard extends StatelessWidget {
   final Article article;
@@ -60,12 +63,12 @@ class ArticlePreviewCard extends StatelessWidget {
               textAlign: TextAlign.justify,
             ),
             SizedBox(
-              height: 24.0,
+              height: 16.0,
             ),
-            Text(
-              article.content,
-              style: Constant.articleContentStyle,
-              textAlign: TextAlign.justify,
+            ZefyrView(
+              document: NotusDocument.fromJson(
+                jsonDecode(article.contentJson),
+              ),
             ),
             SizedBox(
               height: 16.0,

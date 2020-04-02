@@ -1,6 +1,7 @@
 import 'package:ednet/home/create/article/article_preview_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:flutter/material.dart';
 
 class ArticlePreview extends StatefulWidget {
@@ -44,13 +45,7 @@ class _ArticlePreviewState extends State<ArticlePreview> {
         (widget.article.title == null ||
                 widget.article.subtitle == null ||
                 widget.article.content == null)
-            ? Center(
-                child: SizedBox(
-                  height: 28.0,
-                  width: 28.0,
-                  child: Constant.greenCircularProgressIndicator,
-                ),
-              )
+            ? ShimmerArticlePreviewCard()
             : Expanded(
                 child: ListView(
                   shrinkWrap: true,

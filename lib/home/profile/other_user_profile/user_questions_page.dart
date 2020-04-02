@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/question/question_thumb_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:flutter/material.dart';
 
 class UserQuestions extends StatelessWidget {
@@ -42,11 +43,11 @@ class UserQuestions extends StatelessWidget {
             );
           }
         } else {
-          return Center(
-            child: SizedBox(
-              height: 32.0,
-              width: 32.0,
-              child: Constant.greenCircularProgressIndicator,
+          return ListView(
+            shrinkWrap: true,
+            children: List.generate(
+              3,
+              (i) => ShimmerQuestionThumbCard(),
             ),
           );
         }

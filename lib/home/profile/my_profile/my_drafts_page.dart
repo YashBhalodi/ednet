@@ -4,6 +4,7 @@ import 'package:ednet/home/profile/my_profile/article_draft_card.dart';
 import 'package:ednet/home/profile/my_profile/question_draft_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:flutter/material.dart';
 
 class MyDrafts extends StatelessWidget {
@@ -49,24 +50,19 @@ class MyDrafts extends StatelessWidget {
                           },
                         );
                       } else {
-                        return Padding(
-                          padding: Constant.edgePadding,
+                        return SizedBox(
+                          width: double.maxFinite,
+                          height: 150.0,
                           child: Center(
                             child: Text(
-                              "You don't have any draft questions so far.\n\nCongratulations.",
+                              "You don't have any draft questions.",
                               textAlign: TextAlign.center,
                             ),
                           ),
                         );
                       }
                     } else {
-                      return Center(
-                        child: SizedBox(
-                          height: 32.0,
-                          width: 32.0,
-                          child: Constant.greenCircularProgressIndicator,
-                        ),
-                      );
+                      return ShimmerQuestionDraftCard();
                     }
                   },
                 ),
@@ -107,24 +103,19 @@ class MyDrafts extends StatelessWidget {
                           },
                         );
                       } else {
-                        return Padding(
-                          padding: Constant.edgePadding,
+                        return SizedBox(
+                          width: double.maxFinite,
+                          height: 150.0,
                           child: Center(
                             child: Text(
-                              "Wow!\nNo draft article pending to publish!\n\nWhen are you planning for next?",
+                              "No draft article pending to publish!\n\nWhen are you planning for next?",
                               textAlign: TextAlign.center,
                             ),
                           ),
                         );
                       }
                     } else {
-                      return Center(
-                        child: SizedBox(
-                          height: 32.0,
-                          width: 32.0,
-                          child: Constant.greenCircularProgressIndicator,
-                        ),
-                      );
+                      return ShimmerArticleDraftCard();
                     }
                   },
                 ),
@@ -165,24 +156,19 @@ class MyDrafts extends StatelessWidget {
                           },
                         );
                       } else {
-                        return Padding(
-                          padding: Constant.edgePadding,
+                        return SizedBox(
+                          width: double.maxFinite,
+                          height: 150.0,
                           child: Center(
                             child: Text(
-                              "WhooHoo!\n\nNo draft answer to write up.",
+                              "No draft answer to write up.",
                               textAlign: TextAlign.center,
                             ),
                           ),
                         );
                       }
                     } else {
-                      return Center(
-                        child: SizedBox(
-                          height: 32.0,
-                          width: 32.0,
-                          child: Constant.greenCircularProgressIndicator,
-                        ),
-                      );
+                      return ShimmerAnswerDraftCard();
                     }
                   },
                 ),

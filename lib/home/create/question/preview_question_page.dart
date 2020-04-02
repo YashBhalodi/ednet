@@ -1,6 +1,7 @@
 import 'package:ednet/home/create/question/question_preview_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -43,13 +44,7 @@ class _PreviewQuestionState extends State<PreviewQuestion> {
           ),
         ),
         (widget.question.heading == null || widget.question.description == null)
-            ? Center(
-                child: SizedBox(
-                  height: 28.0,
-                  width: 28.0,
-                  child: Constant.greenCircularProgressIndicator,
-                ),
-              )
+            ? ShimmerQuestionPreviewCard()
             : Expanded(
                 child: ListView(
                   shrinkWrap: true,

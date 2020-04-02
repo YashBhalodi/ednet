@@ -3,6 +3,8 @@ import 'package:ednet/home/feed/article/article_thumb_card.dart';
 import 'package:ednet/home/feed/question/question_thumb_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -91,11 +93,11 @@ class QuestionFeed extends StatelessWidget {
               }
             } else {
               return Expanded(
-                child: Center(
-                  child: SizedBox(
-                    height: 32.0,
-                    width: 32.0,
-                    child: Constant.greenCircularProgressIndicator,
+                child: ListView(
+                  shrinkWrap: true,
+                  children: List.generate(
+                    3,
+                    (i) => ShimmerQuestionThumbCard(),
                   ),
                 ),
               );
@@ -151,11 +153,11 @@ class ArticleFeed extends StatelessWidget {
               }
             } else {
               return Expanded(
-                child: Center(
-                  child: SizedBox(
-                    height: 32.0,
-                    width: 32.0,
-                    child: Constant.greenCircularProgressIndicator,
+                child: ListView(
+                  shrinkWrap: true,
+                  children: List.generate(
+                    3,
+                    (i) => ShimmerArticleThumbCard(),
                   ),
                 ),
               );

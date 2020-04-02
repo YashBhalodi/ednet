@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
@@ -5,12 +7,13 @@ import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:zefyr/zefyr.dart';
 
 class QuestionTile extends StatelessWidget {
   final Question question;
-  final bool scrollDescriptionEnabled;
 
-  const QuestionTile({Key key, this.question, @required this.scrollDescriptionEnabled}) : super(key: key);
+  const QuestionTile({Key key, this.question})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,20 +69,10 @@ class QuestionTile extends StatelessWidget {
                 SizedBox(
                   height: 8.0,
                 ),
-                scrollDescriptionEnabled
-                    ? Container(
-                        constraints: BoxConstraints.loose(Size(double.maxFinite, 100.0)),
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: Text(
-                            question.description,
-                            style: Constant.questionDescriptionStyle,
-                          ),
+                ZefyrView(
+                        document: NotusDocument.fromJson(
+                          jsonDecode(question.descriptionJson),
                         ),
-                      )
-                    : Text(
-                        question.description,
-                        style: Constant.questionDescriptionStyle,
                       ),
                 SizedBox(
                   height: 20.0,

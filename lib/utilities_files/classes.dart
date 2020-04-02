@@ -99,6 +99,7 @@ class Question {
   bool isDraft;
   int answerCount;
   String userId;
+  String descriptionJson;
 
   Question(
       {this.heading,
@@ -114,7 +115,8 @@ class Question {
       this.id,
       this.isDraft,
       this.answerCount,
-      this.userId});
+      this.userId,
+      this.descriptionJson});
 
   Question.fromSnapshot(DocumentSnapshot snapshot) {
     heading = snapshot.data['heading'];
@@ -131,6 +133,7 @@ class Question {
     isDraft = snapshot.data['isDraft'] as bool;
     answerCount = snapshot.data['answerCount'] as int;
     userId = snapshot.data['userid'] as String;
+    descriptionJson = snapshot.data['descriptionJson'] as String;
   }
 
   Future<bool> uploadQuestion() async {
@@ -149,6 +152,7 @@ class Question {
         'isDraft': this.isDraft,
         'answerCount': this.answerCount,
         'userid': this.userId,
+        'descriptionJson': this.descriptionJson,
       });
       return true;
     } catch (e) {
@@ -160,7 +164,7 @@ class Question {
 
   @override
   String toString() {
-    return 'Question{heading: $heading, description: $description, createdOn: $createdOn, editedOn: $editedOn, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, answerCount: $answerCount, userId: $userId}';
+    return 'Question{heading: $heading, description: $description, createdOn: $createdOn, editedOn: $editedOn, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, answerCount: $answerCount, userId: $userId, descriptionJson: $descriptionJson}';
   }
 
   Future<bool> updateQuestion() async {
@@ -180,6 +184,7 @@ class Question {
         'isDraft': this.isDraft,
         'answerCount': this.answerCount,
         'userid': this.userId,
+        'descriptionJson': this.descriptionJson,
       });
       return true;
     } catch (e) {
@@ -219,6 +224,7 @@ class Article {
   bool byProf;
   bool isDraft;
   String userId;
+  String contentJson;
 
   Article(
       {this.title,
@@ -234,7 +240,8 @@ class Article {
       this.id,
       this.byProf,
       this.isDraft,
-      this.userId});
+      this.userId,
+      this.contentJson});
 
   Article.fromSnapshot(DocumentSnapshot snapshot) {
     title = snapshot.data['title'];
@@ -251,11 +258,12 @@ class Article {
     byProf = snapshot.data['byProf'] as bool;
     isDraft = snapshot.data['isDraft'] as bool;
     userId = snapshot.data['userid'] as String;
+    contentJson = snapshot.data['contentJson'] as String;
   }
 
   @override
   String toString() {
-    return 'Article{title: $title, subtitle: $subtitle, content: $content, createdOn: $createdOn, editedOn: $editedOn, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, userId: $userId}';
+    return 'Article{title: $title, subtitle: $subtitle, content: $content, createdOn: $createdOn, editedOn: $editedOn, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, userId: $userId, contentJson: $contentJson}';
   }
 
   Future<bool> updateArticle() async {
@@ -275,6 +283,7 @@ class Article {
         'byProf': this.byProf,
         'isDraft': this.isDraft,
         'userid': this.userId,
+        'contentJson': this.contentJson,
       });
       return true;
     } catch (e) {
@@ -300,6 +309,7 @@ class Article {
         'byProf': this.byProf,
         'isDraft': this.isDraft,
         'userid': this.userId,
+        'contentJson': this.contentJson,
       });
       return true;
     } catch (e) {
@@ -336,6 +346,7 @@ class Answer {
   int downvoteCount;
   bool byProf;
   bool isDraft;
+  String contentJson;
 
   Answer(
       {this.content,
@@ -348,7 +359,8 @@ class Answer {
       this.upvoteCount,
       this.downvoteCount,
       this.byProf,
-      this.isDraft});
+      this.isDraft,
+      this.contentJson});
 
   Answer.fromSnapshot(DocumentSnapshot snapshot) {
     content = snapshot.data['content'];
@@ -362,6 +374,7 @@ class Answer {
     byProf = snapshot.data['byProf'] as bool;
     isDraft = snapshot.data['isDraft'] as bool;
     queID = snapshot.data['questionId'] as String;
+    contentJson = snapshot.data['contentJson'] as String;
   }
 
   Future<bool> uploadAnswer(bool doIncrement) async {
@@ -378,6 +391,7 @@ class Answer {
         'byProf': this.byProf,
         'isDraft': this.isDraft,
         'questionId': this.queID,
+        'contentJson': this.contentJson,
       });
       //updating answer count in the relevant question
       if (doIncrement) {
@@ -414,6 +428,7 @@ class Answer {
         'byProf': this.byProf,
         'isDraft': this.isDraft,
         'questionId': this.queID,
+        'contentJson': this.contentJson,
       });
       return true;
     } catch (e) {
@@ -425,7 +440,7 @@ class Answer {
 
   @override
   String toString() {
-    return 'Answer{content: $content, queID: $queID, id: $id, userId: $userId, createdOn: $createdOn, upvoters: $upvoters, downvoters: $downvoters, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, byProf: $byProf, isDraft: $isDraft}';
+    return 'Answer{content: $content, queID: $queID, id: $id, userId: $userId, createdOn: $createdOn, upvoters: $upvoters, downvoters: $downvoters, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, byProf: $byProf, isDraft: $isDraft, contentJson: $contentJson}';
   }
 
   //decrease answer count in question if applicable

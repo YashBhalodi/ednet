@@ -17,6 +17,7 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   bool isExpanded = false;
 
+  //TODO FIX dragging bottomsheet rebuilds all its children, causing the streambuilder to fire again
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -82,11 +83,20 @@ class _UserProfileState extends State<UserProfile> {
                       SizedBox(
                         height: 8.0,
                       ),
-                      user.isAdmin ? Divider(indent: 5.0,endIndent: 5.0,) : Container(),
-                      user.isAdmin ? Padding(
-                        padding: EdgeInsets.only(bottom:4.0),
-                        child: Text("Topics taught at ${user.university}",),
-                      ): Container(),
+                      user.isAdmin
+                          ? Divider(
+                              indent: 5.0,
+                              endIndent: 5.0,
+                            )
+                          : Container(),
+                      user.isAdmin
+                          ? Padding(
+                              padding: EdgeInsets.only(bottom: 4.0),
+                              child: Text(
+                                "Topics taught at ${user.university}",
+                              ),
+                            )
+                          : Container(),
                       user.isAdmin
                           ? StreamBuilder(
                               stream: Firestore.instance

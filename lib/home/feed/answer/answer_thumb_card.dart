@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/answer/answer_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
@@ -5,6 +7,7 @@ import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:zefyr/zefyr.dart';
 
 class AnswerThumbCard extends StatelessWidget {
   final Answer answer;
@@ -39,14 +42,17 @@ class AnswerThumbCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              SizedBox(
-                height: 12.0,
-              ),
-              Text(
-                answer.content.trimLeft(),
-                style: Constant.answerThumbContentStyle,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
+              Container(
+                constraints: BoxConstraints.loose(Size(double.maxFinite,80.0)),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  physics: NeverScrollableScrollPhysics(),
+                  child: ZefyrView(
+                    document: NotusDocument.fromJson(
+                      jsonDecode(answer.contentJson),
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
                 height: 22.0,

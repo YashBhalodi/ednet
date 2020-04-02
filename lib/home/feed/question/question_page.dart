@@ -4,6 +4,7 @@ import 'package:ednet/home/feed/answer/answer_thumb_card.dart';
 import 'package:ednet/home/feed/question/question_tile_header.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -16,14 +17,11 @@ class QuestionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
+        body: ListView(
+          shrinkWrap: true,
           children: <Widget>[
             QuestionTile(
               question: question,
-              scrollDescriptionEnabled: true,
             ),
             StreamBuilder(
               stream: Firestore.instance
@@ -34,20 +32,21 @@ class QuestionPage extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
                   if (snapshot.data.documents.length > 0) {
-                    return Expanded(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.documents.length,
-                        itemBuilder: (context, i) {
-                          Answer a = Answer.fromSnapshot(snapshot.data.documents[i]);
-                          return AnswerThumbCard(
-                            answer: a,
-                          );
-                        },
-                      ),
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, i) {
+                        Answer a = Answer.fromSnapshot(snapshot.data.documents[i]);
+                        return AnswerThumbCard(
+                          answer: a,
+                        );
+                      },
                     );
                   } else {
-                    return Expanded(
+                    return SizedBox(
+                      height: 350,
+                      width: double.maxFinite,
                       child: Center(
                         child: Text(
                           "Be the first person to answer.",
@@ -58,18 +57,18 @@ class QuestionPage extends StatelessWidget {
                     );
                   }
                 } else {
-                  return Expanded(
-                    child: Center(
-                      child: SizedBox(
-                        height: 32.0,
-                        width: 32.0,
-                        child: Constant.greenCircularProgressIndicator,
-                      ),
+                  return ListView(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: List.generate(
+                      3,
+                      (i) => ShimmerAnswerThumbCard(),
                     ),
                   );
                 }
               },
             ),
+            SizedBox(height: 16.0,),
             SizedBox(
               height: 64.0,
               width: double.maxFinite,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/article/article_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
@@ -6,6 +8,7 @@ import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:zefyr/zefyr.dart';
 
 class ArticleThumbCard extends StatelessWidget {
   final Article article;
@@ -65,31 +68,36 @@ class ArticleThumbCard extends StatelessWidget {
                 article.title,
                 style: Constant.articleTitleStyle,
                 textAlign: TextAlign.justify,
-                maxLines: 3,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(
-                height: 16.0,
+                height: 12.0,
               ),
               Text(
                 article.subtitle,
                 style: Constant.articleSubtitleStyle,
                 textAlign: TextAlign.justify,
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(
-                height: 24.0,
+                height: 12.0,
               ),
-              Text(
-                article.content,
-                style: Constant.articleContentStyle,
-                textAlign: TextAlign.justify,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+              Container(
+                constraints: BoxConstraints.loose(Size(double.maxFinite,130.0)),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  physics: NeverScrollableScrollPhysics(),
+                  child: ZefyrView(
+                    document: NotusDocument.fromJson(
+                      jsonDecode(article.contentJson),
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
-                height: 16.0,
+                height: 12.0,
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ednet/home/create/question/description_page.dart';
 import 'package:ednet/home/create/question/heading_page.dart';
 import 'package:ednet/home/create/question/preview_question_page.dart';
@@ -6,6 +8,8 @@ import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:quill_delta/quill_delta.dart';
+import 'package:zefyr/zefyr.dart';
 
 class CreateQuestion extends StatefulWidget {
   final Question question;
@@ -26,6 +30,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
   List<String> _selectedTopics;
   bool _draftLoading = false;
   bool _postLoading = false;
+  ZefyrController _zefyrController;
 
   Future<void> _publishQuestion() async {
     setState(() {
@@ -81,6 +86,8 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question.upvoters = [];
     _question.downvoters = [];
     _question.isDraft = true;
+    _question.description = _zefyrController.document.toPlainText();
+    _question.descriptionJson = jsonEncode(_zefyrController.document.toJson());
     _question.answerCount = widget?.question?.answerCount ?? 0;
     final FormState form = _questionFormKey.currentState;
     form.save();
@@ -97,14 +104,21 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question.upvoters = [];
     _question.downvoters = [];
     _question.isDraft = false;
+    _question.description = _zefyrController.document.toPlainText();
+    _question.descriptionJson = jsonEncode(_zefyrController.document.toJson());
     _question.answerCount = widget?.question?.answerCount ?? 0;
-    final FormState form = _questionFormKey.currentState;
-    if (form.validate() && _selectedTopics.length != 0) {
-      form.save();
-      return true;
+    String descriptionResponse = Constant.questionDescriptionValidator(_question.description);
+    if (descriptionResponse == null) {
+      final FormState form = _questionFormKey.currentState;
+      if (form.validate() && _selectedTopics.length != 0) {
+            form.save();
+            return true;
+          } else {
+            Constant.showToastInstruction(
+                "Atleast one topic should be selected.");
+            return false;
+          }
     } else {
-      Constant.showToastInstruction(
-          "Heading should be atleast 10 characters.\nDescription should be atleast 20 character.\nAtleast one topic should be selected.");
       return false;
     }
   }
@@ -114,6 +128,15 @@ class _CreateQuestionState extends State<CreateQuestion> {
     super.initState();
     _question = widget.question == null ? Question() : widget.question;
     _selectedTopics = widget.question == null ? List() : widget.question.topics;
+    _zefyrController = widget.question == null
+        ? ZefyrController(NotusDocument.fromDelta(Delta()..insert("\n"),),)
+        : ZefyrController(
+            NotusDocument.fromJson(
+              json.decode(
+                _question?.descriptionJson ?? null,
+              ),
+            ),
+          );
   }
 
   @override
@@ -158,6 +181,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                   DescriptionPage(
                     question: _question,
                     parentPageController: _pageController,
+                    zefyrDescriptionController: _zefyrController,
                   ),
                   QuestionTopicSelection(
                     question: _question,

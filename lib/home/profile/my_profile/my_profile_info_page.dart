@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -386,12 +387,10 @@ class _UserTopicListTileState extends State<UserTopicListTile> {
                     );
                   }
                 } else {
-                  return Center(
-                    child: SizedBox(
-                      height: 28.0,
-                      width: 28.0,
-                      child: Constant.greenCircularProgressIndicator,
-                    ),
+                  return ListView(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: List.generate(7, (i) => ShimmerTopicTile()),
                   );
                 }
               },
@@ -438,7 +437,6 @@ class _UniversityTopicListTileState extends State<UniversityTopicListTile> {
   List<String> _selectedTopicList = new List();
   String _inputTopicName;
   University _university;
-  
 
   Future<void> createTopic(String title) async {
     try {
@@ -607,11 +605,10 @@ class _UniversityTopicListTileState extends State<UniversityTopicListTile> {
                       );
                     }
                   } else {
-                    return Center(
-                      child: Container(
-                        child: Text(
-                            "Sorry, seems like something went wrong while fetching list of topics."),
-                      ),
+                    return ListView(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: List.generate(7, (i) => ShimmerTopicTile()),
                     );
                   }
                 } else {
