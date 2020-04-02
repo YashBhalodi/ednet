@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:ednet/home/create/question/create_question.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:zefyr/zefyr.dart';
 
 class QuestionDraftCard extends StatelessWidget {
   final Question question;
@@ -55,18 +58,29 @@ class QuestionDraftCard extends StatelessWidget {
                   height: 8.0,
                 ),
                 Text(
-                  question.heading??"",
+                  question.heading ?? "",
                   style: Constant.questionHeadingStyle,
                   textAlign: TextAlign.justify,
                 ),
                 SizedBox(
                   height: 16.0,
                 ),
-                Text(
+                SizedBox(
+                  height: 100.0,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: ZefyrView(
+                      document: NotusDocument.fromJson(
+                        jsonDecode(question.descriptionJson),
+                      ),
+                    ),
+                  ),
+                ),
+                /*Text(
                   question.description??"",
                   style: Constant.questionDescriptionStyle,
                   textAlign: TextAlign.justify,
-                ),
+                ),*/
                 SizedBox(
                   height: 16.0,
                 ),
