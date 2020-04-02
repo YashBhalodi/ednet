@@ -23,27 +23,25 @@ class AnswerPage extends StatelessWidget {
         shrinkWrap: true,
         children: <Widget>[
           question == null
-          ? StreamBuilder(
-            stream: Firestore.instance
-                .collection('Questions')
-                .document(answer.queID)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.active) {
-                Question q = Question.fromSnapshot(snapshot.data);
-                return QuestionTile(
-                  question: q,
+              ? StreamBuilder(
+                  stream:
+                      Firestore.instance.collection('Questions').document(answer.queID).snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.active) {
+                      Question q = Question.fromSnapshot(snapshot.data);
+                      return QuestionTile(
+                        question: q,
+                        scrollDescriptionEnabled: false,
+                      );
+                    } else {
+                      return ShimmerQuestionTile();
+                    }
+                  },
+                )
+              : QuestionTile(
+                  question: question,
                   scrollDescriptionEnabled: false,
-                );
-              } else {
-                return ShimmerQuestionTile();
-              }
-            },
-          )
-          : QuestionTile(
-            question: question,
-            scrollDescriptionEnabled: false,
-          ),
+                ),
           ListView(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
@@ -87,12 +85,12 @@ class AnswerPage extends StatelessWidget {
                                 size: 20.0,
                               ),
                               answer.byProf
-                              ? Icon(
-                                Icons.star,
-                                color: Colors.orangeAccent,
-                                size: 20.0,
-                              )
-                              : Container(),
+                                  ? Icon(
+                                      Icons.star,
+                                      color: Colors.orangeAccent,
+                                      size: 20.0,
+                                    )
+                                  : Container(),
                               StreamBuilder(
                                 stream: Firestore.instance
                                     .collection('Users')
@@ -182,34 +180,34 @@ class AnswerPage extends StatelessWidget {
               SizedBox(
                 height: 32.0,
               ),
+              SizedBox(
+                height: 54.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Expanded(
+                      child: UpvoteButton(
+                        callback: () {
+                          //TODO implement upvote function
+                        },
+                        count: answer.upvoteCount,
+                      ),
+                    ),
+                    Expanded(
+                      child: DownvoteButton(
+                        callback: () {
+                          //TODO implement downvote function
+                        },
+                        count: answer.downvoteCount,
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
-          SizedBox(
-            height: 54.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Expanded(
-                  child: UpvoteButton(
-                    callback: () {
-                      //TODO implement upvote function
-                    },
-                    count: answer.upvoteCount,
-                  ),
-                ),
-                Expanded(
-                  child: DownvoteButton(
-                    callback: () {
-                      //TODO implement downvote function
-                    },
-                    count: answer.downvoteCount,
-                  ),
-                ),
-              ],
-            ),
-          )
         ],
       ),
     );
