@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ednet/home/create/article/article_topic_selection_page.dart';
 import 'package:ednet/home/create/article/content_page.dart';
 import 'package:ednet/home/create/article/preview_article_page.dart';
@@ -7,6 +9,8 @@ import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:quill_delta/quill_delta.dart';
+import 'package:zefyr/zefyr.dart';
 
 class CreateArticle extends StatefulWidget {
   final Article article;
@@ -27,6 +31,7 @@ class _CreateArticleState extends State<CreateArticle> {
   List<String> _selectedTopics;
   bool _draftLoading = false;
   bool _postLoading = false;
+  ZefyrController _zefyrController;
 
   Future<void> _publishArticle() async {
     setState(() {
@@ -82,6 +87,8 @@ class _CreateArticleState extends State<CreateArticle> {
     _article.upvoters = [];
     _article.downvoters = [];
     _article.isDraft = true;
+    _article.contentJson = jsonEncode(_zefyrController.document.toJson());
+    _article.content = _zefyrController.document.toPlainText();
     final FormState form = _articleFormKey.currentState;
     form.save();
   }
@@ -97,10 +104,17 @@ class _CreateArticleState extends State<CreateArticle> {
     _article.upvoters = [];
     _article.downvoters = [];
     _article.isDraft = false;
-    final FormState form = _articleFormKey.currentState;
-    if (form.validate() && _selectedTopics.length != 0) {
-      form.save();
-      return true;
+    _article.contentJson = jsonEncode(_zefyrController.document.toJson());
+    _article.content = _zefyrController.document.toPlainText();
+    String contentResponse = Constant.articleContentValidator(_article.content);
+    if (contentResponse==null) {
+      final FormState form = _articleFormKey.currentState;
+      if (form.validate() && _selectedTopics.length != 0) {
+            form.save();
+            return true;
+          } else {
+            return false;
+          }
     } else {
       return false;
     }
@@ -111,6 +125,19 @@ class _CreateArticleState extends State<CreateArticle> {
     super.initState();
     _article = widget.article == null ? Article() : widget.article;
     _selectedTopics = widget.article == null ? List() : widget.article.topics;
+    _zefyrController = widget.article == null
+        ? ZefyrController(
+            NotusDocument.fromDelta(
+              Delta()..insert("\n"),
+            ),
+          )
+        : ZefyrController(
+            NotusDocument.fromJson(
+              json.decode(
+                _article?.contentJson ?? null,
+              ),
+            ),
+          );
   }
 
   @override
@@ -159,6 +186,7 @@ class _CreateArticleState extends State<CreateArticle> {
                   ContentPage(
                     article: _article,
                     parentPageController: _pageController,
+                    contentZefyrController: _zefyrController,
                   ),
                   ArticleTopicSelection(
                     article: _article,

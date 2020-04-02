@@ -17,13 +17,11 @@ class DescriptionPage extends StatefulWidget {
 
 class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAliveClientMixin {
   ScrollController _scrollController = ScrollController();
-  TextEditingController _descriptionController;
   FocusNode _descriptionFocus = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _descriptionController = TextEditingController(text: widget.question.description);
     _descriptionFocus.addListener((){
       if(_descriptionFocus.hasFocus){
         _scrollController.animateTo(150, duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
@@ -35,7 +33,6 @@ class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAli
   void dispose() {
     super.dispose();
     _scrollController.dispose();
-    _descriptionController.dispose();
     _descriptionFocus.dispose();
   }
 
@@ -72,7 +69,7 @@ class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAli
               fillColor: Colors.grey[200],
               border: null,
               focusedBorder: null,
-              contentPadding: Constant.formFieldContentPadding,
+              contentPadding: Constant.zefyrFieldContentPadding,
               hintText: "Describe the question in details...",
             ),
             autofocus: true,

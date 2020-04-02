@@ -224,6 +224,7 @@ class Article {
   bool byProf;
   bool isDraft;
   String userId;
+  String contentJson;
 
   Article(
       {this.title,
@@ -239,7 +240,8 @@ class Article {
       this.id,
       this.byProf,
       this.isDraft,
-      this.userId});
+      this.userId,
+      this.contentJson});
 
   Article.fromSnapshot(DocumentSnapshot snapshot) {
     title = snapshot.data['title'];
@@ -256,11 +258,12 @@ class Article {
     byProf = snapshot.data['byProf'] as bool;
     isDraft = snapshot.data['isDraft'] as bool;
     userId = snapshot.data['userid'] as String;
+    contentJson = snapshot.data['contentJson'] as String;
   }
 
   @override
   String toString() {
-    return 'Article{title: $title, subtitle: $subtitle, content: $content, createdOn: $createdOn, editedOn: $editedOn, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, userId: $userId}';
+    return 'Article{title: $title, subtitle: $subtitle, content: $content, createdOn: $createdOn, editedOn: $editedOn, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, userId: $userId, contentJson: $contentJson}';
   }
 
   Future<bool> updateArticle() async {
@@ -280,6 +283,7 @@ class Article {
         'byProf': this.byProf,
         'isDraft': this.isDraft,
         'userid': this.userId,
+        'contentJson': this.contentJson,
       });
       return true;
     } catch (e) {
@@ -305,6 +309,7 @@ class Article {
         'byProf': this.byProf,
         'isDraft': this.isDraft,
         'userid': this.userId,
+        'contentJson': this.contentJson,
       });
       return true;
     } catch (e) {

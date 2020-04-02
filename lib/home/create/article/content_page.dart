@@ -1,12 +1,14 @@
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:zefyr/zefyr.dart';
 
 class ContentPage extends StatefulWidget {
   final Article article;
   final PageController parentPageController;
+  final ZefyrController contentZefyrController;
 
-  const ContentPage({Key key, @required this.article, @required this.parentPageController})
+  const ContentPage({Key key, @required this.article, @required this.parentPageController,@required this.contentZefyrController})
       : super(key: key);
 
   @override
@@ -16,11 +18,17 @@ class ContentPage extends StatefulWidget {
 class _ContentPageState extends State<ContentPage> with AutomaticKeepAliveClientMixin {
   ScrollController _scrollController = ScrollController();
   TextEditingController _contentController;
+  FocusNode _contentFocus = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _contentController = TextEditingController(text: widget.article.content);
+    _contentFocus.addListener((){
+      if(_contentFocus.hasFocus){
+        _scrollController.animateTo(150.0, duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
+      }
+    });
   }
 
   @override
@@ -28,58 +36,49 @@ class _ContentPageState extends State<ContentPage> with AutomaticKeepAliveClient
     super.dispose();
     _scrollController.dispose();
     _contentController.dispose();
+    _contentFocus.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ListView(
-      shrinkWrap: true,
-      padding: Constant.edgePadding,
-      controller: _scrollController,
-      children: <Widget>[
-        Text(
-          "Content",
-          style: Constant.sectionSubHeadingStyle,
-        ),
-        SizedBox(
-          height: 8.0,
-        ),
-        Text(
-          "Feel free to write to your heart's content.",
-          style: Constant.sectionSubHeadingDescriptionStyle,
-        ),
-        SizedBox(
-          height: 64.0,
-        ),
-        TextFormField(
-          onEditingComplete: () {
-            widget.parentPageController
-                .nextPage(duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);
-            FocusScope.of(context).unfocus();
-          },
-          onSaved: (d) {
-            setState(() {
-              widget.article.content = d;
-            });
-          },
-          controller: _contentController,
-          style: Constant.formFieldTextStyle,
-          minLines: 20,
-          maxLines: 25,
-          maxLength: 10000,
-          validator: (value) => Constant.articleContentValidator(value),
-          keyboardType: TextInputType.multiline,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.grey[200],
-            border: null,
-            focusedBorder: null,
-            contentPadding: Constant.formFieldContentPadding,
-            hintText: "The main content of article...",
+    return ZefyrScaffold(
+      child: ListView(
+        shrinkWrap: true,
+        padding: Constant.edgePadding,
+        controller: _scrollController,
+        children: <Widget>[
+          Text(
+            "Content",
+            style: Constant.sectionSubHeadingStyle,
           ),
-        ),
-      ],
+          SizedBox(
+            height: 8.0,
+          ),
+          Text(
+            "Feel free to write to your heart's content.",
+            style: Constant.sectionSubHeadingDescriptionStyle,
+          ),
+          SizedBox(
+            height: 64.0,
+          ),
+          ZefyrField(
+            imageDelegate: null,
+            height: 350.0,
+            controller: widget.contentZefyrController,
+            focusNode: _contentFocus,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.grey[200],
+              border: null,
+              focusedBorder: null,
+              contentPadding: Constant.zefyrFieldContentPadding,
+              hintText: "The main content of article...",
+            ),
+            autofocus: true,
+          )
+        ],
+      ),
     );
   }
 

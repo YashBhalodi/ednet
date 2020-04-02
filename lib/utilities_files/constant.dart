@@ -53,6 +53,11 @@ class Constant {
         vertical: 20.0,
       );
 
+  static get zefyrFieldContentPadding => EdgeInsets.symmetric(
+      horizontal: 6.0,
+      vertical: 20.0,
+  );
+
   static get formFieldBorder => OutlineInputBorder(
         borderSide: BorderSide(
           color: Colors.teal[300],
