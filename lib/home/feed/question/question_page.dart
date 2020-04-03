@@ -68,41 +68,43 @@ class QuestionPage extends StatelessWidget {
                 }
               },
             ),
-            SizedBox(height: 16.0,),
-            SizedBox(
-              height: 64.0,
-              width: double.maxFinite,
-              child: PrimaryBlueCTA(
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.mode_edit,
-                      color: Colors.white,
-                      size: 20.0,
-                    ),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "Write Answer",
-                      style: Constant.primaryCTATextStyle,
-                    ),
-                  ],
+            Padding(
+              padding: Constant.edgePadding,
+              child: SizedBox(
+                height: 64.0,
+                width: double.maxFinite,
+                child: PrimaryBlueCTA(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.mode_edit,
+                        color: Colors.white,
+                        size: 20.0,
+                      ),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "Write Answer",
+                        style: Constant.primaryCTATextStyle,
+                      ),
+                    ],
+                  ),
+                  callback: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return CreateAnswer(
+                            question: question,
+                          );
+                        },
+                      ),
+                    );
+                  },
                 ),
-                callback: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return CreateAnswer(
-                          question: question,
-                        );
-                      },
-                    ),
-                  );
-                },
               ),
             ),
           ],

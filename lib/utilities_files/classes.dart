@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ednet/utilities_files/constant.dart';
 
 class User {
   String email;
@@ -204,9 +205,28 @@ class Question {
       return false;
     }
   }
-//TODO upvote question
 
-//TODO downvote question
+  //TODO upvote question
+  Future<bool> upvote() async {
+    String userDocId = await Constant.getCurrentUserDocId();
+    print(this.upvoters.toList());
+    if(!this.upvoters.contains(userDocId)) {
+      Firestore.instance.collection('Questions').document(this.id).updateData({
+        'upvoteCount': FieldValue.increment(1),
+        'upvoters': FieldValue.arrayUnion([userDocId]),
+      });
+    } else {
+      Constant.showToastInstruction("Already upvoted. cancelling upvote.");
+      Firestore.instance.collection('Questions').document(this.id).updateData({
+        'upvoteCount': FieldValue.increment(-1),
+        'upvoters': FieldValue.arrayRemove([userDocId]),
+      });
+    }
+
+  //TODO downvote question
+
+    return true;
+  }
 }
 
 class Article {
@@ -395,16 +415,8 @@ class Answer {
       });
       //updating answer count in the relevant question
       if (doIncrement) {
-        int currentAnswerCount;
-        await Firestore.instance.document('Questions/' + this.queID).get().then((snapshot) {
-          currentAnswerCount = snapshot.data['answerCount'];
-        }).catchError((e) {
-          print("InGetting currentAnswerCount");
-          print(e);
-          return false;
-        });
         await Firestore.instance.document('Questions/' + this.queID).updateData({
-          'answerCount': currentAnswerCount + 1,
+          'answerCount': FieldValue.increment(1),
         });
       }
       return true;
@@ -470,9 +482,9 @@ class University {
   List<String> topics;
   String id;
 
-  University({this.name, this.country, this.state, this.city, this.topics,this.id});
+  University({this.name, this.country, this.state, this.city, this.topics, this.id});
 
-  University.fromSnapshot(DocumentSnapshot snapshot){
+  University.fromSnapshot(DocumentSnapshot snapshot) {
     this.name = snapshot.data['name'] as String;
     this.country = snapshot.data['country'] as String;
     this.state = snapshot.data['state'] as String;
@@ -480,11 +492,11 @@ class University {
     this.id = snapshot.documentID;
   }
 
-  Future<bool> updateTopics()async{
+  Future<bool> updateTopics() async {
     try {
       await Firestore.instance.collection('University').document(this.id).updateData({
-            'topics':this.topics,
-          });
+        'topics': this.topics,
+      });
       return true;
     } catch (e) {
       print("University.updateTopics()");

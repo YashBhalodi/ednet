@@ -312,7 +312,9 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
 
     final loginButton = PrimaryBlueCTA(
       callback: () async {
+        FocusScope.of(context).unfocus();
         if (_loginLoading == false) {
+          FocusScope.of(context).unfocus();
           bool status = await _validateAndSave();
           if (status) {
             Constant.showToastInstruction("Email sent to\n$_email.");
