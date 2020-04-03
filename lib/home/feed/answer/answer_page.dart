@@ -181,32 +181,50 @@ class AnswerPage extends StatelessWidget {
               SizedBox(
                 height: 32.0,
               ),
-              SizedBox(
-                height: 54.0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Expanded(
-                      child: UpvoteButton(
-                        callback: () {
-                          //TODO implement upvote function
-                        },
-                        count: answer.upvoteCount,
+              StreamBuilder(
+                stream: Firestore.instance.collection('Answers').document(answer.id).snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    Answer a = Answer.fromSnapshot(snapshot.data);
+                    return SizedBox(
+                      height: 56.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Expanded(
+                            child: UpvoteButton(
+                              callback: () async {
+                                await a.upvote();
+                              },
+                              count: a.upvoteCount,
+                            ),
+                          ),
+                          Expanded(
+                            child: DownvoteButton(
+                              callback: () async {
+                                await a.downvote();
+                              },
+                              count: a.downvoteCount,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Expanded(
-                      child: DownvoteButton(
-                        callback: () {
-                          //TODO implement downvote function
-                        },
-                        count: answer.downvoteCount,
+                    );
+                  } else {
+                    return Shimmer.fromColors(
+                      child: Container(
+                        height: 56.0,
+                        color: Colors.white,
+                        width: double.maxFinite,
                       ),
-                    ),
-                  ],
-                ),
-              )
+                      baseColor: Colors.grey[100],
+                      highlightColor: Colors.grey[300],
+                    );
+                  }
+                },
+              ),
             ],
           ),
         ],
