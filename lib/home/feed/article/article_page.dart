@@ -72,12 +72,12 @@ class ArticlePage extends StatelessWidget {
                               size: 20.0,
                             ),
                             article.byProf
-                            ? Icon(
-                              Icons.star,
-                              color: Colors.orangeAccent,
-                              size: 20.0,
-                            )
-                            : Container(),
+                                ? Icon(
+                                    Icons.star,
+                                    color: Colors.orangeAccent,
+                                    size: 20.0,
+                                  )
+                                : Container(),
                             StreamBuilder(
                               stream: Firestore.instance
                                   .collection('Users')
@@ -167,32 +167,50 @@ class ArticlePage extends StatelessWidget {
             SizedBox(
               height: 32.0,
             ),
-            SizedBox(
-              height: 56.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Expanded(
-                    child: UpvoteButton(
-                      callback: () {
-                        //TODO implement this
-                      },
-                      count: article.upvoteCount,
+            StreamBuilder(
+              stream: Firestore.instance.collection('Articles').document(article.id).snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  Article a = Article.fromSnapshot(snapshot.data);
+                  return SizedBox(
+                    height: 56.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Expanded(
+                          child: UpvoteButton(
+                            callback: () async {
+                              await a.upvote();
+                            },
+                            count: a.upvoteCount,
+                          ),
+                        ),
+                        Expanded(
+                          child: DownvoteButton(
+                            callback: () async {
+                              await a.downvote();
+                            },
+                            count: a.downvoteCount,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  Expanded(
-                    child: DownvoteButton(
-                      callback: () {
-                        //TODO implement this
-                      },
-                      count: article.downvoteCount,
+                  );
+                } else {
+                  return Shimmer.fromColors(
+                    child: Container(
+                      height: 56.0,
+                      color: Colors.white,
+                      width: double.maxFinite,
                     ),
-                  ),
-                ],
-              ),
-            )
+                    baseColor: Colors.grey[100],
+                    highlightColor: Colors.grey[300],
+                  );
+                }
+              },
+            ),
           ],
         ),
       ),

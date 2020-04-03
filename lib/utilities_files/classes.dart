@@ -233,7 +233,6 @@ class Question {
     return true;
   }
 
-//TODO downvote question
   Future<bool> downvote() async {
     String userDocId = await Constant.getCurrentUserDocId();
     if(!this.downvoters.contains(userDocId)){
@@ -383,9 +382,62 @@ class Article {
       return false;
     }
   }
-//TODO upvote article
 
-//TODO downvote article
+  Future<bool> upvote() async {
+    String userDocId = await Constant.getCurrentUserDocId();
+    if (!this.upvoters.contains(userDocId)) {
+      if (this.downvoters.contains(userDocId)) {
+        //if user had downvoted it earlier, cancel the downvote and increase upvote
+        Firestore.instance.collection('Articles').document(this.id).updateData({
+          'downvoteCount': FieldValue.increment(-1),
+          'downvoters':FieldValue.arrayRemove([userDocId]),
+          'upvoteCount': FieldValue.increment(1),
+          'upvoters': FieldValue.arrayUnion([userDocId]),
+        });
+      } else {
+        Firestore.instance.collection('Articles').document(this.id).updateData({
+          'upvoteCount': FieldValue.increment(1),
+          'upvoters': FieldValue.arrayUnion([userDocId]),
+        });
+      }
+    } else {
+      Constant.showToastInstruction("Already upvoted. Cancelling upvote.");
+      Firestore.instance.collection('Articles').document(this.id).updateData({
+        'upvoteCount': FieldValue.increment(-1),
+        'upvoters': FieldValue.arrayRemove([userDocId]),
+      });
+    }
+    return true;
+  }
+
+  Future<bool> downvote() async {
+    String userDocId = await Constant.getCurrentUserDocId();
+    if(!this.downvoters.contains(userDocId)){
+      if(this.upvoters.contains(userDocId)){
+        //if user had upvoted it earlier, cancel the upvote and increase downvote
+        Firestore.instance.collection('Articles').document(this.id).updateData({
+          'upvoteCount': FieldValue.increment(-1),
+          'upvoters':FieldValue.arrayRemove([userDocId]),
+          'downvoteCount': FieldValue.increment(1),
+          'downvoters': FieldValue.arrayUnion([userDocId]),
+        });
+      } else {
+        Firestore.instance.collection('Articles').document(this.id).updateData({
+          'downvoteCount': FieldValue.increment(1),
+          'downvoters': FieldValue.arrayUnion([userDocId]),
+        });
+      }
+      return true;
+    } else {
+      Constant.showToastInstruction("Already Downvoted. Cancelling downvote.");
+      Firestore.instance.collection('Articles').document(this.id).updateData({
+        'downvoteCount': FieldValue.increment(-1),
+        'downvoters': FieldValue.arrayRemove([userDocId]),
+      });
+      return true;
+    }
+  }
+
 }
 
 class Answer {
