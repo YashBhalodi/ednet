@@ -12,8 +12,7 @@ import 'package:zefyr/zefyr.dart';
 class QuestionTile extends StatelessWidget {
   final Question question;
 
-  const QuestionTile({Key key, this.question})
-      : super(key: key);
+  const QuestionTile({Key key, this.question}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +69,10 @@ class QuestionTile extends StatelessWidget {
                   height: 8.0,
                 ),
                 ZefyrView(
-                        document: NotusDocument.fromJson(
-                          jsonDecode(question.descriptionJson),
-                        ),
-                      ),
+                  document: NotusDocument.fromJson(
+                    jsonDecode(question.descriptionJson),
+                  ),
+                ),
                 SizedBox(
                   height: 20.0,
                 ),
@@ -184,16 +183,18 @@ class QuestionTile extends StatelessWidget {
                       Expanded(
                         child: UpvoteButton(
                           count: question.upvoteCount,
-                          callback: () {
+                          callback: () async {
                             //TODO implement the function
+                            await question.upvote();
                           },
                         ),
                       ),
                       Expanded(
                           child: DownvoteButton(
                         count: question.downvoteCount,
-                        callback: () {
+                        callback: () async {
                           //TODO implement the function
+                          await question.downvote();
                         },
                       )),
                     ],

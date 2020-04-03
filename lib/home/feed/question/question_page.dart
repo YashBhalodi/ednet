@@ -20,9 +20,17 @@ class QuestionPage extends StatelessWidget {
         body: ListView(
           shrinkWrap: true,
           children: <Widget>[
-            QuestionTile(
-              question: question,
-            ),
+              StreamBuilder(
+                  stream: Firestore.instance.collection('Questions').document(question.id).snapshots(),
+                  builder: (context,snapshot){
+                      if(snapshot.hasData){
+                          Question q = Question.fromSnapshot(snapshot.data);
+                          return QuestionTile(question: q,);
+                      } else {
+                          return ShimmerQuestionTile();
+                      }
+                  },
+              ),
             StreamBuilder(
               stream: Firestore.instance
                   .collection('Answers')
