@@ -222,32 +222,40 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   }
 
   Future<void> _signInWithEmailAndLink() async {
+    print("225:-email:"+_email);
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Logging you in..."),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(16.0),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Logging you in..."),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(16.0),
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(
+                height: 32.0,
+                width: 32.0,
+                child: CircularProgressIndicator(),
               ),
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(
-                  height: 32.0,
-                  width: 32.0,
-                  child: CircularProgressIndicator(),
-                ),
-              ],
-            ),
-          );
-        });
+            ],
+          ),
+        );
+      },
+    );
     final FirebaseAuth user = FirebaseAuth.instance;
     bool validLink = await user.isSignInWithEmailLink(_link);
+    if(_email==null){
+      print("_email is null");
+      Navigator.of(context).pop();
+      Constant.showToastError("Sorry, Log In failed.\nTechnical problems.");
+    }
     if (validLink) {
       try {
+        print("253:-email:"+_email);
         List<String> signInMethod =
             await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: _email);
         if (signInMethod.length == 0) {

@@ -40,6 +40,13 @@ class _PreviewQuestionState extends State<PreviewQuestion> {
                 "Please review your question before finally publishing.",
                 style: Constant.sectionSubHeadingDescriptionStyle,
               ),
+              SizedBox(
+                height: 8.0,
+              ),
+              Text(
+                "Once question is published it can't be edited or removed.\nSave your question as draft and publish it once you are confident.",
+                style: Constant.formFieldHintStyle,
+              ),
             ],
           ),
         ),

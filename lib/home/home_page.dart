@@ -29,40 +29,42 @@ class _HomeState extends State<Home> {
       ],
     );
 
-    return Scaffold(
-      body: _body,
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            title: Text(
-              "Create",
-              style: Constant.bottomNavigationTitleStyle,
+    return SafeArea(
+      child: Scaffold(
+        body: _body,
+        bottomNavigationBar: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add),
+              title: Text(
+                "Create",
+                style: Constant.bottomNavigationTitleStyle,
+              ),
             ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.rss_feed),
-            title: Text(
-              "Learn",
-              style: Constant.bottomNavigationTitleStyle,
+            BottomNavigationBarItem(
+              icon: Icon(Icons.rss_feed),
+              title: Text(
+                "Learn",
+                style: Constant.bottomNavigationTitleStyle,
+              ),
             ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            title: Text(
-              "Manage",
-              style: Constant.bottomNavigationTitleStyle,
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              title: Text(
+                "Manage",
+                style: Constant.bottomNavigationTitleStyle,
+              ),
             ),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: (i) {
-          setState(() {
-            _selectedIndex = i;
-          });
-        },
+          ],
+          currentIndex: _selectedIndex,
+          onTap: (i) {
+            setState(() {
+              _selectedIndex = i;
+            });
+          },
+        ),
+        drawer: AppDrawer(),
       ),
-      drawer: AppDrawer(),
     );
   }
 }

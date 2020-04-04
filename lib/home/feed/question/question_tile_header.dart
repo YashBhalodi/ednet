@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
@@ -183,19 +184,18 @@ class QuestionTile extends StatelessWidget {
                         child: UpvoteButton(
                           count: question.upvoteCount,
                           callback: () async {
-                            //TODO implement the function
                             await question.upvote();
                           },
                         ),
                       ),
                       Expanded(
-                          child: DownvoteButton(
-                        count: question.downvoteCount,
-                        callback: () async {
-                          //TODO implement the function
-                          await question.downvote();
-                        },
-                      )),
+                        child: DownvoteButton(
+                          count: question.downvoteCount,
+                          callback: () async {
+                            await question.downvote();
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),
