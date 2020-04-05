@@ -4,7 +4,6 @@ import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -223,35 +222,29 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
 
   Future<void> _signInWithEmailAndLink() async {
     showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Logging you in..."),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(16.0),
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              SizedBox(
-                height: 32.0,
-                width: 32.0,
-                child: CircularProgressIndicator(),
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Logging you in..."),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(16.0),
               ),
-            ],
-          ),
-        );
-      },
-    );
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(
+                  height: 32.0,
+                  width: 32.0,
+                  child: CircularProgressIndicator(),
+                ),
+              ],
+            ),
+          );
+        });
     final FirebaseAuth user = FirebaseAuth.instance;
     bool validLink = await user.isSignInWithEmailLink(_link);
-    if(_email==null){
-      print("_email is null");
-      Navigator.of(context).pop();
-      Constant.showToastError("Sorry, Log In failed.\nTechnical problems.");
-    }
     if (validLink) {
       try {
         List<String> signInMethod =

@@ -117,6 +117,8 @@ class _CreateQuestionState extends State<CreateQuestion> {
       if (form.validate()) {
         form.save();
         return true;
+      } else {
+        return false;
       }
     } else {
       return false;
