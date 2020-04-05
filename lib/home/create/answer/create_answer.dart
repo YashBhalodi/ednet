@@ -38,7 +38,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
     _zefyrController = widget.answer == null
         ? ZefyrController(
             NotusDocument.fromDelta(
-              Delta(),
+              Delta()..insert("\n"),
             ),
           )
         : ZefyrController(

@@ -109,7 +109,11 @@ class _CreateArticleState extends State<CreateArticle> {
     String contentResponse = Constant.articleContentValidator(_article.content);
     if (contentResponse == null) {
       final FormState form = _articleFormKey.currentState;
-      if (form.validate() && _selectedTopics.length != 0) {
+      if(_selectedTopics.length==0){
+        Constant.showToastInstruction("Atleast one topic should be selected.");
+        return false;
+      }
+      if (form.validate()) {
         form.save();
         return true;
       } else {
@@ -128,7 +132,7 @@ class _CreateArticleState extends State<CreateArticle> {
     _zefyrController = widget.article == null
         ? ZefyrController(
             NotusDocument.fromDelta(
-              Delta(),
+              Delta()..insert("\n"),
             ),
           )
         : ZefyrController(

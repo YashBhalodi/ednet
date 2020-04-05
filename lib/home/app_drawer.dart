@@ -12,6 +12,7 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User currentUser = User.fromSnapshot(userSnap);
     return Drawer(
       child: ListView(
         physics: BouncingScrollPhysics(),
@@ -31,7 +32,7 @@ class AppDrawer extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) {
                     return MyProfile(
-                      user: User.fromSnapshot(userSnap),
+                      user: currentUser,
                     );
                   },
                 ),
@@ -49,7 +50,7 @@ class AppDrawer extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) {
                     return MyDrafts(
-                      user: User.fromSnapshot(userSnap),
+                      user: currentUser,
                     );
                   },
                 ),
@@ -66,15 +67,17 @@ class AppDrawer extends StatelessWidget {
               Constant.logOut();
             },
           ),
-          ListTile(
-            title: Text(
-              "Admin Panel",
-              style: Constant.appDrawerMenuStyle,
-            ),
-            onTap: () {
-              print("yet to implement");
-            },
-          ),
+          currentUser.isAdmin
+              ? ListTile(
+                  title: Text(
+                    "Admin Panel",
+                    style: Constant.appDrawerMenuStyle,
+                  ),
+                  onTap: () {
+                    print("yet to implement");
+                  },
+                )
+              : Container(),
         ],
       ),
     );

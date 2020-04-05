@@ -63,6 +63,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   onPressed: () {
+                    Navigator.of(context).pop();
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
@@ -110,6 +111,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   onPressed: () {
+                    Navigator.of(context).pop();
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {

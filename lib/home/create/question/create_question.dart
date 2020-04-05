@@ -110,12 +110,13 @@ class _CreateQuestionState extends State<CreateQuestion> {
     String descriptionResponse = Constant.questionDescriptionValidator(_question.description);
     if (descriptionResponse == null) {
       final FormState form = _questionFormKey.currentState;
-      if (form.validate() && _selectedTopics.length != 0) {
-        form.save();
-        return true;
-      } else {
+      if (_selectedTopics.length == 0){
         Constant.showToastInstruction("Atleast one topic should be selected.");
         return false;
+      }
+      if (form.validate()) {
+        form.save();
+        return true;
       }
     } else {
       return false;
@@ -130,7 +131,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _zefyrController = widget.question == null
         ? ZefyrController(
             NotusDocument.fromDelta(
-              Delta(),
+              Delta()..insert("\n"),
             ),
           )
         : ZefyrController(

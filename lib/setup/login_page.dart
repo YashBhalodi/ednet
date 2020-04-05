@@ -222,7 +222,6 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   }
 
   Future<void> _signInWithEmailAndLink() async {
-    print("225:-email:"+_email);
     showDialog(
       context: context,
       builder: (context) {
@@ -255,7 +254,6 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     }
     if (validLink) {
       try {
-        print("253:-email:"+_email);
         List<String> signInMethod =
             await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: _email);
         if (signInMethod.length == 0) {
