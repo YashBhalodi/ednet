@@ -104,13 +104,13 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question.upvoters = [];
     _question.downvoters = [];
     _question.isDraft = false;
-    _question.description = _zefyrController.document.toPlainText();
+    _question.description = _zefyrController.document.toPlainText().trim();
     _question.descriptionJson = jsonEncode(_zefyrController.document.toJson());
     _question.answerCount = widget?.question?.answerCount ?? 0;
     String descriptionResponse = Constant.questionDescriptionValidator(_question.description);
     if (descriptionResponse == null) {
       final FormState form = _questionFormKey.currentState;
-      if (_selectedTopics.length == 0){
+      if (_selectedTopics.length == 0) {
         Constant.showToastInstruction("Atleast one topic should be selected.");
         return false;
       }

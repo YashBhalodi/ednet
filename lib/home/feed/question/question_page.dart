@@ -53,7 +53,7 @@ class QuestionPage extends StatelessWidget {
                     );
                   } else {
                     return SizedBox(
-                      height: 350,
+                      height: 200,
                       width: double.maxFinite,
                       child: Center(
                         child: Text(

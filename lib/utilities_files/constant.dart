@@ -318,8 +318,6 @@ class Constant {
     }
   }
 
-  //TODO toast instruction for validator violations
-
   static String nameValidator(String value) {
     Pattern pattern = r'^[a-zA-Z ]*$';
     RegExp regExp = new RegExp(pattern);
@@ -409,7 +407,6 @@ class Constant {
   static String articleSubtitleValidator(value) {
     if (value.length < 20) {
       Constant.showToastInstruction("Article Subtitle should be atleast 20 charactes long");
-
       return "Article Subtitle should be atleast 20 charactes long";
     } else {
       return null;
