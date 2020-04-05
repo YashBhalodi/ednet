@@ -111,13 +111,12 @@ class _CreateQuestionState extends State<CreateQuestion> {
     if (descriptionResponse == null) {
       final FormState form = _questionFormKey.currentState;
       if (form.validate() && _selectedTopics.length != 0) {
-            form.save();
-            return true;
-          } else {
-            Constant.showToastInstruction(
-                "Atleast one topic should be selected.");
-            return false;
-          }
+        form.save();
+        return true;
+      } else {
+        Constant.showToastInstruction("Atleast one topic should be selected.");
+        return false;
+      }
     } else {
       return false;
     }
@@ -129,7 +128,11 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question = widget.question == null ? Question() : widget.question;
     _selectedTopics = widget.question == null ? List() : widget.question.topics;
     _zefyrController = widget.question == null
-        ? ZefyrController(NotusDocument.fromDelta(Delta()..insert("\n"),),)
+        ? ZefyrController(
+            NotusDocument.fromDelta(
+              Delta(),
+            ),
+          )
         : ZefyrController(
             NotusDocument.fromJson(
               json.decode(

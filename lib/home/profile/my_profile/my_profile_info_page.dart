@@ -17,53 +17,60 @@ class MyProfile extends StatefulWidget {
 class _MyProfileState extends State<MyProfile> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: <Widget>[
-        ExpansionTile(
-          title: Text(
-            "Preview Profile",
-            style: Constant.dropDownMenuTitleStyle,
-          ),
-          initiallyExpanded: true,
-          backgroundColor: Colors.grey[50],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("My Profile"),
+        ),
+        body: ListView(
+          shrinkWrap: true,
           children: <Widget>[
-            ListView(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              padding: Constant.edgePadding,
+            ExpansionTile(
+              title: Text(
+                "Preview Profile",
+                style: Constant.dropDownMenuTitleStyle,
+              ),
+              initiallyExpanded: true,
+              backgroundColor: Colors.grey[50],
               children: <Widget>[
-                Text(
-                  "How other users will see your profile...",
-                  style: Constant.sectionSubHeadingDescriptionStyle,
-                ),
-                SizedBox(
-                  height: 16.0,
-                ),
-                BlueOutlineButton(
-                  child: Text(
-                    "My Profile",
-                    style: Constant.outlineBlueButtonTextStyle,
-                  ),
-                  callback: () {
-                    Constant.userProfileView(context, userId: widget.user.id);
-                  },
-                ),
+                ListView(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: Constant.edgePadding,
+                  children: <Widget>[
+                    Text(
+                      "How other users will see your profile...",
+                      style: Constant.sectionSubHeadingDescriptionStyle,
+                    ),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    BlueOutlineButton(
+                      child: Text(
+                        "My Profile",
+                        style: Constant.outlineBlueButtonTextStyle,
+                      ),
+                      callback: () {
+                        Constant.userProfileView(context, userId: widget.user.id);
+                      },
+                    ),
+                  ],
+                )
               ],
-            )
+            ),
+            EditDetailsTile(
+              user: widget.user,
+            ),
+            widget.user.isAdmin
+                ? UniversityTopicListTile(
+                    user: widget.user,
+                  )
+                : UserTopicListTile(
+                    user: widget.user,
+                  ),
           ],
         ),
-        EditDetailsTile(
-          user: widget.user,
-        ),
-        widget.user.isAdmin
-            ? UniversityTopicListTile(
-                user: widget.user,
-              )
-            : UserTopicListTile(
-                user: widget.user,
-              ),
-      ],
+      ),
     );
   }
 }

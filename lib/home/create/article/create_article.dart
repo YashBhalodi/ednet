@@ -107,14 +107,14 @@ class _CreateArticleState extends State<CreateArticle> {
     _article.contentJson = jsonEncode(_zefyrController.document.toJson());
     _article.content = _zefyrController.document.toPlainText();
     String contentResponse = Constant.articleContentValidator(_article.content);
-    if (contentResponse==null) {
+    if (contentResponse == null) {
       final FormState form = _articleFormKey.currentState;
       if (form.validate() && _selectedTopics.length != 0) {
-            form.save();
-            return true;
-          } else {
-            return false;
-          }
+        form.save();
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
@@ -128,7 +128,7 @@ class _CreateArticleState extends State<CreateArticle> {
     _zefyrController = widget.article == null
         ? ZefyrController(
             NotusDocument.fromDelta(
-              Delta()..insert("\n"),
+              Delta(),
             ),
           )
         : ZefyrController(
