@@ -179,15 +179,29 @@ class AnswerPage extends StatelessWidget {
                   style: Constant.sectionSubHeadingDescriptionStyle,
                   textAlign: TextAlign.center,
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 16.0),
-                    child: Text(
-                      "4 professor upvoted",      //TODO profUpvotecount
-                      style: Constant.professorUpvoteTextStyle,
-                    ),
-                  ),
+                StreamBuilder(
+                  stream: Firestore.instance.collection('Answers').document(answer.id).snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      Answer a = Answer.fromSnapshot(snapshot.data);
+                      if (a.profUpvoteCount > 0) {
+                        return Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 16.0),
+                            child: Text(
+                              "${a.profUpvoteCount} professor upvoted",
+                              style: Constant.professorUpvoteTextStyle,
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    } else {
+                      return Container();
+                    }
+                  },
                 ),
                 SizedBox(
                   height: 32.0,

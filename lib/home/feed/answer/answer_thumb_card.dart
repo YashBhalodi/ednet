@@ -43,7 +43,7 @@ class AnswerThumbCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Container(
-                constraints: BoxConstraints.loose(Size(double.maxFinite,80.0)),
+                constraints: BoxConstraints.loose(Size(double.maxFinite, 80.0)),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   physics: NeverScrollableScrollPhysics(),
@@ -57,16 +57,18 @@ class AnswerThumbCard extends StatelessWidget {
               SizedBox(
                 height: 22.0,
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    "4 professor upvoted",      //TODO profUpvotecount
-                    style: Constant.professorUpvoteTextStyle,
-                  ),
-                ),
-              ),
+              answer.profUpvoteCount > 0
+                  ? Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          "${answer.profUpvoteCount} professor upvoted",
+                          style: Constant.professorUpvoteTextStyle,
+                        ),
+                      ),
+                    )
+                  : Container(),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,

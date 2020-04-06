@@ -86,6 +86,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
       _answer.downvoteCount = 0;
       _answer.upvoters = [];
       _answer.downvoters = [];
+      _answer.profUpvoteCount = 0;
       _answer.isDraft = false;
       return true;
     } else {
@@ -140,6 +141,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
       _answer.upvoters = [];
       _answer.downvoters = [];
       _answer.isDraft = true;
+      _answer.profUpvoteCount = 0;
       _answer.content = _zefyrController.document.toPlainText();
       _answer.contentJson = jsonEncode(_zefyrController.document.toJson());
       return true;
