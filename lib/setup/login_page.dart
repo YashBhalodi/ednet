@@ -13,7 +13,8 @@ class LoginPage extends StatefulWidget {
   LoginPageState createState() => new LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
+class LoginPageState extends State<LoginPage>
+    with WidgetsBindingObserver, AutomaticKeepAliveClientMixin {
   String _email;
   String _link;
   final _formKey = GlobalKey<FormState>();
@@ -245,6 +246,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         });
     final FirebaseAuth user = FirebaseAuth.instance;
     bool validLink = await user.isSignInWithEmailLink(_link);
+    print("email:- $_email");
     if (validLink) {
       try {
         List<String> signInMethod =
@@ -260,6 +262,45 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setBool("welcome", true);
       } catch (e) {
+        PlatformException err = e;
+        if (err.code == "ERROR_INVALID_ACTION_CODE") {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(16.0),
+                  ),
+                ),
+                content: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                        "The link you used might have been expired.\n\nPlease check your inbox again and use the latest link."),
+                    SizedBox(
+                      height: 32.0,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: SecondaryCTA(
+                        callback: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "OK",
+                          style: Constant.secondaryCTATextStyle,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        }
         print("signInWithEmailLink function:- " + e.toString());
       }
     } else {
@@ -290,6 +331,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final email = TextFormField(
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
@@ -353,4 +395,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     );
     return loginForm;
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
