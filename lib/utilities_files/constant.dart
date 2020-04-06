@@ -416,7 +416,6 @@ class Constant {
   static String articleContentValidator(value) {
     if (value.length < 100) {
       Constant.showToastInstruction("Article content should be atleast 100 charactes long");
-
       return "Article content should be atleast 100 charactes long";
     } else {
       return null;

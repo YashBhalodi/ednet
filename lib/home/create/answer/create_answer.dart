@@ -72,7 +72,6 @@ class _CreateAnswerState extends State<CreateAnswer> {
 
   Future<bool> _validateAndSave() async {
     _answer.content = _zefyrController.document.toPlainText().trim();
-    print(_answer.content.length);
     String contentResponse = Constant.answerValidator(_answer.content);
     if (contentResponse == null) {
       _answer.contentJson = jsonEncode(_zefyrController.document.toJson());
