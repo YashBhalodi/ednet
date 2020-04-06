@@ -101,6 +101,7 @@ class Question {
   int answerCount;
   String userId;
   String descriptionJson;
+  int profUpvoteCount;
 
   Question(
       {this.heading,
@@ -117,7 +118,8 @@ class Question {
       this.isDraft,
       this.answerCount,
       this.userId,
-      this.descriptionJson});
+      this.descriptionJson,
+      this.profUpvoteCount});
 
   Question.fromSnapshot(DocumentSnapshot snapshot) {
     heading = snapshot.data['heading'];
@@ -135,6 +137,7 @@ class Question {
     answerCount = snapshot.data['answerCount'] as int;
     userId = snapshot.data['userid'] as String;
     descriptionJson = snapshot.data['descriptionJson'] as String;
+    profUpvoteCount = snapshot.data['profUpvoteCount'] as int ?? 0;
   }
 
   Future<bool> uploadQuestion() async {
@@ -154,6 +157,7 @@ class Question {
         'answerCount': this.answerCount,
         'userid': this.userId,
         'descriptionJson': this.descriptionJson,
+        'profUpvoteCount': this.profUpvoteCount,
       });
       return true;
     } catch (e) {
@@ -165,7 +169,7 @@ class Question {
 
   @override
   String toString() {
-    return 'Question{heading: $heading, description: $description, createdOn: $createdOn, editedOn: $editedOn, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, answerCount: $answerCount, userId: $userId, descriptionJson: $descriptionJson}';
+    return 'Question{heading: $heading, description: $description, createdOn: $createdOn, editedOn: $editedOn, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, answerCount: $answerCount, userId: $userId, descriptionJson: $descriptionJson, profUpvoteCount: $profUpvoteCount}';
   }
 
   Future<bool> updateQuestion() async {
@@ -186,6 +190,7 @@ class Question {
         'answerCount': this.answerCount,
         'userid': this.userId,
         'descriptionJson': this.descriptionJson,
+        'profUpvoteCount': this.profUpvoteCount,
       });
       return true;
     } catch (e) {
@@ -207,47 +212,83 @@ class Question {
   }
 
   Future<bool> upvote() async {
-    String userDocId = await Constant.getCurrentUserDocId();
-    if (!this.upvoters.contains(userDocId)) {
-      if (this.downvoters.contains(userDocId)) {
+    User user = await Constant.getCurrentUserObject();
+    if (!this.upvoters.contains(user.id)) {
+      if (this.downvoters.contains(user.id)) {
         //if user had downvoted it earlier, cancel the downvote and increase upvote
-        Firestore.instance.collection('Questions').document(this.id).updateData({
-          'downvoteCount': FieldValue.increment(-1),
-          'downvoters': FieldValue.arrayRemove([userDocId]),
-          'upvoteCount': FieldValue.increment(1),
-          'upvoters': FieldValue.arrayUnion([userDocId]),
-        });
+        if (user.isProf) {
+          Firestore.instance.collection('Questions').document(this.id).updateData({
+            'downvoteCount': FieldValue.increment(-1),
+            'downvoters': FieldValue.arrayRemove([user.id]),
+            'upvoteCount': FieldValue.increment(1),
+            'upvoters': FieldValue.arrayUnion([user.id]),
+            'profUpvoteCount': FieldValue.increment(1),
+          });
+        } else {
+          Firestore.instance.collection('Questions').document(this.id).updateData({
+            'downvoteCount': FieldValue.increment(-1),
+            'downvoters': FieldValue.arrayRemove([user.id]),
+            'upvoteCount': FieldValue.increment(1),
+            'upvoters': FieldValue.arrayUnion([user.id]),
+          });
+        }
       } else {
-        Firestore.instance.collection('Questions').document(this.id).updateData({
-          'upvoteCount': FieldValue.increment(1),
-          'upvoters': FieldValue.arrayUnion([userDocId]),
-        });
+        if (user.isProf) {
+          Firestore.instance.collection('Questions').document(this.id).updateData({
+            'upvoteCount': FieldValue.increment(1),
+            'upvoters': FieldValue.arrayUnion([user.id]),
+            'profUpvoteCount': FieldValue.increment(1),
+          });
+        } else {
+          Firestore.instance.collection('Questions').document(this.id).updateData({
+            'upvoteCount': FieldValue.increment(1),
+            'upvoters': FieldValue.arrayUnion([user.id]),
+          });
+        }
       }
     } else {
       Constant.showToastInstruction("Already upvoted.\nCancelling upvote.");
-      Firestore.instance.collection('Questions').document(this.id).updateData({
-        'upvoteCount': FieldValue.increment(-1),
-        'upvoters': FieldValue.arrayRemove([userDocId]),
-      });
+      if (user.isProf) {
+        Firestore.instance.collection('Questions').document(this.id).updateData({
+          'upvoteCount': FieldValue.increment(-1),
+          'upvoters': FieldValue.arrayRemove([user.id]),
+          'profUpvoteCount': FieldValue.increment(-1),
+        });
+      } else {
+        Firestore.instance.collection('Questions').document(this.id).updateData({
+          'upvoteCount': FieldValue.increment(-1),
+          'upvoters': FieldValue.arrayRemove([user.id]),
+        });
+      }
     }
     return true;
   }
 
   Future<bool> downvote() async {
-    String userDocId = await Constant.getCurrentUserDocId();
-    if (!this.downvoters.contains(userDocId)) {
-      if (this.upvoters.contains(userDocId)) {
+    User user = await Constant.getCurrentUserObject();
+    if (!this.downvoters.contains(user.id)) {
+      if (this.upvoters.contains(user.id)) {
         //if user had upvoted it earlier, cancel the upvote and increase downvote
-        Firestore.instance.collection('Questions').document(this.id).updateData({
-          'upvoteCount': FieldValue.increment(-1),
-          'upvoters': FieldValue.arrayRemove([userDocId]),
-          'downvoteCount': FieldValue.increment(1),
-          'downvoters': FieldValue.arrayUnion([userDocId]),
-        });
+        if (user.isProf) {
+          Firestore.instance.collection('Questions').document(this.id).updateData({
+            'upvoteCount': FieldValue.increment(-1),
+            'upvoters': FieldValue.arrayRemove([user.id]),
+            'downvoteCount': FieldValue.increment(1),
+            'downvoters': FieldValue.arrayUnion([user.id]),
+            'profUpvoteCount': FieldValue.increment(-1),
+          });
+        } else {
+          Firestore.instance.collection('Questions').document(this.id).updateData({
+            'upvoteCount': FieldValue.increment(-1),
+            'upvoters': FieldValue.arrayRemove([user.id]),
+            'downvoteCount': FieldValue.increment(1),
+            'downvoters': FieldValue.arrayUnion([user.id]),
+          });
+        }
       } else {
         Firestore.instance.collection('Questions').document(this.id).updateData({
           'downvoteCount': FieldValue.increment(1),
-          'downvoters': FieldValue.arrayUnion([userDocId]),
+          'downvoters': FieldValue.arrayUnion([user.id]),
         });
       }
       return true;
@@ -255,7 +296,7 @@ class Question {
       Constant.showToastInstruction("Already Downvoted.\nCancelling downvote.");
       Firestore.instance.collection('Questions').document(this.id).updateData({
         'downvoteCount': FieldValue.increment(-1),
-        'downvoters': FieldValue.arrayRemove([userDocId]),
+        'downvoters': FieldValue.arrayRemove([user.id]),
       });
       return true;
     }

@@ -179,6 +179,16 @@ class AnswerPage extends StatelessWidget {
                   style: Constant.sectionSubHeadingDescriptionStyle,
                   textAlign: TextAlign.center,
                 ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 16.0),
+                    child: Text(
+                      "4 professor upvoted",      //TODO profUpvotecount
+                      style: Constant.professorUpvoteTextStyle,
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: 32.0,
                 ),

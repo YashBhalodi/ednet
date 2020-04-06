@@ -179,7 +179,7 @@ class LoginPageState extends State<LoginPage>
     try {
       docRef = await Firestore.instance
           .collection('SignUpApplications')
-          .where('email', isEqualTo: _email)
+          .where('emcoail', isEqualTo: _email)
           .getDocuments();
       await Firestore.instance
           .collection('SignUpApplications')

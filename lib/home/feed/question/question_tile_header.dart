@@ -76,6 +76,16 @@ class QuestionTile extends StatelessWidget {
                 SizedBox(
                   height: 20.0,
                 ),
+                question.profUpvoteCount>0?Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 8.0),
+                    child: Text(
+                      "${question.profUpvoteCount} professor upvoted",
+                      style: Constant.professorUpvoteTextStyle,
+                    ),
+                  ),
+                ):Container(),
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,

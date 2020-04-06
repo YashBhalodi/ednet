@@ -99,6 +99,16 @@ class ArticleThumbCard extends StatelessWidget {
               SizedBox(
                 height: 12.0,
               ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    "4 professor upvoted",      //TODO profUpvotecount
+                    style: Constant.professorUpvoteTextStyle,
+                  ),
+                ),
+              ),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,

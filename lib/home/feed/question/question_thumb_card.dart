@@ -77,11 +77,11 @@ class QuestionThumbCard extends StatelessWidget {
                 height: 16.0,
               ),
               Container(
-                constraints: BoxConstraints.loose(Size(double.maxFinite,100.0)),
+                constraints: BoxConstraints.loose(Size(double.maxFinite, 100.0)),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
-                    physics: NeverScrollableScrollPhysics(),
-                    child: ZefyrView(
+                  physics: NeverScrollableScrollPhysics(),
+                  child: ZefyrView(
                     document: NotusDocument.fromJson(
                       jsonDecode(question.descriptionJson),
                     ),
@@ -91,6 +91,16 @@ class QuestionThumbCard extends StatelessWidget {
               SizedBox(
                 height: 16.0,
               ),
+              question.profUpvoteCount>0?Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    "${question.profUpvoteCount} professor upvoted",
+                    style: Constant.professorUpvoteTextStyle,
+                  ),
+                ),
+              ):Container(),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,

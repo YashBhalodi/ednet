@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/profile/other_user_profile/user_profile_sheet.dart';
+import 'package:ednet/utilities_files/classes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -260,6 +261,12 @@ class Constant {
         color: Colors.black,
       );
 
+  static get professorUpvoteTextStyle => TextStyle(
+      fontSize: 10,
+      fontWeight: FontWeight.w400,
+      color: Colors.deepOrange
+  );
+
   static String emailValidator(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -280,6 +287,13 @@ class Constant {
         .where('email', isEqualTo: currentUser.email)
         .getDocuments();
     return userDoc.documents[0].documentID;
+  }
+
+  static Future<User> getCurrentUserObject() async {
+      final currentUser = await FirebaseAuth.instance.currentUser();
+      final userDoc = await Firestore.instance.collection('Users').where('email',isEqualTo: currentUser.email).getDocuments();
+      User user = User.fromSnapshot(userDoc.documents[0]);
+      return user;
   }
 
   static Future<String> userNameAvailableValidator(String value) async {
