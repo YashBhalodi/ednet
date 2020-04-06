@@ -87,6 +87,7 @@ class _CreateArticleState extends State<CreateArticle> {
     _article.upvoters = [];
     _article.downvoters = [];
     _article.isDraft = true;
+    _article.profUpvoteCount = 0;
     _article.contentJson = jsonEncode(_zefyrController.document.toJson());
     _article.content = _zefyrController.document.toPlainText();
     final FormState form = _articleFormKey.currentState;
@@ -104,6 +105,7 @@ class _CreateArticleState extends State<CreateArticle> {
     _article.upvoters = [];
     _article.downvoters = [];
     _article.isDraft = false;
+    _article.profUpvoteCount = 0;
     _article.contentJson = jsonEncode(_zefyrController.document.toJson());
     _article.content = _zefyrController.document.toPlainText().trim();
     String contentResponse = Constant.articleContentValidator(_article.content);
