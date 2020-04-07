@@ -203,7 +203,7 @@ class _EditDetailsTileState extends State<EditDetailsTile> {
                 TextFormField(
                   validator: (value) => Constant.mobileNumberValidator(value),
                   onSaved: (value) {
-                    _inputMobileNumber = value;
+                    _inputMobileNumber = value.trim();
                   },
                   initialValue: widget.user.mobile,
                   maxLength: 10,

@@ -55,9 +55,9 @@ class Constant {
       );
 
   static get zefyrFieldContentPadding => EdgeInsets.symmetric(
-      horizontal: 6.0,
-      vertical: 20.0,
-  );
+        horizontal: 6.0,
+        vertical: 20.0,
+      );
 
   static get formFieldBorder => OutlineInputBorder(
         borderSide: BorderSide(
@@ -176,16 +176,16 @@ class Constant {
       );
 
   static get dropDownMenuTitleStyle => TextStyle(
-      color: Colors.grey[700],
-      fontSize: 18.0,
-      fontWeight: FontWeight.w500,
-  );
+        color: Colors.grey[700],
+        fontSize: 18.0,
+        fontWeight: FontWeight.w500,
+      );
 
   static get outlineBlueButtonTextStyle => TextStyle(
-      color: Colors.blue[600],
-      fontSize: 18.0,
-      fontWeight: FontWeight.w500,
-  );
+        color: Colors.blue[600],
+        fontSize: 18.0,
+        fontWeight: FontWeight.w500,
+      );
 
   static get appBarTextStyle => TextStyle(
         fontFamily: 'ValeraRound',
@@ -261,11 +261,8 @@ class Constant {
         color: Colors.black,
       );
 
-  static get professorUpvoteTextStyle => TextStyle(
-      fontSize: 10,
-      fontWeight: FontWeight.w400,
-      color: Colors.deepOrange
-  );
+  static get professorUpvoteTextStyle =>
+      TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.deepOrange);
 
   static String emailValidator(String value) {
     Pattern pattern =
@@ -290,10 +287,13 @@ class Constant {
   }
 
   static Future<User> getCurrentUserObject() async {
-      final currentUser = await FirebaseAuth.instance.currentUser();
-      final userDoc = await Firestore.instance.collection('Users').where('email',isEqualTo: currentUser.email).getDocuments();
-      User user = User.fromSnapshot(userDoc.documents[0]);
-      return user;
+    final currentUser = await FirebaseAuth.instance.currentUser();
+    final userDoc = await Firestore.instance
+        .collection('Users')
+        .where('email', isEqualTo: currentUser.email)
+        .getDocuments();
+    User user = User.fromSnapshot(userDoc.documents[0]);
+    return user;
   }
 
   static Future<String> userNameAvailableValidator(String value) async {
@@ -382,10 +382,14 @@ class Constant {
 
   static String mobileNumberValidator(String value) {
     //TODO adapt to handle country code
-    if (value.length == 0) {
+    Pattern pattern = r'^[0-9]+$';
+    RegExp regExp = new RegExp(pattern);
+    if (value.trim().length == 0) {
       return "Please provide mobile number";
-    } else if (value.length != 10) {
+    } else if (value.trim().length != 10) {
       return "This mobile number is not valid";
+    } else if (!regExp.hasMatch(value.trim())) {
+      return "Mobile number can only containe numbers";
     } else {
       return null;
     }
