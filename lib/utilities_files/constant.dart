@@ -382,7 +382,7 @@ class Constant {
 
   static String mobileNumberValidator(String value) {
     //TODO adapt to handle country code
-    Pattern pattern = r'^[0-9]+$';
+    Pattern pattern = r'^[0-9]+s$';
     RegExp regExp = new RegExp(pattern);
     if (value.trim().length == 0) {
       return "Please provide mobile number";
@@ -396,7 +396,7 @@ class Constant {
   }
 
   static String questionHeadingValidator(value) {
-    if (value.length < 10) {
+    if (value.trim().length < 10) {
       Constant.showToastInstruction("Heading needs atleast 10 characters");
       return "Heading needs atleast 10 characters";
     } else {

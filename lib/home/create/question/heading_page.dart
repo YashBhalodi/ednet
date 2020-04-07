@@ -60,7 +60,7 @@ class _HeadingPageState extends State<HeadingPage> with AutomaticKeepAliveClient
           },
           onSaved: (h) {
             setState(() {
-              widget.question.heading = h;
+              widget.question.heading = h.trim();
             });
           },
           controller: _headingController,

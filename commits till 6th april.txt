@@ -1,0 +1,678 @@
+commit 79a2435b2a933934828d988cfeeb11f1de852ce8
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Apr 6 18:04:04 2020 +0530
+
+    Implemented: Professor Upvote count in Answers
+
+commit 9cbcfaec9615d501921a22adc3c94db5cacc4add
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Apr 6 17:31:27 2020 +0530
+
+    Implemented: Professor Upvote count in Articles
+
+commit a3094ea957527513d237a8eceb963c98a877f535
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Apr 6 16:45:23 2020 +0530
+
+    Implemented: Professor Upvote count in Questions
+
+commit 61b506a213c4521bef2be155f1c6f68605e04996
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Apr 6 14:53:14 2020 +0530
+
+    expired login link handle situation
+
+commit e89ddffbbe5f3c6990ce0ae2d9c70f9ab03d8d31
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Apr 6 11:50:06 2020 +0530
+
+    committing minor changes
+
+commit 6c26ed14d89ef248cdc10217bfef7257c147de2b
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sun Apr 5 16:24:14 2020 +0530
+
+    Fixed: Validator bugs for answers, articles and questions
+
+commit 10aa539cbb1a9ce30f7764c84eed1521f18a6415
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sun Apr 5 15:00:12 2020 +0530
+
+    Fixed: missed "return false" to update loader state in publish question.
+
+commit 74d4fa76de90acabf3f6961929cdab30b229781c
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sun Apr 5 14:48:08 2020 +0530
+
+    Fixed: incorrect and overlapping validator toast in publishing article & question
+
+commit ce98bebf91b35f62306b1b5afacff4e39ed5f4a7
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sun Apr 5 12:29:27 2020 +0530
+
+    restructured main navigation of the application using the FAB
+
+commit 2d60439c54a7fdcfa04aaff8294d95c52eb7cdd0
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sat Apr 4 18:59:18 2020 +0530
+
+    Wrapped SafeArea, Cleared Imports, Toast error message in login failure due to null email.
+
+commit 9cb4f9e3238f3c23ad7d4ec1a1dc78bf79f58613
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Fri Apr 3 18:31:11 2020 +0530
+
+    Answer upvote/downvote implemented.
+
+commit 378908a55bbf0fded3c0dede1b6c6b1ebe393894
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Fri Apr 3 18:20:50 2020 +0530
+
+    Article upvote/downvote implemented.
+
+commit c774bc128f55b8fea2d40144977669a1151c5447
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Fri Apr 3 17:18:08 2020 +0530
+
+    Question upvote/downvote implemented.
+
+commit 7d3375a86453d3202270e8296eaf17bf4ff30f6d
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Fri Apr 3 16:18:23 2020 +0530
+
+    loginPage unfocused after button tap, UI restructured of QuestionPage, Question.upvote() method written
+
+commit 9111ba207618c1af67414be062d2cc329eae5337
+Merge: f033b57 05540e2
+Author: Yash Bhalodi <yashbhalodi007@yahoo.com>
+Date:   Thu Apr 2 18:41:53 2020 +0530
+
+    Merge pull request #4 from YashBhalodi/sprint3
+    
+    Sprint3
+
+commit 05540e21f819ef35d1b00312a1fd4125882724af
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Apr 2 18:35:52 2020 +0530
+
+    redesigned the Question page for better usability.
+
+commit fd80f86667b24f6baa1b50e4e405c309803b1d68
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Apr 2 18:21:24 2020 +0530
+
+    Zefyr Integration Complete.
+
+commit f3c929a23526605088028b4bb0ada82204590c4f
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Apr 2 18:02:08 2020 +0530
+
+    Answer Draft Card Empowered with ZefyrView
+
+commit ffa1e69bff6469855e85177d6331f71a6de5bff1
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Apr 2 17:59:52 2020 +0530
+
+    Article Preview Card Empowered with ZefyrView
+
+commit b650dd75f59cc6e907c42616f82ce31b4fe62b9b
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Apr 2 17:57:33 2020 +0530
+
+    Article Page Empowered with ZefyrView
+
+commit f2287f634c186bddc4c054c706a259e350f856d0
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Apr 2 17:51:29 2020 +0530
+
+    Article Thumb Card Empowered with ZefyrView
+
+commit 1eaa5bf1bf62e0443c23eb2a682797169cee9199
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Apr 2 17:42:27 2020 +0530
+
+    Question Preview Card Empowered with ZefyrView
+
+commit 7e3e429cb247c9249950672a859bb86be9f71e4e
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Apr 2 17:34:36 2020 +0530
+
+    Article Draft Card Empowered with ZefyrView
+
+commit 76792500c2e9e64e12082a48483f029bc8c8ff6f
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Apr 2 17:24:48 2020 +0530
+
+    Question Tile header Empowered with ZefyrView
+
+commit c81a05a5d0f3a0e4142c1c4df65a69c23c6849a8
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Apr 2 17:17:44 2020 +0530
+
+    Question Thumb & Draft Card Empowered with ZefyrView
+
+commit e787ca52634eee1bf81d6c778670dcdc5259d51a
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Apr 2 17:07:01 2020 +0530
+
+    Question Draft Card Empowered with ZefyrView
+
+commit bac453310c53b7c86a4be786f5397874ef28fd30
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Apr 2 16:58:41 2020 +0530
+
+    Answer Content empowered with Zefyr Editor.
+
+commit 75f8b61e24897744ad0b9becea5aac9d2b607d28
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Apr 2 16:28:41 2020 +0530
+
+    Article Content empowered with Zefyr Editor.
+
+commit 540ffe7b6a2459c82c5b742bb46aebe9466ce901
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Apr 2 15:59:25 2020 +0530
+
+    Question Description empowered with Zefyr Editor.
+
+commit 4aca54e4662640e517460e8185984c08a61b42cc
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Wed Apr 1 17:11:14 2020 +0530
+
+    cleared up code for production ready
+
+commit 945d045730e311a771a8850d32c221e54cec7c1d
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Wed Apr 1 14:28:00 2020 +0530
+
+    All loading states are replaced with shimmers instead of circularProgressIndicator.
+
+commit f033b579d8f08df892a821d64f800b6adf83252a
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Tue Mar 31 21:04:04 2020 +0530
+
+    cleared unused import
+
+commit 8846a7af625a8c7626d4b5c6da8567ee1cdaf618
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Tue Mar 31 17:30:49 2020 +0530
+
+    Implemented Draft as ExpansionTile. Removed Published content from "manage" screen as they are visible in Profile's "Explore content".
+
+commit 946b286414cda4751b73d8c564b93b0552c460cf
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Tue Mar 31 17:17:42 2020 +0530
+
+    implemented profile edit part for admin. Modified profile preview to accommodate admin profiles.
+
+commit 782c0c50d7f24aec2ff050badbef9cd98aaa4d49
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Tue Mar 31 00:51:33 2020 +0530
+
+    resolved a missing parameter warning.
+
+commit 7ab7530ae99970a2d947dc450a5e6df3112ea44e
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Tue Mar 31 00:48:48 2020 +0530
+
+    Students,Professor Profile Edit implemented. Restructured Files. Reduced boilerplate.
+
+commit b6e595664834ebcf24a5165f637358cf0bed37e3
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 30 19:51:52 2020 +0530
+
+    rudimentary profile edit implemented.
+
+commit c9e7b5ac7800605fbb9bbe6350ae6522586a3a21
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 30 15:26:28 2020 +0530
+
+    User profile info, and User content view in bottomsheet.
+
+commit b29c581ba79d93a5cf1f01e2eb783846fa830cc4
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 30 01:15:19 2020 +0530
+
+    reformatting and removal of TODO
+
+commit 18e2a505ff5591c7443891737e7c826b694017fb
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 30 01:13:15 2020 +0530
+
+    Question tile height limited according to importance of screen
+
+commit 26b851e90ac36f3d4ab56d3eed9a3aae85cf0455
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 30 01:03:25 2020 +0530
+
+    User Profile View implemented all over the app. {questions,answers,articles}
+
+commit 78f9e36b20bf48e843baae63ea32f602ce6a7d36
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sun Mar 29 19:16:02 2020 +0530
+
+    Tested previous untested commits
+
+commit fe4c2da6d7a499f4cd2230bbb048a90c47001472
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sun Mar 29 18:30:39 2020 +0530
+
+    Tidied up the code.
+
+commit a579e74dee720446483cf23b3fdb56420abb2bd9
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sun Mar 29 17:15:08 2020 +0530
+
+    username realtime synchronization in all Answers entities (Untested)
+
+commit 2938d0189b5e7791dcc7977b6a72ba8273a16c71
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sun Mar 29 16:57:22 2020 +0530
+
+    username realtime synchronization in all Articles entities (Untested)
+
+commit 6537d4875b8439b269e1cfbdf3a7ff5c4cc999ad
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sun Mar 29 16:17:23 2020 +0530
+
+    username realtime synchronization in all Questions entities
+
+commit 86d2df42a00c4254ebeb2c46e96a2bb1853d2e16
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sun Mar 29 16:09:51 2020 +0530
+
+    rudimentary implementation of username synchronised using futurebuilder
+
+commit ba838f6fa8ac297436e45718ea31df8beb94c70d
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sun Mar 29 14:06:51 2020 +0530
+
+    Improved UI of previous commit.
+
+commit b8a859de4f8e7043448ce85ccaa69a9a3fd43ef9
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sat Mar 28 19:22:13 2020 +0530
+
+    Login Link Loading Feedback indicator implemented.
+
+commit 8f4b5599e760585cd8b438c753920dc1191f3623
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sat Mar 28 01:42:26 2020 +0530
+
+    added delete confirmation dialogs, cleared finished TODOs,minor bug fixes
+
+commit 016232baa6b87559e2e719fc52476ae5f145c14f
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Wed Mar 25 19:58:48 2020 +0530
+
+    Applied final touch to login and onboarding screen. prevented multiple accidental login request.
+
+commit 1d78044b65ce80d137b1a89480235c53d33aa01c
+Merge: 8418968 609f692
+Author: Yash Bhalodi <yashbhalodi007@yahoo.com>
+Date:   Wed Mar 25 19:24:30 2020 +0530
+
+    Merge pull request #3 from YashBhalodi/signing
+    
+    Signed the app for release
+
+commit 609f6924eb85aaffc4d181466658a68002eba713
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Wed Mar 25 19:22:37 2020 +0530
+
+    Signed the app
+
+commit 0123e1a42f90d3ad8a549a204bb2d5a02c0ca33c
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Wed Mar 25 18:05:32 2020 +0530
+
+    reformatted the code
+
+commit 841896873100f50b7f2bb70ff1a8bb5ce1479bed
+Merge: a957a72 9887c20
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Wed Mar 25 17:45:42 2020 +0530
+
+    Merge branch 'sprint2'
+
+commit 9887c20975b992df3277beef395941ef5fd19b61
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Wed Mar 25 16:30:36 2020 +0530
+
+    Loading state indicators and prevention of accidental multiple upload of same content.
+
+commit 869229f3e91dbca542df34a1ebe5546b43e37882
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Wed Mar 25 01:51:57 2020 +0530
+
+    Zero state message UI implementation
+
+commit d5c6bafbe008495c265534653c31d30d77b1eb97
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Tue Mar 24 22:40:33 2020 +0530
+
+    Rudimentary Home UI implemented.
+
+commit 2f10bced6f9718f532df0436bd9ca78f9159786a
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Tue Mar 24 17:51:36 2020 +0530
+
+    Answer:- AnswerPage,AnswerThumbCard UI implemented.
+
+commit 6d4e9b6e74509db5dca687b079cc9d1c6164f4df
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Tue Mar 24 15:47:41 2020 +0530
+
+    Answer:- {Answer a question, save answer as draft, edit draft answer, post an answer} implemented.
+
+commit 8daafdb24d1fbc4f22d1e214305f585342251717
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Tue Mar 24 12:59:46 2020 +0530
+
+    AnswerUI:- create answer page UI implemented
+
+commit cbaa8621f4218ba3c8fe5f7e92431cdf9f47990c
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Tue Mar 24 00:21:36 2020 +0530
+
+    ArticleUI :- ArticlePage implemented
+
+commit 9bce45026a93dc17633088257f8aa333e18af8d7
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 23 19:27:19 2020 +0530
+
+    repaired overflow in question preview page
+
+commit e3f868818bceb16505107c39eceff6ac14ee65f9
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 23 19:25:09 2020 +0530
+
+    repaired overflow in article preview page
+
+commit 8d2f504a52786793fee9086b2fbab0d66ab34947
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 23 19:20:44 2020 +0530
+
+    Article UI: ArticleDraftCard implemented
+
+commit d2097b94d00b721e029bc7ad4dd55cabefdba603
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 23 17:16:52 2020 +0530
+
+    Question UI: QuestionPage implemented
+
+commit 27df5c58bee148aaf116e8e406c44f97cf2f68ba
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 23 14:05:02 2020 +0530
+
+    Question UI: QuestionDraftCard implemented
+
+commit 732d1a09466195b748de4a505d05728d82372376
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 23 02:05:12 2020 +0530
+
+    Question,Article UI:- 2 PreviewCard, 2 ThumbCard
+
+commit 2ac8af7d6935579ae7aa7c0c7e851cab217e441f
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sun Mar 22 19:11:42 2020 +0530
+
+    Article create,save as draft, publish implemented
+
+commit aa9b09bdcda75415599b6f7245ccd190a56acd60
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sun Mar 22 01:25:34 2020 +0530
+
+    Major FIX: Topic List,Feed content Synchronized with Firebase.
+
+commit f8d3d91c9dad898bde368e9d5004f8b676a7ebde
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sat Mar 21 22:57:57 2020 +0530
+
+    cleared warnings wherever possible
+
+commit 82d1fc08a88a108d033e3a1bb3f9d48376e0a2b3
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sat Mar 21 22:52:35 2020 +0530
+
+    Question creating, save as draft, edit the draft, publishing it. implemented.
+
+commit 009d63dbea20db31b88ad2323298a5fb721daca7
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sat Mar 21 18:00:21 2020 +0530
+
+    Added star for questions by professor
+
+commit 90ce337bf61fca92c399a6479c3250d3655dd887
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sat Mar 21 17:08:52 2020 +0530
+
+    UI of question preview card
+
+commit a094473f5e50b888ba84611cc0d3efe277623cd3
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sat Mar 21 14:57:55 2020 +0530
+
+    After successful publishing of question, toast and routing.
+
+commit f40b26decc5ca06d289c1a77af19d0bc663e170c
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sat Mar 21 14:49:45 2020 +0530
+
+    Question publishing implemented with preview in last page
+
+commit 1d9e8661fa1dcbb3752aae71a00be6f87772b6a9
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sat Mar 21 12:50:26 2020 +0530
+
+    Question publishing implemented
+
+commit 691f9c3e28ef798541cced319a19f1684c2bc140
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sat Mar 21 10:59:54 2020 +0530
+
+    Bug Spotted for the first formfield in form inside pageview and inside listview.
+
+commit d74df8aa5c5f44561f9796a10487468206c7792d
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sat Mar 21 01:38:24 2020 +0530
+
+    Create and Publish Question:- UI flow has been implemented.
+
+commit a957a721bc2db4a1dc0be7e3af04b5b7823c7648
+Merge: a1ac0ef b4320ea
+Author: JSBhagiya <bhagiyajanvi@gmail.com>
+Date:   Fri Mar 20 21:42:18 2020 +0530
+
+    Merge pull request #2 from YashBhalodi/janvi
+    
+    Implemented the SignUp Instructions
+
+commit b4320ea30b5e442945e9d92b282b777101dd0d79
+Author: JsBhagiya <bhagiyajanvi@gmail.com>
+Date:   Fri Mar 20 21:23:33 2020 +0530
+
+    Implemented the SignUp Instructions
+
+commit b5aa03275e30de258d25f9f021e3d39a45995bc7
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Fri Mar 20 20:25:44 2020 +0530
+
+    replaced LinearProgressIndicator everywhere with a constant
+
+commit 6a658ba5f4b54e24695b1a0b4f97afd1776023b9
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Fri Mar 20 20:17:09 2020 +0530
+
+    Created rough UI and classes for creating question
+
+commit 109c1c5cce22e77e5ba5c649ea14340c57f3a53e
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Fri Mar 20 10:34:51 2020 +0530
+
+    Had forgotten about prof user type. included it.
+
+commit a1ac0ef28d00c5da0a56ef86048512ca0b1a0dc3
+Merge: afac49d 55b38c8
+Author: Yash Bhalodi <yashbhalodi007@yahoo.com>
+Date:   Wed Mar 18 17:28:06 2020 +0530
+
+    Merge pull request #1 from YashBhalodi/sprint1
+    
+    Sprint1
+
+commit 55b38c8d7eb02217d52d9202dae2f7f5868cc6b3
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Wed Mar 18 17:24:55 2020 +0530
+
+    made the branch merge ready. Assigned "Sign Up Instruction" screen implementation to fellows.
+
+commit 7c32caa799ade009adc2861da6741e83298d2c07
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Wed Mar 18 17:18:48 2020 +0530
+
+    Onboarding Implemented: improved the storing of sharedpreference 'welcome'
+
+commit eaa97c61477cdba7b0937ac7f718221afddb533f
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Wed Mar 18 17:17:32 2020 +0530
+
+    Onboarding Implemented
+
+commit d39c8a13589e5e8a3ba3335925e7765ea891eb30
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Wed Mar 18 09:29:05 2020 +0530
+
+    Increased the username max length to 15 character
+
+commit d372b1c3ea2e7eeed669508030517872887d9cf7
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Wed Mar 18 01:13:41 2020 +0530
+
+    Student Profile Setup workflow complete.
+
+commit b9219296204db1f37c1a0e38438be49ca8090ddc
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Wed Mar 18 00:23:49 2020 +0530
+
+    Resolved A major scheming bug. :-P
+
+commit 1458b3c4caf4864df4768f6e863efe0456cd2bf7
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Tue Mar 17 23:43:41 2020 +0530
+
+    Admin Profile SetUp flow Complete. Refactored the code for better state management and re usability.
+
+commit 311ba5a50479e89dae464c3ebe54f25d173be0ce
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Tue Mar 17 17:22:12 2020 +0530
+
+    Admin Profile Set up complete except for few minor things to repair.
+
+commit 9a16950dd1a38da14d0efdb7d39f8d00d0627e5f
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Tue Mar 17 12:31:11 2020 +0530
+
+    Step 3: Selection of Topic UI implemented part 1.
+
+commit bc1a980aca909bcdb518caf545a4359b06b6611c
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 16 19:01:14 2020 +0530
+
+    step 2 university registration complete
+
+commit 89fde13bc3a8f79ce476ad5891a9751335c8dfef
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 16 16:42:31 2020 +0530
+
+    Username availability validator foolproof
+
+commit 78df8155c3217c095cea70222e3b8b4f9874300a
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 16 14:43:31 2020 +0530
+
+    unfocused the focus on completion of 1st step
+
+commit b129f9d94a1cf16ecdd857dc64c1865d4e4dc04b
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 16 14:41:09 2020 +0530
+
+    Admin profile Setup: 1st step, User details complete.
+
+commit 16cebeaa94cec240c5f26e58d2436eca751f7c43
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Mon Mar 16 11:29:43 2020 +0530
+
+    First step of admin profile setup, except username availability is done.
+
+commit eb8dfd1881b0d4b1cd3752d92cd44504926b85b9
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sun Mar 15 14:07:48 2020 +0530
+
+    restructured files
+
+commit 477de9a55c91466733f11c66149cdcc93b95cd7b
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sun Mar 15 11:24:33 2020 +0530
+
+    Login Flow updated with latest version of plugin. Fixed major bugs.
+
+commit 09f2cc3a48edeae928fa33b6fd54e6bd637331be
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sat Mar 14 15:04:51 2020 +0530
+
+    Transition to Profile set up or Home screen. User type aware transition is remaining
+
+commit c43b6418414408655ff0955d3e804f082f37fa56
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Sat Mar 14 00:57:05 2020 +0530
+
+    User document upon first registration improved
+
+commit 113d92d2fe5a2f6b0f3ddb13a57bb9873b2c6f62
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Fri Mar 13 23:50:47 2020 +0530
+
+    Verified login + User document creation + application status foolproofed
+
+commit ee9fd795ac9fc0459e9f9e6e1ae79dda9d7f7cd0
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Fri Mar 13 14:05:28 2020 +0530
+
+    Updated and foolproofed verified login and user registering flow.
+
+commit c9d7f15ddfca1f698c54dab81c6fff128e8a2290
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Fri Mar 13 13:48:09 2020 +0530
+
+    verified login and user registering
+
+commit 5df02da596a4c0b86be0a242c69fd5858737d094
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Fri Mar 13 01:23:37 2020 +0530
+
+    email validator regex
+
+commit 4fabfc3360556aae93990a38aa97a0145185314a
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Mar 12 23:22:26 2020 +0530
+
+    Default Font Changed
+
+commit 5166828687eb981efadecd6cd95f91853d812bbf
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Mar 12 23:05:17 2020 +0530
+
+    Implemented Onboarding trigger
+
+commit 78c799b5bfe6cf9b5c5c4ac96ce4513e342219f9
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Mar 12 21:09:48 2020 +0530
+
+    Implemented Login & Logout flow.
+
+commit afac49da9ff2df4c1c3b8854d3dd4be9c24a5e88
+Author: Yash Bhalodi <yashbhalodi007@gmail.com>
+Date:   Thu Mar 12 17:38:21 2020 +0530
+
+    Firebase authentication integrated
