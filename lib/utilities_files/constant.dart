@@ -382,7 +382,7 @@ class Constant {
 
   static String mobileNumberValidator(String value) {
     //TODO adapt to handle country code
-    Pattern pattern = r'^[0-9]+s$';
+    Pattern pattern = r'^[0-9]+$';
     RegExp regExp = new RegExp(pattern);
     if (value.trim().length == 0) {
       return "Please provide mobile number";
@@ -414,7 +414,7 @@ class Constant {
   }
 
   static String articleTitleValidator(value) {
-    if (value.length < 10) {
+    if (value.trim().length < 10) {
       Constant.showToastInstruction("Article title should be atleast 10 charactes long");
       return "Article title should be atleast 10 charactes long";
     } else {
@@ -423,7 +423,7 @@ class Constant {
   }
 
   static String articleSubtitleValidator(value) {
-    if (value.length < 20) {
+    if (value.trim().length < 20) {
       Constant.showToastInstruction("Article Subtitle should be atleast 20 charactes long");
       return "Article Subtitle should be atleast 20 charactes long";
     } else {
@@ -432,7 +432,7 @@ class Constant {
   }
 
   static String articleContentValidator(value) {
-    if (value.length < 100) {
+    if (value.trim().length < 100) {
       Constant.showToastInstruction("Article content should be atleast 100 charactes long");
       return "Article content should be atleast 100 charactes long";
     } else {

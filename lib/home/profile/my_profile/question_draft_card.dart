@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:ednet/home/create/question/create_question.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
@@ -51,7 +50,7 @@ class QuestionDraftCard extends StatelessWidget {
                           backgroundColor: Colors.grey[100],
                         ),
                       );
-                    }),
+                    },),
                   ),
                 ),
                 SizedBox(

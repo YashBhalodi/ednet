@@ -60,7 +60,7 @@ class _TitlePageState extends State<TitlePage> with AutomaticKeepAliveClientMixi
           },
           onSaved: (h) {
             setState(() {
-              widget.article.title = h;
+              widget.article.title = h.trim();
             });
           },
           controller: _titleController,

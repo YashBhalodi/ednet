@@ -76,16 +76,18 @@ class QuestionTile extends StatelessWidget {
                 SizedBox(
                   height: 20.0,
                 ),
-                question.profUpvoteCount>0?Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      "${question.profUpvoteCount} professor upvoted",
-                      style: Constant.professorUpvoteTextStyle,
-                    ),
-                  ),
-                ):Container(),
+                question.profUpvoteCount > 0
+                    ? Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 8.0),
+                          child: Text(
+                            "${question.profUpvoteCount} professor upvoted",
+                            style: Constant.professorUpvoteTextStyle,
+                          ),
+                        ),
+                      )
+                    : Container(),
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -93,67 +95,71 @@ class QuestionTile extends StatelessWidget {
                   children: <Widget>[
                     Expanded(
                       flex: 4,
-                      child: GestureDetector(
-                        onTap: () {
-                          Constant.userProfileView(context, userId: question.userId);
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(
-                              "Asked by",
-                              style: Constant.dateTimeStyle,
-                            ),
-                            SizedBox(
-                              height: 8.0,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.person,
-                                  size: 16.0,
-                                ),
-                                question.byProf
-                                    ? Icon(
-                                        Icons.star,
-                                        color: Colors.orangeAccent,
-                                        size: 16.0,
-                                      )
-                                    : Container(),
-                                StreamBuilder(
-                                  stream: Firestore.instance
-                                      .collection('Users')
-                                      .document(question.userId)
-                                      .snapshots(),
-                                  builder: (context, snapshot) {
-                                    if (!snapshot.hasData) {
-                                      return Shimmer.fromColors(
-                                        child: Container(
-                                          width: 100.0,
-                                          height: 18.0,
-                                          color: Colors.white,
+                      child: StreamBuilder(
+                        stream: Firestore.instance
+                            .collection('Users')
+                            .document(question.userId)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return Shimmer.fromColors(
+                              child: Container(
+                                width: 100.0,
+                                height: 18.0,
+                                color: Colors.white,
+                              ),
+                              baseColor: Colors.grey[300],
+                              highlightColor: Colors.grey[100],
+                              period: Duration(milliseconds: 300),
+                            );
+                          } else {
+                            if (snapshot.data.data != null) {
+                              DocumentSnapshot userDoc = snapshot.data;
+                              return GestureDetector(
+                                onTap: () {
+                                  Constant.userProfileView(context, userId: question.userId);
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Text(
+                                      "Asked by",
+                                      style: Constant.dateTimeStyle,
+                                    ),
+                                    SizedBox(
+                                      height: 8.0,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.person,
+                                          size: 16.0,
                                         ),
-                                        baseColor: Colors.grey[300],
-                                        highlightColor: Colors.grey[100],
-                                        period: Duration(milliseconds: 300),
-                                      );
-                                    } else {
-                                      DocumentSnapshot userDoc = snapshot.data;
-                                      return Text(
-                                        userDoc.data['username'],
-                                        style: Constant.usernameStyle,
-                                      );
-                                    }
-                                  },
+                                        question.byProf
+                                            ? Icon(
+                                                Icons.star,
+                                                color: Colors.orangeAccent,
+                                                size: 16.0,
+                                              )
+                                            : Container(),
+                                        Text(
+                                          userDoc.data['username'],
+                                          style: Constant.usernameStyle,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              );
+                            } else {
+                              return Container(); //TODO user account is removed. msg if we want
+                            }
+                          }
+                        },
                       ),
                     ),
                     Expanded(

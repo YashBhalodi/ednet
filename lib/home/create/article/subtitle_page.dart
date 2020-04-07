@@ -60,7 +60,7 @@ class _SubtitlePageState extends State<SubtitlePage> with AutomaticKeepAliveClie
           },
           onSaved: (h) {
             setState(() {
-              widget.article.subtitle = h;
+              widget.article.subtitle = h.trim();
             });
           },
           controller: _subtitleController,
