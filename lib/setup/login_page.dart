@@ -18,7 +18,7 @@ class LoginPageState extends State<LoginPage>
   String _email;
   String _link;
   final _formKey = GlobalKey<FormState>();
-  QuerySnapshot docRef;
+  QuerySnapshot queryDocRef;
   bool _loginLoading = false;
 
   @override
@@ -177,13 +177,9 @@ class LoginPageState extends State<LoginPage>
 
   Future<void> _updateSignUpStatus() async {
     try {
-      docRef = await Firestore.instance
-          .collection('SignUpApplications')
-          .where('email', isEqualTo: _email)
-          .getDocuments();
       await Firestore.instance
           .collection('SignUpApplications')
-          .document(docRef.documents[0].documentID)
+          .document(queryDocRef.documents[0].documentID)
           .updateData({'signup_status': true});
     } catch (e) {
       print("_updateSignUpStatus");
@@ -192,9 +188,9 @@ class LoginPageState extends State<LoginPage>
   }
 
   Future<void> _createRelevantDocument() async {
-    bool isAdmin = docRef.documents[0]['type'] == "admin" ? true : false;
-    bool isProf = docRef.documents[0]['type'] == "prof" ? true : false;
-    String userUniversity = docRef.documents[0]['university'];
+    bool isAdmin = queryDocRef.documents[0]['type'] == "admin" ? true : false;
+    bool isProf = queryDocRef.documents[0]['type'] == "prof" ? true : false;
+    String userUniversity = queryDocRef.documents[0]['university'];
     //create user document
     try {
       await Firestore.instance.collection('Users').add({
@@ -244,17 +240,25 @@ class LoginPageState extends State<LoginPage>
             ),
           );
         });
-    final FirebaseAuth user = FirebaseAuth.instance;
-    bool validLink = await user.isSignInWithEmailLink(_link);
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    bool validLink = await auth.isSignInWithEmailLink(_link);
     print("email:- $_email");
     if (validLink) {
       try {
         List<String> signInMethod =
             await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: _email);
         if (signInMethod.length == 0) {
+          //user account doesn't exists
           //First time user sign up
-          await _updateSignUpStatus();
-          await _createRelevantDocument();
+          queryDocRef = await Firestore.instance
+              .collection('SignUpApplications')
+              .where('email', isEqualTo: _email)
+              .getDocuments();
+          bool firstSignUp = !queryDocRef.documents[0].data['signup_status'];
+          if (firstSignUp) {
+            await _updateSignUpStatus();
+            await _createRelevantDocument();
+          }
         }
         Navigator.of(context).pop();
         await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
