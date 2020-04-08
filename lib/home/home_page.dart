@@ -6,6 +6,7 @@ import 'package:ednet/home/feed/article_feed_page.dart';
 import 'package:ednet/home/feed/question_feed_page.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Home extends StatefulWidget {
   final DocumentSnapshot userSnap;
@@ -128,43 +129,55 @@ class _HomeState extends State<Home> {
       },
     );
   }
-
+  int triedExit = 0;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              createContentDialog();
-            },
-            child: Icon(Icons.edit),
-            backgroundColor: Colors.blue[800],
-          ),
-          drawer: AppDrawer(
-            userSnap: widget.userSnap,
-          ),
-          appBar: AppBar(
-            title: TabBar(
-              isScrollable: true,
-              tabs: [
-                Tab(
-                  text: "Questions",
-                ),
-                Tab(
-                  text: "Articles",
-                ),
+    return WillPopScope(
+      onWillPop: ()async{
+        if(triedExit >= 1){
+          SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+          return true;
+        } else {
+          triedExit++;
+          Constant.showToastInstruction("Press again to exit");
+          return false;
+        }
+      },
+      child: SafeArea(
+        child: DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                createContentDialog();
+              },
+              child: Icon(Icons.edit),
+              backgroundColor: Colors.blue[800],
+            ),
+            drawer: AppDrawer(
+              userSnap: widget.userSnap,
+            ),
+            appBar: AppBar(
+              title: TabBar(
+                isScrollable: true,
+                tabs: [
+                  Tab(
+                    text: "Questions",
+                  ),
+                  Tab(
+                    text: "Articles",
+                  ),
+                ],
+              ),
+              titleSpacing: 0.0,
+              centerTitle: true,
+            ),
+            body: TabBarView(
+              children: [
+                QuestionFeed(),
+                ArticleFeed(),
               ],
             ),
-            titleSpacing: 0.0,
-            centerTitle: true,
-          ),
-          body: TabBarView(
-            children: [
-              QuestionFeed(),
-              ArticleFeed(),
-            ],
           ),
         ),
       ),

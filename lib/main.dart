@@ -3,6 +3,7 @@ import 'package:ednet/home/home_page.dart';
 import 'package:ednet/setup/onboarding_page.dart';
 import 'package:ednet/setup/profile_setup_pages/admin_profile_page.dart';
 import 'package:ednet/setup/profile_setup_pages/student_profile_page.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,9 +13,11 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    runApp(MyApp(
-      pref: pref,
-    ),);
+    runApp(
+      MyApp(
+        pref: pref,
+      ),
+    );
   });
 }
 
@@ -121,7 +124,7 @@ class _EntryPointState extends State<EntryPoint> {
           });
           bool isProfileSet = userDocSnapshot['isProfileSet'];
           if (isProfileSet) {
-            Navigator.of(context).pushReplacement(
+            Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
                   return Home(
@@ -133,7 +136,7 @@ class _EntryPointState extends State<EntryPoint> {
           } else {
             bool isAdmin = userDocSnapshot['isAdmin'] as bool;
             if (isAdmin) {
-              Navigator.of(context).pushReplacement(
+              Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) {
                     return AdminProfileSetup(
@@ -144,7 +147,7 @@ class _EntryPointState extends State<EntryPoint> {
                 ),
               );
             } else {
-              Navigator.of(context).pushReplacement(
+              Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) {
                     return StudentProfileSetup(
@@ -164,11 +167,7 @@ class _EntryPointState extends State<EntryPoint> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Center(
-          child: Text("Splash Screen"),
-        ),
-      ),
+      body: ShimmerMainHome(),
     );
   }
 }
