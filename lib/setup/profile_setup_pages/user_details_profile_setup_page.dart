@@ -18,7 +18,7 @@ class UserDetails extends StatefulWidget {
   _UserDetailsState createState() => _UserDetailsState();
 }
 
-class _UserDetailsState extends State<UserDetails> {
+class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClientMixin{
   GlobalKey _userFormKey = GlobalKey<FormState>();
   FocusNode _emailFocus = FocusNode();
   FocusNode _bioFocus = FocusNode();
@@ -109,6 +109,7 @@ class _UserDetailsState extends State<UserDetails> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Form(
       key: _userFormKey,
       child: Scrollbar(
@@ -318,4 +319,7 @@ class _UserDetailsState extends State<UserDetails> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
