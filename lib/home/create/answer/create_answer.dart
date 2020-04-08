@@ -157,155 +157,157 @@ class _CreateAnswerState extends State<CreateAnswer> {
     return SafeArea(
       child: Scaffold(
         body: ZefyrScaffold(
-          child: ListView(
-            shrinkWrap: true,
-            controller: _scrollController,
-            children: <Widget>[
-              widget.question == null
-                  ? StreamBuilder(
-                      stream: Firestore.instance
-                          .collection('Questions')
-                          .document(_answer.queID)
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.active) {
-                          Question q = Question.fromSnapshot(snapshot.data);
-                          return QuestionTile(
-                            question: q,
-                          );
-                        } else {
-                          return Center(
-                            child: SizedBox(
-                              height: 32.0,
-                              width: 32.0,
-                              child: Constant.greenCircularProgressIndicator,
-                            ),
-                          );
-                        }
-                      },
-                    )
-                  : QuestionTile(
-                      question: widget.question,
-                    ),
-              ListView(
-                shrinkWrap: true,
-                padding: Constant.edgePadding,
-                physics: NeverScrollableScrollPhysics(),
-                children: <Widget>[
-                  Text(
-                    "Your Answer...",
-                    style: Constant.sectionSubHeadingStyle,
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  Text(
-                    "Write to your heart's content.\nClear and Concise answer encourages more upvotes.\nUse formatting to structure your answer.",
-                    style: Constant.formFieldHintStyle,
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  Text(
-                    "Once answer is published it can't be edited or removed.\nSave your answer as draft and publish it once you are confident.",
-                    style: Constant.formFieldHintStyle,
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  ZefyrField(
-                    imageDelegate: null,
-                    height: 350.0,
-                    controller: _zefyrController,
-                    focusNode: _contentFocus,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                      border: null,
-                      focusedBorder: null,
-                      contentPadding: Constant.zefyrFieldContentPadding,
-                    ),
-                    autofocus: false,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 54.0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
+          child: Scrollbar(
+            child: ListView(
+              shrinkWrap: true,
+              controller: _scrollController,
+              children: <Widget>[
+                widget.question == null
+                    ? StreamBuilder(
+                        stream: Firestore.instance
+                            .collection('Questions')
+                            .document(_answer.queID)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.active) {
+                            Question q = Question.fromSnapshot(snapshot.data);
+                            return QuestionTile(
+                              question: q,
+                            );
+                          } else {
+                            return Center(
+                              child: SizedBox(
+                                height: 32.0,
+                                width: 32.0,
+                                child: Constant.greenCircularProgressIndicator,
+                              ),
+                            );
+                          }
+                        },
+                      )
+                    : QuestionTile(
+                        question: widget.question,
+                      ),
+                ListView(
+                  shrinkWrap: true,
+                  padding: Constant.edgePadding,
+                  physics: NeverScrollableScrollPhysics(),
                   children: <Widget>[
-                    Expanded(
-                      child: RaisedButton(
-                        child: _draftLoading
-                            ? Center(
-                                child: SizedBox(
-                                  height: 24.0,
-                                  width: 24.0,
-                                  child: CircularProgressIndicator(),
-                                ),
-                              )
-                            : Text(
-                                "Save Draft",
-                                style: Constant.secondaryCTATextStyle,
-                              ),
-                        onPressed: () async {
-                          if (_draftLoading == false) {
-                            await _saveAnswerDraft();
-                          }
-                        },
-                        padding: Constant.raisedButtonPaddingHigh,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            bottomLeft: Radius.circular(10.0),
-                          ),
-                          side: BorderSide(color: Colors.grey[300], width: 2.0),
-                        ),
-                        color: Colors.white,
-                        disabledColor: Colors.grey[300],
-                      ),
+                    Text(
+                      "Your Answer...",
+                      style: Constant.sectionSubHeadingStyle,
                     ),
-                    Expanded(
-                      child: RaisedButton(
-                        onPressed: () async {
-                          if (_postLoading == false) {
-                            await _publishAnswer();
-                          }
-                        },
-                        textColor: Colors.white,
-                        child: _postLoading
-                            ? Center(
-                                child: SizedBox(
-                                  height: 24.0,
-                                  width: 24.0,
-                                  child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation(Colors.white),
-                                    backgroundColor: Colors.blue[50],
-                                  ),
-                                ),
-                              )
-                            : Text(
-                                "Post Answer",
-                                style: Constant.primaryCTATextStyle,
-                              ),
-                        padding: Constant.raisedButtonPaddingHigh,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(10.0),
-                            bottomRight: Radius.circular(10.0),
-                          ),
-                          side: BorderSide(color: Colors.blue[400], width: 2.0),
-                        ),
-                        color: Colors.blue[700],
-                        disabledColor: Colors.grey[300],
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    Text(
+                      "Write to your heart's content.\nClear and Concise answer encourages more upvotes.\nUse formatting to structure your answer.",
+                      style: Constant.formFieldHintStyle,
+                    ),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    Text(
+                      "Once answer is published it can't be edited or removed.\nSave your answer as draft and publish it once you are confident.",
+                      style: Constant.formFieldHintStyle,
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    ZefyrField(
+                      imageDelegate: null,
+                      height: 350.0,
+                      controller: _zefyrController,
+                      focusNode: _contentFocus,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        border: null,
+                        focusedBorder: null,
+                        contentPadding: Constant.zefyrFieldContentPadding,
                       ),
+                      autofocus: false,
                     ),
                   ],
                 ),
-              )
-            ],
+                SizedBox(
+                  height: 54.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Expanded(
+                        child: RaisedButton(
+                          child: _draftLoading
+                              ? Center(
+                                  child: SizedBox(
+                                    height: 24.0,
+                                    width: 24.0,
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                )
+                              : Text(
+                                  "Save Draft",
+                                  style: Constant.secondaryCTATextStyle,
+                                ),
+                          onPressed: () async {
+                            if (_draftLoading == false) {
+                              await _saveAnswerDraft();
+                            }
+                          },
+                          padding: Constant.raisedButtonPaddingHigh,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10.0),
+                              bottomLeft: Radius.circular(10.0),
+                            ),
+                            side: BorderSide(color: Colors.grey[300], width: 2.0),
+                          ),
+                          color: Colors.white,
+                          disabledColor: Colors.grey[300],
+                        ),
+                      ),
+                      Expanded(
+                        child: RaisedButton(
+                          onPressed: () async {
+                            if (_postLoading == false) {
+                              await _publishAnswer();
+                            }
+                          },
+                          textColor: Colors.white,
+                          child: _postLoading
+                              ? Center(
+                                  child: SizedBox(
+                                    height: 24.0,
+                                    width: 24.0,
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation(Colors.white),
+                                      backgroundColor: Colors.blue[50],
+                                    ),
+                                  ),
+                                )
+                              : Text(
+                                  "Post Answer",
+                                  style: Constant.primaryCTATextStyle,
+                                ),
+                          padding: Constant.raisedButtonPaddingHigh,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10.0),
+                              bottomRight: Radius.circular(10.0),
+                            ),
+                            side: BorderSide(color: Colors.blue[400], width: 2.0),
+                          ),
+                          color: Colors.blue[700],
+                          disabledColor: Colors.grey[300],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

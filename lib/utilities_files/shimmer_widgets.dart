@@ -1568,31 +1568,20 @@ class ShimmerTopicTile extends StatelessWidget {
 class ShimmerMainHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[100],
-      highlightColor: Colors.grey[400],
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            width: double.maxFinite,
-            height: 64,
-            color: Colors.white,
-          ),
-          Spacer(),
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              "Loading...",
-              style: TextStyle(
-                fontSize: 36.0,
-              ),
+    return Container(
+      child: Align(
+        alignment: Alignment.center,
+        child: Shimmer.fromColors(
+          baseColor: Colors.grey[200],
+          highlightColor: Colors.grey[600],
+          period: Duration(milliseconds: 300),
+          child: Text(
+            "Loading...",
+            style: TextStyle(
+              fontSize: 36.0,
             ),
           ),
-          Spacer(),
-        ],
+        ),
       ),
     );
   }

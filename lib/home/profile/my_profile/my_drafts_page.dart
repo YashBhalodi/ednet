@@ -30,48 +30,50 @@ class MyDrafts extends StatelessWidget {
               initiallyExpanded: true,
               backgroundColor: Colors.grey[50],
               children: <Widget>[
-                ListView(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: <Widget>[
-                    StreamBuilder(
-                      stream: Firestore.instance
-                          .collection('Questions')
-                          .where('isDraft', isEqualTo: true)
-                          .where('userid', isEqualTo: user.id)
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.active) {
-                          if (snapshot.data.documents.length > 0) {
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: snapshot.data.documents.length,
-                              itemBuilder: (context, i) {
-                                Question q = Question.fromSnapshot(snapshot.data.documents[i]);
-                                return QuestionDraftCard(
-                                  question: q,
-                                );
-                              },
-                            );
-                          } else {
-                            return SizedBox(
-                              width: double.maxFinite,
-                              height: 150.0,
-                              child: Center(
-                                child: Text(
-                                  "You don't have any draft questions.",
-                                  textAlign: TextAlign.center,
+                Scrollbar(
+                  child: ListView(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: <Widget>[
+                      StreamBuilder(
+                        stream: Firestore.instance
+                            .collection('Questions')
+                            .where('isDraft', isEqualTo: true)
+                            .where('userid', isEqualTo: user.id)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.active) {
+                            if (snapshot.data.documents.length > 0) {
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: snapshot.data.documents.length,
+                                itemBuilder: (context, i) {
+                                  Question q = Question.fromSnapshot(snapshot.data.documents[i]);
+                                  return QuestionDraftCard(
+                                    question: q,
+                                  );
+                                },
+                              );
+                            } else {
+                              return SizedBox(
+                                width: double.maxFinite,
+                                height: 150.0,
+                                child: Center(
+                                  child: Text(
+                                    "You don't have any draft questions.",
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
-                              ),
-                            );
+                              );
+                            }
+                          } else {
+                            return ShimmerQuestionDraftCard();
                           }
-                        } else {
-                          return ShimmerQuestionDraftCard();
-                        }
-                      },
-                    ),
-                  ],
+                        },
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -83,48 +85,50 @@ class MyDrafts extends StatelessWidget {
               initiallyExpanded: false,
               backgroundColor: Colors.grey[50],
               children: <Widget>[
-                ListView(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: <Widget>[
-                    StreamBuilder(
-                      stream: Firestore.instance
-                          .collection('Articles')
-                          .where('isDraft', isEqualTo: true)
-                          .where('userid', isEqualTo: user.id)
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.active) {
-                          if (snapshot.data.documents.length > 0) {
-                            return ListView.builder(
-                              itemCount: snapshot.data.documents.length,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, i) {
-                                Article a = Article.fromSnapshot(snapshot.data.documents[i]);
-                                return ArticleDraftCard(
-                                  article: a,
-                                );
-                              },
-                            );
-                          } else {
-                            return SizedBox(
-                              width: double.maxFinite,
-                              height: 150.0,
-                              child: Center(
-                                child: Text(
-                                  "No draft article pending to publish!\n\nWhen are you planning for next?",
-                                  textAlign: TextAlign.center,
+                Scrollbar(
+                  child: ListView(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: <Widget>[
+                      StreamBuilder(
+                        stream: Firestore.instance
+                            .collection('Articles')
+                            .where('isDraft', isEqualTo: true)
+                            .where('userid', isEqualTo: user.id)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.active) {
+                            if (snapshot.data.documents.length > 0) {
+                              return ListView.builder(
+                                itemCount: snapshot.data.documents.length,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, i) {
+                                  Article a = Article.fromSnapshot(snapshot.data.documents[i]);
+                                  return ArticleDraftCard(
+                                    article: a,
+                                  );
+                                },
+                              );
+                            } else {
+                              return SizedBox(
+                                width: double.maxFinite,
+                                height: 150.0,
+                                child: Center(
+                                  child: Text(
+                                    "No draft article pending to publish!\n\nWhen are you planning for next?",
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
-                              ),
-                            );
+                              );
+                            }
+                          } else {
+                            return ShimmerArticleDraftCard();
                           }
-                        } else {
-                          return ShimmerArticleDraftCard();
-                        }
-                      },
-                    ),
-                  ],
+                        },
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -136,48 +140,50 @@ class MyDrafts extends StatelessWidget {
               initiallyExpanded: false,
               backgroundColor: Colors.grey[50],
               children: <Widget>[
-                ListView(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: <Widget>[
-                    StreamBuilder(
-                      stream: Firestore.instance
-                          .collection('Answers')
-                          .where('isDraft', isEqualTo: true)
-                          .where('userid', isEqualTo: user.id)
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.active) {
-                          if (snapshot.data.documents.length > 0) {
-                            return ListView.builder(
-                              itemCount: snapshot.data.documents.length,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, i) {
-                                Answer a = Answer.fromSnapshot(snapshot.data.documents[i]);
-                                return AnswerDraftCard(
-                                  answer: a,
-                                );
-                              },
-                            );
-                          } else {
-                            return SizedBox(
-                              width: double.maxFinite,
-                              height: 150.0,
-                              child: Center(
-                                child: Text(
-                                  "No draft answer to write up.",
-                                  textAlign: TextAlign.center,
+                Scrollbar(
+                  child: ListView(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: <Widget>[
+                      StreamBuilder(
+                        stream: Firestore.instance
+                            .collection('Answers')
+                            .where('isDraft', isEqualTo: true)
+                            .where('userid', isEqualTo: user.id)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.active) {
+                            if (snapshot.data.documents.length > 0) {
+                              return ListView.builder(
+                                itemCount: snapshot.data.documents.length,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, i) {
+                                  Answer a = Answer.fromSnapshot(snapshot.data.documents[i]);
+                                  return AnswerDraftCard(
+                                    answer: a,
+                                  );
+                                },
+                              );
+                            } else {
+                              return SizedBox(
+                                width: double.maxFinite,
+                                height: 150.0,
+                                child: Center(
+                                  child: Text(
+                                    "No draft answer to write up.",
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
-                              ),
-                            );
+                              );
+                            }
+                          } else {
+                            return ShimmerAnswerDraftCard();
                           }
-                        } else {
-                          return ShimmerAnswerDraftCard();
-                        }
-                      },
-                    ),
-                  ],
+                        },
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),

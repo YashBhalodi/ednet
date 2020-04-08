@@ -394,7 +394,7 @@ class LoginPageState extends State<LoginPage>
           email,
           SizedBox(height: 24),
           loginButton,
-        ],
+        ]
       ),
     );
     return loginForm;

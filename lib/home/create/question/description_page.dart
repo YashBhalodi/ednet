@@ -40,41 +40,43 @@ class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAli
   Widget build(BuildContext context) {
     super.build(context);
     return ZefyrScaffold(
-      child: ListView(
-        shrinkWrap: true,
-        padding: Constant.edgePadding,
-        controller: _scrollController,
-        children: <Widget>[
-          Text(
-            "Description",
-            style: Constant.sectionSubHeadingStyle,
-          ),
-          SizedBox(
-            height: 8.0,
-          ),
-          Text(
-            "Explain your question in details\n\nIt's best to be clear, concise and to the point.",
-            style: Constant.sectionSubHeadingDescriptionStyle,
-          ),
-          SizedBox(
-            height: 64.0,
-          ),
-          ZefyrField(
-            imageDelegate: null,
-            height: 350.0,
-            controller: widget.zefyrDescriptionController,
-            focusNode: _descriptionFocus,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.grey[200],
-              border: null,
-              focusedBorder: null,
-              contentPadding: Constant.zefyrFieldContentPadding,
-              hintText: "Describe the question in details...",
+      child: Scrollbar(
+        child: ListView(
+          shrinkWrap: true,
+          padding: Constant.edgePadding,
+          controller: _scrollController,
+          children: <Widget>[
+            Text(
+              "Description",
+              style: Constant.sectionSubHeadingStyle,
             ),
-            autofocus: true,
-          ),
-        ],
+            SizedBox(
+              height: 8.0,
+            ),
+            Text(
+              "Explain your question in details\n\nIt's best to be clear, concise and to the point.",
+              style: Constant.sectionSubHeadingDescriptionStyle,
+            ),
+            SizedBox(
+              height: 64.0,
+            ),
+            ZefyrField(
+              imageDelegate: null,
+              height: 350.0,
+              controller: widget.zefyrDescriptionController,
+              focusNode: _descriptionFocus,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey[200],
+                border: null,
+                focusedBorder: null,
+                contentPadding: Constant.zefyrFieldContentPadding,
+                hintText: "Describe the question in details...",
+              ),
+              autofocus: true,
+            ),
+          ],
+        ),
       ),
     );
   }

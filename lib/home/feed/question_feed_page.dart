@@ -22,15 +22,17 @@ class QuestionFeed extends StatelessWidget {
                         if (snapshot.connectionState == ConnectionState.active) {
                             if (snapshot.data.documents.length > 0) {
                                 return Expanded(
-                                    child: ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: snapshot.data.documents.length,
-                                        itemBuilder: (context, i) {
-                                            Question q = Question.fromSnapshot(snapshot.data.documents[i]);
-                                            return QuestionThumbCard(
-                                                question: q,
-                                            );
-                                        },
+                                    child: Scrollbar(
+                                      child: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: snapshot.data.documents.length,
+                                          itemBuilder: (context, i) {
+                                              Question q = Question.fromSnapshot(snapshot.data.documents[i]);
+                                              return QuestionThumbCard(
+                                                  question: q,
+                                              );
+                                          },
+                                      ),
                                     ),
                                 );
                             } else {

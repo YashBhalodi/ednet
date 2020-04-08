@@ -224,14 +224,16 @@ class _TopicSelectionState extends State<TopicSelection> {
                     List<String> topicList = List.generate(
                         snapshot.data.documents.length, (i) => snapshot.data.documents[i]['title']);
                     topicList.sort();
-                    return ListView.builder(
-                      itemCount: topicList.length,
-                      itemBuilder: (context, i) {
-                        return MyCheckBoxTile(
-                          title: topicList[i],
-                          outputList: _selectedTopicList,
-                        );
-                      },
+                    return Scrollbar(
+                      child: ListView.builder(
+                        itemCount: topicList.length,
+                        itemBuilder: (context, i) {
+                          return MyCheckBoxTile(
+                            title: topicList[i],
+                            outputList: _selectedTopicList,
+                          );
+                        },
+                      ),
                     );
                   }
                 } else {

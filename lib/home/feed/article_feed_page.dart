@@ -22,15 +22,17 @@ class ArticleFeed extends StatelessWidget {
                         if (snapshot.connectionState == ConnectionState.active) {
                             if (snapshot.data.documents.length > 0) {
                                 return Expanded(
-                                    child: ListView.builder(
-                                        itemCount: snapshot.data.documents.length,
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, i) {
-                                            Article a = Article.fromSnapshot(snapshot.data.documents[i]);
-                                            return ArticleThumbCard(
-                                                article: a,
-                                            );
-                                        },
+                                    child: Scrollbar(
+                                      child: ListView.builder(
+                                          itemCount: snapshot.data.documents.length,
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, i) {
+                                              Article a = Article.fromSnapshot(snapshot.data.documents[i]);
+                                              return ArticleThumbCard(
+                                                  article: a,
+                                              );
+                                          },
+                                      ),
                                     ),
                                 );
                             } else {

@@ -53,13 +53,15 @@ class _PreviewQuestionState extends State<PreviewQuestion> {
         (widget.question.heading == null || widget.question.description == null)
             ? ShimmerQuestionPreviewCard()
             : Expanded(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    QuestionPreviewCard(
-                      question: widget.question,
-                    ),
-                  ],
+                child: Scrollbar(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      QuestionPreviewCard(
+                        question: widget.question,
+                      ),
+                    ],
+                  ),
                 ),
               ),
       ],

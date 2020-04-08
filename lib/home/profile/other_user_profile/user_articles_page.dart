@@ -21,16 +21,18 @@ class UserArticles extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           if (snapshot.data.documents.length > 0) {
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: snapshot.data.documents.length,
-              physics: ScrollPhysics(),
-              itemBuilder: (context, i) {
-                Article a = Article.fromSnapshot(snapshot.data.documents[i]);
-                return ArticleThumbCard(
-                  article: a,
-                );
-              },
+            return Scrollbar(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: snapshot.data.documents.length,
+                physics: ScrollPhysics(),
+                itemBuilder: (context, i) {
+                  Article a = Article.fromSnapshot(snapshot.data.documents[i]);
+                  return ArticleThumbCard(
+                    article: a,
+                  );
+                },
+              ),
             );
           } else {
             return Padding(

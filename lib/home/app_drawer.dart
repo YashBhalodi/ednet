@@ -14,71 +14,73 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     User currentUser = User.fromSnapshot(userSnap);
     return Drawer(
-      child: ListView(
-        physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
-        children: <Widget>[
-          DrawerHeader(
-            child: Container(),
-          ),
-          ListTile(
-            title: Text(
-              "My Profile",
-              style: Constant.appDrawerMenuStyle,
+      child: Scrollbar(
+        child: ListView(
+          physics: BouncingScrollPhysics(),
+          shrinkWrap: true,
+          children: <Widget>[
+            DrawerHeader(
+              child: Container(),
             ),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return MyProfile(
-                      user: currentUser,
-                    );
-                  },
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: Text(
-              "My Drafts",
-              style: Constant.appDrawerMenuStyle,
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return MyDrafts(
-                      user: currentUser,
-                    );
-                  },
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: Text(
-              "Log out",
-              style: Constant.appDrawerMenuStyle,
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              Constant.logOut();
-            },
-          ),
-          currentUser.isAdmin
-              ? ListTile(
-                  title: Text(
-                    "Admin Panel",
-                    style: Constant.appDrawerMenuStyle,
+            ListTile(
+              title: Text(
+                "My Profile",
+                style: Constant.appDrawerMenuStyle,
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return MyProfile(
+                        user: currentUser,
+                      );
+                    },
                   ),
-                  onTap: () {
-                    print("yet to implement");
-                  },
-                )
-              : Container(),
-        ],
+                );
+              },
+            ),
+            ListTile(
+              title: Text(
+                "My Drafts",
+                style: Constant.appDrawerMenuStyle,
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return MyDrafts(
+                        user: currentUser,
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text(
+                "Log out",
+                style: Constant.appDrawerMenuStyle,
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                Constant.logOut();
+              },
+            ),
+            currentUser.isAdmin
+                ? ListTile(
+                    title: Text(
+                      "Admin Panel",
+                      style: Constant.appDrawerMenuStyle,
+                    ),
+                    onTap: () {
+                      print("yet to implement");
+                    },
+                  )
+                : Container(),
+          ],
+        ),
       ),
     );
   }

@@ -54,13 +54,15 @@ class _ArticlePreviewState extends State<ArticlePreview> {
                 widget.article.content == null)
             ? ShimmerArticlePreviewCard()
             : Expanded(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    ArticlePreviewCard(
-                      article: widget.article,
-                    ),
-                  ],
+                child: Scrollbar(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      ArticlePreviewCard(
+                        article: widget.article,
+                      ),
+                    ],
+                  ),
                 ),
               ),
       ],
