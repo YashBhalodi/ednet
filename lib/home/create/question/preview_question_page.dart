@@ -51,7 +51,9 @@ class _PreviewQuestionState extends State<PreviewQuestion> {
               ),
               Text(
                 "Once question is published it can't be edited or removed.\nSave your question as draft and publish it once you are confident.",
-                style: Constant.formFieldHintStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                       ? DarkTheme.formFieldHintStyle
+                       : LightTheme.formFieldHintStyle,
               ),
             ],
           ),

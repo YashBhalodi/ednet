@@ -18,7 +18,7 @@ class UserDetails extends StatefulWidget {
   _UserDetailsState createState() => _UserDetailsState();
 }
 
-class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClientMixin{
+class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClientMixin {
   GlobalKey _userFormKey = GlobalKey<FormState>();
   FocusNode _emailFocus = FocusNode();
   FocusNode _bioFocus = FocusNode();
@@ -121,8 +121,8 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
             Text(
               "User Details",
               style: Theme.of(context).brightness == Brightness.dark
-                     ? DarkTheme.headingStyle
-                     : LightTheme.headingStyle,
+                  ? DarkTheme.headingStyle
+                  : LightTheme.headingStyle,
             ),
             SizedBox(
               height: 32.0,
@@ -139,16 +139,28 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
               initialValue: widget.userSnap.data['fname'] ?? null,
               validator: (value) => Constant.nameValidator(value),
               keyboardType: TextInputType.text,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.formFieldTextStyle
+                  : LightTheme.formFieldTextStyle,
               decoration: InputDecoration(
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.counterStyle
+                    : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "John",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldHintStyle
+                    : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldBorder
+                    : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldFocusedBorder
+                    : LightTheme.formFieldFocusedBorder,
                 labelText: "First Name",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.formFieldLabelStyle
+                            : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _fNameFocus,
             ),
@@ -167,16 +179,28 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
               initialValue: widget.userSnap.data['lname'] ?? null,
               validator: (value) => Constant.nameValidator(value),
               keyboardType: TextInputType.text,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.formFieldTextStyle
+                  : LightTheme.formFieldTextStyle,
               decoration: InputDecoration(
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.counterStyle
+                    : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "Doe",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldHintStyle
+                    : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldBorder
+                    : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldFocusedBorder
+                    : LightTheme.formFieldFocusedBorder,
                 labelText: "Last Name",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldLabelStyle
+                          : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _lNameFocus,
             ),
@@ -195,17 +219,29 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
               },
               initialValue: widget.userSnap.data['mobile_number'] ?? null,
               maxLength: 10,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.formFieldTextStyle
+                  : LightTheme.formFieldTextStyle,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.counterStyle
+                    : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "94578xxxx5",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldHintStyle
+                    : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldBorder
+                    : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldFocusedBorder
+                    : LightTheme.formFieldFocusedBorder,
                 labelText: "Mobile Number",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldLabelStyle
+                          : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _mobileNumberFocus,
             ),
@@ -227,16 +263,28 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
                     duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
               },
               autovalidate: true,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.formFieldTextStyle
+                  : LightTheme.formFieldTextStyle,
               decoration: InputDecoration(
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.counterStyle
+                    : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "johnDoe12",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldHintStyle
+                    : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldBorder
+                    : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldFocusedBorder
+                    : LightTheme.formFieldFocusedBorder,
                 labelText: "Username",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldLabelStyle
+                          : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _userNameFocus,
             ),
@@ -256,18 +304,30 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
               initialValue: widget.userSnap.data['bio'] ?? null,
               minLines: 3,
               maxLines: 7,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.formFieldTextStyle
+                  : LightTheme.formFieldTextStyle,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 alignLabelWithHint: true,
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.counterStyle
+                    : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "Brief description about yourself...",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldHintStyle
+                    : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldBorder
+                    : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldFocusedBorder
+                    : LightTheme.formFieldFocusedBorder,
                 labelText: "Bio",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldLabelStyle
+                          : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _bioFocus,
             ),
@@ -290,7 +350,7 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
                   ),
                   color: Colors.green[50],
                   child: _isLoading
-                      ? Constant.greenCircularProgressIndicator
+                      ? Constant.myCircularProgressIndicator
                       : Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,

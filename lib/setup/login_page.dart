@@ -345,17 +345,29 @@ class LoginPageState extends State<LoginPage>
       autofocus: false,
       validator: (value) => Constant.emailValidator(value),
       onSaved: (value) => _email = value,
-      style: Constant.formFieldTextStyle,
+      style: Theme.of(context).brightness == Brightness.dark
+             ? DarkTheme.formFieldTextStyle
+             : LightTheme.formFieldTextStyle,
       decoration: InputDecoration(
         alignLabelWithHint: true,
-        counterStyle: Constant.counterStyle,
+        counterStyle: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.counterStyle
+                      : LightTheme.counterStyle,
         contentPadding: Constant.formFieldContentPadding,
         hintText: "john.doe@abc.com",
-        hintStyle: Constant.formFieldHintStyle,
-        border: Constant.formFieldBorder,
-        focusedBorder: Constant.formFieldFocusedBorder,
+        hintStyle: Theme.of(context).brightness == Brightness.dark
+                   ? DarkTheme.formFieldHintStyle
+                   : LightTheme.formFieldHintStyle,
+        border: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.formFieldBorder
+                : LightTheme.formFieldBorder,
+        focusedBorder: Theme.of(context).brightness == Brightness.dark
+                       ? DarkTheme.formFieldFocusedBorder
+                       : LightTheme.formFieldFocusedBorder,
         labelText: "Email",
-        labelStyle: Constant.formFieldLabelStyle,
+        labelStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldLabelStyle
+                    : LightTheme.formFieldLabelStyle,
       ),
     );
 

@@ -16,9 +16,9 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-
   void changeBrightness() {
-    DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
+    DynamicTheme.of(context).setBrightness(
+        Theme.of(context).brightness == Brightness.dark ? Brightness.light : Brightness.dark);
   }
 
   @override
@@ -36,7 +36,9 @@ class _AppDrawerState extends State<AppDrawer> {
             ListTile(
               title: Text(
                 "My Profile",
-                style: Constant.appDrawerMenuStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.appDrawerMenuStyle
+                    : LightTheme.appDrawerMenuStyle,
               ),
               onTap: () {
                 Navigator.of(context).pop();
@@ -54,7 +56,9 @@ class _AppDrawerState extends State<AppDrawer> {
             ListTile(
               title: Text(
                 "My Drafts",
-                style: Constant.appDrawerMenuStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.appDrawerMenuStyle
+                    : LightTheme.appDrawerMenuStyle,
               ),
               onTap: () {
                 Navigator.of(context).pop();
@@ -73,7 +77,9 @@ class _AppDrawerState extends State<AppDrawer> {
                 ? ListTile(
                     title: Text(
                       "Admin Panel",
-                      style: Constant.appDrawerMenuStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.appDrawerMenuStyle
+                    : LightTheme.appDrawerMenuStyle,
                     ),
                     onTap: () {
                       print("yet to implement");
@@ -83,7 +89,9 @@ class _AppDrawerState extends State<AppDrawer> {
             ListTile(
               title: Text(
                 Theme.of(context).brightness == Brightness.dark ? "Light Mode" : "Dark Mode",
-                style: Constant.appDrawerMenuStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.appDrawerMenuStyle
+                    : LightTheme.appDrawerMenuStyle,
               ),
               onTap: () {
                 Navigator.of(context).pop();
@@ -93,7 +101,9 @@ class _AppDrawerState extends State<AppDrawer> {
             ListTile(
               title: Text(
                 "Log out",
-                style: Constant.appDrawerMenuStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.appDrawerMenuStyle
+                    : LightTheme.appDrawerMenuStyle,
               ),
               onTap: () {
                 Navigator.of(context).pop();

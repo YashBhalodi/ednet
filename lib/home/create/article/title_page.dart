@@ -71,7 +71,9 @@ class _TitlePageState extends State<TitlePage> with AutomaticKeepAliveClientMixi
               });
             },
             controller: _titleController,
-            style: Constant.formFieldTextStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                   ? DarkTheme.formFieldTextStyle
+                   : LightTheme.formFieldTextStyle,
             minLines: 12,
             maxLines: 12,
             validator: (value) => Constant.articleTitleValidator(value),

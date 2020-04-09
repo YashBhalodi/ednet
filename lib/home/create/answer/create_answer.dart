@@ -179,7 +179,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
                               child: SizedBox(
                                 height: 32.0,
                                 width: 32.0,
-                                child: Constant.greenCircularProgressIndicator,
+                                child: Constant.myCircularProgressIndicator,
                               ),
                             );
                           }
@@ -204,14 +204,18 @@ class _CreateAnswerState extends State<CreateAnswer> {
                     ),
                     Text(
                       "Write to your heart's content.\nClear and Concise answer encourages more upvotes.\nUse formatting to structure your answer.",
-                      style: Constant.formFieldHintStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldHintStyle
+                          : LightTheme.formFieldHintStyle,
                     ),
                     SizedBox(
                       height: 8.0,
                     ),
                     Text(
                       "Once answer is published it can't be edited or removed.\nSave your answer as draft and publish it once you are confident.",
-                      style: Constant.formFieldHintStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                             ? DarkTheme.formFieldHintStyle
+                             : LightTheme.formFieldHintStyle,
                     ),
                     SizedBox(
                       height: 20.0,

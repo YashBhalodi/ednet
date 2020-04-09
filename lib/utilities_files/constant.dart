@@ -31,24 +31,6 @@ class Constant {
         vertical: 16.0,
       );
 
-  static get formFieldTextStyle => TextStyle(
-        fontSize: 18.0,
-        color: Colors.teal[900],
-        fontWeight: FontWeight.w500,
-      );
-
-  static get formFieldHintStyle => TextStyle(
-        fontWeight: FontWeight.w100,
-        fontSize: 14.0,
-        color: Colors.black87,
-      );
-
-  static get counterStyle => TextStyle(
-        fontWeight: FontWeight.w400,
-        color: Colors.black54,
-        fontSize: 8.0,
-      );
-
   static get formFieldContentPadding => EdgeInsets.symmetric(
         horizontal: 12.0,
         vertical: 20.0,
@@ -59,47 +41,7 @@ class Constant {
         vertical: 20.0,
       );
 
-  static get formFieldBorder => OutlineInputBorder(
-        borderSide: BorderSide(
-          color: Colors.teal[300],
-        ),
-      );
-
-  static get formFieldFocusedBorder => OutlineInputBorder(
-        borderSide: BorderSide(
-          color: Colors.cyan[500],
-          width: 2.0,
-        ),
-      );
-
-  static get formFieldLabelStyle => TextStyle(
-        color: Colors.blue[900],
-        fontSize: 16.0,
-        fontWeight: FontWeight.w500,
-      );
-
-  static get sectionHeadingStyle => TextStyle(
-        fontFamily: 'VarelaRound',
-        fontWeight: FontWeight.w500,
-        fontSize: 36.0,
-        color: Colors.blueGrey[800],
-      );
-
-  static get sectionSubHeadingStyle => TextStyle(
-        fontFamily: 'VarelaRound',
-        fontWeight: FontWeight.w500,
-        fontSize: 28.0,
-        color: Colors.deepPurple[800],
-      );
-
-  static get sectionSubHeadingDescriptionStyle => TextStyle(
-        fontFamily: 'VarelaRound',
-        fontWeight: FontWeight.w400,
-        fontSize: 16.0,
-        color: Colors.deepPurple[800],
-      );
-
-  static get greenCircularProgressIndicator => SizedBox(
+  static get myCircularProgressIndicator => SizedBox(
         height: 28.0,
         width: 28.0,
         child: CircularProgressIndicator(
@@ -130,14 +72,6 @@ class Constant {
   static get pageAnimationDuration => Duration(
         milliseconds: 500,
       );
-
-  static get bottomNavigationTitleStyle => TextStyle(
-        fontSize: 16.0,
-        fontWeight: FontWeight.w500,
-        color: Colors.blue[800],
-      );
-
-  static get appDrawerMenuStyle => TextStyle();
 
   static get menuButtonTextStyle => TextStyle(
       fontSize: 24.0,
@@ -252,8 +186,11 @@ class Constant {
         fontWeight: FontWeight.w400,
       );
 
-  static get professorUpvoteTextStyle =>
-      TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.deepOrange);
+  static get professorUpvoteTextStyle => TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.w400,
+        color: Colors.deepOrange,
+      );
 
   static String emailValidator(String value) {
     Pattern pattern =
@@ -627,20 +564,60 @@ class DarkTheme {
       );
 
   static get headingStyle => TextStyle(
-      fontFamily: 'VarelaRound',
-      fontWeight: FontWeight.w500,
-      fontSize: 28.0,
-      color: Color(0xffbbe1fa),
-  );
+        fontFamily: 'VarelaRound',
+        fontWeight: FontWeight.w500,
+        fontSize: 28.0,
+        color: Color(0xffbbe1fa),
+      );
 
   static get headingDescriptionStyle => TextStyle(
-      fontFamily: 'VarelaRound',
-      fontWeight: FontWeight.w400,
-      fontSize: 16.0,
-      color: Color(0xffbbe1fa),
-  );
+        fontFamily: 'VarelaRound',
+        fontWeight: FontWeight.w400,
+        fontSize: 16.0,
+        color: Color(0xffbbe1fa),
+      );
 
   static get textFieldFillColor => Colors.grey[800];
+
+  static get formFieldTextStyle => TextStyle(
+      fontSize: 18.0,
+      color: Color(0xffd7fffd),
+      fontWeight: FontWeight.w500,
+  );
+
+  static get formFieldHintStyle => TextStyle(
+      fontWeight: FontWeight.w100,
+      fontSize: 14.0,
+      color: Colors.grey[400]
+  );
+
+  static get counterStyle => TextStyle(
+      fontWeight: FontWeight.w400,
+      color: Colors.grey[200],
+      fontSize: 8.0,
+  );
+
+  static get formFieldBorder => OutlineInputBorder(
+      borderSide: BorderSide(
+          color: Color(0xff363062),
+      ),
+  );
+
+  static get formFieldFocusedBorder => OutlineInputBorder(
+      borderSide: BorderSide(
+          color: Color(0xff827397),
+          width: 2.0,
+      ),
+  );
+
+  static get formFieldLabelStyle => TextStyle(
+      color: Color(0xffbbe1fa),
+      fontSize: 16.0,
+      fontWeight: FontWeight.w500,
+  );
+
+  static get appDrawerMenuStyle => TextStyle();
+
 }
 
 class LightTheme {
@@ -698,25 +675,63 @@ class LightTheme {
   static get downvoteButtonCountColor => Colors.redAccent;
 
   static get downvoteButtonTextStyle => TextStyle(
-      fontSize: 16.0,
-      fontWeight: FontWeight.w400,
-      color: downvoteButtonCountColor,
-  );
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+        color: downvoteButtonCountColor,
+      );
 
   static get headingStyle => TextStyle(
-      fontFamily: 'VarelaRound',
-      fontWeight: FontWeight.w500,
-      fontSize: 28.0,
-      color: Color(0xff053f5e),
-  );
+        fontFamily: 'VarelaRound',
+        fontWeight: FontWeight.w500,
+        fontSize: 28.0,
+        color: Color(0xff053f5e),
+      );
 
   static get headingDescriptionStyle => TextStyle(
-      fontFamily: 'VarelaRound',
-      fontWeight: FontWeight.w400,
-      fontSize: 16.0,
-      color: Color(0xff053f5e),
-  );
+        fontFamily: 'VarelaRound',
+        fontWeight: FontWeight.w400,
+        fontSize: 16.0,
+        color: Color(0xff053f5e),
+      );
 
   static get textFieldFillColor => Colors.grey[200];
 
+  static get formFieldTextStyle => TextStyle(
+      fontSize: 18.0,
+      color: Colors.teal[900],
+      fontWeight: FontWeight.w500,
+  );
+
+  static get formFieldHintStyle => TextStyle(
+      fontWeight: FontWeight.w100,
+      fontSize: 14.0,
+      color: Colors.black87
+  );
+
+  static get counterStyle => TextStyle(
+      fontWeight: FontWeight.w400,
+      color: Colors.black54,
+      fontSize: 8.0,
+  );
+
+  static get formFieldBorder => OutlineInputBorder(
+      borderSide: BorderSide(
+          color: Color(0xffb2ebf2),
+      ),
+  );
+
+  static get formFieldFocusedBorder => OutlineInputBorder(
+      borderSide: BorderSide(
+          color: Color(0xff00bcd4),
+          width: 2.0,
+      ),
+  );
+
+  static get formFieldLabelStyle => TextStyle(
+      color: Color(0xff053f5e),
+      fontSize: 16.0,
+      fontWeight: FontWeight.w500,
+  );
+
+  static get appDrawerMenuStyle => TextStyle();
 }

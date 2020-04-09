@@ -7,7 +7,6 @@ import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:zefyr/zefyr.dart';
 
 class QuestionTile extends StatelessWidget {
@@ -30,11 +29,9 @@ class QuestionTile extends StatelessWidget {
           bottomLeft: Radius.circular(16.0),
           bottomRight: Radius.circular(16.0),
         ),
-        color: Theme
-                   .of(context)
-                   .brightness == Brightness.dark
-               ? DarkTheme.questionTileHeaderBackgroundColor
-               : LightTheme.questionTileHeaderBackgroundColor,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? DarkTheme.questionTileHeaderBackgroundColor
+            : LightTheme.questionTileHeaderBackgroundColor,
       ),
       margin: EdgeInsets.only(bottom: 12.0),
       child: Column(
@@ -58,8 +55,8 @@ class QuestionTile extends StatelessWidget {
                             style: Constant.topicStyle,
                           ),
                           backgroundColor: Theme.of(context).brightness == Brightness.dark
-                                           ? DarkTheme.chipBackgroundColor
-                                           : LightTheme.chipBackgroundColor,
+                              ? DarkTheme.chipBackgroundColor
+                              : LightTheme.chipBackgroundColor,
                         ),
                       );
                     }),

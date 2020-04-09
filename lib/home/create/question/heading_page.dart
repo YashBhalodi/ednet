@@ -67,7 +67,9 @@ class _HeadingPageState extends State<HeadingPage> with AutomaticKeepAliveClient
               });
             },
             controller: _headingController,
-            style: Constant.formFieldTextStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                   ? DarkTheme.formFieldTextStyle
+                   : LightTheme.formFieldTextStyle,
             minLines: 12,
             maxLines: 12,
             validator: (value) => Constant.questionHeadingValidator(value),

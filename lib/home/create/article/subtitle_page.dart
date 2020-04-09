@@ -43,19 +43,17 @@ class _SubtitlePageState extends State<SubtitlePage> with AutomaticKeepAliveClie
           Text(
             "Subtitle",
             style: Theme.of(context).brightness == Brightness.dark
-                   ? DarkTheme.headingStyle
-                   : LightTheme.headingStyle,
+                ? DarkTheme.headingStyle
+                : LightTheme.headingStyle,
           ),
           SizedBox(
             height: 8.0,
           ),
           Text(
             "Provide brief overview of what you are covering in the article.",
-            style: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.headingDescriptionStyle
-                   : LightTheme.headingDescriptionStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.headingDescriptionStyle
+                : LightTheme.headingDescriptionStyle,
           ),
           SizedBox(
             height: 64.0,
@@ -71,7 +69,9 @@ class _SubtitlePageState extends State<SubtitlePage> with AutomaticKeepAliveClie
               });
             },
             controller: _subtitleController,
-            style: Constant.formFieldTextStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.formFieldTextStyle
+                : LightTheme.formFieldTextStyle,
             minLines: 12,
             maxLines: 12,
             validator: (value) => Constant.articleSubtitleValidator(value),

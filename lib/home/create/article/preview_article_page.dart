@@ -50,7 +50,9 @@ class _ArticlePreviewState extends State<ArticlePreview> {
               ),
               Text(
                 "Once article is published it can't be edited or removed.\nSave your article as draft and publish it once you are confident.",
-                style: Constant.formFieldHintStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                       ? DarkTheme.formFieldHintStyle
+                       : LightTheme.formFieldHintStyle,
               ),
             ],
           ),

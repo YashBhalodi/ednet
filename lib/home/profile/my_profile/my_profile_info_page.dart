@@ -41,11 +41,9 @@ class _MyProfileState extends State<MyProfile> {
                     children: <Widget>[
                       Text(
                         "How other users will see your profile...",
-                        style: Theme
-                                   .of(context)
-                                   .brightness == Brightness.dark
-                               ? DarkTheme.headingDescriptionStyle
-                               : LightTheme.headingDescriptionStyle,
+                        style: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.headingDescriptionStyle
+                            : LightTheme.headingDescriptionStyle,
                       ),
                       SizedBox(
                         height: 16.0,
@@ -170,16 +168,28 @@ class _EditDetailsTileState extends State<EditDetailsTile> {
                     initialValue: widget.user.fname,
                     validator: (value) => Constant.nameValidator(value),
                     keyboardType: TextInputType.text,
-                    style: Constant.formFieldTextStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.formFieldTextStyle
+                        : LightTheme.formFieldTextStyle,
                     decoration: InputDecoration(
-                      counterStyle: Constant.counterStyle,
+                      counterStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.counterStyle
+                          : LightTheme.counterStyle,
                       contentPadding: Constant.formFieldContentPadding,
                       hintText: "John",
-                      hintStyle: Constant.formFieldHintStyle,
-                      border: Constant.formFieldBorder,
-                      focusedBorder: Constant.formFieldFocusedBorder,
+                      hintStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldHintStyle
+                          : LightTheme.formFieldHintStyle,
+                      border: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldBorder
+                          : LightTheme.formFieldBorder,
+                      focusedBorder: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldFocusedBorder
+                          : LightTheme.formFieldFocusedBorder,
                       labelText: "First Name",
-                      labelStyle: Constant.formFieldLabelStyle,
+                      labelStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldLabelStyle
+                          : LightTheme.formFieldLabelStyle,
                     ),
                   ),
                   SizedBox(
@@ -192,16 +202,28 @@ class _EditDetailsTileState extends State<EditDetailsTile> {
                     initialValue: widget.user.lname,
                     validator: (value) => Constant.nameValidator(value),
                     keyboardType: TextInputType.text,
-                    style: Constant.formFieldTextStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.formFieldTextStyle
+                        : LightTheme.formFieldTextStyle,
                     decoration: InputDecoration(
-                      counterStyle: Constant.counterStyle,
+                      counterStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.counterStyle
+                          : LightTheme.counterStyle,
                       contentPadding: Constant.formFieldContentPadding,
                       hintText: "Doe",
-                      hintStyle: Constant.formFieldHintStyle,
-                      border: Constant.formFieldBorder,
-                      focusedBorder: Constant.formFieldFocusedBorder,
+                      hintStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldHintStyle
+                          : LightTheme.formFieldHintStyle,
+                      border: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldBorder
+                          : LightTheme.formFieldBorder,
+                      focusedBorder: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldFocusedBorder
+                          : LightTheme.formFieldFocusedBorder,
                       labelText: "Last Name",
-                      labelStyle: Constant.formFieldLabelStyle,
+                      labelStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldLabelStyle
+                          : LightTheme.formFieldLabelStyle,
                     ),
                   ),
                   SizedBox(
@@ -214,17 +236,29 @@ class _EditDetailsTileState extends State<EditDetailsTile> {
                     },
                     initialValue: widget.user.mobile,
                     maxLength: 10,
-                    style: Constant.formFieldTextStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.formFieldTextStyle
+                        : LightTheme.formFieldTextStyle,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      counterStyle: Constant.counterStyle,
+                      counterStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.counterStyle
+                          : LightTheme.counterStyle,
                       contentPadding: Constant.formFieldContentPadding,
                       hintText: "94578xxxx5",
-                      hintStyle: Constant.formFieldHintStyle,
-                      border: Constant.formFieldBorder,
-                      focusedBorder: Constant.formFieldFocusedBorder,
+                      hintStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldHintStyle
+                          : LightTheme.formFieldHintStyle,
+                      border: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldBorder
+                          : LightTheme.formFieldBorder,
+                      focusedBorder: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldFocusedBorder
+                          : LightTheme.formFieldFocusedBorder,
                       labelText: "Mobile Number",
-                      labelStyle: Constant.formFieldLabelStyle,
+                      labelStyle: Theme.of(context).brightness == Brightness.dark
+                                  ? DarkTheme.formFieldLabelStyle
+                                  : LightTheme.formFieldLabelStyle,
                     ),
                   ),
                   SizedBox(
@@ -239,16 +273,28 @@ class _EditDetailsTileState extends State<EditDetailsTile> {
                     onSaved: (value) {
                       _inputUsername = value;
                     },
-                    style: Constant.formFieldTextStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.formFieldTextStyle
+                        : LightTheme.formFieldTextStyle,
                     decoration: InputDecoration(
-                      counterStyle: Constant.counterStyle,
+                      counterStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.counterStyle
+                          : LightTheme.counterStyle,
                       contentPadding: Constant.formFieldContentPadding,
                       hintText: "johnDoe12",
-                      hintStyle: Constant.formFieldHintStyle,
-                      border: Constant.formFieldBorder,
-                      focusedBorder: Constant.formFieldFocusedBorder,
+                      hintStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldHintStyle
+                          : LightTheme.formFieldHintStyle,
+                      border: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldBorder
+                          : LightTheme.formFieldBorder,
+                      focusedBorder: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldFocusedBorder
+                          : LightTheme.formFieldFocusedBorder,
                       labelText: "Username",
-                      labelStyle: Constant.formFieldLabelStyle,
+                      labelStyle: Theme.of(context).brightness == Brightness.dark
+                                  ? DarkTheme.formFieldLabelStyle
+                                  : LightTheme.formFieldLabelStyle,
                     ),
                   ),
                   SizedBox(
@@ -262,18 +308,30 @@ class _EditDetailsTileState extends State<EditDetailsTile> {
                     initialValue: widget.user.bio,
                     minLines: 3,
                     maxLines: 7,
-                    style: Constant.formFieldTextStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.formFieldTextStyle
+                        : LightTheme.formFieldTextStyle,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       alignLabelWithHint: true,
-                      counterStyle: Constant.counterStyle,
+                      counterStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.counterStyle
+                          : LightTheme.counterStyle,
                       contentPadding: Constant.formFieldContentPadding,
                       hintText: "Brief description about yourself...",
-                      hintStyle: Constant.formFieldHintStyle,
-                      border: Constant.formFieldBorder,
-                      focusedBorder: Constant.formFieldFocusedBorder,
+                      hintStyle: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldHintStyle
+                          : LightTheme.formFieldHintStyle,
+                      border: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldBorder
+                          : LightTheme.formFieldBorder,
+                      focusedBorder: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldFocusedBorder
+                          : LightTheme.formFieldFocusedBorder,
                       labelText: "Bio",
-                      labelStyle: Constant.formFieldLabelStyle,
+                      labelStyle: Theme.of(context).brightness == Brightness.dark
+                                  ? DarkTheme.formFieldLabelStyle
+                                  : LightTheme.formFieldLabelStyle,
                     ),
                   ),
                   SizedBox(
@@ -360,11 +418,9 @@ class _UserTopicListTileState extends State<UserTopicListTile> {
               padding: Constant.edgePadding,
               child: Text(
                 "Select all the topics that interest you...",
-                style: Theme
-                           .of(context)
-                           .brightness == Brightness.dark
-                       ? DarkTheme.headingDescriptionStyle
-                       : LightTheme.headingDescriptionStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.headingDescriptionStyle
+                    : LightTheme.headingDescriptionStyle,
               ),
             ),
             StreamBuilder(
@@ -499,16 +555,28 @@ class _UniversityTopicListTileState extends State<UniversityTopicListTile> {
                     return _topicValidatorResponse;
                   },
                   keyboardType: TextInputType.text,
-                  style: Constant.formFieldTextStyle,
+                  style: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.formFieldTextStyle
+                      : LightTheme.formFieldTextStyle,
                   decoration: InputDecoration(
-                    counterStyle: Constant.counterStyle,
+                    counterStyle: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.counterStyle
+                        : LightTheme.counterStyle,
                     contentPadding: Constant.formFieldContentPadding,
                     hintText: "Kinematics",
-                    hintStyle: Constant.formFieldHintStyle,
-                    border: Constant.formFieldBorder,
-                    focusedBorder: Constant.formFieldFocusedBorder,
+                    hintStyle: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.formFieldHintStyle
+                        : LightTheme.formFieldHintStyle,
+                    border: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.formFieldBorder
+                        : LightTheme.formFieldBorder,
+                    focusedBorder: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.formFieldFocusedBorder
+                        : LightTheme.formFieldFocusedBorder,
                     labelText: "Topic Name",
-                    labelStyle: Constant.formFieldLabelStyle,
+                    labelStyle: Theme.of(context).brightness == Brightness.dark
+                                ? DarkTheme.formFieldLabelStyle
+                                : LightTheme.formFieldLabelStyle,
                   ),
                   focusNode: _topicFieldFocus,
                 ),
@@ -597,11 +665,9 @@ class _UniversityTopicListTileState extends State<UniversityTopicListTile> {
               padding: Constant.edgePadding,
               child: Text(
                 "Select or add all the topics taught by ${widget.user.university}...",
-                style: Theme
-                           .of(context)
-                           .brightness == Brightness.dark
-                       ? DarkTheme.headingDescriptionStyle
-                       : LightTheme.headingDescriptionStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.headingDescriptionStyle
+                    : LightTheme.headingDescriptionStyle,
               ),
             ),
             StreamBuilder(
@@ -643,7 +709,7 @@ class _UniversityTopicListTileState extends State<UniversityTopicListTile> {
                     child: SizedBox(
                       height: 28.0,
                       width: 28.0,
-                      child: Constant.greenCircularProgressIndicator,
+                      child: Constant.myCircularProgressIndicator,
                     ),
                   );
                 }

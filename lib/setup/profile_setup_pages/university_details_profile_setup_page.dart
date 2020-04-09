@@ -122,16 +122,28 @@ class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKee
               initialValue: widget.universitySnap.data['country'] ?? null,
               validator: (value) => Constant.countryValidator(value),
               keyboardType: TextInputType.text,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                     ? DarkTheme.formFieldTextStyle
+                     : LightTheme.formFieldTextStyle,
               decoration: InputDecoration(
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.counterStyle
+                              : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "India",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                           ? DarkTheme.formFieldHintStyle
+                           : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.formFieldBorder
+                        : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                               ? DarkTheme.formFieldFocusedBorder
+                               : LightTheme.formFieldFocusedBorder,
                 labelText: "Country",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.formFieldLabelStyle
+                            : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _universityCountryFocus,
             ),
@@ -150,16 +162,28 @@ class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKee
               initialValue: widget.universitySnap.data['state'] ?? null,
               validator: (value) => Constant.stateValidator(value),
               keyboardType: TextInputType.text,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                     ? DarkTheme.formFieldTextStyle
+                     : LightTheme.formFieldTextStyle,
               decoration: InputDecoration(
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.counterStyle
+                              : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "Gujarat",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                           ? DarkTheme.formFieldHintStyle
+                           : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.formFieldBorder
+                        : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                               ? DarkTheme.formFieldFocusedBorder
+                               : LightTheme.formFieldFocusedBorder,
                 labelText: "Region/State",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.formFieldLabelStyle
+                            : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _universityStateFocus,
             ),
@@ -178,16 +202,28 @@ class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKee
               initialValue: widget.universitySnap.data['city'] ?? null,
               validator: (value) => Constant.cityValidator(value),
               keyboardType: TextInputType.text,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                     ? DarkTheme.formFieldTextStyle
+                     : LightTheme.formFieldTextStyle,
               decoration: InputDecoration(
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.counterStyle
+                              : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "Gandhinagar",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                           ? DarkTheme.formFieldHintStyle
+                           : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.formFieldBorder
+                        : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                               ? DarkTheme.formFieldFocusedBorder
+                               : LightTheme.formFieldFocusedBorder,
                 labelText: "City",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.formFieldLabelStyle
+                            : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _universityCityFocus,
             ),
@@ -210,7 +246,7 @@ class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKee
                   ),
                   color: Colors.green[50],
                   child: _isLoading
-                      ? Constant.greenCircularProgressIndicator
+                      ? Constant.myCircularProgressIndicator
                       : Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,

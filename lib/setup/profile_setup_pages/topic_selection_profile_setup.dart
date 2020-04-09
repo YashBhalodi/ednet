@@ -108,16 +108,28 @@ class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAlive
                     return _topicValidatorResponse;
                   },
                   keyboardType: TextInputType.text,
-                  style: Constant.formFieldTextStyle,
+                  style: Theme.of(context).brightness == Brightness.dark
+                         ? DarkTheme.formFieldTextStyle
+                         : LightTheme.formFieldTextStyle,
                   decoration: InputDecoration(
-                    counterStyle: Constant.counterStyle,
+                    counterStyle: Theme.of(context).brightness == Brightness.dark
+                                  ? DarkTheme.counterStyle
+                                  : LightTheme.counterStyle,
                     contentPadding: Constant.formFieldContentPadding,
                     hintText: "Kinematics",
-                    hintStyle: Constant.formFieldHintStyle,
-                    border: Constant.formFieldBorder,
-                    focusedBorder: Constant.formFieldFocusedBorder,
+                    hintStyle: Theme.of(context).brightness == Brightness.dark
+                               ? DarkTheme.formFieldHintStyle
+                               : LightTheme.formFieldHintStyle,
+                    border: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.formFieldBorder
+                            : LightTheme.formFieldBorder,
+                    focusedBorder: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.formFieldFocusedBorder
+                                   : LightTheme.formFieldFocusedBorder,
                     labelText: "Topic Name",
-                    labelStyle: Constant.formFieldLabelStyle,
+                    labelStyle: Theme.of(context).brightness == Brightness.dark
+                                ? DarkTheme.formFieldLabelStyle
+                                : LightTheme.formFieldLabelStyle,
                   ),
                   focusNode: _topicFieldFocus,
                 ),
