@@ -48,29 +48,6 @@ class _MyCheckBoxTileState extends State<MyCheckBoxTile> {
   }
 }
 
-class PrimaryCTA extends StatelessWidget {
-  final Function callback;
-  final Widget child;
-
-  const PrimaryCTA({Key key, this.callback, this.child}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return RaisedButton(
-      onPressed: callback,
-      textColor: Colors.white,
-      child: child,
-      padding: Constant.raisedButtonPaddingHigh,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-        side: BorderSide(color: Colors.green[400], width: 2.0),
-      ),
-      color: Colors.green[700],
-      disabledColor: Colors.grey[300],
-    );
-  }
-}
-
 class PrimaryBlueCTA extends StatelessWidget {
   final Function callback;
   final Widget child;
@@ -87,9 +64,10 @@ class PrimaryBlueCTA extends StatelessWidget {
       padding: Constant.raisedButtonPaddingHigh,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
-        side: BorderSide(color: Colors.blue[700], width: 2.0),
       ),
-      color: Colors.blue[600],
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.primaryCTABackgroundColor
+          : LightTheme.primaryCTABackgroundColor,
     );
   }
 }
@@ -144,29 +122,25 @@ class UpvoteBox extends StatelessWidget {
   final int upvoteCount;
 
   UpvoteBox({Key key, @required this.upvoteCount}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
           side: BorderSide(
-            color: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.ratingBoxBackgroundColor
-                   : LightTheme.ratingBoxBackgroundColor,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.ratingBoxBackgroundColor
+                : LightTheme.ratingBoxBackgroundColor,
             width: 1.0,
           ),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10.0),
           ),
         ),
-        color: Theme
-                   .of(context)
-                   .brightness == Brightness.dark
-               ? DarkTheme.ratingBoxBackgroundColor
-               : LightTheme.ratingBoxBackgroundColor,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? DarkTheme.ratingBoxBackgroundColor
+            : LightTheme.ratingBoxBackgroundColor,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -175,24 +149,18 @@ class UpvoteBox extends StatelessWidget {
         children: <Widget>[
           Icon(
             Icons.keyboard_arrow_up,
-            color: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.upvoteCountColor
-                   : LightTheme.upvoteCountColor,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.upvoteCountColor
+                : LightTheme.upvoteCountColor,
             size: 16.0,
           ),
           SizedBox(
             width: 8.0,
           ),
-          Text(
-            upvoteCount.toString(),
-            style: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.upvoteCountTextStyle
-                   : LightTheme.upvoteCountTextStyle
-          )
+          Text(upvoteCount.toString(),
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.upvoteCountTextStyle
+                  : LightTheme.upvoteCountTextStyle)
         ],
       ),
     );
@@ -210,22 +178,18 @@ class DownvoteBox extends StatelessWidget {
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
           side: BorderSide(
-            color: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.ratingBoxBackgroundColor
-                   : LightTheme.ratingBoxBackgroundColor,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.ratingBoxBackgroundColor
+                : LightTheme.ratingBoxBackgroundColor,
             width: 1.0,
           ),
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(10.0),
           ),
         ),
-        color: Theme
-                   .of(context)
-                   .brightness == Brightness.dark
-               ? DarkTheme.ratingBoxBackgroundColor
-               : LightTheme.ratingBoxBackgroundColor,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? DarkTheme.ratingBoxBackgroundColor
+            : LightTheme.ratingBoxBackgroundColor,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -234,24 +198,18 @@ class DownvoteBox extends StatelessWidget {
         children: <Widget>[
           Icon(
             Icons.keyboard_arrow_down,
-            color: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.downvoteCountColor
-                   : LightTheme.downvoteCountColor,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.downvoteCountColor
+                : LightTheme.downvoteCountColor,
             size: 16.0,
           ),
           SizedBox(
             width: 8.0,
           ),
-          Text(
-            downvoteCount.toString(),
-            style: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.downvoteCountTextStyle
-                   : LightTheme.downvoteCountTextStyle
-          )
+          Text(downvoteCount.toString(),
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.downvoteCountTextStyle
+                  : LightTheme.downvoteCountTextStyle)
         ],
       ),
     );
@@ -269,19 +227,15 @@ class AnswerCountBox extends StatelessWidget {
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
           side: BorderSide(
-            color: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.ratingBoxBackgroundColor
-                   : LightTheme.ratingBoxBackgroundColor,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.ratingBoxBackgroundColor
+                : LightTheme.ratingBoxBackgroundColor,
             width: 1.0,
           ),
         ),
-        color: Theme
-                   .of(context)
-                   .brightness == Brightness.dark
-               ? DarkTheme.ratingBoxBackgroundColor
-               : LightTheme.ratingBoxBackgroundColor,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? DarkTheme.ratingBoxBackgroundColor
+            : LightTheme.ratingBoxBackgroundColor,
       ),
       child: Center(
         child: Text(
@@ -367,11 +321,9 @@ class UpvoteButton extends StatelessWidget {
         children: <Widget>[
           Icon(
             Icons.arrow_upward,
-            color: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.upvoteButtonCountColor
-                   : LightTheme.upvoteButtonCountColor,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.upvoteButtonCountColor
+                : LightTheme.upvoteButtonCountColor,
             size: 18.0,
           ),
           SizedBox(
@@ -379,30 +331,24 @@ class UpvoteButton extends StatelessWidget {
           ),
           Text(
             count.toString() + " Upvote",
-            style: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.upvoteButtonTextStyle
-                   : LightTheme.upvoteButtonTextStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.upvoteButtonTextStyle
+                : LightTheme.upvoteButtonTextStyle,
           ),
         ],
       ),
-      color: Theme
-                 .of(context)
-                 .brightness == Brightness.dark
-             ? DarkTheme.upvoteButtonBackgroundColor
-             : LightTheme.upvoteButtonBackgroundColor,
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.upvoteButtonBackgroundColor
+          : LightTheme.upvoteButtonBackgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10.0),
           bottomLeft: Radius.circular(10.0),
         ),
         side: BorderSide(
-          color: Theme
-                     .of(context)
-                     .brightness == Brightness.dark
-                 ? DarkTheme.upvoteButtonBackgroundColor
-                 : LightTheme.upvoteButtonBackgroundColor,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? DarkTheme.upvoteButtonBackgroundColor
+              : LightTheme.upvoteButtonBackgroundColor,
           width: 1.0,
         ),
       ),
@@ -429,11 +375,9 @@ class DownvoteButton extends StatelessWidget {
         children: <Widget>[
           Icon(
             Icons.arrow_downward,
-            color: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.downvoteButtonCountColor
-                   : LightTheme.downvoteButtonCountColor,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.downvoteButtonCountColor
+                : LightTheme.downvoteButtonCountColor,
             size: 18.0,
           ),
           SizedBox(
@@ -441,30 +385,24 @@ class DownvoteButton extends StatelessWidget {
           ),
           Text(
             count.toString() + " Downvote",
-            style: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.downvoteButtonTextStyle
-                   : LightTheme.downvoteButtonTextStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.downvoteButtonTextStyle
+                : LightTheme.downvoteButtonTextStyle,
           ),
         ],
       ),
-      color: Theme
-                 .of(context)
-                 .brightness == Brightness.dark
-             ? DarkTheme.downvoteButtonBackgroundColor
-             : LightTheme.downvoteButtonBackgroundColor,
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.downvoteButtonBackgroundColor
+          : LightTheme.downvoteButtonBackgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(10.0),
           bottomRight: Radius.circular(10.0),
         ),
         side: BorderSide(
-          color: Theme
-                     .of(context)
-                     .brightness == Brightness.dark
-                 ? DarkTheme.downvoteButtonBackgroundColor
-                 : LightTheme.downvoteButtonBackgroundColor,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? DarkTheme.downvoteButtonBackgroundColor
+              : LightTheme.downvoteButtonBackgroundColor,
           width: 1.0,
         ),
       ),
@@ -586,90 +524,18 @@ class BlueOutlineButton extends StatelessWidget {
       padding: Constant.raisedButtonPaddingMedium,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
-        side: BorderSide(color: Colors.blue[600], width: 2.0),
+        side: BorderSide(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.outlineButtonTextColor
+                : LightTheme.outlineButtonTextColor,
+            width: 2.0),
       ),
-      color: Colors.grey[100],
-      disabledColor: Colors.grey[300],
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.outlineButtonBackgroundColor
+          : LightTheme.outlineButtonBackgroundColor,
+      disabledColor:
+          Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.grey[300],
       elevation: 4.0,
     );
   }
 }
-
-/*
-class TextWithCounter extends StatefulWidget {
-  final Widget child;
-  final int count;
-
-  const TextWithCounter({Key key,@required this.count,@required this.child}) : super(key: key);
-
-  @override
-  _TextWithCounterState createState() => _TextWithCounterState();
-}
-
-class _TextWithCounterState extends State<TextWithCounter> {
-  Color _badgeColor;
-
-  load() {
-    switch (widget.count) {
-      case (0):
-        {
-          _badgeColor = Color(0xffFFFF33);
-          break;
-        }
-      case (1):
-        {
-          _badgeColor = Color(0xffFFFF33);
-          break;
-        }
-      case (2):
-        {
-          _badgeColor = Color(0xffCCFF4D);
-          break;
-        }
-      case (3):
-        {
-          _badgeColor = Color(0xff99FF66);
-          break;
-        }
-      case (4):
-        {
-          _badgeColor = Color(0xff66FF80);
-          break;
-        }
-      case (5):
-        {
-          _badgeColor = Color(0xff33FF99);
-          break;
-        }
-      default:
-        {
-          _badgeColor = Color(0xff33FF99);
-          break;
-        }
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    load();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Badge(
-      child: Padding(
-        padding: const EdgeInsets.only(right:12.0),
-        child: widget.child,
-      ),
-      badgeContent: Text(
-        widget.count >= 100 ? "99+" : widget.count.toString(),
-        style: TextStyle(fontSize: 8.0),
-      ),
-      badgeColor: _badgeColor,
-      elevation: 1,
-
-    );
-  }
-}
-*/

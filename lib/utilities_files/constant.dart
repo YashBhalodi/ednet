@@ -41,15 +41,6 @@ class Constant {
         vertical: 20.0,
       );
 
-  static get myCircularProgressIndicator => SizedBox(
-        height: 28.0,
-        width: 28.0,
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation(Colors.green[800]),
-          backgroundColor: Colors.green[50],
-        ),
-      );
-
   static get raisedButtonPaddingHigh => EdgeInsets.symmetric(
         horizontal: 24.0,
         vertical: 16.0,
@@ -73,60 +64,8 @@ class Constant {
         milliseconds: 500,
       );
 
-  static get menuButtonTextStyle => TextStyle(
-      fontSize: 24.0,
-      color: Colors.blue[800],
-      fontWeight: FontWeight.w600,
-      fontFamily: 'ValeraRound');
-
-  static get primaryCTATextStyle => TextStyle(
-        fontSize: 18.0,
-        color: Colors.white,
-        fontWeight: FontWeight.w600,
-      );
-
-  static get secondaryCTATextStyle => TextStyle(
-        fontSize: 18.0,
-        color: Colors.grey[800],
-        fontWeight: FontWeight.w500,
-      );
-
-  static get negativeCTATextStyle => TextStyle(
-        fontSize: 24.0,
-        color: Colors.red[600],
-        fontWeight: FontWeight.w600,
-      );
-
-  static get secondaryNegativeTextStyle => TextStyle(
-        color: Colors.red[500],
-        fontSize: 16.0,
-        fontWeight: FontWeight.w600,
-      );
-
-  static get secondaryBlueTextStyle => TextStyle(
-        color: Colors.blue[500],
-        fontSize: 16.0,
-        fontWeight: FontWeight.w600,
-      );
-
-  static get dropDownMenuTitleStyle => TextStyle(
-        color: Colors.grey[700],
-        fontSize: 18.0,
-        fontWeight: FontWeight.w500,
-      );
-
-  static get outlineBlueButtonTextStyle => TextStyle(
-        color: Colors.blue[600],
-        fontSize: 18.0,
-        fontWeight: FontWeight.w500,
-      );
-
-  static get appBarTextStyle => TextStyle(
-        fontFamily: 'ValeraRound',
-        fontWeight: FontWeight.w700,
-      );
-
-  static get questionHeadingStyle => TextStyle(
+  //TODO Dark Movement from here
+  static get questionHeadingStyle async => TextStyle(
         fontSize: 20.0,
         fontWeight: FontWeight.w600,
       );
@@ -186,12 +125,6 @@ class Constant {
         fontWeight: FontWeight.w400,
       );
 
-  static get professorUpvoteTextStyle => TextStyle(
-        fontSize: 10,
-        fontWeight: FontWeight.w400,
-        color: Colors.deepOrange,
-      );
-
   static String emailValidator(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -203,25 +136,6 @@ class Constant {
     } else {
       return null;
     }
-  }
-
-  static Future<String> getCurrentUserDocId() async {
-    final currentUser = await FirebaseAuth.instance.currentUser();
-    final userDoc = await Firestore.instance
-        .collection('Users')
-        .where('email', isEqualTo: currentUser.email)
-        .getDocuments();
-    return userDoc.documents[0].documentID;
-  }
-
-  static Future<User> getCurrentUserObject() async {
-    final currentUser = await FirebaseAuth.instance.currentUser();
-    final userDoc = await Firestore.instance
-        .collection('Users')
-        .where('email', isEqualTo: currentUser.email)
-        .getDocuments();
-    User user = User.fromSnapshot(userDoc.documents[0]);
-    return user;
   }
 
   static Future<String> userNameAvailableValidator(String value) async {
@@ -423,22 +337,6 @@ class Constant {
     }
   }
 
-  static Future<String> getCurrentUsername() async {
-    try {
-      FirebaseUser curUser = await FirebaseAuth.instance.currentUser();
-      QuerySnapshot curUserQuery = await Firestore.instance
-          .collection('Users')
-          .where('email', isEqualTo: curUser.email)
-          .getDocuments();
-      String username = curUserQuery.documents[0].data['username'];
-      return username;
-    } catch (e) {
-      print("Constant.getCurrentUsername:");
-      print(e);
-      return null;
-    }
-  }
-
   static Future<DocumentReference> getCurrentUserDoc() async {
     FirebaseUser curUser = await FirebaseAuth.instance.currentUser();
     String email = curUser.email;
@@ -461,6 +359,25 @@ class Constant {
       print(e);
       return false;
     }
+  }
+
+  static Future<String> getCurrentUserDocId() async {
+      final currentUser = await FirebaseAuth.instance.currentUser();
+      final userDoc = await Firestore.instance
+          .collection('Users')
+          .where('email', isEqualTo: currentUser.email)
+          .getDocuments();
+      return userDoc.documents[0].documentID;
+  }
+
+  static Future<User> getCurrentUserObject() async {
+      final currentUser = await FirebaseAuth.instance.currentUser();
+      final userDoc = await Firestore.instance
+          .collection('Users')
+          .where('email', isEqualTo: currentUser.email)
+          .getDocuments();
+      User user = User.fromSnapshot(userDoc.documents[0]);
+      return user;
   }
 
   static void userProfileView(context, {@required String userId}) async {
@@ -567,14 +484,14 @@ class DarkTheme {
         fontFamily: 'VarelaRound',
         fontWeight: FontWeight.w500,
         fontSize: 28.0,
-        color: Color(0xffbbe1fa),
+        color: Color(0xfff1f9f9),
       );
 
   static get headingDescriptionStyle => TextStyle(
         fontFamily: 'VarelaRound',
         fontWeight: FontWeight.w400,
         fontSize: 16.0,
-        color: Color(0xffbbe1fa),
+        color: Color(0xfff1f9f9),
       );
 
   static get textFieldFillColor => Colors.grey[800];
@@ -618,6 +535,75 @@ class DarkTheme {
 
   static get appDrawerMenuStyle => TextStyle();
 
+  static get professorUpvoteTextStyle => TextStyle(
+      fontSize: 10,
+      fontWeight: FontWeight.w400,
+      color: Colors.cyanAccent,
+  );
+
+  static get questionTileShadow => [
+      BoxShadow(
+          color: Colors.grey[900],
+          offset: Offset(0.0, 3.0),
+          blurRadius: 16.0,
+      ),
+  ];
+
+  static get circularProgressIndicator => SizedBox(
+      height: 28.0,
+      width: 28.0,
+      child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(Colors.cyanAccent),
+          backgroundColor: Color(0xff35495e),
+      ),
+  );
+
+  static get primaryCTABackgroundColor => Color(0xff35495e);
+
+  static get primaryCTATextStyle => TextStyle(
+      fontSize: 18.0,
+      color: Colors.white,
+      fontWeight: FontWeight.w600,
+  );
+
+  static get secondaryCTATextStyle => TextStyle(
+      fontSize: 18.0,
+      color: Colors.grey[800],
+      fontWeight: FontWeight.w500,
+  );
+
+  static get secondaryNegativeTextStyle => TextStyle(
+      color: Colors.red[500],
+      fontSize: 16.0,
+      fontWeight: FontWeight.w600,
+  );
+
+  static get secondaryHeadingTextStyle => TextStyle(
+      color: Color(0xffd7fffd),
+      fontSize: 16.0,
+      fontWeight: FontWeight.w600,
+  );
+
+  static get dropDownMenuTitleStyle => TextStyle(
+      color: Color(0xffd7fffd),
+      fontSize: 18.0,
+      fontWeight: FontWeight.w500,
+  );
+
+  static get outlineButtonTextColor => Color(0xffd7fffd);
+
+  static get outlineButtonTextStyle => TextStyle(
+      color: outlineButtonTextColor,
+      fontSize: 18.0,
+      fontWeight: FontWeight.w500,
+  );
+
+  static get outlineButtonBackgroundColor => Colors.blueGrey[800];
+
+  static get appBarTextStyle => TextStyle(
+      fontFamily: 'ValeraRound',
+      fontWeight: FontWeight.w700,
+  );
 }
 
 class LightTheme {
@@ -734,4 +720,74 @@ class LightTheme {
   );
 
   static get appDrawerMenuStyle => TextStyle();
+
+  static get professorUpvoteTextStyle => TextStyle(
+      fontSize: 10,
+      fontWeight: FontWeight.w400,
+      color: Colors.orange[700],
+  );
+
+  static get questionTileShadow => [
+      BoxShadow(
+          color: Colors.grey[500],
+          offset: Offset(0.0, 3.0),
+          blurRadius: 16.0,
+      ),
+  ];
+
+  static get circularProgressIndicator => SizedBox(
+      height: 28.0,
+      width: 28.0,
+      child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(Colors.white),
+          backgroundColor: Colors.blue[600],
+      ),
+  );
+
+  static get primaryCTABackgroundColor => Colors.blue[600];
+
+  static get primaryCTATextStyle => TextStyle(
+      fontSize: 18.0,
+      color: Colors.white,
+      fontWeight: FontWeight.w600,
+  );
+
+  static get secondaryCTATextStyle => TextStyle(
+      fontSize: 18.0,
+      color: Colors.grey[800],
+      fontWeight: FontWeight.w500,
+  );
+
+  static get secondaryNegativeTextStyle => TextStyle(
+      color: Colors.red[500],
+      fontSize: 16.0,
+      fontWeight: FontWeight.w600,
+  );
+
+  static get secondaryHeadingTextStyle => TextStyle(
+      color: Colors.blue[600],
+      fontSize: 16.0,
+      fontWeight: FontWeight.w600,
+  );
+
+  static get dropDownMenuTitleStyle => TextStyle(
+      color: Colors.grey[700],
+      fontSize: 18.0,
+      fontWeight: FontWeight.w500,
+  );
+
+  static get outlineButtonTextColor => Colors.blue[600];
+
+  static get outlineButtonTextStyle => TextStyle(
+      color: outlineButtonTextColor,
+      fontSize: 18.0,
+      fontWeight: FontWeight.w500,
+  );
+
+  static get outlineButtonBackgroundColor => Colors.grey[100];
+
+  static get appBarTextStyle => TextStyle(
+      fontFamily: 'ValeraRound',
+      fontWeight: FontWeight.w700,
+  );
 }

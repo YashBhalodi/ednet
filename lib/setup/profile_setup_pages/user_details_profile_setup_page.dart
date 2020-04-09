@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 
 class UserDetails extends StatefulWidget {
@@ -26,7 +27,6 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
   FocusNode _userNameFocus = FocusNode();
   FocusNode _fNameFocus = FocusNode();
   FocusNode _lNameFocus = FocusNode();
-  FocusNode _submitPartOneFocus = FocusNode();
 
   ScrollController _userDetailsScrollController = ScrollController();
   TextEditingController _userNameController;
@@ -97,7 +97,6 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
   void dispose() {
     super.dispose();
     _userDetailsScrollController.dispose();
-    _submitPartOneFocus.dispose();
     _bioFocus.dispose();
     _emailFocus.dispose();
     _mobileNumberFocus.dispose();
@@ -159,8 +158,8 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
                     : LightTheme.formFieldFocusedBorder,
                 labelText: "First Name",
                 labelStyle: Theme.of(context).brightness == Brightness.dark
-                            ? DarkTheme.formFieldLabelStyle
-                            : LightTheme.formFieldLabelStyle,
+                    ? DarkTheme.formFieldLabelStyle
+                    : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _fNameFocus,
             ),
@@ -199,8 +198,8 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
                     : LightTheme.formFieldFocusedBorder,
                 labelText: "Last Name",
                 labelStyle: Theme.of(context).brightness == Brightness.dark
-                          ? DarkTheme.formFieldLabelStyle
-                          : LightTheme.formFieldLabelStyle,
+                    ? DarkTheme.formFieldLabelStyle
+                    : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _lNameFocus,
             ),
@@ -240,8 +239,8 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
                     : LightTheme.formFieldFocusedBorder,
                 labelText: "Mobile Number",
                 labelStyle: Theme.of(context).brightness == Brightness.dark
-                          ? DarkTheme.formFieldLabelStyle
-                          : LightTheme.formFieldLabelStyle,
+                    ? DarkTheme.formFieldLabelStyle
+                    : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _mobileNumberFocus,
             ),
@@ -283,8 +282,8 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
                     : LightTheme.formFieldFocusedBorder,
                 labelText: "Username",
                 labelStyle: Theme.of(context).brightness == Brightness.dark
-                          ? DarkTheme.formFieldLabelStyle
-                          : LightTheme.formFieldLabelStyle,
+                    ? DarkTheme.formFieldLabelStyle
+                    : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _userNameFocus,
             ),
@@ -294,7 +293,7 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
             TextFormField(
               maxLength: 100,
               onEditingComplete: () {
-                FocusScope.of(context).requestFocus(_submitPartOneFocus);
+                FocusScope.of(context).unfocus();
                 _userDetailsScrollController.animateTo(500.0,
                     duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
               },
@@ -326,8 +325,8 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
                     : LightTheme.formFieldFocusedBorder,
                 labelText: "Bio",
                 labelStyle: Theme.of(context).brightness == Brightness.dark
-                          ? DarkTheme.formFieldLabelStyle
-                          : LightTheme.formFieldLabelStyle,
+                    ? DarkTheme.formFieldLabelStyle
+                    : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _bioFocus,
             ),
@@ -338,19 +337,14 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
               alignment: Alignment.center,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
-                child: RaisedButton(
-                  focusNode: _submitPartOneFocus,
-                  onPressed: () async {
+                child: PrimaryBlueCTA(
+                  callback: () async {
                     await _submitUserDetailForm();
                   },
-                  padding: Constant.raisedButtonPaddingHigh,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                    side: BorderSide(color: Colors.green[800], width: 2.0),
-                  ),
-                  color: Colors.green[50],
                   child: _isLoading
-                      ? Constant.myCircularProgressIndicator
+                      ? Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.circularProgressIndicator
+                          : LightTheme.circularProgressIndicator
                       : Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,

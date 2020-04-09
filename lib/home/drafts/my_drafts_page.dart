@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ednet/home/profile/my_profile/answer_draft_card.dart';
-import 'package:ednet/home/profile/my_profile/article_draft_card.dart';
-import 'package:ednet/home/profile/my_profile/question_draft_card.dart';
+import 'package:ednet/home/drafts/answer_draft_card.dart';
+import 'package:ednet/home/drafts/article_draft_card.dart';
+import 'package:ednet/home/drafts/question_draft_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/shimmer_widgets.dart';
@@ -25,7 +25,9 @@ class MyDrafts extends StatelessWidget {
             ExpansionTile(
               title: Text(
                 "Questions",
-                style: Constant.dropDownMenuTitleStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.dropDownMenuTitleStyle
+                    : LightTheme.dropDownMenuTitleStyle,
               ),
               initiallyExpanded: true,
               backgroundColor: Colors.grey[50],
@@ -80,7 +82,9 @@ class MyDrafts extends StatelessWidget {
             ExpansionTile(
               title: Text(
                 "Articles",
-                style: Constant.dropDownMenuTitleStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                       ? DarkTheme.dropDownMenuTitleStyle
+                       : LightTheme.dropDownMenuTitleStyle,
               ),
               initiallyExpanded: false,
               backgroundColor: Colors.grey[50],
@@ -135,7 +139,9 @@ class MyDrafts extends StatelessWidget {
             ExpansionTile(
               title: Text(
                 "Answers",
-                style: Constant.dropDownMenuTitleStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                       ? DarkTheme.dropDownMenuTitleStyle
+                       : LightTheme.dropDownMenuTitleStyle,
               ),
               initiallyExpanded: false,
               backgroundColor: Colors.grey[50],

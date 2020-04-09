@@ -1,18 +1,16 @@
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ednet/home/create/article/create_article.dart';
+import 'package:ednet/home/create/answer/create_answer.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:zefyr/zefyr.dart';
 
-class ArticleDraftCard extends StatelessWidget {
-  final Article article;
+class AnswerDraftCard extends StatelessWidget {
+  final Answer answer;
 
-  const ArticleDraftCard({Key key, this.article}) : super(key: key);
+  const AnswerDraftCard({Key key, this.answer}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +25,8 @@ class ArticleDraftCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
             padding: Constant.cardPadding,
@@ -37,40 +35,8 @@ class ArticleDraftCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(article.topics.length, (i) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Chip(
-                          label: Text(
-                            article.topics[i],
-                          ),
-                          backgroundColor: Colors.grey[100],
-                        ),
-                      );
-                    }),
-                  ),
-                ),
                 SizedBox(
-                  height: 8.0,
-                ),
-                Text(
-                  article.title ?? " ",
-                  style: Constant.articleTitleStyle,
-                  textAlign: TextAlign.justify,
-                ),
-                SizedBox(
-                  height: 16.0,
-                ),
-                Text(
-                  article.subtitle ?? " ",
-                  style: Constant.articleSubtitleStyle,
-                  textAlign: TextAlign.justify,
-                ),
-                SizedBox(
-                  height: 24.0,
+                  height: 12.0,
                 ),
                 Container(
                   constraints: BoxConstraints.loose(Size(double.maxFinite, 100.0)),
@@ -79,7 +45,7 @@ class ArticleDraftCard extends StatelessWidget {
                     physics: NeverScrollableScrollPhysics(),
                     child: ZefyrView(
                       document: NotusDocument.fromJson(
-                        jsonDecode(article.contentJson),
+                        jsonDecode(answer.contentJson),
                       ),
                     ),
                   ),
@@ -95,23 +61,25 @@ class ArticleDraftCard extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Expanded(
                   child: SecondaryNegativeCardButton(
                     child: Text(
                       "Delete",
-                      style: Constant.secondaryNegativeTextStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.secondaryNegativeTextStyle
+                          : LightTheme.secondaryNegativeTextStyle,
                     ),
                     callback: () {
                       showDialog(
                         context: context,
                         builder: (context) {
                           return DeleteConfirmationAlert(
-                            title: "Delete article draft?",
+                            title: "Delete answer draft?",
                             msg: "You will lose this content permenantly.",
                             deleteCallback: () async {
-                              await article.delete();
+                              await answer.delete();
                               Navigator.of(context).pop();
                             },
                             cancelCallback: () {
@@ -129,8 +97,8 @@ class ArticleDraftCard extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) {
-                            return CreateArticle(
-                              article: article,
+                            return CreateAnswer(
+                              answer: answer,
                             );
                           },
                         ),
@@ -138,7 +106,9 @@ class ArticleDraftCard extends StatelessWidget {
                     },
                     child: Text(
                       "Finish",
-                      style: Constant.secondaryBlueTextStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                             ? DarkTheme.secondaryHeadingTextStyle
+                             : LightTheme.secondaryHeadingTextStyle,
                     ),
                   ),
                 ),

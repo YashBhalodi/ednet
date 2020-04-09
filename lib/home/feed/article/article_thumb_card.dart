@@ -109,7 +109,9 @@ class ArticleThumbCard extends StatelessWidget {
                         padding: EdgeInsets.only(bottom: 8.0),
                         child: Text(
                           "${article.profUpvoteCount} professor upvoted",
-                          style: Constant.professorUpvoteTextStyle,
+                          style: Theme.of(context).brightness == Brightness.dark
+                                 ? DarkTheme.professorUpvoteTextStyle
+                                 : LightTheme.professorUpvoteTextStyle,
                         ),
                       ),
                     )

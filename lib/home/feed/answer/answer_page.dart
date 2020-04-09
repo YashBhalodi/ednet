@@ -102,12 +102,12 @@ class AnswerPage extends StatelessWidget {
                                             size: 16.0,
                                           ),
                                           answer.byProf
-                                          ? Icon(
-                                            Icons.star,
-                                            color: Colors.orangeAccent,
-                                            size: 16.0,
-                                          )
-                                          : Container(),
+                                              ? Icon(
+                                                  Icons.star,
+                                                  color: Colors.orangeAccent,
+                                                  size: 16.0,
+                                                )
+                                              : Container(),
                                           Text(
                                             userDoc.data['username'],
                                             style: Constant.usernameStyle,
@@ -175,15 +175,14 @@ class AnswerPage extends StatelessWidget {
                   ),
                   Text(
                     "So...What do you think?\n\nDoes it deserve an upvote?",
-                    style: Theme
-                               .of(context)
-                               .brightness == Brightness.dark
-                           ? DarkTheme.headingDescriptionStyle
-                           : LightTheme.headingDescriptionStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.headingDescriptionStyle
+                        : LightTheme.headingDescriptionStyle,
                     textAlign: TextAlign.center,
                   ),
                   StreamBuilder(
-                    stream: Firestore.instance.collection('Answers').document(answer.id).snapshots(),
+                    stream:
+                        Firestore.instance.collection('Answers').document(answer.id).snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         Answer a = Answer.fromSnapshot(snapshot.data);
@@ -194,7 +193,9 @@ class AnswerPage extends StatelessWidget {
                               padding: EdgeInsets.only(top: 16.0),
                               child: Text(
                                 "${a.profUpvoteCount} professor upvoted",
-                                style: Constant.professorUpvoteTextStyle,
+                                style: Theme.of(context).brightness == Brightness.dark
+                                    ? DarkTheme.professorUpvoteTextStyle
+                                    : LightTheme.professorUpvoteTextStyle,
                               ),
                             ),
                           );
@@ -210,7 +211,8 @@ class AnswerPage extends StatelessWidget {
                     height: 32.0,
                   ),
                   StreamBuilder(
-                    stream: Firestore.instance.collection('Answers').document(answer.id).snapshots(),
+                    stream:
+                        Firestore.instance.collection('Answers').document(answer.id).snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         Answer a = Answer.fromSnapshot(snapshot.data);

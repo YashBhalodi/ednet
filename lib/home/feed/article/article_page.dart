@@ -177,7 +177,9 @@ class ArticlePage extends StatelessWidget {
                           padding: EdgeInsets.only(top: 16.0),
                           child: Text(
                             "${a.profUpvoteCount} professor upvoted",
-                            style: Constant.professorUpvoteTextStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.professorUpvoteTextStyle
+                                   : LightTheme.professorUpvoteTextStyle,
                           ),
                         ),
                       );

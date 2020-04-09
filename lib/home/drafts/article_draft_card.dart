@@ -1,16 +1,18 @@
 import 'dart:convert';
-import 'package:ednet/home/create/question/create_question.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ednet/home/create/article/create_article.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:zefyr/zefyr.dart';
 
-class QuestionDraftCard extends StatelessWidget {
-  final Question question;
+class ArticleDraftCard extends StatelessWidget {
+  final Article article;
 
-  const QuestionDraftCard({Key key, this.question}) : super(key: key);
+  const ArticleDraftCard({Key key, this.article}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,43 +38,48 @@ class QuestionDraftCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 SingleChildScrollView(
-                  padding: EdgeInsets.all(0.0),
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: List.generate(question.topics.length, (i) {
+                    children: List.generate(article.topics.length, (i) {
                       return Padding(
-                        padding: const EdgeInsets.only(right: 4.0),
+                        padding: const EdgeInsets.only(right: 8.0),
                         child: Chip(
                           label: Text(
-                            question.topics[i],
-                            style: Constant.topicStyle,
+                            article.topics[i],
                           ),
-                          backgroundColor: Theme.of(context).brightness == Brightness.dark
-                                           ? DarkTheme.chipBackgroundColor
-                                           : LightTheme.chipBackgroundColor,
+                          backgroundColor: Colors.grey[100],
                         ),
                       );
-                    },),
+                    }),
                   ),
                 ),
                 SizedBox(
                   height: 8.0,
                 ),
                 Text(
-                  question.heading ?? "",
-                  style: Constant.questionHeadingStyle,
+                  article.title ?? " ",
+                  style: Constant.articleTitleStyle,
                   textAlign: TextAlign.justify,
                 ),
                 SizedBox(
                   height: 16.0,
                 ),
+                Text(
+                  article.subtitle ?? " ",
+                  style: Constant.articleSubtitleStyle,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 24.0,
+                ),
                 Container(
-                  constraints: BoxConstraints.loose(Size(double.maxFinite,100.0)),
+                  constraints: BoxConstraints.loose(Size(double.maxFinite, 100.0)),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
+                    physics: NeverScrollableScrollPhysics(),
                     child: ZefyrView(
                       document: NotusDocument.fromJson(
-                        jsonDecode(question.descriptionJson),
+                        jsonDecode(article.contentJson),
                       ),
                     ),
                   ),
@@ -94,17 +101,19 @@ class QuestionDraftCard extends StatelessWidget {
                   child: SecondaryNegativeCardButton(
                     child: Text(
                       "Delete",
-                      style: Constant.secondaryNegativeTextStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                             ? DarkTheme.secondaryNegativeTextStyle
+                             : LightTheme.secondaryNegativeTextStyle,
                     ),
                     callback: () {
                       showDialog(
                         context: context,
                         builder: (context) {
                           return DeleteConfirmationAlert(
-                            title: "Delete question draft?",
+                            title: "Delete article draft?",
                             msg: "You will lose this content permenantly.",
                             deleteCallback: () async {
-                              await question.delete();
+                              await article.delete();
                               Navigator.of(context).pop();
                             },
                             cancelCallback: () {
@@ -122,8 +131,8 @@ class QuestionDraftCard extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) {
-                            return CreateQuestion(
-                              question: question,
+                            return CreateArticle(
+                              article: article,
                             );
                           },
                         ),
@@ -131,7 +140,9 @@ class QuestionDraftCard extends StatelessWidget {
                     },
                     child: Text(
                       "Finish",
-                      style: Constant.secondaryBlueTextStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                             ? DarkTheme.secondaryHeadingTextStyle
+                             : LightTheme.secondaryHeadingTextStyle,
                     ),
                   ),
                 ),

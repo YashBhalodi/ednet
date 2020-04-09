@@ -186,7 +186,9 @@ class _UserProfileState extends State<UserProfile> {
                           padding: Constant.raisedButtonPaddingMedium,
                           child: Text(
                             isExpanded ? "Hide Content" : "Explore Content",
-                            style: Constant.secondaryBlueTextStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.secondaryHeadingTextStyle
+                                   : LightTheme.secondaryHeadingTextStyle,
                           ),
                         ),
                       ),

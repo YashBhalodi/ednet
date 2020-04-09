@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/question/question_tile_header.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quill_delta/quill_delta.dart';
@@ -175,13 +176,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
                               question: q,
                             );
                           } else {
-                            return Center(
-                              child: SizedBox(
-                                height: 32.0,
-                                width: 32.0,
-                                child: Constant.myCircularProgressIndicator,
-                              ),
-                            );
+                            return ShimmerQuestionTile();
                           }
                         },
                       )
@@ -214,8 +209,8 @@ class _CreateAnswerState extends State<CreateAnswer> {
                     Text(
                       "Once answer is published it can't be edited or removed.\nSave your answer as draft and publish it once you are confident.",
                       style: Theme.of(context).brightness == Brightness.dark
-                             ? DarkTheme.formFieldHintStyle
-                             : LightTheme.formFieldHintStyle,
+                          ? DarkTheme.formFieldHintStyle
+                          : LightTheme.formFieldHintStyle,
                     ),
                     SizedBox(
                       height: 20.0,
@@ -255,7 +250,9 @@ class _CreateAnswerState extends State<CreateAnswer> {
                                 )
                               : Text(
                                   "Save Draft",
-                                  style: Constant.secondaryCTATextStyle,
+                                  style: Theme.of(context).brightness == Brightness.dark
+                                      ? DarkTheme.secondaryCTATextStyle
+                                      : LightTheme.secondaryCTATextStyle,
                                 ),
                           onPressed: () async {
                             if (_draftLoading == false) {
@@ -295,7 +292,9 @@ class _CreateAnswerState extends State<CreateAnswer> {
                                 )
                               : Text(
                                   "Post Answer",
-                                  style: Constant.primaryCTATextStyle,
+                                  style: Theme.of(context).brightness == Brightness.dark
+                                      ? DarkTheme.primaryCTATextStyle
+                                      : LightTheme.primaryCTATextStyle,
                                 ),
                           padding: Constant.raisedButtonPaddingHigh,
                           shape: RoundedRectangleBorder(

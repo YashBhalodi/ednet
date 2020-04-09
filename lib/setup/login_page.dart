@@ -117,7 +117,9 @@ class LoginPageState extends State<LoginPage>
                         SecondaryCTA(
                           child: Text(
                             "Sign up instruction",
-                            style: Constant.secondaryCTATextStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.secondaryCTATextStyle
+                                   : LightTheme.secondaryCTATextStyle,
                           ),
                           callback: () {
                             Navigator.of(context).pop();
@@ -298,7 +300,9 @@ class LoginPageState extends State<LoginPage>
                           },
                           child: Text(
                             "OK",
-                            style: Constant.secondaryCTATextStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.secondaryCTATextStyle
+                                   : LightTheme.secondaryCTATextStyle,
                           ),
                         ),
                       ),
@@ -397,7 +401,9 @@ class LoginPageState extends State<LoginPage>
             )
           : Text(
               "Request Login Email",
-              style: Constant.primaryCTATextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                     ? DarkTheme.primaryCTATextStyle
+                     : LightTheme.primaryCTATextStyle,
             ),
     );
 

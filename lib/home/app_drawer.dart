@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
-import 'package:ednet/home/profile/my_profile/my_drafts_page.dart';
+import 'package:ednet/home/drafts/my_drafts_page.dart';
 import 'package:ednet/home/profile/my_profile/my_profile_info_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';

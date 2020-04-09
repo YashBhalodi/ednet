@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:ednet/home/create/question/description_page.dart';
 import 'package:ednet/home/create/question/heading_page.dart';
 import 'package:ednet/home/create/question/preview_question_page.dart';
@@ -153,7 +154,9 @@ class _CreateQuestionState extends State<CreateQuestion> {
         appBar: AppBar(
           title: Text(
             "Ask Question...",
-            style: Constant.appBarTextStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.appBarTextStyle
+                : LightTheme.appBarTextStyle,
           ),
         ),
         body: Column(
@@ -259,7 +262,9 @@ class _CreateQuestionState extends State<CreateQuestion> {
                                   )
                                 : Text(
                                     "Save Draft",
-                                    style: Constant.secondaryCTATextStyle,
+                                    style: Theme.of(context).brightness == Brightness.dark
+                                        ? DarkTheme.secondaryCTATextStyle
+                                        : LightTheme.secondaryCTATextStyle,
                                   ),
                             callback: () async {
                               if (_draftLoading == false) {
@@ -286,7 +291,9 @@ class _CreateQuestionState extends State<CreateQuestion> {
                                   )
                                 : Text(
                                     "Publish",
-                                    style: Constant.primaryCTATextStyle,
+                                    style: Theme.of(context).brightness == Brightness.dark
+                                        ? DarkTheme.primaryCTATextStyle
+                                        : LightTheme.primaryCTATextStyle,
                                   ),
                             callback: () async {
                               if (_postLoading == false) {

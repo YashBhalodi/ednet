@@ -18,13 +18,9 @@ class QuestionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey[500],
-            offset: Offset(0.0, 3.0),
-            blurRadius: 16.0,
-          ),
-        ],
+        boxShadow: Theme.of(context).brightness == Brightness.dark
+            ? DarkTheme.questionTileShadow
+            : LightTheme.questionTileShadow,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(16.0),
           bottomRight: Radius.circular(16.0),
@@ -87,7 +83,9 @@ class QuestionTile extends StatelessWidget {
                           padding: EdgeInsets.only(bottom: 8.0),
                           child: Text(
                             "${question.profUpvoteCount} professor upvoted",
-                            style: Constant.professorUpvoteTextStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                ? DarkTheme.professorUpvoteTextStyle
+                                : LightTheme.professorUpvoteTextStyle,
                           ),
                         ),
                       )

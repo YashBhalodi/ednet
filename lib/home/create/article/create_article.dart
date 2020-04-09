@@ -111,7 +111,7 @@ class _CreateArticleState extends State<CreateArticle> {
     String contentResponse = Constant.articleContentValidator(_article.content);
     if (contentResponse == null) {
       final FormState form = _articleFormKey.currentState;
-      if(_selectedTopics.length==0){
+      if (_selectedTopics.length == 0) {
         Constant.showToastInstruction("Atleast one topic should be selected.");
         return false;
       }
@@ -153,7 +153,9 @@ class _CreateArticleState extends State<CreateArticle> {
         appBar: AppBar(
           title: Text(
             "Write an article...",
-            style: Constant.appBarTextStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.appBarTextStyle
+                : LightTheme.appBarTextStyle,
           ),
         ),
         body: Column(
@@ -263,7 +265,9 @@ class _CreateArticleState extends State<CreateArticle> {
                                   )
                                 : Text(
                                     "Save Draft",
-                                    style: Constant.secondaryCTATextStyle,
+                                    style: Theme.of(context).brightness == Brightness.dark
+                                        ? DarkTheme.secondaryCTATextStyle
+                                        : LightTheme.secondaryCTATextStyle,
                                   ),
                             callback: () async {
                               if (_draftLoading == false) {
@@ -290,7 +294,9 @@ class _CreateArticleState extends State<CreateArticle> {
                                   )
                                 : Text(
                                     "Publish",
-                                    style: Constant.primaryCTATextStyle,
+                                    style: Theme.of(context).brightness == Brightness.dark
+                                        ? DarkTheme.primaryCTATextStyle
+                                        : LightTheme.primaryCTATextStyle,
                                   ),
                             callback: () async {
                               if (_postLoading == false) {

@@ -40,8 +40,8 @@ class _OnboardingState extends State<Onboarding> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async{
-        if(triedExit >= 1){
+      onWillPop: () async {
+        if (triedExit >= 1) {
           SystemChannels.platform.invokeMethod('SystemNavigator.pop');
           return true;
         } else {
@@ -162,19 +162,17 @@ class Page5 extends StatelessWidget {
                   Text(
                     "Login using your email",
                     style: Theme.of(context).brightness == Brightness.dark
-                           ? DarkTheme.headingStyle
-                           : LightTheme.headingStyle,
+                        ? DarkTheme.headingStyle
+                        : LightTheme.headingStyle,
                   ),
                   SizedBox(
                     height: 8.0,
                   ),
                   Text(
                     "Securely login without any hassle of remembering password.",
-                    style: Theme
-                               .of(context)
-                               .brightness == Brightness.dark
-                           ? DarkTheme.headingDescriptionStyle
-                           : LightTheme.headingDescriptionStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.headingDescriptionStyle
+                        : LightTheme.headingDescriptionStyle,
                   ),
                   SizedBox(
                     height: 24.0,
@@ -204,25 +202,26 @@ class Page5 extends StatelessWidget {
                   Text(
                     "Sign Up for Ednet",
                     style: Theme.of(context).brightness == Brightness.dark
-                           ? DarkTheme.headingStyle
-                           : LightTheme.headingStyle,
+                        ? DarkTheme.headingStyle
+                        : LightTheme.headingStyle,
                   ),
                   SizedBox(
                     height: 8.0,
                   ),
                   Text(
                     "To build authentic network of students, only verified Email address as users.",
-                    style: Theme
-                               .of(context)
-                               .brightness == Brightness.dark
-                           ? DarkTheme.headingDescriptionStyle
-                           : LightTheme.headingDescriptionStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.headingDescriptionStyle
+                        : LightTheme.headingDescriptionStyle,
                   ),
                   SizedBox(
                     height: 24.0,
                   ),
                   SecondaryCTA(
-                    child: Text("Sign up instruction", style: Constant.secondaryCTATextStyle),
+                    child: Text("Sign up instruction",
+                        style: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.secondaryCTATextStyle
+                            : LightTheme.secondaryCTATextStyle),
                     callback: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
