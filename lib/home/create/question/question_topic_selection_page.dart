@@ -33,14 +33,20 @@ class _QuestionTopicSelectionState extends State<QuestionTopicSelection>
         children: <Widget>[
           Text(
             "Topics",
-            style: Constant.sectionSubHeadingStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                   ? DarkTheme.headingStyle
+                   : LightTheme.headingStyle,
           ),
           SizedBox(
             height: 8.0,
           ),
           Text(
             "To reach out to maximum interested users,\nselect at most 3 topics related to your question.",
-            style: Constant.sectionSubHeadingDescriptionStyle,
+            style: Theme
+                       .of(context)
+                       .brightness == Brightness.dark
+                   ? DarkTheme.headingDescriptionStyle
+                   : LightTheme.headingDescriptionStyle,
           ),
           SizedBox(
             height: 16.0,

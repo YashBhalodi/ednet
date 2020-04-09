@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:zefyr/zefyr.dart';
@@ -42,7 +43,9 @@ class QuestionPreviewCard extends StatelessWidget {
                         question.topics[i],
                         style: Constant.topicStyle,
                       ),
-                      backgroundColor: Colors.grey[100],
+                      backgroundColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.chipBackgroundColor
+                          : LightTheme.chipBackgroundColor,
                     ),
                   );
                 }),
@@ -81,16 +84,7 @@ class QuestionPreviewCard extends StatelessWidget {
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return Shimmer.fromColors(
-                          child: Container(
-                            width: 100.0,
-                            height: 18.0,
-                            color: Colors.white,
-                          ),
-                          baseColor: Colors.grey[300],
-                          highlightColor: Colors.grey[100],
-                          period: Duration(milliseconds: 300),
-                        );
+                        return ShimmerUsername();
                       } else {
                         if (snapshot.data.data != null) {
                           DocumentSnapshot userDoc = snapshot.data;
@@ -107,12 +101,12 @@ class QuestionPreviewCard extends StatelessWidget {
                                   size: 16.0,
                                 ),
                                 question.byProf
-                                ? Icon(
-                                  Icons.star,
-                                  color: Colors.orangeAccent,
-                                  size: 16.0,
-                                )
-                                : Container(),
+                                    ? Icon(
+                                        Icons.star,
+                                        color: Colors.orangeAccent,
+                                        size: 16.0,
+                                      )
+                                    : Container(),
                                 Text(
                                   userDoc.data['username'],
                                   style: Constant.usernameStyle,
@@ -121,7 +115,7 @@ class QuestionPreviewCard extends StatelessWidget {
                             ),
                           );
                         } else {
-                          return Container();   //TODO user account is removed. msg if we want
+                          return Container(); //TODO user account is removed. msg if we want
                         }
                       }
                     },

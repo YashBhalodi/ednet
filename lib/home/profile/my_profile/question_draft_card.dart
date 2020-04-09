@@ -47,7 +47,9 @@ class QuestionDraftCard extends StatelessWidget {
                             question.topics[i],
                             style: Constant.topicStyle,
                           ),
-                          backgroundColor: Colors.grey[100],
+                          backgroundColor: Theme.of(context).brightness == Brightness.dark
+                                           ? DarkTheme.chipBackgroundColor
+                                           : LightTheme.chipBackgroundColor,
                         ),
                       );
                     },),

@@ -193,7 +193,9 @@ class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAlive
             children: <Widget>[
               Text(
                 "Topics",
-                style: Constant.sectionSubHeadingStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                       ? DarkTheme.headingStyle
+                       : LightTheme.headingStyle,
               ),
               SizedBox(
                 height: 12.0,
@@ -202,7 +204,11 @@ class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAlive
                 widget.isStudent
                     ? "Select all the topics that interests you."
                     : "Select or add topics taught at your university",
-                style: Constant.sectionSubHeadingDescriptionStyle,
+                style: Theme
+                           .of(context)
+                           .brightness == Brightness.dark
+                       ? DarkTheme.headingDescriptionStyle
+                       : LightTheme.headingDescriptionStyle,
               ),
             ],
           ),

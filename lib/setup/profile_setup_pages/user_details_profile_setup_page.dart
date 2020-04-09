@@ -120,7 +120,9 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
           children: <Widget>[
             Text(
               "User Details",
-              style: Constant.sectionSubHeadingStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                     ? DarkTheme.headingStyle
+                     : LightTheme.headingStyle,
             ),
             SizedBox(
               height: 32.0,

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -29,7 +30,11 @@ class QuestionTile extends StatelessWidget {
           bottomLeft: Radius.circular(16.0),
           bottomRight: Radius.circular(16.0),
         ),
-        color: Colors.blue[50],
+        color: Theme
+                   .of(context)
+                   .brightness == Brightness.dark
+               ? DarkTheme.questionTileHeaderBackgroundColor
+               : LightTheme.questionTileHeaderBackgroundColor,
       ),
       margin: EdgeInsets.only(bottom: 12.0),
       child: Column(
@@ -52,7 +57,9 @@ class QuestionTile extends StatelessWidget {
                             question.topics[i],
                             style: Constant.topicStyle,
                           ),
-                          backgroundColor: Colors.grey[100],
+                          backgroundColor: Theme.of(context).brightness == Brightness.dark
+                                           ? DarkTheme.chipBackgroundColor
+                                           : LightTheme.chipBackgroundColor,
                         ),
                       );
                     }),
@@ -102,16 +109,7 @@ class QuestionTile extends StatelessWidget {
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
-                            return Shimmer.fromColors(
-                              child: Container(
-                                width: 100.0,
-                                height: 18.0,
-                                color: Colors.white,
-                              ),
-                              baseColor: Colors.grey[300],
-                              highlightColor: Colors.grey[100],
-                              period: Duration(milliseconds: 300),
-                            );
+                            return ShimmerUsername();
                           } else {
                             if (snapshot.data.data != null) {
                               DocumentSnapshot userDoc = snapshot.data;

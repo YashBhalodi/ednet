@@ -42,14 +42,20 @@ class _TitlePageState extends State<TitlePage> with AutomaticKeepAliveClientMixi
         children: <Widget>[
           Text(
             "Title",
-            style: Constant.sectionSubHeadingStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                   ? DarkTheme.headingStyle
+                   : LightTheme.headingStyle,
           ),
           SizedBox(
             height: 8.0,
           ),
           Text(
             "Catchy title of your article.\n\nUsually, the name of relevant domain, concepts, theorms etc.",
-            style: Constant.sectionSubHeadingDescriptionStyle,
+            style: Theme
+                       .of(context)
+                       .brightness == Brightness.dark
+                   ? DarkTheme.headingDescriptionStyle
+                   : LightTheme.headingDescriptionStyle,
           ),
           SizedBox(
             height: 64.0,

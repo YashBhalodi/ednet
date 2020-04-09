@@ -195,7 +195,9 @@ class _CreateAnswerState extends State<CreateAnswer> {
                   children: <Widget>[
                     Text(
                       "Your Answer...",
-                      style: Constant.sectionSubHeadingStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.headingStyle
+                          : LightTheme.headingStyle,
                     ),
                     SizedBox(
                       height: 8.0,

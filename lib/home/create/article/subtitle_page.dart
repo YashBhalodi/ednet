@@ -42,14 +42,20 @@ class _SubtitlePageState extends State<SubtitlePage> with AutomaticKeepAliveClie
         children: <Widget>[
           Text(
             "Subtitle",
-            style: Constant.sectionSubHeadingStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                   ? DarkTheme.headingStyle
+                   : LightTheme.headingStyle,
           ),
           SizedBox(
             height: 8.0,
           ),
           Text(
             "Provide brief overview of what you are covering in the article.",
-            style: Constant.sectionSubHeadingDescriptionStyle,
+            style: Theme
+                       .of(context)
+                       .brightness == Brightness.dark
+                   ? DarkTheme.headingDescriptionStyle
+                   : LightTheme.headingDescriptionStyle,
           ),
           SizedBox(
             height: 64.0,

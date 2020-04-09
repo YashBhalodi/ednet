@@ -31,14 +31,20 @@ class _PreviewQuestionState extends State<PreviewQuestion> {
             children: <Widget>[
               Text(
                 "Preview Question",
-                style: Constant.sectionSubHeadingStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                       ? DarkTheme.headingStyle
+                       : LightTheme.headingStyle,
               ),
               SizedBox(
                 height: 8.0,
               ),
               Text(
                 "Please review your question before finally publishing.",
-                style: Constant.sectionSubHeadingDescriptionStyle,
+                style: Theme
+                           .of(context)
+                           .brightness == Brightness.dark
+                       ? DarkTheme.headingDescriptionStyle
+                       : LightTheme.headingDescriptionStyle,
               ),
               SizedBox(
                 height: 8.0,

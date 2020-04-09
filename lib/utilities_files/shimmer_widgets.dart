@@ -25,8 +25,12 @@ class ShimmerQuestionThumbCard extends StatelessWidget {
               height: 16.0,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -37,8 +41,12 @@ class ShimmerQuestionThumbCard extends StatelessWidget {
               height: 8.0,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -49,8 +57,12 @@ class ShimmerQuestionThumbCard extends StatelessWidget {
               height: 2,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -61,8 +73,12 @@ class ShimmerQuestionThumbCard extends StatelessWidget {
               height: 16.0,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -73,8 +89,12 @@ class ShimmerQuestionThumbCard extends StatelessWidget {
               height: 2,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -85,8 +105,12 @@ class ShimmerQuestionThumbCard extends StatelessWidget {
               height: 2,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -104,8 +128,12 @@ class ShimmerQuestionThumbCard extends StatelessWidget {
                 Expanded(
                   flex: 4,
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey[100],
-                    highlightColor: Colors.grey[300],
+                    baseColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerBaseColor
+                        : LightTheme.shimmerBaseColor,
+                    highlightColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerHighLightColor
+                        : LightTheme.shimmerHighLightColor,
                     child: Container(
                       height: 16.0,
                       color: Colors.white,
@@ -118,8 +146,12 @@ class ShimmerQuestionThumbCard extends StatelessWidget {
                 Expanded(
                     flex: 2,
                     child: Shimmer.fromColors(
-                      baseColor: Colors.grey[100],
-                      highlightColor: Colors.grey[300],
+                      baseColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerBaseColor
+                          : LightTheme.shimmerBaseColor,
+                      highlightColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerHighLightColor
+                          : LightTheme.shimmerHighLightColor,
                       child: Container(
                         height: 16.0,
                         width: double.maxFinite - 30,
@@ -141,8 +173,12 @@ class ShimmerQuestionThumbCard extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: Shimmer.fromColors(
-                      baseColor: Colors.grey[100],
-                      highlightColor: Colors.grey[300],
+                      baseColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerBaseColor
+                          : LightTheme.shimmerBaseColor,
+                      highlightColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerHighLightColor
+                          : LightTheme.shimmerHighLightColor,
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
@@ -158,8 +194,12 @@ class ShimmerQuestionThumbCard extends StatelessWidget {
                   Expanded(
                     flex: 5,
                     child: Shimmer.fromColors(
-                      baseColor: Colors.grey[100],
-                      highlightColor: Colors.grey[300],
+                      baseColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerBaseColor
+                          : LightTheme.shimmerBaseColor,
+                      highlightColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerHighLightColor
+                          : LightTheme.shimmerHighLightColor,
                       child: Container(color: Colors.white),
                     ),
                   ),
@@ -169,8 +209,12 @@ class ShimmerQuestionThumbCard extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: Shimmer.fromColors(
-                      baseColor: Colors.grey[100],
-                      highlightColor: Colors.grey[300],
+                      baseColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerBaseColor
+                          : LightTheme.shimmerBaseColor,
+                      highlightColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerHighLightColor
+                          : LightTheme.shimmerHighLightColor,
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
@@ -213,8 +257,12 @@ class ShimmerArticleThumbCard extends StatelessWidget {
               height: 16.0,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -225,8 +273,12 @@ class ShimmerArticleThumbCard extends StatelessWidget {
               height: 8.0,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -237,8 +289,12 @@ class ShimmerArticleThumbCard extends StatelessWidget {
               height: 2,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -249,8 +305,12 @@ class ShimmerArticleThumbCard extends StatelessWidget {
               height: 16.0,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -261,8 +321,12 @@ class ShimmerArticleThumbCard extends StatelessWidget {
               height: 2,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -273,8 +337,12 @@ class ShimmerArticleThumbCard extends StatelessWidget {
               height: 24.0,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -285,8 +353,12 @@ class ShimmerArticleThumbCard extends StatelessWidget {
               height: 2,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -304,8 +376,12 @@ class ShimmerArticleThumbCard extends StatelessWidget {
                 Expanded(
                   flex: 4,
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey[100],
-                    highlightColor: Colors.grey[300],
+                    baseColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerBaseColor
+                        : LightTheme.shimmerBaseColor,
+                    highlightColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerHighLightColor
+                        : LightTheme.shimmerHighLightColor,
                     child: Container(
                       height: 16.0,
                       color: Colors.white,
@@ -318,8 +394,12 @@ class ShimmerArticleThumbCard extends StatelessWidget {
                 Expanded(
                     flex: 2,
                     child: Shimmer.fromColors(
-                      baseColor: Colors.grey[100],
-                      highlightColor: Colors.grey[300],
+                      baseColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerBaseColor
+                          : LightTheme.shimmerBaseColor,
+                      highlightColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerHighLightColor
+                          : LightTheme.shimmerHighLightColor,
                       child: Container(
                         height: 16.0,
                         width: double.maxFinite - 30,
@@ -341,8 +421,12 @@ class ShimmerArticleThumbCard extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: Shimmer.fromColors(
-                      baseColor: Colors.grey[100],
-                      highlightColor: Colors.grey[300],
+                      baseColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerBaseColor
+                          : LightTheme.shimmerBaseColor,
+                      highlightColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerHighLightColor
+                          : LightTheme.shimmerHighLightColor,
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
@@ -358,8 +442,12 @@ class ShimmerArticleThumbCard extends StatelessWidget {
                   Expanded(
                     flex: 5,
                     child: Shimmer.fromColors(
-                      baseColor: Colors.grey[100],
-                      highlightColor: Colors.grey[300],
+                      baseColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerBaseColor
+                          : LightTheme.shimmerBaseColor,
+                      highlightColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerHighLightColor
+                          : LightTheme.shimmerHighLightColor,
                       child: Container(color: Colors.white),
                     ),
                   ),
@@ -369,8 +457,12 @@ class ShimmerArticleThumbCard extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: Shimmer.fromColors(
-                      baseColor: Colors.grey[100],
-                      highlightColor: Colors.grey[300],
+                      baseColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerBaseColor
+                          : LightTheme.shimmerBaseColor,
+                      highlightColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerHighLightColor
+                          : LightTheme.shimmerHighLightColor,
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
@@ -413,8 +505,12 @@ class ShimmerAnswerThumbCard extends StatelessWidget {
               height: 12.0,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -425,8 +521,12 @@ class ShimmerAnswerThumbCard extends StatelessWidget {
               height: 2,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -437,8 +537,12 @@ class ShimmerAnswerThumbCard extends StatelessWidget {
               height: 2,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -456,8 +560,12 @@ class ShimmerAnswerThumbCard extends StatelessWidget {
                 Expanded(
                   flex: 4,
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey[100],
-                    highlightColor: Colors.grey[300],
+                    baseColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerBaseColor
+                        : LightTheme.shimmerBaseColor,
+                    highlightColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerHighLightColor
+                        : LightTheme.shimmerHighLightColor,
                     child: Container(
                       height: 16.0,
                       color: Colors.white,
@@ -470,8 +578,12 @@ class ShimmerAnswerThumbCard extends StatelessWidget {
                 Expanded(
                     flex: 2,
                     child: Shimmer.fromColors(
-                      baseColor: Colors.grey[100],
-                      highlightColor: Colors.grey[300],
+                      baseColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerBaseColor
+                          : LightTheme.shimmerBaseColor,
+                      highlightColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerHighLightColor
+                          : LightTheme.shimmerHighLightColor,
                       child: Container(
                         height: 16.0,
                         width: double.maxFinite - 30,
@@ -493,8 +605,12 @@ class ShimmerAnswerThumbCard extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Shimmer.fromColors(
-                      baseColor: Colors.grey[100],
-                      highlightColor: Colors.grey[300],
+                      baseColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerBaseColor
+                          : LightTheme.shimmerBaseColor,
+                      highlightColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerHighLightColor
+                          : LightTheme.shimmerHighLightColor,
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
@@ -510,8 +626,12 @@ class ShimmerAnswerThumbCard extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Shimmer.fromColors(
-                      baseColor: Colors.grey[100],
-                      highlightColor: Colors.grey[300],
+                      baseColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerBaseColor
+                          : LightTheme.shimmerBaseColor,
+                      highlightColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerHighLightColor
+                          : LightTheme.shimmerHighLightColor,
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
@@ -557,8 +677,12 @@ class ShimmerQuestionPreviewCard extends StatelessWidget {
               height: 16.0,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -569,8 +693,12 @@ class ShimmerQuestionPreviewCard extends StatelessWidget {
               height: 8.0,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -581,8 +709,12 @@ class ShimmerQuestionPreviewCard extends StatelessWidget {
               height: 2,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -593,8 +725,12 @@ class ShimmerQuestionPreviewCard extends StatelessWidget {
               height: 16.0,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -605,8 +741,12 @@ class ShimmerQuestionPreviewCard extends StatelessWidget {
               height: 2,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -617,8 +757,12 @@ class ShimmerQuestionPreviewCard extends StatelessWidget {
               height: 2,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -636,8 +780,12 @@ class ShimmerQuestionPreviewCard extends StatelessWidget {
                 Expanded(
                   flex: 4,
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey[100],
-                    highlightColor: Colors.grey[300],
+                    baseColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerBaseColor
+                        : LightTheme.shimmerBaseColor,
+                    highlightColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerHighLightColor
+                        : LightTheme.shimmerHighLightColor,
                     child: Container(
                       height: 16.0,
                       color: Colors.white,
@@ -650,8 +798,12 @@ class ShimmerQuestionPreviewCard extends StatelessWidget {
                 Expanded(
                     flex: 2,
                     child: Shimmer.fromColors(
-                      baseColor: Colors.grey[100],
-                      highlightColor: Colors.grey[300],
+                      baseColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerBaseColor
+                          : LightTheme.shimmerBaseColor,
+                      highlightColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerHighLightColor
+                          : LightTheme.shimmerHighLightColor,
                       child: Container(
                         height: 16.0,
                         width: double.maxFinite - 30,
@@ -690,8 +842,12 @@ class ShimmerArticlePreviewCard extends StatelessWidget {
               height: 16.0,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -702,8 +858,12 @@ class ShimmerArticlePreviewCard extends StatelessWidget {
               height: 8.0,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -714,8 +874,12 @@ class ShimmerArticlePreviewCard extends StatelessWidget {
               height: 2,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -726,8 +890,12 @@ class ShimmerArticlePreviewCard extends StatelessWidget {
               height: 16.0,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -738,8 +906,12 @@ class ShimmerArticlePreviewCard extends StatelessWidget {
               height: 2,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -750,8 +922,12 @@ class ShimmerArticlePreviewCard extends StatelessWidget {
               height: 24.0,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -762,8 +938,12 @@ class ShimmerArticlePreviewCard extends StatelessWidget {
               height: 2,
             ),
             Shimmer.fromColors(
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
               child: Container(
                 width: double.maxFinite,
                 height: 16.0,
@@ -781,8 +961,12 @@ class ShimmerArticlePreviewCard extends StatelessWidget {
                 Expanded(
                   flex: 4,
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey[100],
-                    highlightColor: Colors.grey[300],
+                    baseColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerBaseColor
+                        : LightTheme.shimmerBaseColor,
+                    highlightColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerHighLightColor
+                        : LightTheme.shimmerHighLightColor,
                     child: Container(
                       height: 16.0,
                       color: Colors.white,
@@ -795,8 +979,12 @@ class ShimmerArticlePreviewCard extends StatelessWidget {
                 Expanded(
                     flex: 2,
                     child: Shimmer.fromColors(
-                      baseColor: Colors.grey[100],
-                      highlightColor: Colors.grey[300],
+                      baseColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerBaseColor
+                          : LightTheme.shimmerBaseColor,
+                      highlightColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.shimmerHighLightColor
+                          : LightTheme.shimmerHighLightColor,
                       child: Container(
                         height: 16.0,
                         width: double.maxFinite - 30,
@@ -840,8 +1028,12 @@ class ShimmerQuestionDraftCard extends StatelessWidget {
                   height: 16.0,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -852,8 +1044,12 @@ class ShimmerQuestionDraftCard extends StatelessWidget {
                   height: 8.0,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -864,8 +1060,12 @@ class ShimmerQuestionDraftCard extends StatelessWidget {
                   height: 2,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -876,8 +1076,12 @@ class ShimmerQuestionDraftCard extends StatelessWidget {
                   height: 16.0,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -888,8 +1092,12 @@ class ShimmerQuestionDraftCard extends StatelessWidget {
                   height: 2,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -900,8 +1108,12 @@ class ShimmerQuestionDraftCard extends StatelessWidget {
                   height: 2,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -919,8 +1131,12 @@ class ShimmerQuestionDraftCard extends StatelessWidget {
                     Expanded(
                       flex: 4,
                       child: Shimmer.fromColors(
-                        baseColor: Colors.grey[100],
-                        highlightColor: Colors.grey[300],
+                        baseColor: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.shimmerBaseColor
+                            : LightTheme.shimmerBaseColor,
+                        highlightColor: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.shimmerHighLightColor
+                            : LightTheme.shimmerHighLightColor,
                         child: Container(
                           height: 16.0,
                           color: Colors.white,
@@ -933,8 +1149,12 @@ class ShimmerQuestionDraftCard extends StatelessWidget {
                     Expanded(
                         flex: 2,
                         child: Shimmer.fromColors(
-                          baseColor: Colors.grey[100],
-                          highlightColor: Colors.grey[300],
+                          baseColor: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.shimmerBaseColor
+                              : LightTheme.shimmerBaseColor,
+                          highlightColor: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.shimmerHighLightColor
+                              : LightTheme.shimmerHighLightColor,
                           child: Container(
                             height: 16.0,
                             width: double.maxFinite - 30,
@@ -958,8 +1178,12 @@ class ShimmerQuestionDraftCard extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey[100],
-                    highlightColor: Colors.grey[300],
+                    baseColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerBaseColor
+                        : LightTheme.shimmerBaseColor,
+                    highlightColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerHighLightColor
+                        : LightTheme.shimmerHighLightColor,
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
@@ -973,8 +1197,12 @@ class ShimmerQuestionDraftCard extends StatelessWidget {
                 ),
                 Expanded(
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey[100],
-                    highlightColor: Colors.grey[300],
+                    baseColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerBaseColor
+                        : LightTheme.shimmerBaseColor,
+                    highlightColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerHighLightColor
+                        : LightTheme.shimmerHighLightColor,
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
@@ -1022,8 +1250,12 @@ class ShimmerArticleDraftCard extends StatelessWidget {
                   height: 16.0,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1034,8 +1266,12 @@ class ShimmerArticleDraftCard extends StatelessWidget {
                   height: 8.0,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1046,8 +1282,12 @@ class ShimmerArticleDraftCard extends StatelessWidget {
                   height: 2,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1058,8 +1298,12 @@ class ShimmerArticleDraftCard extends StatelessWidget {
                   height: 16.0,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1070,8 +1314,12 @@ class ShimmerArticleDraftCard extends StatelessWidget {
                   height: 2,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1082,8 +1330,12 @@ class ShimmerArticleDraftCard extends StatelessWidget {
                   height: 24.0,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1094,8 +1346,12 @@ class ShimmerArticleDraftCard extends StatelessWidget {
                   height: 2,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1113,8 +1369,12 @@ class ShimmerArticleDraftCard extends StatelessWidget {
                     Expanded(
                       flex: 4,
                       child: Shimmer.fromColors(
-                        baseColor: Colors.grey[100],
-                        highlightColor: Colors.grey[300],
+                        baseColor: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.shimmerBaseColor
+                            : LightTheme.shimmerBaseColor,
+                        highlightColor: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.shimmerHighLightColor
+                            : LightTheme.shimmerHighLightColor,
                         child: Container(
                           height: 16.0,
                           color: Colors.white,
@@ -1127,8 +1387,12 @@ class ShimmerArticleDraftCard extends StatelessWidget {
                     Expanded(
                         flex: 2,
                         child: Shimmer.fromColors(
-                          baseColor: Colors.grey[100],
-                          highlightColor: Colors.grey[300],
+                          baseColor: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.shimmerBaseColor
+                              : LightTheme.shimmerBaseColor,
+                          highlightColor: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.shimmerHighLightColor
+                              : LightTheme.shimmerHighLightColor,
                           child: Container(
                             height: 16.0,
                             width: double.maxFinite - 30,
@@ -1152,8 +1416,12 @@ class ShimmerArticleDraftCard extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey[100],
-                    highlightColor: Colors.grey[300],
+                    baseColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerBaseColor
+                        : LightTheme.shimmerBaseColor,
+                    highlightColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerHighLightColor
+                        : LightTheme.shimmerHighLightColor,
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
@@ -1167,8 +1435,12 @@ class ShimmerArticleDraftCard extends StatelessWidget {
                 ),
                 Expanded(
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey[100],
-                    highlightColor: Colors.grey[300],
+                    baseColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerBaseColor
+                        : LightTheme.shimmerBaseColor,
+                    highlightColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerHighLightColor
+                        : LightTheme.shimmerHighLightColor,
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
@@ -1216,8 +1488,12 @@ class ShimmerAnswerDraftCard extends StatelessWidget {
                   height: 12.0,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1228,8 +1504,12 @@ class ShimmerAnswerDraftCard extends StatelessWidget {
                   height: 2,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1240,8 +1520,12 @@ class ShimmerAnswerDraftCard extends StatelessWidget {
                   height: 2,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1259,8 +1543,12 @@ class ShimmerAnswerDraftCard extends StatelessWidget {
                     Expanded(
                       flex: 4,
                       child: Shimmer.fromColors(
-                        baseColor: Colors.grey[100],
-                        highlightColor: Colors.grey[300],
+                        baseColor: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.shimmerBaseColor
+                            : LightTheme.shimmerBaseColor,
+                        highlightColor: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.shimmerHighLightColor
+                            : LightTheme.shimmerHighLightColor,
                         child: Container(
                           height: 16.0,
                           color: Colors.white,
@@ -1273,8 +1561,12 @@ class ShimmerAnswerDraftCard extends StatelessWidget {
                     Expanded(
                         flex: 2,
                         child: Shimmer.fromColors(
-                          baseColor: Colors.grey[100],
-                          highlightColor: Colors.grey[300],
+                          baseColor: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.shimmerBaseColor
+                              : LightTheme.shimmerBaseColor,
+                          highlightColor: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.shimmerHighLightColor
+                              : LightTheme.shimmerHighLightColor,
                           child: Container(
                             height: 16.0,
                             width: double.maxFinite - 30,
@@ -1298,8 +1590,12 @@ class ShimmerAnswerDraftCard extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey[100],
-                    highlightColor: Colors.grey[300],
+                    baseColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerBaseColor
+                        : LightTheme.shimmerBaseColor,
+                    highlightColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerHighLightColor
+                        : LightTheme.shimmerHighLightColor,
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
@@ -1313,8 +1609,12 @@ class ShimmerAnswerDraftCard extends StatelessWidget {
                 ),
                 Expanded(
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey[100],
-                    highlightColor: Colors.grey[300],
+                    baseColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerBaseColor
+                        : LightTheme.shimmerBaseColor,
+                    highlightColor: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.shimmerHighLightColor
+                        : LightTheme.shimmerHighLightColor,
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
@@ -1366,8 +1666,12 @@ class ShimmerQuestionTile extends StatelessWidget {
                   height: 16.0,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1378,8 +1682,12 @@ class ShimmerQuestionTile extends StatelessWidget {
                   height: 8.0,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1390,8 +1698,12 @@ class ShimmerQuestionTile extends StatelessWidget {
                   height: 2.0,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1402,8 +1714,12 @@ class ShimmerQuestionTile extends StatelessWidget {
                   height: 8,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1414,8 +1730,12 @@ class ShimmerQuestionTile extends StatelessWidget {
                   height: 2,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1426,8 +1746,12 @@ class ShimmerQuestionTile extends StatelessWidget {
                   height: 2,
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[100],
-                  highlightColor: Colors.grey[300],
+                  baseColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerBaseColor
+                      : LightTheme.shimmerBaseColor,
+                  highlightColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.shimmerHighLightColor
+                      : LightTheme.shimmerHighLightColor,
                   child: Container(
                     width: double.maxFinite,
                     height: 16.0,
@@ -1445,8 +1769,12 @@ class ShimmerQuestionTile extends StatelessWidget {
                     Expanded(
                       flex: 4,
                       child: Shimmer.fromColors(
-                        baseColor: Colors.grey[100],
-                        highlightColor: Colors.grey[300],
+                        baseColor: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.shimmerBaseColor
+                            : LightTheme.shimmerBaseColor,
+                        highlightColor: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.shimmerHighLightColor
+                            : LightTheme.shimmerHighLightColor,
                         child: Container(
                           height: 16.0,
                           color: Colors.white,
@@ -1459,8 +1787,12 @@ class ShimmerQuestionTile extends StatelessWidget {
                     Expanded(
                       flex: 2,
                       child: Shimmer.fromColors(
-                        baseColor: Colors.grey[100],
-                        highlightColor: Colors.grey[300],
+                        baseColor: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.shimmerBaseColor
+                            : LightTheme.shimmerBaseColor,
+                        highlightColor: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.shimmerHighLightColor
+                            : LightTheme.shimmerHighLightColor,
                         child: Container(
                           height: 16.0,
                           width: double.maxFinite - 30,
@@ -1482,8 +1814,12 @@ class ShimmerQuestionTile extends StatelessWidget {
                     children: <Widget>[
                       Expanded(
                         child: Shimmer.fromColors(
-                          baseColor: Colors.grey[100],
-                          highlightColor: Colors.grey[300],
+                          baseColor: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.shimmerBaseColor
+                              : LightTheme.shimmerBaseColor,
+                          highlightColor: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.shimmerHighLightColor
+                              : LightTheme.shimmerHighLightColor,
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
@@ -1498,8 +1834,12 @@ class ShimmerQuestionTile extends StatelessWidget {
                       ),
                       Expanded(
                         child: Shimmer.fromColors(
-                          baseColor: Colors.grey[100],
-                          highlightColor: Colors.grey[300],
+                          baseColor: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.shimmerBaseColor
+                              : LightTheme.shimmerBaseColor,
+                          highlightColor: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.shimmerHighLightColor
+                              : LightTheme.shimmerHighLightColor,
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
@@ -1543,8 +1883,12 @@ class ShimmerTopicTile extends StatelessWidget {
                 width: 24.0,
                 color: Colors.white,
               ),
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
             ),
             SizedBox(
               width: 16.0,
@@ -1555,8 +1899,12 @@ class ShimmerTopicTile extends StatelessWidget {
                 width: 200.0,
                 color: Colors.white,
               ),
-              baseColor: Colors.grey[100],
-              highlightColor: Colors.grey[300],
+              baseColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerBaseColor
+                  : LightTheme.shimmerBaseColor,
+              highlightColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.shimmerHighLightColor
+                  : LightTheme.shimmerHighLightColor,
             ),
           ],
         ),
@@ -1572,8 +1920,12 @@ class ShimmerMainHome extends StatelessWidget {
       child: Align(
         alignment: Alignment.center,
         child: Shimmer.fromColors(
-          baseColor: Colors.grey[200],
-          highlightColor: Colors.grey[600],
+          baseColor: Theme.of(context).brightness == Brightness.dark
+              ? DarkTheme.shimmerBaseColor
+              : LightTheme.shimmerBaseColor,
+          highlightColor: Theme.of(context).brightness == Brightness.dark
+              ? DarkTheme.shimmerHighLightColor
+              : LightTheme.shimmerHighLightColor,
           period: Duration(milliseconds: 300),
           child: Text(
             "EDNET",
@@ -1584,6 +1936,26 @@ class ShimmerMainHome extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ShimmerUsername extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      child: Container(
+        width: 100.0,
+        height: 18.0,
+        color: Colors.white,
+      ),
+      baseColor: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.shimmerBaseColor
+          : LightTheme.shimmerBaseColor,
+      highlightColor: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.shimmerHighLightColor
+          : LightTheme.shimmerHighLightColor,
+      period: Duration(milliseconds: 300),
     );
   }
 }

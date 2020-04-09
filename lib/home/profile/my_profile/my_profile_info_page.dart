@@ -41,7 +41,11 @@ class _MyProfileState extends State<MyProfile> {
                     children: <Widget>[
                       Text(
                         "How other users will see your profile...",
-                        style: Constant.sectionSubHeadingDescriptionStyle,
+                        style: Theme
+                                   .of(context)
+                                   .brightness == Brightness.dark
+                               ? DarkTheme.headingDescriptionStyle
+                               : LightTheme.headingDescriptionStyle,
                       ),
                       SizedBox(
                         height: 16.0,
@@ -356,7 +360,11 @@ class _UserTopicListTileState extends State<UserTopicListTile> {
               padding: Constant.edgePadding,
               child: Text(
                 "Select all the topics that interest you...",
-                style: Constant.sectionSubHeadingDescriptionStyle,
+                style: Theme
+                           .of(context)
+                           .brightness == Brightness.dark
+                       ? DarkTheme.headingDescriptionStyle
+                       : LightTheme.headingDescriptionStyle,
               ),
             ),
             StreamBuilder(
@@ -589,7 +597,11 @@ class _UniversityTopicListTileState extends State<UniversityTopicListTile> {
               padding: Constant.edgePadding,
               child: Text(
                 "Select or add all the topics taught by ${widget.user.university}...",
-                style: Constant.sectionSubHeadingDescriptionStyle,
+                style: Theme
+                           .of(context)
+                           .brightness == Brightness.dark
+                       ? DarkTheme.headingDescriptionStyle
+                       : LightTheme.headingDescriptionStyle,
               ),
             ),
             StreamBuilder(

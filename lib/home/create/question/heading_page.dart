@@ -40,16 +40,18 @@ class _HeadingPageState extends State<HeadingPage> with AutomaticKeepAliveClient
         padding: Constant.edgePadding,
         controller: _scrollController,
         children: <Widget>[
-          Text(
-            "Heading",
-            style: Constant.sectionSubHeadingStyle,
-          ),
+          Text("Heading",
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.headingStyle
+                  : LightTheme.headingStyle),
           SizedBox(
             height: 8.0,
           ),
           Text(
             "Briefly describe what your question is about.\n\nUsually, the name of relevant domain, concepts, theorms etc.",
-            style: Constant.sectionSubHeadingDescriptionStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.headingDescriptionStyle
+                : LightTheme.headingDescriptionStyle,
           ),
           SizedBox(
             height: 64.0,
@@ -73,7 +75,9 @@ class _HeadingPageState extends State<HeadingPage> with AutomaticKeepAliveClient
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               filled: true,
-              fillColor: Colors.grey[200],
+              fillColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.textFieldFillColor
+                  : LightTheme.textFieldFillColor,
               border: null,
               focusedBorder: null,
               contentPadding: Constant.formFieldContentPadding,

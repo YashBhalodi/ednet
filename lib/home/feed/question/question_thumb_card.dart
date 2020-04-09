@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/question/question_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class QuestionThumbCard extends StatelessWidget {
             Radius.circular(10.0),
           ),
         ),
-        elevation: 5.0,
+        elevation: 15.0,
         margin: Constant.cardMargin,
         clipBehavior: Clip.antiAlias,
         child: Padding(
@@ -57,7 +58,9 @@ class QuestionThumbCard extends StatelessWidget {
                           question.topics[i],
                           style: Constant.topicStyle,
                         ),
-                        backgroundColor: Colors.grey[100],
+                        backgroundColor: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.chipBackgroundColor
+                            : LightTheme.chipBackgroundColor,
                       ),
                     );
                   }),
@@ -117,16 +120,7 @@ class QuestionThumbCard extends StatelessWidget {
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return Shimmer.fromColors(
-                            child: Container(
-                              width: 100.0,
-                              height: 18.0,
-                              color: Colors.white,
-                            ),
-                            baseColor: Colors.grey[300],
-                            highlightColor: Colors.grey[100],
-                            period: Duration(milliseconds: 300),
-                          );
+                          return ShimmerUsername();
                         } else {
                           if (snapshot.data.data != null) {
                             DocumentSnapshot userDoc = snapshot.data;

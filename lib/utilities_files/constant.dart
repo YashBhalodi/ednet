@@ -195,25 +195,21 @@ class Constant {
   static get questionHeadingStyle => TextStyle(
         fontSize: 20.0,
         fontWeight: FontWeight.w600,
-        color: Colors.black87,
       );
 
   static get questionDescriptionStyle => TextStyle(
         fontSize: 16.0,
         fontWeight: FontWeight.w400,
-        color: Colors.black87,
       );
 
   static get dateTimeStyle => TextStyle(
         fontSize: 12.0,
         fontWeight: FontWeight.w300,
-        color: Colors.black54,
       );
 
   static get dateTimeMediumStyle => TextStyle(
         fontSize: 18.0,
         fontWeight: FontWeight.w300,
-        color: Colors.black54,
       );
 
   static get usernameStyle => TextStyle(
@@ -234,31 +230,26 @@ class Constant {
   static get articleTitleStyle => TextStyle(
         fontSize: 22.0,
         fontWeight: FontWeight.w600,
-        color: Colors.black,
       );
 
   static get articleSubtitleStyle => TextStyle(
         fontSize: 20.0,
-        fontWeight: FontWeight.w400,
-        color: Colors.grey[800],
+        fontWeight: FontWeight.w300,
       );
 
   static get articleContentStyle => TextStyle(
         fontSize: 16.0,
         fontWeight: FontWeight.w400,
-        color: Colors.black,
       );
 
   static get answerThumbContentStyle => TextStyle(
         fontSize: 16.0,
         fontWeight: FontWeight.w300,
-        color: Colors.black,
       );
 
   static get answerContentStyle => TextStyle(
         fontSize: 18.0,
         fontWeight: FontWeight.w400,
-        color: Colors.black,
       );
 
   static get professorUpvoteTextStyle =>
@@ -573,4 +564,159 @@ extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${this.substring(1)}";
   }
+}
+
+class DarkTheme {
+  static get shimmerBaseColor => Colors.grey[800];
+
+  static get shimmerHighLightColor => Colors.grey[700];
+
+  static get chipBackgroundColor => Colors.grey[700];
+
+  static get menuButtonTextStyle => TextStyle(
+        fontSize: 24.0,
+        color: Colors.grey[300],
+        fontWeight: FontWeight.w600,
+        fontFamily: 'ValeraRound',
+      );
+
+  static get menuButtonIconColor => Colors.grey[200];
+
+  static get menuButtonBackgroundColor => Colors.black87;
+
+  static get fabBackgroundColor => Colors.cyanAccent;
+
+  static get questionTileHeaderBackgroundColor => Colors.grey[800];
+
+  static get ratingBoxBackgroundColor => Colors.grey[700];
+
+  static get upvoteCountTextStyle => TextStyle(
+        fontWeight: FontWeight.w500,
+        color: upvoteCountColor,
+        fontSize: 14.0,
+      );
+
+  static get upvoteCountColor => Colors.cyanAccent;
+
+  static get downvoteCountTextStyle => TextStyle(
+        fontWeight: FontWeight.w500,
+        color: downvoteCountColor,
+        fontSize: 14.0,
+      );
+
+  static get downvoteCountColor => Colors.red[100];
+
+  static get upvoteButtonBackgroundColor => Colors.blueGrey[700];
+
+  static get upvoteButtonCountColor => Colors.cyanAccent;
+
+  static get upvoteButtonTextStyle => TextStyle(
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+        color: upvoteButtonCountColor,
+      );
+
+  static get downvoteButtonBackgroundColor => Colors.blueGrey[700];
+
+  static get downvoteButtonCountColor => Colors.red[50];
+
+  static get downvoteButtonTextStyle => TextStyle(
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+        color: downvoteButtonCountColor,
+      );
+
+  static get headingStyle => TextStyle(
+      fontFamily: 'VarelaRound',
+      fontWeight: FontWeight.w500,
+      fontSize: 28.0,
+      color: Color(0xffbbe1fa),
+  );
+
+  static get headingDescriptionStyle => TextStyle(
+      fontFamily: 'VarelaRound',
+      fontWeight: FontWeight.w400,
+      fontSize: 16.0,
+      color: Color(0xffbbe1fa),
+  );
+
+  static get textFieldFillColor => Colors.grey[800];
+}
+
+class LightTheme {
+  static get shimmerBaseColor => Colors.grey[100];
+
+  static get shimmerHighLightColor => Colors.grey[400];
+
+  static get chipBackgroundColor => Colors.grey[100];
+
+  static get menuButtonTextStyle => TextStyle(
+        fontSize: 24.0,
+        color: Colors.blue[800],
+        fontWeight: FontWeight.w600,
+        fontFamily: 'ValeraRound',
+      );
+
+  static get menuButtonIconColor => Colors.blue[700];
+
+  static get menuButtonBackgroundColor => Colors.grey[100];
+
+  static get fabBackgroundColor => Colors.blue[700];
+
+  static get questionTileHeaderBackgroundColor => Colors.blue[50];
+
+  static get ratingBoxBackgroundColor => Colors.grey[50];
+
+  static get upvoteCountTextStyle => TextStyle(
+        fontWeight: FontWeight.w500,
+        color: upvoteCountColor,
+        fontSize: 14.0,
+      );
+
+  static get upvoteCountColor => Colors.green[500];
+
+  static get downvoteCountTextStyle => TextStyle(
+        fontWeight: FontWeight.w500,
+        color: downvoteCountColor,
+        fontSize: 14.0,
+      );
+
+  static get downvoteCountColor => Colors.red[600];
+
+  static get upvoteButtonBackgroundColor => Colors.green[50];
+
+  static get upvoteButtonCountColor => Colors.green[800];
+
+  static get upvoteButtonTextStyle => TextStyle(
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+        color: upvoteButtonCountColor,
+      );
+
+  static get downvoteButtonBackgroundColor => Colors.red[50];
+
+  static get downvoteButtonCountColor => Colors.redAccent;
+
+  static get downvoteButtonTextStyle => TextStyle(
+      fontSize: 16.0,
+      fontWeight: FontWeight.w400,
+      color: downvoteButtonCountColor,
+  );
+
+  static get headingStyle => TextStyle(
+      fontFamily: 'VarelaRound',
+      fontWeight: FontWeight.w500,
+      fontSize: 28.0,
+      color: Color(0xff053f5e),
+  );
+
+  static get headingDescriptionStyle => TextStyle(
+      fontFamily: 'VarelaRound',
+      fontWeight: FontWeight.w400,
+      fontSize: 16.0,
+      color: Color(0xff053f5e),
+  );
+
+  static get textFieldFillColor => Colors.grey[200];
+
 }

@@ -92,14 +92,20 @@ class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKee
           children: <Widget>[
             Text(
               widget.universitySnap.data['name'],
-              style: Constant.sectionSubHeadingStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                     ? DarkTheme.headingStyle
+                     : LightTheme.headingStyle,
             ),
             SizedBox(
               height: 16.0,
             ),
             Text(
               "University Details",
-              style: Constant.sectionSubHeadingDescriptionStyle,
+              style: Theme
+                         .of(context)
+                         .brightness == Brightness.dark
+                     ? DarkTheme.headingDescriptionStyle
+                     : LightTheme.headingDescriptionStyle,
             ),
             SizedBox(
               height: 32.0,

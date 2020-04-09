@@ -51,14 +51,20 @@ class _ContentPageState extends State<ContentPage> with AutomaticKeepAliveClient
           children: <Widget>[
             Text(
               "Content",
-              style: Constant.sectionSubHeadingStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                     ? DarkTheme.headingStyle
+                     : LightTheme.headingStyle,
             ),
             SizedBox(
               height: 8.0,
             ),
             Text(
               "Feel free to write to your heart's content.",
-              style: Constant.sectionSubHeadingDescriptionStyle,
+              style: Theme
+                         .of(context)
+                         .brightness == Brightness.dark
+                     ? DarkTheme.headingDescriptionStyle
+                     : LightTheme.headingDescriptionStyle,
             ),
             SizedBox(
               height: 64.0,

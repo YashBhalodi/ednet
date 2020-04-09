@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:zefyr/zefyr.dart';
@@ -86,16 +87,7 @@ class ArticlePreviewCard extends StatelessWidget {
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return Shimmer.fromColors(
-                          child: Container(
-                            width: 100.0,
-                            height: 18.0,
-                            color: Colors.white,
-                          ),
-                          baseColor: Colors.grey[300],
-                          highlightColor: Colors.grey[100],
-                          period: Duration(milliseconds: 300),
-                        );
+                        return ShimmerUsername();
                       } else {
                         if (snapshot.data.data != null) {
                           DocumentSnapshot userDoc = snapshot.data;

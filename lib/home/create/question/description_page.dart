@@ -48,14 +48,20 @@ class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAli
           children: <Widget>[
             Text(
               "Description",
-              style: Constant.sectionSubHeadingStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                     ? DarkTheme.headingStyle
+                     : LightTheme.headingStyle,
             ),
             SizedBox(
               height: 8.0,
             ),
             Text(
               "Explain your question in details\n\nIt's best to be clear, concise and to the point.",
-              style: Constant.sectionSubHeadingDescriptionStyle,
+              style: Theme
+                         .of(context)
+                         .brightness == Brightness.dark
+                     ? DarkTheme.headingDescriptionStyle
+                     : LightTheme.headingDescriptionStyle,
             ),
             SizedBox(
               height: 64.0,

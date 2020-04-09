@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/app_drawer.dart';
-import 'package:ednet/home/create/article/create_article.dart';
-import 'package:ednet/home/create/question/create_question.dart';
+import 'package:ednet/home/create_content.dart';
 import 'package:ednet/home/feed/article_feed_page.dart';
 import 'package:ednet/home/feed/question_feed_page.dart';
 import 'package:ednet/utilities_files/constant.dart';
@@ -22,110 +21,7 @@ class _HomeState extends State<Home> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.transparent,
-          contentPadding: EdgeInsets.all(0.0),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.5,
-                width: MediaQuery.of(context).size.width * 0.5,
-                child: RaisedButton(
-                  padding: Constant.edgePadding,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Icon(
-                        Icons.help,
-                        size: 52.0,
-                        color: Colors.blue[700],
-                      ),
-                      SizedBox(
-                        height: 16.0,
-                      ),
-                      Text(
-                        "Ask a Question",
-                        style: Constant.menuButtonTextStyle,
-                        textAlign: TextAlign.center,
-                      )
-                    ],
-                  ),
-                  elevation: 15.0,
-                  color: Colors.grey[100],
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.grey[300], width: 2.0),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.0),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return CreateQuestion();
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 36,
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.5,
-                width: MediaQuery.of(context).size.width * 0.5,
-                child: RaisedButton(
-                  padding: Constant.edgePadding,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Icon(
-                        Icons.edit,
-                        size: 52.0,
-                        color: Colors.blue[700],
-                      ),
-                      SizedBox(
-                        height: 16.0,
-                      ),
-                      Text(
-                        "Write an Article",
-                        style: Constant.menuButtonTextStyle,
-                        textAlign: TextAlign.center,
-                      )
-                    ],
-                  ),
-                  elevation: 15.0,
-                  color: Colors.grey[100],
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.grey[300], width: 2.0),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.0),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return CreateArticle();
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        );
+        return CreateContent();
       },
     );
   }
@@ -151,8 +47,13 @@ class _HomeState extends State<Home> {
               onPressed: () {
                 createContentDialog();
               },
+              elevation: 12,
               child: Icon(Icons.edit),
-              backgroundColor: Colors.blue[800],
+              backgroundColor: Theme
+                                   .of(context)
+                                   .brightness == Brightness.dark
+                               ? DarkTheme.fabBackgroundColor
+                               : LightTheme.fabBackgroundColor,
             ),
             drawer: AppDrawer(
               userSnap: widget.userSnap,

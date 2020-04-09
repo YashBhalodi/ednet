@@ -30,14 +30,20 @@ class _ArticlePreviewState extends State<ArticlePreview> {
             children: <Widget>[
               Text(
                 "Preview Article",
-                style: Constant.sectionSubHeadingStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                       ? DarkTheme.headingStyle
+                       : LightTheme.headingStyle,
               ),
               SizedBox(
                 height: 8.0,
               ),
               Text(
                 "Please review your article before finally publishing.",
-                style: Constant.sectionSubHeadingDescriptionStyle,
+                style: Theme
+                           .of(context)
+                           .brightness == Brightness.dark
+                       ? DarkTheme.headingDescriptionStyle
+                       : LightTheme.headingDescriptionStyle,
               ),
               SizedBox(
                 height: 8.0,

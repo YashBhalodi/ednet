@@ -161,14 +161,20 @@ class Page5 extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     "Login using your email",
-                    style: Constant.sectionSubHeadingStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                           ? DarkTheme.headingStyle
+                           : LightTheme.headingStyle,
                   ),
                   SizedBox(
                     height: 8.0,
                   ),
                   Text(
                     "Securely login without any hassle of remembering password.",
-                    style: Constant.sectionSubHeadingDescriptionStyle,
+                    style: Theme
+                               .of(context)
+                               .brightness == Brightness.dark
+                           ? DarkTheme.headingDescriptionStyle
+                           : LightTheme.headingDescriptionStyle,
                   ),
                   SizedBox(
                     height: 24.0,
@@ -197,14 +203,20 @@ class Page5 extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     "Sign Up for Ednet",
-                    style: Constant.sectionSubHeadingStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                           ? DarkTheme.headingStyle
+                           : LightTheme.headingStyle,
                   ),
                   SizedBox(
                     height: 8.0,
                   ),
                   Text(
                     "To build authentic network of students, only verified Email address as users.",
-                    style: Constant.sectionSubHeadingDescriptionStyle,
+                    style: Theme
+                               .of(context)
+                               .brightness == Brightness.dark
+                           ? DarkTheme.headingDescriptionStyle
+                           : LightTheme.headingDescriptionStyle,
                   ),
                   SizedBox(
                     height: 24.0,

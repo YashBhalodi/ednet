@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
@@ -55,16 +56,7 @@ class ArticlePage extends StatelessWidget {
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return Shimmer.fromColors(
-                            child: Container(
-                              width: 100.0,
-                              height: 18.0,
-                              color: Colors.white,
-                            ),
-                            baseColor: Colors.grey[300],
-                            highlightColor: Colors.grey[100],
-                            period: Duration(milliseconds: 300),
-                          );
+                          return ShimmerUsername();
                         } else {
                           if (snapshot.data.data != null) {
                             DocumentSnapshot userDoc = snapshot.data;
@@ -166,7 +158,11 @@ class ArticlePage extends StatelessWidget {
               ),
               Text(
                 "So...What do you think?\n\nDoes it deserve an upvote?",
-                style: Constant.sectionSubHeadingDescriptionStyle,
+                style: Theme
+                           .of(context)
+                           .brightness == Brightness.dark
+                       ? DarkTheme.headingDescriptionStyle
+                       : LightTheme.headingDescriptionStyle,
                 textAlign: TextAlign.center,
               ),
               StreamBuilder(
