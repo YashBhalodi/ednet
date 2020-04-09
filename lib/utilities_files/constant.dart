@@ -65,7 +65,7 @@ class Constant {
       );
 
   //TODO Dark Movement from here
-  static get questionHeadingStyle async => TextStyle(
+  static get questionHeadingStyle => TextStyle(
         fontSize: 20.0,
         fontWeight: FontWeight.w600,
       );
