@@ -260,7 +260,7 @@ class LoginPageState extends State<LoginPage>
             await _createRelevantDocument();
           }
         }
-        Navigator.of(context).pop();
+//        Navigator.of(context).pop();
         await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
         print("After login:-" + FirebaseAuth.instance.currentUser().toString());
         SharedPreferences pref = await SharedPreferences.getInstance();

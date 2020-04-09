@@ -1576,9 +1576,10 @@ class ShimmerMainHome extends StatelessWidget {
           highlightColor: Colors.grey[600],
           period: Duration(milliseconds: 300),
           child: Text(
-            "Loading...",
+            "EDNET",
             style: TextStyle(
               fontSize: 36.0,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),

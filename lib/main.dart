@@ -94,6 +94,7 @@ class _EntryPointState extends State<EntryPoint> {
           }
         } else {
           //User logged in
+          //TODO after successful login following wait without any feedback on front will hurt user experience.
           print("line 233:- user logged in");
           DocumentSnapshot universitySnap;
           DocumentSnapshot userDocSnapshot;
@@ -162,6 +163,12 @@ class _EntryPointState extends State<EntryPoint> {
       },
     );
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print('171___EntryPointState___EntryPointState.dispose__main.dart');
   }
 
   @override
