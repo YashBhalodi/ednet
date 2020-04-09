@@ -17,53 +17,62 @@ class MyProfile extends StatefulWidget {
 class _MyProfileState extends State<MyProfile> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: <Widget>[
-        ExpansionTile(
-          title: Text(
-            "Preview Profile",
-            style: Constant.dropDownMenuTitleStyle,
-          ),
-          initiallyExpanded: true,
-          backgroundColor: Colors.grey[50],
-          children: <Widget>[
-            ListView(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              padding: Constant.edgePadding,
-              children: <Widget>[
-                Text(
-                  "How other users will see your profile...",
-                  style: Constant.sectionSubHeadingDescriptionStyle,
-                ),
-                SizedBox(
-                  height: 16.0,
-                ),
-                BlueOutlineButton(
-                  child: Text(
-                    "My Profile",
-                    style: Constant.outlineBlueButtonTextStyle,
-                  ),
-                  callback: () {
-                    Constant.userProfileView(context, userId: widget.user.id);
-                  },
-                ),
-              ],
-            )
-          ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("My Profile"),
         ),
-        EditDetailsTile(
-          user: widget.user,
-        ),
-        widget.user.isAdmin
-            ? UniversityTopicListTile(
-                user: widget.user,
-              )
-            : UserTopicListTile(
+        body: Scrollbar(
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              ExpansionTile(
+                title: Text(
+                  "Preview Profile",
+                  style: Constant.dropDownMenuTitleStyle,
+                ),
+                initiallyExpanded: true,
+                backgroundColor: Colors.grey[50],
+                children: <Widget>[
+                  ListView(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    padding: Constant.edgePadding,
+                    children: <Widget>[
+                      Text(
+                        "How other users will see your profile...",
+                        style: Constant.sectionSubHeadingDescriptionStyle,
+                      ),
+                      SizedBox(
+                        height: 16.0,
+                      ),
+                      BlueOutlineButton(
+                        child: Text(
+                          "My Profile",
+                          style: Constant.outlineBlueButtonTextStyle,
+                        ),
+                        callback: () {
+                          Constant.userProfileView(context, userId: widget.user.id);
+                        },
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              EditDetailsTile(
                 user: widget.user,
               ),
-      ],
+              widget.user.isAdmin
+                  ? UniversityTopicListTile(
+                      user: widget.user,
+                    )
+                  : UserTopicListTile(
+                      user: widget.user,
+                    ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -145,153 +154,155 @@ class _EditDetailsTileState extends State<EditDetailsTile> {
           key: _userProfileFormKey,
           child: Padding(
             padding: Constant.edgePadding,
-            child: ListView(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                TextFormField(
-                  onSaved: (value) {
-                    _inputFname = value;
-                  },
-                  initialValue: widget.user.fname,
-                  validator: (value) => Constant.nameValidator(value),
-                  keyboardType: TextInputType.text,
-                  style: Constant.formFieldTextStyle,
-                  decoration: InputDecoration(
-                    counterStyle: Constant.counterStyle,
-                    contentPadding: Constant.formFieldContentPadding,
-                    hintText: "John",
-                    hintStyle: Constant.formFieldHintStyle,
-                    border: Constant.formFieldBorder,
-                    focusedBorder: Constant.formFieldFocusedBorder,
-                    labelText: "First Name",
-                    labelStyle: Constant.formFieldLabelStyle,
+            child: Scrollbar(
+              child: ListView(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                children: <Widget>[
+                  TextFormField(
+                    onSaved: (value) {
+                      _inputFname = value;
+                    },
+                    initialValue: widget.user.fname,
+                    validator: (value) => Constant.nameValidator(value),
+                    keyboardType: TextInputType.text,
+                    style: Constant.formFieldTextStyle,
+                    decoration: InputDecoration(
+                      counterStyle: Constant.counterStyle,
+                      contentPadding: Constant.formFieldContentPadding,
+                      hintText: "John",
+                      hintStyle: Constant.formFieldHintStyle,
+                      border: Constant.formFieldBorder,
+                      focusedBorder: Constant.formFieldFocusedBorder,
+                      labelText: "First Name",
+                      labelStyle: Constant.formFieldLabelStyle,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 32.0,
-                ),
-                TextFormField(
-                  onSaved: (value) {
-                    _inputLname = value;
-                  },
-                  initialValue: widget.user.lname,
-                  validator: (value) => Constant.nameValidator(value),
-                  keyboardType: TextInputType.text,
-                  style: Constant.formFieldTextStyle,
-                  decoration: InputDecoration(
-                    counterStyle: Constant.counterStyle,
-                    contentPadding: Constant.formFieldContentPadding,
-                    hintText: "Doe",
-                    hintStyle: Constant.formFieldHintStyle,
-                    border: Constant.formFieldBorder,
-                    focusedBorder: Constant.formFieldFocusedBorder,
-                    labelText: "Last Name",
-                    labelStyle: Constant.formFieldLabelStyle,
+                  SizedBox(
+                    height: 32.0,
                   ),
-                ),
-                SizedBox(
-                  height: 32.0,
-                ),
-                TextFormField(
-                  validator: (value) => Constant.mobileNumberValidator(value),
-                  onSaved: (value) {
-                    _inputMobileNumber = value;
-                  },
-                  initialValue: widget.user.mobile,
-                  maxLength: 10,
-                  style: Constant.formFieldTextStyle,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    counterStyle: Constant.counterStyle,
-                    contentPadding: Constant.formFieldContentPadding,
-                    hintText: "94578xxxx5",
-                    hintStyle: Constant.formFieldHintStyle,
-                    border: Constant.formFieldBorder,
-                    focusedBorder: Constant.formFieldFocusedBorder,
-                    labelText: "Mobile Number",
-                    labelStyle: Constant.formFieldLabelStyle,
+                  TextFormField(
+                    onSaved: (value) {
+                      _inputLname = value;
+                    },
+                    initialValue: widget.user.lname,
+                    validator: (value) => Constant.nameValidator(value),
+                    keyboardType: TextInputType.text,
+                    style: Constant.formFieldTextStyle,
+                    decoration: InputDecoration(
+                      counterStyle: Constant.counterStyle,
+                      contentPadding: Constant.formFieldContentPadding,
+                      hintText: "Doe",
+                      hintStyle: Constant.formFieldHintStyle,
+                      border: Constant.formFieldBorder,
+                      focusedBorder: Constant.formFieldFocusedBorder,
+                      labelText: "Last Name",
+                      labelStyle: Constant.formFieldLabelStyle,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 32.0,
-                ),
-                TextFormField(
-                  controller: _userNameController,
-                  maxLength: 15,
-                  validator: (value) {
-                    return _userNameValidator;
-                  },
-                  onSaved: (value) {
-                    _inputUsername = value;
-                  },
-                  style: Constant.formFieldTextStyle,
-                  decoration: InputDecoration(
-                    counterStyle: Constant.counterStyle,
-                    contentPadding: Constant.formFieldContentPadding,
-                    hintText: "johnDoe12",
-                    hintStyle: Constant.formFieldHintStyle,
-                    border: Constant.formFieldBorder,
-                    focusedBorder: Constant.formFieldFocusedBorder,
-                    labelText: "Username",
-                    labelStyle: Constant.formFieldLabelStyle,
+                  SizedBox(
+                    height: 32.0,
                   ),
-                ),
-                SizedBox(
-                  height: 32.0,
-                ),
-                TextFormField(
-                  maxLength: 100,
-                  onSaved: (value) {
-                    _inputBio = value;
-                  },
-                  initialValue: widget.user.bio,
-                  minLines: 3,
-                  maxLines: 7,
-                  style: Constant.formFieldTextStyle,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    alignLabelWithHint: true,
-                    counterStyle: Constant.counterStyle,
-                    contentPadding: Constant.formFieldContentPadding,
-                    hintText: "Brief description about yourself...",
-                    hintStyle: Constant.formFieldHintStyle,
-                    border: Constant.formFieldBorder,
-                    focusedBorder: Constant.formFieldFocusedBorder,
-                    labelText: "Bio",
-                    labelStyle: Constant.formFieldLabelStyle,
+                  TextFormField(
+                    validator: (value) => Constant.mobileNumberValidator(value),
+                    onSaved: (value) {
+                      _inputMobileNumber = value.trim();
+                    },
+                    initialValue: widget.user.mobile,
+                    maxLength: 10,
+                    style: Constant.formFieldTextStyle,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      counterStyle: Constant.counterStyle,
+                      contentPadding: Constant.formFieldContentPadding,
+                      hintText: "94578xxxx5",
+                      hintStyle: Constant.formFieldHintStyle,
+                      border: Constant.formFieldBorder,
+                      focusedBorder: Constant.formFieldFocusedBorder,
+                      labelText: "Mobile Number",
+                      labelStyle: Constant.formFieldLabelStyle,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 32.0,
-                ),
-                BlueOutlineButton(
-                  callback: () async {
-                    FocusScope.of(context).unfocus();
-                    if (!_isUserDetailLoading) {
-                      bool stat = await updateUserDetails();
-                      if (stat) {
-                        Constant.showToastSuccess("Profile updated successfully");
-                      } else {
-                        Constant.showToastError("Profile failed to update");
+                  SizedBox(
+                    height: 32.0,
+                  ),
+                  TextFormField(
+                    controller: _userNameController,
+                    maxLength: 15,
+                    validator: (value) {
+                      return _userNameValidator;
+                    },
+                    onSaved: (value) {
+                      _inputUsername = value;
+                    },
+                    style: Constant.formFieldTextStyle,
+                    decoration: InputDecoration(
+                      counterStyle: Constant.counterStyle,
+                      contentPadding: Constant.formFieldContentPadding,
+                      hintText: "johnDoe12",
+                      hintStyle: Constant.formFieldHintStyle,
+                      border: Constant.formFieldBorder,
+                      focusedBorder: Constant.formFieldFocusedBorder,
+                      labelText: "Username",
+                      labelStyle: Constant.formFieldLabelStyle,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 32.0,
+                  ),
+                  TextFormField(
+                    maxLength: 100,
+                    onSaved: (value) {
+                      _inputBio = value;
+                    },
+                    initialValue: widget.user.bio,
+                    minLines: 3,
+                    maxLines: 7,
+                    style: Constant.formFieldTextStyle,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      alignLabelWithHint: true,
+                      counterStyle: Constant.counterStyle,
+                      contentPadding: Constant.formFieldContentPadding,
+                      hintText: "Brief description about yourself...",
+                      hintStyle: Constant.formFieldHintStyle,
+                      border: Constant.formFieldBorder,
+                      focusedBorder: Constant.formFieldFocusedBorder,
+                      labelText: "Bio",
+                      labelStyle: Constant.formFieldLabelStyle,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 32.0,
+                  ),
+                  BlueOutlineButton(
+                    callback: () async {
+                      FocusScope.of(context).unfocus();
+                      if (!_isUserDetailLoading) {
+                        bool stat = await updateUserDetails();
+                        if (stat) {
+                          Constant.showToastSuccess("Profile updated successfully");
+                        } else {
+                          Constant.showToastError("Profile failed to update");
+                        }
                       }
-                    }
-                  },
-                  child: _isUserDetailLoading
-                      ? SizedBox(
-                          height: 20.0,
-                          width: 20.0,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(Colors.blue[600]),
-                            backgroundColor: Colors.blue[50],
+                    },
+                    child: _isUserDetailLoading
+                        ? SizedBox(
+                            height: 20.0,
+                            width: 20.0,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(Colors.blue[600]),
+                              backgroundColor: Colors.blue[50],
+                            ),
+                          )
+                        : Text(
+                            "Update Details",
+                            style: Constant.outlineBlueButtonTextStyle,
                           ),
-                        )
-                      : Text(
-                          "Update Details",
-                          style: Constant.outlineBlueButtonTextStyle,
-                        ),
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -366,16 +377,18 @@ class _UserTopicListTileState extends State<UserTopicListTile> {
                       List<String> topicList = List.generate(snapshot.data.documents.length,
                           (i) => snapshot.data.documents[i]['title']);
                       topicList.sort();
-                      return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: topicList.length,
-                        itemBuilder: (context, i) {
-                          return MyCheckBoxTile(
-                            title: topicList[i],
-                            outputList: _selectedTopicList,
-                          );
-                        },
+                      return Scrollbar(
+                        child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: topicList.length,
+                          itemBuilder: (context, i) {
+                            return MyCheckBoxTile(
+                              title: topicList[i],
+                              outputList: _selectedTopicList,
+                            );
+                          },
+                        ),
                       );
                     }
                   } else {
@@ -387,10 +400,12 @@ class _UserTopicListTileState extends State<UserTopicListTile> {
                     );
                   }
                 } else {
-                  return ListView(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    children: List.generate(7, (i) => ShimmerTopicTile()),
+                  return Scrollbar(
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: List.generate(7, (i) => ShimmerTopicTile()),
+                    ),
                   );
                 }
               },

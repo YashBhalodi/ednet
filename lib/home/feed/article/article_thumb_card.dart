@@ -85,7 +85,7 @@ class ArticleThumbCard extends StatelessWidget {
                 height: 12.0,
               ),
               Container(
-                constraints: BoxConstraints.loose(Size(double.maxFinite,130.0)),
+                constraints: BoxConstraints.loose(Size(double.maxFinite, 130.0)),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   physics: NeverScrollableScrollPhysics(),
@@ -99,6 +99,18 @@ class ArticleThumbCard extends StatelessWidget {
               SizedBox(
                 height: 12.0,
               ),
+              article.profUpvoteCount > 0
+                  ? Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          "${article.profUpvoteCount} professor upvoted",
+                          style: Constant.professorUpvoteTextStyle,
+                        ),
+                      ),
+                    )
+                  : Container(),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -106,53 +118,57 @@ class ArticleThumbCard extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     flex: 4,
-                    child: GestureDetector(
-                      onTap: () {
-                        Constant.userProfileView(context, userId: article.userId);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.person,
-                            size: 16.0,
-                          ),
-                          article.byProf
-                              ? Icon(
-                                  Icons.star,
-                                  color: Colors.orangeAccent,
-                                  size: 16.0,
-                                )
-                              : Container(),
-                          StreamBuilder(
-                            stream: Firestore.instance
-                                .collection('Users')
-                                .document(article.userId)
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return Shimmer.fromColors(
-                                  child: Container(
-                                    width: 100.0,
-                                    height: 18.0,
-                                    color: Colors.white,
+                    child: StreamBuilder(
+                      stream: Firestore.instance
+                          .collection('Users')
+                          .document(article.userId)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Shimmer.fromColors(
+                            child: Container(
+                              width: 100.0,
+                              height: 18.0,
+                              color: Colors.white,
+                            ),
+                            baseColor: Colors.grey[300],
+                            highlightColor: Colors.grey[100],
+                            period: Duration(milliseconds: 300),
+                          );
+                        } else {
+                          if (snapshot.data.data != null) {
+                            DocumentSnapshot userDoc = snapshot.data;
+                            return GestureDetector(
+                              onTap: () {
+                                Constant.userProfileView(context, userId: article.userId);
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.person,
+                                    size: 16.0,
                                   ),
-                                  baseColor: Colors.grey[300],
-                                  highlightColor: Colors.grey[100],
-                                  period: Duration(milliseconds: 300),
-                                );
-                              } else {
-                                DocumentSnapshot userDoc = snapshot.data;
-                                return Text(
-                                  userDoc.data['username'],
-                                  style: Constant.usernameStyle,
-                                );
-                              }
-                            },
-                          )
-                        ],
-                      ),
+                                  article.byProf
+                                  ? Icon(
+                                    Icons.star,
+                                    color: Colors.orangeAccent,
+                                    size: 16.0,
+                                  )
+                                  : Container(),
+                                  Text(
+                                    userDoc.data['username'],
+                                    style: Constant.usernameStyle,
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return Container();   //TODO user account is removed. msg if we want
+                          }
+                        }
+                      },
                     ),
                   ),
                   Spacer(),

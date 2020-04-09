@@ -39,6 +39,13 @@ class _ArticlePreviewState extends State<ArticlePreview> {
                 "Please review your article before finally publishing.",
                 style: Constant.sectionSubHeadingDescriptionStyle,
               ),
+              SizedBox(
+                height: 8.0,
+              ),
+              Text(
+                "Once article is published it can't be edited or removed.\nSave your article as draft and publish it once you are confident.",
+                style: Constant.formFieldHintStyle,
+              ),
             ],
           ),
         ),
@@ -47,13 +54,15 @@ class _ArticlePreviewState extends State<ArticlePreview> {
                 widget.article.content == null)
             ? ShimmerArticlePreviewCard()
             : Expanded(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    ArticlePreviewCard(
-                      article: widget.article,
-                    ),
-                  ],
+                child: Scrollbar(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      ArticlePreviewCard(
+                        article: widget.article,
+                      ),
+                    ],
+                  ),
                 ),
               ),
       ],

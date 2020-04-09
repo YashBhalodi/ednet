@@ -43,41 +43,43 @@ class _ContentPageState extends State<ContentPage> with AutomaticKeepAliveClient
   Widget build(BuildContext context) {
     super.build(context);
     return ZefyrScaffold(
-      child: ListView(
-        shrinkWrap: true,
-        padding: Constant.edgePadding,
-        controller: _scrollController,
-        children: <Widget>[
-          Text(
-            "Content",
-            style: Constant.sectionSubHeadingStyle,
-          ),
-          SizedBox(
-            height: 8.0,
-          ),
-          Text(
-            "Feel free to write to your heart's content.",
-            style: Constant.sectionSubHeadingDescriptionStyle,
-          ),
-          SizedBox(
-            height: 64.0,
-          ),
-          ZefyrField(
-            imageDelegate: null,
-            height: 350.0,
-            controller: widget.contentZefyrController,
-            focusNode: _contentFocus,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.grey[200],
-              border: null,
-              focusedBorder: null,
-              contentPadding: Constant.zefyrFieldContentPadding,
-              hintText: "The main content of article...",
+      child: Scrollbar(
+        child: ListView(
+          shrinkWrap: true,
+          padding: Constant.edgePadding,
+          controller: _scrollController,
+          children: <Widget>[
+            Text(
+              "Content",
+              style: Constant.sectionSubHeadingStyle,
             ),
-            autofocus: true,
-          )
-        ],
+            SizedBox(
+              height: 8.0,
+            ),
+            Text(
+              "Feel free to write to your heart's content.",
+              style: Constant.sectionSubHeadingDescriptionStyle,
+            ),
+            SizedBox(
+              height: 64.0,
+            ),
+            ZefyrField(
+              imageDelegate: null,
+              height: 350.0,
+              controller: widget.contentZefyrController,
+              focusNode: _contentFocus,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey[200],
+                border: null,
+                focusedBorder: null,
+                contentPadding: Constant.zefyrFieldContentPadding,
+                hintText: "The main content of article...",
+              ),
+              autofocus: true,
+            )
+          ],
+        ),
       ),
     );
   }

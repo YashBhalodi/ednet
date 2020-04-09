@@ -34,52 +34,54 @@ class _HeadingPageState extends State<HeadingPage> with AutomaticKeepAliveClient
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ListView(
-      shrinkWrap: true,
-      padding: Constant.edgePadding,
-      controller: _scrollController,
-      children: <Widget>[
-        Text(
-          "Heading",
-          style: Constant.sectionSubHeadingStyle,
-        ),
-        SizedBox(
-          height: 8.0,
-        ),
-        Text(
-          "Briefly describe what your question is about.\n\nUsually, the name of relevant domain, concepts, theorms etc.",
-          style: Constant.sectionSubHeadingDescriptionStyle,
-        ),
-        SizedBox(
-          height: 64.0,
-        ),
-        TextFormField(
-          onEditingComplete: () {
-            widget.parentPageController
-                .nextPage(duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);
-          },
-          onSaved: (h) {
-            setState(() {
-              widget.question.heading = h;
-            });
-          },
-          controller: _headingController,
-          style: Constant.formFieldTextStyle,
-          minLines: 12,
-          maxLines: 12,
-          validator: (value) => Constant.questionHeadingValidator(value),
-          maxLength: 100,
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.grey[200],
-            border: null,
-            focusedBorder: null,
-            contentPadding: Constant.formFieldContentPadding,
-            hintText: "What is the question about?",
+    return Scrollbar(
+      child: ListView(
+        shrinkWrap: true,
+        padding: Constant.edgePadding,
+        controller: _scrollController,
+        children: <Widget>[
+          Text(
+            "Heading",
+            style: Constant.sectionSubHeadingStyle,
           ),
-        ),
-      ],
+          SizedBox(
+            height: 8.0,
+          ),
+          Text(
+            "Briefly describe what your question is about.\n\nUsually, the name of relevant domain, concepts, theorms etc.",
+            style: Constant.sectionSubHeadingDescriptionStyle,
+          ),
+          SizedBox(
+            height: 64.0,
+          ),
+          TextFormField(
+            onEditingComplete: () {
+              widget.parentPageController
+                  .nextPage(duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);
+            },
+            onSaved: (h) {
+              setState(() {
+                widget.question.heading = h.trim();
+              });
+            },
+            controller: _headingController,
+            style: Constant.formFieldTextStyle,
+            minLines: 12,
+            maxLines: 12,
+            validator: (value) => Constant.questionHeadingValidator(value),
+            maxLength: 100,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.grey[200],
+              border: null,
+              focusedBorder: null,
+              contentPadding: Constant.formFieldContentPadding,
+              hintText: "What is the question about?",
+            ),
+          ),
+        ],
+      ),
     );
   }
 

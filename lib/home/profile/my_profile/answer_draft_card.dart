@@ -41,11 +41,11 @@ class AnswerDraftCard extends StatelessWidget {
                   height: 12.0,
                 ),
                 Container(
-                  constraints: BoxConstraints.loose(Size(double.maxFinite,100.0)),
+                  constraints: BoxConstraints.loose(Size(double.maxFinite, 100.0)),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
-                      physics: NeverScrollableScrollPhysics(),
-                      child: ZefyrView(
+                    physics: NeverScrollableScrollPhysics(),
+                    child: ZefyrView(
                       document: NotusDocument.fromJson(
                         jsonDecode(answer.contentJson),
                       ),
@@ -54,70 +54,6 @@ class AnswerDraftCard extends StatelessWidget {
                 ),
                 SizedBox(
                   height: 16.0,
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 4,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.person,
-                            size: 16.0,
-                          ),
-                          answer.byProf
-                              ? Icon(
-                                  Icons.star,
-                                  color: Colors.orangeAccent,
-                                  size: 16.0,
-                                )
-                              : Container(),
-                          StreamBuilder(
-                            stream: Firestore.instance
-                                .collection('Users')
-                                .document(answer.userId)
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return Shimmer.fromColors(
-                                  child: Container(
-                                    width: 100.0,
-                                    height: 18.0,
-                                    color: Colors.white,
-                                  ),
-                                  baseColor: Colors.grey[300],
-                                  highlightColor: Colors.grey[100],
-                                  period: Duration(milliseconds: 300),
-                                );
-                              } else {
-                                DocumentSnapshot userDoc = snapshot.data;
-                                return Text(
-                                  userDoc.data['username'],
-                                  style: Constant.usernameStyle,
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        Constant.formatDateTime(answer.createdOn),
-                        style: Constant.dateTimeStyle,
-                        textAlign: TextAlign.end,
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 16,
                 ),
               ],
             ),

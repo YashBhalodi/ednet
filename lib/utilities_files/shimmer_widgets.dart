@@ -1568,79 +1568,22 @@ class ShimmerTopicTile extends StatelessWidget {
 class ShimmerMainHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Shimmer.fromColors(
-          child: Container(
-            width: double.maxFinite,
-            height: 64,
-            color: Colors.white,
-          ),
-          baseColor: Colors.grey[100],
-          highlightColor: Colors.grey[300],
-        ),
-        Spacer(),
-        Align(
-          alignment: Alignment.center,
-          child: Shimmer.fromColors(
-            child: Text(
-              "Loading...",
-              style: TextStyle(
-                fontSize: 36.0,
-              ),
+    return Container(
+      child: Align(
+        alignment: Alignment.center,
+        child: Shimmer.fromColors(
+          baseColor: Colors.grey[200],
+          highlightColor: Colors.grey[600],
+          period: Duration(milliseconds: 300),
+          child: Text(
+            "EDNET",
+            style: TextStyle(
+              fontSize: 36.0,
+              fontWeight: FontWeight.w700,
             ),
-            baseColor: Colors.grey[200],
-            highlightColor: Colors.grey[800],
-            period: Duration(milliseconds: 800),
           ),
         ),
-        Spacer(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Expanded(
-              child: Shimmer.fromColors(
-                child: Container(
-                  height: 64.0,
-                  color: Colors.white,
-                ),
-                baseColor: Colors.grey[100],
-                highlightColor: Colors.grey[300],
-              ),
-            ),
-            SizedBox(
-              width: 2.0,
-            ),
-            Expanded(
-              child: Shimmer.fromColors(
-                child: Container(
-                  height: 64.0,
-                  color: Colors.white,
-                ),
-                baseColor: Colors.grey[100],
-                highlightColor: Colors.grey[300],
-              ),
-            ),
-            SizedBox(
-              width: 2.0,
-            ),
-            Expanded(
-              child: Shimmer.fromColors(
-                child: Container(
-                  height: 64.0,
-                  color: Colors.white,
-                ),
-                baseColor: Colors.grey[100],
-                highlightColor: Colors.grey[300],
-              ),
-            ),
-          ],
-        ),
-      ],
+      ),
     );
   }
 }

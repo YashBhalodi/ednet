@@ -23,7 +23,7 @@ class TopicSelection extends StatefulWidget {
   _TopicSelectionState createState() => _TopicSelectionState();
 }
 
-class _TopicSelectionState extends State<TopicSelection> {
+class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAliveClientMixin{
   GlobalKey _topicFormKey = GlobalKey<FormState>();
   FocusNode _topicFieldFocus = FocusNode();
   FocusNode _topicCreateButtonFocus = FocusNode();
@@ -178,6 +178,7 @@ class _TopicSelectionState extends State<TopicSelection> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,14 +225,16 @@ class _TopicSelectionState extends State<TopicSelection> {
                     List<String> topicList = List.generate(
                         snapshot.data.documents.length, (i) => snapshot.data.documents[i]['title']);
                     topicList.sort();
-                    return ListView.builder(
-                      itemCount: topicList.length,
-                      itemBuilder: (context, i) {
-                        return MyCheckBoxTile(
-                          title: topicList[i],
-                          outputList: _selectedTopicList,
-                        );
-                      },
+                    return Scrollbar(
+                      child: ListView.builder(
+                        itemCount: topicList.length,
+                        itemBuilder: (context, i) {
+                          return MyCheckBoxTile(
+                            title: topicList[i],
+                            outputList: _selectedTopicList,
+                          );
+                        },
+                      ),
                     );
                   }
                 } else {
@@ -330,4 +333,7 @@ class _TopicSelectionState extends State<TopicSelection> {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

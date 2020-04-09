@@ -4,7 +4,6 @@ import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,11 +13,12 @@ class LoginPage extends StatefulWidget {
   LoginPageState createState() => new LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
+class LoginPageState extends State<LoginPage>
+    with WidgetsBindingObserver, AutomaticKeepAliveClientMixin {
   String _email;
   String _link;
   final _formKey = GlobalKey<FormState>();
-  QuerySnapshot docRef;
+  QuerySnapshot queryDocRef;
   bool _loginLoading = false;
 
   @override
@@ -177,13 +177,9 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
 
   Future<void> _updateSignUpStatus() async {
     try {
-      docRef = await Firestore.instance
-          .collection('SignUpApplications')
-          .where('email', isEqualTo: _email)
-          .getDocuments();
       await Firestore.instance
           .collection('SignUpApplications')
-          .document(docRef.documents[0].documentID)
+          .document(queryDocRef.documents[0].documentID)
           .updateData({'signup_status': true});
     } catch (e) {
       print("_updateSignUpStatus");
@@ -192,9 +188,9 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   }
 
   Future<void> _createRelevantDocument() async {
-    bool isAdmin = docRef.documents[0]['type'] == "admin" ? true : false;
-    bool isProf = docRef.documents[0]['type'] == "prof" ? true : false;
-    String userUniversity = docRef.documents[0]['university'];
+    bool isAdmin = queryDocRef.documents[0]['type'] == "admin" ? true : false;
+    bool isProf = queryDocRef.documents[0]['type'] == "prof" ? true : false;
+    String userUniversity = queryDocRef.documents[0]['university'];
     //create user document
     try {
       await Firestore.instance.collection('Users').add({
@@ -244,23 +240,71 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
             ),
           );
         });
-    final FirebaseAuth user = FirebaseAuth.instance;
-    bool validLink = await user.isSignInWithEmailLink(_link);
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    bool validLink = await auth.isSignInWithEmailLink(_link);
+    print("email:- $_email");
     if (validLink) {
       try {
         List<String> signInMethod =
             await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: _email);
         if (signInMethod.length == 0) {
+          //user account doesn't exists
           //First time user sign up
-          await _updateSignUpStatus();
-          await _createRelevantDocument();
+          queryDocRef = await Firestore.instance
+              .collection('SignUpApplications')
+              .where('email', isEqualTo: _email)
+              .getDocuments();
+          bool firstSignUp = !queryDocRef.documents[0].data['signup_status'];
+          if (firstSignUp) {
+            await _updateSignUpStatus();
+            await _createRelevantDocument();
+          }
         }
-        Navigator.of(context).pop();
+//        Navigator.of(context).pop();
         await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
         print("After login:-" + FirebaseAuth.instance.currentUser().toString());
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setBool("welcome", true);
       } catch (e) {
+        PlatformException err = e;
+        if (err.code == "ERROR_INVALID_ACTION_CODE") {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(16.0),
+                  ),
+                ),
+                content: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                        "The link you used might have been expired.\n\nPlease check your inbox again and use the latest link."),
+                    SizedBox(
+                      height: 32.0,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: SecondaryCTA(
+                        callback: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "OK",
+                          style: Constant.secondaryCTATextStyle,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        }
         print("signInWithEmailLink function:- " + e.toString());
       }
     } else {
@@ -291,6 +335,7 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final email = TextFormField(
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
@@ -349,9 +394,12 @@ class LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
           email,
           SizedBox(height: 24),
           loginButton,
-        ],
+        ]
       ),
     );
     return loginForm;
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

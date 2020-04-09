@@ -11,12 +11,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
-    runApp(MyApp());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    runApp(
+      MyApp(
+        pref: pref,
+      ),
+    );
   });
 }
 
 class MyApp extends StatelessWidget {
+  final SharedPreferences pref;
+
+  const MyApp({Key key, this.pref}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -28,156 +37,144 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(
           fontFamily: 'Inter',
-          buttonTheme: ButtonThemeData(minWidth: 40.0,),
+          buttonTheme: ButtonThemeData(
+            minWidth: 40.0,
+          ),
         ),
-        home: EntryPoint(),
+        home: EntryPoint(
+          pref: pref,
+        ),
         debugShowCheckedModeBanner: false,
       ),
     );
   }
 }
 
-//Stream builder widget to handle entry point decisions
 class EntryPoint extends StatefulWidget {
+  final SharedPreferences pref;
+
+  const EntryPoint({Key key, this.pref}) : super(key: key);
+
   @override
   _EntryPointState createState() => _EntryPointState();
 }
 
 class _EntryPointState extends State<EntryPoint> {
-  //TODO FIX streamBuilder sometimes update two times in the beginning.
+
   @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<FirebaseUser>(
-      stream: FirebaseAuth.instance.onAuthStateChanged,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          FirebaseUser user = snapshot.data;
-          if (user == null) {
-            return FutureBuilder<SharedPreferences>(
-              future: SharedPreferences.getInstance(),
-              builder: (context, futureSnapshot) {
-                switch (futureSnapshot.connectionState) {
-                  case ConnectionState.none:
-                  case ConnectionState.waiting:
-                    return Scaffold(
-                      body: ShimmerMainHome(),
-                    );
-                  default:
-                    if (!futureSnapshot.hasError) {
-                      return futureSnapshot.data.getBool("welcome") != null
-                          ? Onboarding(
-                              isLogin: true,
-                            )
-                          : Onboarding(
-                              isLogin: false,
-                            );
-                    } else {
-                      return Scaffold(
-                        body: Container(
-                          child: Center(
-                            child: Text("Error" + futureSnapshot.error.toString()),
-                          ),
-                        ),
-                      );
-                    }
-                }
-              },
+  void didChangeDependencies() {
+    print("didChangeDependencies");
+    FirebaseAuth.instance.onAuthStateChanged.listen(
+      (user) async {
+        print("line 205:- stream listening");
+        //No user logged in
+        if (user == null) {
+          print("line 208:- no user");
+          //Not first time app use
+          if (widget.pref.getBool("welcome") != null) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return Onboarding(
+                    isLogin: true,
+                  );
+                },
+              ),
             );
           } else {
-            DocumentSnapshot universitySnap;
-            Future<QuerySnapshot> retrieveData() async {
-              QuerySnapshot userProfileResponse;
-              try {
-                userProfileResponse = await Firestore.instance
-                    .collection('Users')
-                    .where('email', isEqualTo: user.email)
-                    .getDocuments();
-                String uniName = userProfileResponse.documents[0].data['university'];
-                final universityResponse = await Firestore.instance
-                    .collection('University')
-                    .where('name', isEqualTo: uniName)
-                    .getDocuments();
-                universitySnap = universityResponse.documents[0];
-              } catch (e) {
-                print("retrieveData:-");
-                print(e);
-              }
-              return userProfileResponse;
-            }
-
-            return FutureBuilder(
-              future: retrieveData(),
-              builder: (context, profileSnapshot) {
-                switch (profileSnapshot.connectionState) {
-                  case ConnectionState.none:
-                    return Scaffold(
-                      body: ShimmerMainHome(),
-                    );
-                    break;
-                  case ConnectionState.waiting:
-                    return Scaffold(
-                      body: ShimmerMainHome(),
-                    );
-                    break;
-                  case ConnectionState.active:
-                    return Scaffold(
-                      body: ShimmerMainHome(),
-                    );
-                    break;
-                  case ConnectionState.done:
-                    if (!profileSnapshot.hasError) {
-                      DocumentSnapshot userDocSnapshot = profileSnapshot.data.documents[0];
-                      bool isProfileSet = userDocSnapshot['isProfileSet'];
-                      if (isProfileSet) {
-                        return Home(
-                          userSnap: userDocSnapshot,
-                        );
-                      } else {
-                        bool isAdmin = userDocSnapshot['isAdmin'] as bool;
-                        if (isAdmin) {
-                          return AdminProfileSetup(
-                              userSnap: userDocSnapshot, universitySnap: universitySnap);
-                        } else {
-                          return StudentProfileSetup(
-                            userSnap: userDocSnapshot,
-                          );
-                        }
-                      }
-                    } else {
-                      return Scaffold(
-                        body: Container(
-                          child: Center(
-                            child: Text(
-                              "Error" + snapshot.error.toString(),
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                    break;
-                  default:
-                    {
-                      return Scaffold(
-                        body: ShimmerMainHome(),
-                      );
-                    }
-                }
-              },
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return Onboarding(
+                    isLogin: false,
+                  );
+                },
+              ),
             );
           }
         } else {
-          //Internet is not connected.
-          print("App main stream builder Snapshot connection state:- " +
-              snapshot.connectionState.toString());
-          return Scaffold(
-            body: Container(
-              child: Center(
-                child: Text("No Internet!"),
+          //User logged in
+          //TODO after successful login following wait without any feedback on front will hurt user experience.
+          print("line 233:- user logged in");
+          DocumentSnapshot universitySnap;
+          DocumentSnapshot userDocSnapshot;
+          Future<QuerySnapshot> retrieveData() async {
+            print("retrieveData() called");
+            QuerySnapshot userProfileResponse;
+            try {
+              userProfileResponse = await Firestore.instance
+                  .collection('Users')
+                  .where('email', isEqualTo: user.email)
+                  .getDocuments();
+              String uniName = userProfileResponse.documents[0].data['university'];
+              final universityResponse = await Firestore.instance
+                  .collection('University')
+                  .where('name', isEqualTo: uniName)
+                  .getDocuments();
+              universitySnap = universityResponse.documents[0];
+            } catch (e) {
+              print("retrieveData:-");
+              print(e);
+            }
+            return userProfileResponse;
+          }
+
+          await retrieveData().then((v) {
+            print(v.documents[0]);
+            userDocSnapshot = v.documents[0];
+          });
+          bool isProfileSet = userDocSnapshot['isProfileSet'];
+          if (isProfileSet) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return Home(
+                    userSnap: userDocSnapshot,
+                  );
+                },
               ),
-            ),
-          );
+            );
+          } else {
+            bool isAdmin = userDocSnapshot['isAdmin'] as bool;
+            if (isAdmin) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return AdminProfileSetup(
+                      userSnap: userDocSnapshot,
+                      universitySnap: universitySnap,
+                    );
+                  },
+                ),
+              );
+            } else {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return StudentProfileSetup(
+                      userSnap: userDocSnapshot,
+                    );
+                  },
+                ),
+              );
+            }
+          }
         }
       },
+    );
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print('171___EntryPointState___EntryPointState.dispose__main.dart');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ShimmerMainHome(),
     );
   }
 }

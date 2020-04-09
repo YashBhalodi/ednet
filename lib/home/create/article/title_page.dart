@@ -34,52 +34,54 @@ class _TitlePageState extends State<TitlePage> with AutomaticKeepAliveClientMixi
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ListView(
-      shrinkWrap: true,
-      padding: Constant.edgePadding,
-      controller: _scrollController,
-      children: <Widget>[
-        Text(
-          "Title",
-          style: Constant.sectionSubHeadingStyle,
-        ),
-        SizedBox(
-          height: 8.0,
-        ),
-        Text(
-          "Catchy title of your article.\n\nUsually, the name of relevant domain, concepts, theorms etc.",
-          style: Constant.sectionSubHeadingDescriptionStyle,
-        ),
-        SizedBox(
-          height: 64.0,
-        ),
-        TextFormField(
-          onEditingComplete: () {
-            widget.parentPageController
-                .nextPage(duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);
-          },
-          onSaved: (h) {
-            setState(() {
-              widget.article.title = h;
-            });
-          },
-          controller: _titleController,
-          style: Constant.formFieldTextStyle,
-          minLines: 12,
-          maxLines: 12,
-          validator: (value) => Constant.articleTitleValidator(value),
-          maxLength: 100,
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.grey[200],
-            border: null,
-            focusedBorder: null,
-            contentPadding: Constant.formFieldContentPadding,
-            hintText: "Attract readers with catchy, crispy and clear title...",
+    return Scrollbar(
+      child: ListView(
+        shrinkWrap: true,
+        padding: Constant.edgePadding,
+        controller: _scrollController,
+        children: <Widget>[
+          Text(
+            "Title",
+            style: Constant.sectionSubHeadingStyle,
           ),
-        ),
-      ],
+          SizedBox(
+            height: 8.0,
+          ),
+          Text(
+            "Catchy title of your article.\n\nUsually, the name of relevant domain, concepts, theorms etc.",
+            style: Constant.sectionSubHeadingDescriptionStyle,
+          ),
+          SizedBox(
+            height: 64.0,
+          ),
+          TextFormField(
+            onEditingComplete: () {
+              widget.parentPageController
+                  .nextPage(duration: Constant.pageAnimationDuration, curve: Curves.easeInOut);
+            },
+            onSaved: (h) {
+              setState(() {
+                widget.article.title = h.trim();
+              });
+            },
+            controller: _titleController,
+            style: Constant.formFieldTextStyle,
+            minLines: 12,
+            maxLines: 12,
+            validator: (value) => Constant.articleTitleValidator(value),
+            maxLength: 100,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.grey[200],
+              border: null,
+              focusedBorder: null,
+              contentPadding: Constant.formFieldContentPadding,
+              hintText: "Attract readers with catchy, crispy and clear title...",
+            ),
+          ),
+        ],
+      ),
     );
   }
 

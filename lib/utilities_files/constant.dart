@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/profile/other_user_profile/user_profile_sheet.dart';
+import 'package:ednet/utilities_files/classes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -54,9 +55,9 @@ class Constant {
       );
 
   static get zefyrFieldContentPadding => EdgeInsets.symmetric(
-      horizontal: 6.0,
-      vertical: 20.0,
-  );
+        horizontal: 6.0,
+        vertical: 20.0,
+      );
 
   static get formFieldBorder => OutlineInputBorder(
         borderSide: BorderSide(
@@ -175,16 +176,16 @@ class Constant {
       );
 
   static get dropDownMenuTitleStyle => TextStyle(
-      color: Colors.grey[700],
-      fontSize: 18.0,
-      fontWeight: FontWeight.w500,
-  );
+        color: Colors.grey[700],
+        fontSize: 18.0,
+        fontWeight: FontWeight.w500,
+      );
 
   static get outlineBlueButtonTextStyle => TextStyle(
-      color: Colors.blue[600],
-      fontSize: 18.0,
-      fontWeight: FontWeight.w500,
-  );
+        color: Colors.blue[600],
+        fontSize: 18.0,
+        fontWeight: FontWeight.w500,
+      );
 
   static get appBarTextStyle => TextStyle(
         fontFamily: 'ValeraRound',
@@ -260,6 +261,9 @@ class Constant {
         color: Colors.black,
       );
 
+  static get professorUpvoteTextStyle =>
+      TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.deepOrange);
+
   static String emailValidator(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -280,6 +284,16 @@ class Constant {
         .where('email', isEqualTo: currentUser.email)
         .getDocuments();
     return userDoc.documents[0].documentID;
+  }
+
+  static Future<User> getCurrentUserObject() async {
+    final currentUser = await FirebaseAuth.instance.currentUser();
+    final userDoc = await Firestore.instance
+        .collection('Users')
+        .where('email', isEqualTo: currentUser.email)
+        .getDocuments();
+    User user = User.fromSnapshot(userDoc.documents[0]);
+    return user;
   }
 
   static Future<String> userNameAvailableValidator(String value) async {
@@ -317,8 +331,6 @@ class Constant {
       return "This topic has been created already.";
     }
   }
-
-  //TODO toast instruction for validator violations
 
   static String nameValidator(String value) {
     Pattern pattern = r'^[a-zA-Z ]*$';
@@ -370,17 +382,21 @@ class Constant {
 
   static String mobileNumberValidator(String value) {
     //TODO adapt to handle country code
-    if (value.length == 0) {
+    Pattern pattern = r'^[0-9]+$';
+    RegExp regExp = new RegExp(pattern);
+    if (value.trim().length == 0) {
       return "Please provide mobile number";
-    } else if (value.length != 10) {
+    } else if (value.trim().length != 10) {
       return "This mobile number is not valid";
+    } else if (!regExp.hasMatch(value.trim())) {
+      return "Mobile number can only containe numbers";
     } else {
       return null;
     }
   }
 
   static String questionHeadingValidator(value) {
-    if (value.length < 10) {
+    if (value.trim().length < 10) {
       Constant.showToastInstruction("Heading needs atleast 10 characters");
       return "Heading needs atleast 10 characters";
     } else {
@@ -398,7 +414,7 @@ class Constant {
   }
 
   static String articleTitleValidator(value) {
-    if (value.length < 10) {
+    if (value.trim().length < 10) {
       Constant.showToastInstruction("Article title should be atleast 10 charactes long");
       return "Article title should be atleast 10 charactes long";
     } else {
@@ -407,9 +423,8 @@ class Constant {
   }
 
   static String articleSubtitleValidator(value) {
-    if (value.length < 20) {
+    if (value.trim().length < 20) {
       Constant.showToastInstruction("Article Subtitle should be atleast 20 charactes long");
-
       return "Article Subtitle should be atleast 20 charactes long";
     } else {
       return null;
@@ -417,9 +432,8 @@ class Constant {
   }
 
   static String articleContentValidator(value) {
-    if (value.length < 100) {
+    if (value.trim().length < 100) {
       Constant.showToastInstruction("Article content should be atleast 100 charactes long");
-
       return "Article content should be atleast 100 charactes long";
     } else {
       return null;

@@ -15,7 +15,7 @@ class UniversityDetails extends StatefulWidget {
   _UniversityDetailsState createState() => _UniversityDetailsState();
 }
 
-class _UniversityDetailsState extends State<UniversityDetails> {
+class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKeepAliveClientMixin{
   GlobalKey _universityKey = GlobalKey<FormState>();
   FocusNode _universityNameFocus = FocusNode();
   FocusNode _universityCountryFocus = FocusNode();
@@ -81,155 +81,161 @@ class _UniversityDetailsState extends State<UniversityDetails> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Form(
       key: _universityKey,
-      child: ListView(
-        padding: Constant.edgePadding,
-        controller: _universityScrollController,
-        shrinkWrap: true,
-        children: <Widget>[
-          Text(
-            widget.universitySnap.data['name'],
-            style: Constant.sectionSubHeadingStyle,
-          ),
-          SizedBox(
-            height: 16.0,
-          ),
-          Text(
-            "University Details",
-            style: Constant.sectionSubHeadingDescriptionStyle,
-          ),
-          SizedBox(
-            height: 32.0,
-          ),
-          TextFormField(
-            onSaved: (value) {
-              _inputUniversityCountry = value.trim();
-            },
-            onEditingComplete: () {
-              FocusScope.of(context).requestFocus(_universityStateFocus);
-              _universityScrollController.animateTo(100.0,
-                  duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
-            },
-            initialValue: widget.universitySnap.data['country'] ?? null,
-            validator: (value) => Constant.countryValidator(value),
-            keyboardType: TextInputType.text,
-            style: Constant.formFieldTextStyle,
-            decoration: InputDecoration(
-              counterStyle: Constant.counterStyle,
-              contentPadding: Constant.formFieldContentPadding,
-              hintText: "India",
-              hintStyle: Constant.formFieldHintStyle,
-              border: Constant.formFieldBorder,
-              focusedBorder: Constant.formFieldFocusedBorder,
-              labelText: "Country",
-              labelStyle: Constant.formFieldLabelStyle,
+      child: Scrollbar(
+        child: ListView(
+          padding: Constant.edgePadding,
+          controller: _universityScrollController,
+          shrinkWrap: true,
+          children: <Widget>[
+            Text(
+              widget.universitySnap.data['name'],
+              style: Constant.sectionSubHeadingStyle,
             ),
-            focusNode: _universityCountryFocus,
-          ),
-          SizedBox(
-            height: 32.0,
-          ),
-          TextFormField(
-            onSaved: (value) {
-              _inputUniversityState = value.trim();
-            },
-            onEditingComplete: () {
-              FocusScope.of(context).requestFocus(_universityCityFocus);
-              _universityScrollController.animateTo(200.0,
-                  duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
-            },
-            initialValue: widget.universitySnap.data['state'] ?? null,
-            validator: (value) => Constant.stateValidator(value),
-            keyboardType: TextInputType.text,
-            style: Constant.formFieldTextStyle,
-            decoration: InputDecoration(
-              counterStyle: Constant.counterStyle,
-              contentPadding: Constant.formFieldContentPadding,
-              hintText: "Gujarat",
-              hintStyle: Constant.formFieldHintStyle,
-              border: Constant.formFieldBorder,
-              focusedBorder: Constant.formFieldFocusedBorder,
-              labelText: "Region/State",
-              labelStyle: Constant.formFieldLabelStyle,
+            SizedBox(
+              height: 16.0,
             ),
-            focusNode: _universityStateFocus,
-          ),
-          SizedBox(
-            height: 32.0,
-          ),
-          TextFormField(
-            onSaved: (value) {
-              _inputUniversityCity = value.trim();
-            },
-            onEditingComplete: () {
-              FocusScope.of(context).requestFocus(_submitPartTwoFocus);
-              _universityScrollController.animateTo(300.0,
-                  duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
-            },
-            initialValue: widget.universitySnap.data['city'] ?? null,
-            validator: (value) => Constant.cityValidator(value),
-            keyboardType: TextInputType.text,
-            style: Constant.formFieldTextStyle,
-            decoration: InputDecoration(
-              counterStyle: Constant.counterStyle,
-              contentPadding: Constant.formFieldContentPadding,
-              hintText: "Gandhinagar",
-              hintStyle: Constant.formFieldHintStyle,
-              border: Constant.formFieldBorder,
-              focusedBorder: Constant.formFieldFocusedBorder,
-              labelText: "City",
-              labelStyle: Constant.formFieldLabelStyle,
+            Text(
+              "University Details",
+              style: Constant.sectionSubHeadingDescriptionStyle,
             ),
-            focusNode: _universityCityFocus,
-          ),
-          SizedBox(
-            height: 32.0,
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: RaisedButton(
-                focusNode: _submitPartTwoFocus,
-                onPressed: () async {
-                  await _submitUniversityDetailForm();
-                },
-                padding: Constant.raisedButtonPaddingHigh,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.0),
-                  side: BorderSide(color: Colors.green[800], width: 2.0),
-                ),
-                color: Colors.green[50],
-                child: _isLoading
-                    ? Constant.greenCircularProgressIndicator
-                    : Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          Text(
-                            "Next",
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              color: Colors.green[800],
+            SizedBox(
+              height: 32.0,
+            ),
+            TextFormField(
+              onSaved: (value) {
+                _inputUniversityCountry = value.trim();
+              },
+              onEditingComplete: () {
+                FocusScope.of(context).requestFocus(_universityStateFocus);
+                _universityScrollController.animateTo(100.0,
+                    duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
+              },
+              initialValue: widget.universitySnap.data['country'] ?? null,
+              validator: (value) => Constant.countryValidator(value),
+              keyboardType: TextInputType.text,
+              style: Constant.formFieldTextStyle,
+              decoration: InputDecoration(
+                counterStyle: Constant.counterStyle,
+                contentPadding: Constant.formFieldContentPadding,
+                hintText: "India",
+                hintStyle: Constant.formFieldHintStyle,
+                border: Constant.formFieldBorder,
+                focusedBorder: Constant.formFieldFocusedBorder,
+                labelText: "Country",
+                labelStyle: Constant.formFieldLabelStyle,
+              ),
+              focusNode: _universityCountryFocus,
+            ),
+            SizedBox(
+              height: 32.0,
+            ),
+            TextFormField(
+              onSaved: (value) {
+                _inputUniversityState = value.trim();
+              },
+              onEditingComplete: () {
+                FocusScope.of(context).requestFocus(_universityCityFocus);
+                _universityScrollController.animateTo(200.0,
+                    duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
+              },
+              initialValue: widget.universitySnap.data['state'] ?? null,
+              validator: (value) => Constant.stateValidator(value),
+              keyboardType: TextInputType.text,
+              style: Constant.formFieldTextStyle,
+              decoration: InputDecoration(
+                counterStyle: Constant.counterStyle,
+                contentPadding: Constant.formFieldContentPadding,
+                hintText: "Gujarat",
+                hintStyle: Constant.formFieldHintStyle,
+                border: Constant.formFieldBorder,
+                focusedBorder: Constant.formFieldFocusedBorder,
+                labelText: "Region/State",
+                labelStyle: Constant.formFieldLabelStyle,
+              ),
+              focusNode: _universityStateFocus,
+            ),
+            SizedBox(
+              height: 32.0,
+            ),
+            TextFormField(
+              onSaved: (value) {
+                _inputUniversityCity = value.trim();
+              },
+              onEditingComplete: () {
+                FocusScope.of(context).requestFocus(_submitPartTwoFocus);
+                _universityScrollController.animateTo(300.0,
+                    duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
+              },
+              initialValue: widget.universitySnap.data['city'] ?? null,
+              validator: (value) => Constant.cityValidator(value),
+              keyboardType: TextInputType.text,
+              style: Constant.formFieldTextStyle,
+              decoration: InputDecoration(
+                counterStyle: Constant.counterStyle,
+                contentPadding: Constant.formFieldContentPadding,
+                hintText: "Gandhinagar",
+                hintStyle: Constant.formFieldHintStyle,
+                border: Constant.formFieldBorder,
+                focusedBorder: Constant.formFieldFocusedBorder,
+                labelText: "City",
+                labelStyle: Constant.formFieldLabelStyle,
+              ),
+              focusNode: _universityCityFocus,
+            ),
+            SizedBox(
+              height: 32.0,
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: RaisedButton(
+                  focusNode: _submitPartTwoFocus,
+                  onPressed: () async {
+                    await _submitUniversityDetailForm();
+                  },
+                  padding: Constant.raisedButtonPaddingHigh,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                    side: BorderSide(color: Colors.green[800], width: 2.0),
+                  ),
+                  color: Colors.green[50],
+                  child: _isLoading
+                      ? Constant.greenCircularProgressIndicator
+                      : Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                            Text(
+                              "Next",
+                              style: TextStyle(
+                                fontSize: 22.0,
+                                color: Colors.green[800],
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 8.0,
-                          ),
-                          Icon(
-                            Icons.arrow_forward,
-                            size: 20.0,
-                            color: Colors.green[800],
-                          )
-                        ],
-                      ),
+                            SizedBox(
+                              width: 8.0,
+                            ),
+                            Icon(
+                              Icons.arrow_forward,
+                              size: 20.0,
+                              color: Colors.green[800],
+                            )
+                          ],
+                        ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:ednet/home/create/question/description_page.dart';
 import 'package:ednet/home/create/question/heading_page.dart';
 import 'package:ednet/home/create/question/preview_question_page.dart';
@@ -86,6 +85,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question.upvoters = [];
     _question.downvoters = [];
     _question.isDraft = true;
+    _question.profUpvoteCount = 0;
     _question.description = _zefyrController.document.toPlainText();
     _question.descriptionJson = jsonEncode(_zefyrController.document.toJson());
     _question.answerCount = widget?.question?.answerCount ?? 0;
@@ -104,20 +104,23 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question.upvoters = [];
     _question.downvoters = [];
     _question.isDraft = false;
-    _question.description = _zefyrController.document.toPlainText();
+    _question.profUpvoteCount = 0;
+    _question.description = _zefyrController.document.toPlainText().trim();
     _question.descriptionJson = jsonEncode(_zefyrController.document.toJson());
     _question.answerCount = widget?.question?.answerCount ?? 0;
     String descriptionResponse = Constant.questionDescriptionValidator(_question.description);
     if (descriptionResponse == null) {
       final FormState form = _questionFormKey.currentState;
-      if (form.validate() && _selectedTopics.length != 0) {
-            form.save();
-            return true;
-          } else {
-            Constant.showToastInstruction(
-                "Atleast one topic should be selected.");
-            return false;
-          }
+      if (_selectedTopics.length == 0) {
+        Constant.showToastInstruction("Atleast one topic should be selected.");
+        return false;
+      }
+      if (form.validate()) {
+        form.save();
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
@@ -129,7 +132,11 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question = widget.question == null ? Question() : widget.question;
     _selectedTopics = widget.question == null ? List() : widget.question.topics;
     _zefyrController = widget.question == null
-        ? ZefyrController(NotusDocument.fromDelta(Delta()..insert("\n"),),)
+        ? ZefyrController(
+            NotusDocument.fromDelta(
+              Delta()..insert("\n"),
+            ),
+          )
         : ZefyrController(
             NotusDocument.fromJson(
               json.decode(
@@ -141,193 +148,195 @@ class _CreateQuestionState extends State<CreateQuestion> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Ask Question...",
-          style: Constant.appBarTextStyle,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Ask Question...",
+            style: Constant.appBarTextStyle,
+          ),
         ),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Constant.myLinearProgressIndicator(_progressValue),
-          Expanded(
-            child: Form(
-              key: _questionFormKey,
-              child: PageView(
-                physics: NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                controller: _pageController,
-                onPageChanged: (p) async {
-                  if (p == 3) {
-                    FocusScope.of(context).unfocus();
-                    await _saveQuestionForm();
-                  }
-                  if (p == 2) {
-                    FocusScope.of(context).unfocus();
-                  }
-                  setState(() {
-                    _progressValue = (p + 1) / 4;
-                  });
-                },
-                children: <Widget>[
-                  HeadingPage(
-                    question: _question,
-                    parentPageController: _pageController,
-                  ),
-                  DescriptionPage(
-                    question: _question,
-                    parentPageController: _pageController,
-                    zefyrDescriptionController: _zefyrController,
-                  ),
-                  QuestionTopicSelection(
-                    question: _question,
-                    parentPageController: _pageController,
-                    topicsList: _selectedTopics,
-                  ),
-                  PreviewQuestion(
-                    question: _question,
-                  ),
-                ],
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Constant.myLinearProgressIndicator(_progressValue),
+            Expanded(
+              child: Form(
+                key: _questionFormKey,
+                child: PageView(
+                  physics: ScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  controller: _pageController,
+                  onPageChanged: (p) async {
+                    if (p == 3) {
+                      FocusScope.of(context).unfocus();
+                      await _saveQuestionForm();
+                    }
+                    if (p == 2) {
+                      FocusScope.of(context).unfocus();
+                    }
+                    setState(() {
+                      _progressValue = (p + 1) / 4;
+                    });
+                  },
+                  children: <Widget>[
+                    HeadingPage(
+                      question: _question,
+                      parentPageController: _pageController,
+                    ),
+                    DescriptionPage(
+                      question: _question,
+                      parentPageController: _pageController,
+                      zefyrDescriptionController: _zefyrController,
+                    ),
+                    QuestionTopicSelection(
+                      question: _question,
+                      parentPageController: _pageController,
+                      topicsList: _selectedTopics,
+                    ),
+                    PreviewQuestion(
+                      question: _question,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-            child: SizedBox(
-              height: 64.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(
-                      height: double.maxFinite,
-                      child: RaisedButton(
-                        onPressed: _progressValue == 1 / 4
-                            ? null
-                            : () {
-                                _pageController.previousPage(
-                                    duration: Constant.pageAnimationDuration,
-                                    curve: Curves.easeInOut);
-                              },
-                        padding: Constant.raisedButtonPaddingLow,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          side: BorderSide(color: Colors.grey[300], width: 2.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+              child: SizedBox(
+                height: 64.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        height: double.maxFinite,
+                        child: RaisedButton(
+                          onPressed: _progressValue == 1 / 4
+                              ? null
+                              : () {
+                                  _pageController.previousPage(
+                                      duration: Constant.pageAnimationDuration,
+                                      curve: Curves.easeInOut);
+                                },
+                          padding: Constant.raisedButtonPaddingLow,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                            side: BorderSide(color: Colors.grey[300], width: 2.0),
+                          ),
+                          color: Colors.white,
+                          child: Icon(
+                            Icons.navigate_before,
+                            size: 24.0,
+                            color: Colors.grey[800],
+                          ),
+                          disabledColor: Colors.grey[300],
                         ),
-                        color: Colors.white,
-                        child: Icon(
-                          Icons.navigate_before,
-                          size: 24.0,
-                          color: Colors.grey[800],
-                        ),
-                        disabledColor: Colors.grey[300],
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 4.0,
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: AnimatedCrossFade(
-                      firstChild: SizedBox(
-                        height: double.maxFinite,
-                        width: double.maxFinite,
-                        child: SecondaryCTA(
-                          child: _draftLoading
-                              ? Center(
-                                  child: SizedBox(
-                                    height: 24.0,
-                                    width: 24.0,
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                )
-                              : Text(
-                                  "Save Draft",
-                                  style: Constant.secondaryCTATextStyle,
-                                ),
-                          callback: () async {
-                            if (_draftLoading == false) {
-                              await _saveAsDraft();
-                              Navigator.of(context).pop();
-                            }
-                          },
-                        ),
-                      ),
-                      secondChild: SizedBox(
-                        height: double.maxFinite,
-                        width: double.maxFinite,
-                        child: PrimaryBlueCTA(
-                          child: _postLoading
-                              ? Center(
-                                  child: SizedBox(
-                                    height: 24.0,
-                                    width: 24.0,
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation(Colors.white),
-                                      backgroundColor: Colors.blue[50],
+                    SizedBox(
+                      width: 4.0,
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: AnimatedCrossFade(
+                        firstChild: SizedBox(
+                          height: double.maxFinite,
+                          width: double.maxFinite,
+                          child: SecondaryCTA(
+                            child: _draftLoading
+                                ? Center(
+                                    child: SizedBox(
+                                      height: 24.0,
+                                      width: 24.0,
+                                      child: CircularProgressIndicator(),
                                     ),
+                                  )
+                                : Text(
+                                    "Save Draft",
+                                    style: Constant.secondaryCTATextStyle,
                                   ),
-                                )
-                              : Text(
-                                  "Publish",
-                                  style: Constant.primaryCTATextStyle,
-                                ),
-                          callback: () async {
-                            if (_postLoading == false) {
-                              await _publishQuestion();
-                            }
-                          },
+                            callback: () async {
+                              if (_draftLoading == false) {
+                                await _saveAsDraft();
+                                Navigator.of(context).pop();
+                              }
+                            },
+                          ),
                         ),
-                      ),
-                      crossFadeState: _progressValue == 1
-                          ? CrossFadeState.showSecond
-                          : CrossFadeState.showFirst,
-                      duration: Constant.scrollAnimationDuration,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 4.0,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(
-                      height: double.maxFinite,
-                      child: RaisedButton(
-                        onPressed: _progressValue == 1
-                            ? null
-                            : () {
-                                _pageController.nextPage(
-                                    duration: Constant.pageAnimationDuration,
-                                    curve: Curves.easeInOut);
-                              },
-                        padding: Constant.raisedButtonPaddingLow,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          side: BorderSide(color: Colors.grey[300], width: 2.0),
+                        secondChild: SizedBox(
+                          height: double.maxFinite,
+                          width: double.maxFinite,
+                          child: PrimaryBlueCTA(
+                            child: _postLoading
+                                ? Center(
+                                    child: SizedBox(
+                                      height: 24.0,
+                                      width: 24.0,
+                                      child: CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                                        backgroundColor: Colors.blue[50],
+                                      ),
+                                    ),
+                                  )
+                                : Text(
+                                    "Publish",
+                                    style: Constant.primaryCTATextStyle,
+                                  ),
+                            callback: () async {
+                              if (_postLoading == false) {
+                                await _publishQuestion();
+                              }
+                            },
+                          ),
                         ),
-                        color: Colors.white,
-                        child: Icon(
-                          Icons.navigate_next,
-                          size: 24.0,
-                          color: Colors.grey[800],
-                        ),
-                        disabledColor: Colors.grey[300],
+                        crossFadeState: _progressValue == 1
+                            ? CrossFadeState.showSecond
+                            : CrossFadeState.showFirst,
+                        duration: Constant.scrollAnimationDuration,
                       ),
                     ),
-                  )
-                ],
+                    SizedBox(
+                      width: 4.0,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        height: double.maxFinite,
+                        child: RaisedButton(
+                          onPressed: _progressValue == 1
+                              ? null
+                              : () {
+                                  _pageController.nextPage(
+                                      duration: Constant.pageAnimationDuration,
+                                      curve: Curves.easeInOut);
+                                },
+                          padding: Constant.raisedButtonPaddingLow,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                            side: BorderSide(color: Colors.grey[300], width: 2.0),
+                          ),
+                          color: Colors.white,
+                          child: Icon(
+                            Icons.navigate_next,
+                            size: 24.0,
+                            color: Colors.grey[800],
+                          ),
+                          disabledColor: Colors.grey[300],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

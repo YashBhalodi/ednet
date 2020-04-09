@@ -26,73 +26,75 @@ class _QuestionTopicSelectionState extends State<QuestionTopicSelection>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ListView(
-      padding: Constant.edgePadding,
-      shrinkWrap: true,
-      children: <Widget>[
-        Text(
-          "Topics",
-          style: Constant.sectionSubHeadingStyle,
-        ),
-        SizedBox(
-          height: 8.0,
-        ),
-        Text(
-          "To reach out to maximum interested users,\nselect at most 3 topics related to your question.",
-          style: Constant.sectionSubHeadingDescriptionStyle,
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
-        StreamBuilder(
-          stream: Firestore.instance.collection('Topics').snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              if (snapshot.hasData) {
-                if (snapshot.data.documents.length == 0) {
+    return Scrollbar(
+      child: ListView(
+        padding: Constant.edgePadding,
+        shrinkWrap: true,
+        children: <Widget>[
+          Text(
+            "Topics",
+            style: Constant.sectionSubHeadingStyle,
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Text(
+            "To reach out to maximum interested users,\nselect at most 3 topics related to your question.",
+            style: Constant.sectionSubHeadingDescriptionStyle,
+          ),
+          SizedBox(
+            height: 16.0,
+          ),
+          StreamBuilder(
+            stream: Firestore.instance.collection('Topics').snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.active) {
+                if (snapshot.hasData) {
+                  if (snapshot.data.documents.length == 0) {
+                    return Center(
+                      child: Container(
+                        child: Text(
+                          "No topics created yet.\n\nPlease save your progress as Draft \nand try again at your leisure.",
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
+                  } else {
+                    List<String> topicList = List.generate(
+                        snapshot.data.documents.length, (i) => snapshot.data.documents[i]['title']);
+                    topicList.sort();
+                    return ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: topicList.length,
+                      itemBuilder: (context, i) {
+                        return MyCheckBoxTile(
+                          title: topicList[i],
+                          outputList: widget.topicsList,
+                          maxElement: 3,
+                        );
+                      },
+                    );
+                  }
+                } else {
                   return Center(
                     child: Container(
                       child: Text(
-                        "No topics created yet.\n\nPlease save your progress as Draft \nand try again at your leisure.",
-                        textAlign: TextAlign.center,
-                      ),
+                          "Oops! Something went wrong.\nPlease save your progress as Draft if needed."),
                     ),
-                  );
-                } else {
-                  List<String> topicList = List.generate(
-                      snapshot.data.documents.length, (i) => snapshot.data.documents[i]['title']);
-                  topicList.sort();
-                  return ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: topicList.length,
-                    itemBuilder: (context, i) {
-                      return MyCheckBoxTile(
-                        title: topicList[i],
-                        outputList: widget.topicsList,
-                        maxElement: 3,
-                      );
-                    },
                   );
                 }
               } else {
-                return Center(
-                  child: Container(
-                    child: Text(
-                        "Oops! Something went wrong.\nPlease save your progress as Draft if needed."),
-                  ),
+                return ListView(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: List.generate(7, (i) => ShimmerTopicTile()),
                 );
               }
-            } else {
-              return ListView(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                children: List.generate(7, (i) => ShimmerTopicTile()),
-              );
-            }
-          },
-        ),
-      ],
+            },
+          ),
+        ],
+      ),
     );
   }
 
