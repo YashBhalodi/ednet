@@ -2,6 +2,7 @@ import 'package:ednet/home/profile/other_user_profile/user_answers_page.dart';
 import 'package:ednet/home/profile/other_user_profile/user_articles_page.dart';
 import 'package:ednet/home/profile/other_user_profile/user_questions_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
+import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
 
 class ExploreContent extends StatelessWidget {
@@ -19,12 +20,12 @@ class ExploreContent extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           TabBar(
-            indicatorColor: Colors.white,
-            labelColor: Colors.white,
-            indicator: BoxDecoration(
-              color: Colors.blue,
-            ),
-            unselectedLabelColor: Colors.blue,
+            labelColor: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.tabSelectedLabelColor
+                : LightTheme.tabSelectedLabelColor,
+            unselectedLabelColor: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.tabUnselectedLabelColor
+                : LightTheme.tabUnselectedLabelColor,
             tabs: <Widget>[
               Tab(
                 text: "Questions",

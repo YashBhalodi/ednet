@@ -89,9 +89,9 @@ class _UniversityTopicListTileState extends State<UniversityTopicListTile> {
                 ),
               ),
               SizedBox(
-                height: 16.0,
+                height: 32.0,
               ),
-              BlueOutlineButton(
+              PrimaryBlueCTA(
                 callback: () async {
                   var errorResponse = await Constant.topicNameValidator(_topicFieldController.text);
                   setState(() {
@@ -109,10 +109,9 @@ class _UniversityTopicListTileState extends State<UniversityTopicListTile> {
                 },
                 child: Text(
                   "Create Topic",
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.blue[800],
-                  ),
+                  style: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.primaryCTATextStyle
+                      : LightTheme.primaryCTATextStyle,
                 ),
               ),
             ],
@@ -239,7 +238,9 @@ class _UniversityTopicListTileState extends State<UniversityTopicListTile> {
                         Icon(
                           Icons.add,
                           size: 18.0,
-                          color: Colors.blue[600],
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.outlineButtonTextColor
+                              : LightTheme.outlineButtonTextColor,
                         ),
                         SizedBox(
                           width: 4.0,

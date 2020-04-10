@@ -321,8 +321,7 @@ class Constant {
   static void userProfileView(context, {@required String userId}) async {
     showModalBottomSheet(
       context: context,
-      elevation: 5.0,
-      backgroundColor: Colors.grey[200],
+      elevation: 10.0,
       isDismissible: true,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
@@ -440,8 +439,11 @@ class DarkTheme {
         fontWeight: FontWeight.w500,
       );
 
-  static get formFieldHintStyle =>
-      TextStyle(fontWeight: FontWeight.w100, fontSize: 14.0, color: Colors.grey[400]);
+  static get formFieldHintStyle => TextStyle(
+        fontWeight: FontWeight.w100,
+        fontSize: 14.0,
+        color: Colors.grey[400],
+      );
 
   static get counterStyle => TextStyle(
         fontWeight: FontWeight.w400,
@@ -495,9 +497,11 @@ class DarkTheme {
 
   static get primaryCTABackgroundColor => Color(0xff35495e);
 
+  static get primaryCTATextColor => Colors.cyanAccent;
+
   static get primaryCTATextStyle => TextStyle(
         fontSize: 18.0,
-        color: Colors.cyanAccent,
+        color: primaryCTATextColor,
         fontWeight: FontWeight.w600,
       );
 
@@ -599,10 +603,14 @@ class DarkTheme {
   static get secondaryPositiveCardButtonBackgroundColor => Colors.blueGrey[600];
 
   static get secondaryPositiveTextStyle => TextStyle(
-      color: Colors.cyanAccent,
-      fontSize: 16.0,
-      fontWeight: FontWeight.w600,
-  );
+        color: Colors.cyanAccent,
+        fontSize: 16.0,
+        fontWeight: FontWeight.w600,
+      );
+
+  static get tabSelectedLabelColor => Colors.cyanAccent;
+
+  static get tabUnselectedLabelColor => Colors.grey[400];
 }
 
 class LightTheme {
@@ -610,7 +618,7 @@ class LightTheme {
 
   static get shimmerHighLightColor => Colors.grey[400];
 
-  static get chipBackgroundColor => Colors.grey[100];
+  static get chipBackgroundColor => Colors.grey[200];
 
   static get menuButtonTextStyle => TextStyle(
         fontSize: 24.0,
@@ -687,8 +695,11 @@ class LightTheme {
         fontWeight: FontWeight.w500,
       );
 
-  static get formFieldHintStyle =>
-      TextStyle(fontWeight: FontWeight.w100, fontSize: 14.0, color: Colors.black87);
+  static get formFieldHintStyle => TextStyle(
+        fontWeight: FontWeight.w100,
+        fontSize: 14.0,
+        color: Colors.black87,
+      );
 
   static get counterStyle => TextStyle(
         fontWeight: FontWeight.w400,
@@ -742,9 +753,11 @@ class LightTheme {
 
   static get primaryCTABackgroundColor => Colors.blue[600];
 
+  static get primaryCTATextColor => Colors.white;
+
   static get primaryCTATextStyle => TextStyle(
         fontSize: 18.0,
-        color: Colors.white,
+        color: primaryCTATextColor,
         fontWeight: FontWeight.w600,
       );
 
@@ -846,8 +859,12 @@ class LightTheme {
   static get secondaryPositiveCardButtonBackgroundColor => Colors.blue[50];
 
   static get secondaryPositiveTextStyle => TextStyle(
-      color: Colors.blue[700],
-      fontSize: 16.0,
-      fontWeight: FontWeight.w600,
-  );
+        color: Colors.blue[700],
+        fontSize: 16.0,
+        fontWeight: FontWeight.w600,
+      );
+
+  static get tabSelectedLabelColor => Colors.blue[700];
+
+  static get tabUnselectedLabelColor => Colors.blueGrey[600];
 }
