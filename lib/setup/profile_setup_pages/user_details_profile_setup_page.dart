@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 
 class UserDetails extends StatefulWidget {
@@ -18,7 +19,7 @@ class UserDetails extends StatefulWidget {
   _UserDetailsState createState() => _UserDetailsState();
 }
 
-class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClientMixin{
+class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClientMixin {
   GlobalKey _userFormKey = GlobalKey<FormState>();
   FocusNode _emailFocus = FocusNode();
   FocusNode _bioFocus = FocusNode();
@@ -26,7 +27,6 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
   FocusNode _userNameFocus = FocusNode();
   FocusNode _fNameFocus = FocusNode();
   FocusNode _lNameFocus = FocusNode();
-  FocusNode _submitPartOneFocus = FocusNode();
 
   ScrollController _userDetailsScrollController = ScrollController();
   TextEditingController _userNameController;
@@ -97,7 +97,6 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
   void dispose() {
     super.dispose();
     _userDetailsScrollController.dispose();
-    _submitPartOneFocus.dispose();
     _bioFocus.dispose();
     _emailFocus.dispose();
     _mobileNumberFocus.dispose();
@@ -120,7 +119,9 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
           children: <Widget>[
             Text(
               "User Details",
-              style: Constant.sectionSubHeadingStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.headingStyle
+                  : LightTheme.headingStyle,
             ),
             SizedBox(
               height: 32.0,
@@ -137,16 +138,28 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
               initialValue: widget.userSnap.data['fname'] ?? null,
               validator: (value) => Constant.nameValidator(value),
               keyboardType: TextInputType.text,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.formFieldTextStyle
+                  : LightTheme.formFieldTextStyle,
               decoration: InputDecoration(
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.counterStyle
+                    : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "John",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldHintStyle
+                    : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldBorder
+                    : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldFocusedBorder
+                    : LightTheme.formFieldFocusedBorder,
                 labelText: "First Name",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldLabelStyle
+                    : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _fNameFocus,
             ),
@@ -165,16 +178,28 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
               initialValue: widget.userSnap.data['lname'] ?? null,
               validator: (value) => Constant.nameValidator(value),
               keyboardType: TextInputType.text,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.formFieldTextStyle
+                  : LightTheme.formFieldTextStyle,
               decoration: InputDecoration(
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.counterStyle
+                    : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "Doe",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldHintStyle
+                    : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldBorder
+                    : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldFocusedBorder
+                    : LightTheme.formFieldFocusedBorder,
                 labelText: "Last Name",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldLabelStyle
+                    : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _lNameFocus,
             ),
@@ -193,17 +218,29 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
               },
               initialValue: widget.userSnap.data['mobile_number'] ?? null,
               maxLength: 10,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.formFieldTextStyle
+                  : LightTheme.formFieldTextStyle,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.counterStyle
+                    : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "94578xxxx5",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldHintStyle
+                    : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldBorder
+                    : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldFocusedBorder
+                    : LightTheme.formFieldFocusedBorder,
                 labelText: "Mobile Number",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldLabelStyle
+                    : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _mobileNumberFocus,
             ),
@@ -225,16 +262,28 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
                     duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
               },
               autovalidate: true,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.formFieldTextStyle
+                  : LightTheme.formFieldTextStyle,
               decoration: InputDecoration(
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.counterStyle
+                    : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "johnDoe12",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldHintStyle
+                    : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldBorder
+                    : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldFocusedBorder
+                    : LightTheme.formFieldFocusedBorder,
                 labelText: "Username",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldLabelStyle
+                    : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _userNameFocus,
             ),
@@ -244,7 +293,7 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
             TextFormField(
               maxLength: 100,
               onEditingComplete: () {
-                FocusScope.of(context).requestFocus(_submitPartOneFocus);
+                FocusScope.of(context).unfocus();
                 _userDetailsScrollController.animateTo(500.0,
                     duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
               },
@@ -254,18 +303,30 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
               initialValue: widget.userSnap.data['bio'] ?? null,
               minLines: 3,
               maxLines: 7,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.formFieldTextStyle
+                  : LightTheme.formFieldTextStyle,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 alignLabelWithHint: true,
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.counterStyle
+                    : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "Brief description about yourself...",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldHintStyle
+                    : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldBorder
+                    : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldFocusedBorder
+                    : LightTheme.formFieldFocusedBorder,
                 labelText: "Bio",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldLabelStyle
+                    : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _bioFocus,
             ),
@@ -276,19 +337,14 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
               alignment: Alignment.center,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
-                child: RaisedButton(
-                  focusNode: _submitPartOneFocus,
-                  onPressed: () async {
+                child: PrimaryBlueCTA(
+                  callback: () async {
                     await _submitUserDetailForm();
                   },
-                  padding: Constant.raisedButtonPaddingHigh,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                    side: BorderSide(color: Colors.green[800], width: 2.0),
-                  ),
-                  color: Colors.green[50],
                   child: _isLoading
-                      ? Constant.greenCircularProgressIndicator
+                      ? Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.circularProgressIndicator
+                          : LightTheme.circularProgressIndicator
                       : Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,

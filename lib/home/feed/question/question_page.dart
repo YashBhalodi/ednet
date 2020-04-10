@@ -19,7 +19,6 @@ class QuestionPage extends StatelessWidget {
       child: Scaffold(
         body: Scrollbar(
           child: ListView(
-            shrinkWrap: true,
             children: <Widget>[
                 StreamBuilder(
                     stream: Firestore.instance.collection('Questions').document(question.id).snapshots(),
@@ -60,7 +59,9 @@ class QuestionPage extends StatelessWidget {
                           child: Text(
                             "Be the first person to answer.",
                             textAlign: TextAlign.center,
-                            style: Constant.secondaryBlueTextStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.secondaryHeadingTextStyle
+                                   : LightTheme.secondaryHeadingTextStyle,
                           ),
                         ),
                       );
@@ -98,7 +99,9 @@ class QuestionPage extends StatelessWidget {
                         ),
                         Text(
                           "Write Answer",
-                          style: Constant.primaryCTATextStyle,
+                          style: Theme.of(context).brightness == Brightness.dark
+                                 ? DarkTheme.primaryCTATextStyle
+                                 : LightTheme.primaryCTATextStyle,
                         ),
                       ],
                     ),

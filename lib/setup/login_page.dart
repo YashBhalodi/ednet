@@ -117,7 +117,9 @@ class LoginPageState extends State<LoginPage>
                         SecondaryCTA(
                           child: Text(
                             "Sign up instruction",
-                            style: Constant.secondaryCTATextStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.secondaryCTATextStyle
+                                   : LightTheme.secondaryCTATextStyle,
                           ),
                           callback: () {
                             Navigator.of(context).pop();
@@ -260,50 +262,56 @@ class LoginPageState extends State<LoginPage>
             await _createRelevantDocument();
           }
         }
-//        Navigator.of(context).pop();
         await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
         print("After login:-" + FirebaseAuth.instance.currentUser().toString());
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setBool("welcome", true);
       } catch (e) {
-        PlatformException err = e;
-        if (err.code == "ERROR_INVALID_ACTION_CODE") {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(16.0),
-                  ),
-                ),
-                content: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                        "The link you used might have been expired.\n\nPlease check your inbox again and use the latest link."),
-                    SizedBox(
-                      height: 32.0,
+        await Future.delayed(const Duration(milliseconds: 500), (){});
+        FirebaseUser user = await FirebaseAuth.instance.currentUser();
+        if(user==null){
+          PlatformException err = e;
+          if (err.code == "ERROR_INVALID_ACTION_CODE") {
+            Navigator.of(context).pop();
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(16.0),
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: SecondaryCTA(
-                        callback: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                          "OK",
-                          style: Constant.secondaryCTATextStyle,
+                  ),
+                  content: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                          "The link you used might have been expired.\n\nPlease check your inbox again and use the latest link."),
+                      SizedBox(
+                        height: 32.0,
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: SecondaryCTA(
+                          callback: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            "OK",
+                            style: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.secondaryCTATextStyle
+                                   : LightTheme.secondaryCTATextStyle,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
+                    ],
+                  ),
+                );
+              },
+            );
+          }
         }
         print("signInWithEmailLink function:- " + e.toString());
       }
@@ -341,17 +349,29 @@ class LoginPageState extends State<LoginPage>
       autofocus: false,
       validator: (value) => Constant.emailValidator(value),
       onSaved: (value) => _email = value,
-      style: Constant.formFieldTextStyle,
+      style: Theme.of(context).brightness == Brightness.dark
+             ? DarkTheme.formFieldTextStyle
+             : LightTheme.formFieldTextStyle,
       decoration: InputDecoration(
         alignLabelWithHint: true,
-        counterStyle: Constant.counterStyle,
+        counterStyle: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.counterStyle
+                      : LightTheme.counterStyle,
         contentPadding: Constant.formFieldContentPadding,
         hintText: "john.doe@abc.com",
-        hintStyle: Constant.formFieldHintStyle,
-        border: Constant.formFieldBorder,
-        focusedBorder: Constant.formFieldFocusedBorder,
+        hintStyle: Theme.of(context).brightness == Brightness.dark
+                   ? DarkTheme.formFieldHintStyle
+                   : LightTheme.formFieldHintStyle,
+        border: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.formFieldBorder
+                : LightTheme.formFieldBorder,
+        focusedBorder: Theme.of(context).brightness == Brightness.dark
+                       ? DarkTheme.formFieldFocusedBorder
+                       : LightTheme.formFieldFocusedBorder,
         labelText: "Email",
-        labelStyle: Constant.formFieldLabelStyle,
+        labelStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldLabelStyle
+                    : LightTheme.formFieldLabelStyle,
       ),
     );
 
@@ -373,15 +393,14 @@ class LoginPageState extends State<LoginPage>
               child: SizedBox(
                 height: 24.0,
                 width: 24.0,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(Colors.white),
-                  backgroundColor: Colors.blue[200],
-                ),
+                child: CircularProgressIndicator(),
               ),
             )
           : Text(
               "Request Login Email",
-              style: Constant.primaryCTATextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                     ? DarkTheme.primaryCTATextStyle
+                     : LightTheme.primaryCTATextStyle,
             ),
     );
 

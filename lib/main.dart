@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:ednet/home/home_page.dart';
 import 'package:ednet/setup/onboarding_page.dart';
 import 'package:ednet/setup/profile_setup_pages/admin_profile_page.dart';
@@ -34,17 +35,24 @@ class MyApp extends StatelessWidget {
           FocusScope.of(context).unfocus();
         }
       },
-      child: MaterialApp(
-        theme: ThemeData(
+      child: DynamicTheme(
+        defaultBrightness: Brightness.dark,
+        data: (brightness) => ThemeData(
           fontFamily: 'Inter',
           buttonTheme: ButtonThemeData(
             minWidth: 40.0,
           ),
+          brightness: brightness,
         ),
-        home: EntryPoint(
-          pref: pref,
-        ),
-        debugShowCheckedModeBanner: false,
+        themedWidgetBuilder: (context, theme) {
+          return MaterialApp(
+            theme: theme,
+            home: EntryPoint(
+              pref: pref,
+            ),
+            debugShowCheckedModeBanner: false,
+          );
+        },
       ),
     );
   }
@@ -60,7 +68,6 @@ class EntryPoint extends StatefulWidget {
 }
 
 class _EntryPointState extends State<EntryPoint> {
-
   @override
   void didChangeDependencies() {
     print("didChangeDependencies");
@@ -94,7 +101,6 @@ class _EntryPointState extends State<EntryPoint> {
           }
         } else {
           //User logged in
-          //TODO after successful login following wait without any feedback on front will hurt user experience.
           print("line 233:- user logged in");
           DocumentSnapshot universitySnap;
           DocumentSnapshot userDocSnapshot;

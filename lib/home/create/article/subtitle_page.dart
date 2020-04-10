@@ -42,14 +42,18 @@ class _SubtitlePageState extends State<SubtitlePage> with AutomaticKeepAliveClie
         children: <Widget>[
           Text(
             "Subtitle",
-            style: Constant.sectionSubHeadingStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.headingStyle
+                : LightTheme.headingStyle,
           ),
           SizedBox(
             height: 8.0,
           ),
           Text(
             "Provide brief overview of what you are covering in the article.",
-            style: Constant.sectionSubHeadingDescriptionStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.headingDescriptionStyle
+                : LightTheme.headingDescriptionStyle,
           ),
           SizedBox(
             height: 64.0,
@@ -65,7 +69,9 @@ class _SubtitlePageState extends State<SubtitlePage> with AutomaticKeepAliveClie
               });
             },
             controller: _subtitleController,
-            style: Constant.formFieldTextStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.formFieldTextStyle
+                : LightTheme.formFieldTextStyle,
             minLines: 12,
             maxLines: 12,
             validator: (value) => Constant.articleSubtitleValidator(value),
@@ -73,7 +79,11 @@ class _SubtitlePageState extends State<SubtitlePage> with AutomaticKeepAliveClie
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               filled: true,
-              fillColor: Colors.grey[200],
+              fillColor: Theme
+                             .of(context)
+                             .brightness == Brightness.dark
+                         ? DarkTheme.textFieldFillColor
+                         : LightTheme.textFieldFillColor,
               border: null,
               focusedBorder: null,
               contentPadding: Constant.formFieldContentPadding,

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 
 class UniversityDetails extends StatefulWidget {
@@ -15,13 +16,12 @@ class UniversityDetails extends StatefulWidget {
   _UniversityDetailsState createState() => _UniversityDetailsState();
 }
 
-class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKeepAliveClientMixin{
+class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKeepAliveClientMixin {
   GlobalKey _universityKey = GlobalKey<FormState>();
   FocusNode _universityNameFocus = FocusNode();
   FocusNode _universityCountryFocus = FocusNode();
   FocusNode _universityStateFocus = FocusNode();
   FocusNode _universityCityFocus = FocusNode();
-  FocusNode _submitPartTwoFocus = FocusNode();
   ScrollController _universityScrollController = ScrollController();
 
   bool _isLoading = false;
@@ -92,14 +92,18 @@ class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKee
           children: <Widget>[
             Text(
               widget.universitySnap.data['name'],
-              style: Constant.sectionSubHeadingStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.headingStyle
+                  : LightTheme.headingStyle,
             ),
             SizedBox(
               height: 16.0,
             ),
             Text(
               "University Details",
-              style: Constant.sectionSubHeadingDescriptionStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.headingDescriptionStyle
+                  : LightTheme.headingDescriptionStyle,
             ),
             SizedBox(
               height: 32.0,
@@ -116,16 +120,28 @@ class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKee
               initialValue: widget.universitySnap.data['country'] ?? null,
               validator: (value) => Constant.countryValidator(value),
               keyboardType: TextInputType.text,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.formFieldTextStyle
+                  : LightTheme.formFieldTextStyle,
               decoration: InputDecoration(
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.counterStyle
+                    : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "India",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldHintStyle
+                    : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldBorder
+                    : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldFocusedBorder
+                    : LightTheme.formFieldFocusedBorder,
                 labelText: "Country",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldLabelStyle
+                    : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _universityCountryFocus,
             ),
@@ -144,16 +160,28 @@ class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKee
               initialValue: widget.universitySnap.data['state'] ?? null,
               validator: (value) => Constant.stateValidator(value),
               keyboardType: TextInputType.text,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.formFieldTextStyle
+                  : LightTheme.formFieldTextStyle,
               decoration: InputDecoration(
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.counterStyle
+                    : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "Gujarat",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldHintStyle
+                    : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldBorder
+                    : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldFocusedBorder
+                    : LightTheme.formFieldFocusedBorder,
                 labelText: "Region/State",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldLabelStyle
+                    : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _universityStateFocus,
             ),
@@ -165,23 +193,35 @@ class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKee
                 _inputUniversityCity = value.trim();
               },
               onEditingComplete: () {
-                FocusScope.of(context).requestFocus(_submitPartTwoFocus);
+                FocusScope.of(context).unfocus();
                 _universityScrollController.animateTo(300.0,
                     duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
               },
               initialValue: widget.universitySnap.data['city'] ?? null,
               validator: (value) => Constant.cityValidator(value),
               keyboardType: TextInputType.text,
-              style: Constant.formFieldTextStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.formFieldTextStyle
+                  : LightTheme.formFieldTextStyle,
               decoration: InputDecoration(
-                counterStyle: Constant.counterStyle,
+                counterStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.counterStyle
+                    : LightTheme.counterStyle,
                 contentPadding: Constant.formFieldContentPadding,
                 hintText: "Gandhinagar",
-                hintStyle: Constant.formFieldHintStyle,
-                border: Constant.formFieldBorder,
-                focusedBorder: Constant.formFieldFocusedBorder,
+                hintStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldHintStyle
+                    : LightTheme.formFieldHintStyle,
+                border: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldBorder
+                    : LightTheme.formFieldBorder,
+                focusedBorder: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldFocusedBorder
+                    : LightTheme.formFieldFocusedBorder,
                 labelText: "City",
-                labelStyle: Constant.formFieldLabelStyle,
+                labelStyle: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.formFieldLabelStyle
+                    : LightTheme.formFieldLabelStyle,
               ),
               focusNode: _universityCityFocus,
             ),
@@ -192,19 +232,11 @@ class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKee
               alignment: Alignment.center,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
-                child: RaisedButton(
-                  focusNode: _submitPartTwoFocus,
-                  onPressed: () async {
-                    await _submitUniversityDetailForm();
-                  },
-                  padding: Constant.raisedButtonPaddingHigh,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                    side: BorderSide(color: Colors.green[800], width: 2.0),
-                  ),
-                  color: Colors.green[50],
+                child: PrimaryBlueCTA(
                   child: _isLoading
-                      ? Constant.greenCircularProgressIndicator
+                      ? Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.circularProgressIndicator
+                          : LightTheme.circularProgressIndicator
                       : Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -227,6 +259,9 @@ class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKee
                             )
                           ],
                         ),
+                  callback: () async {
+                    await _submitUniversityDetailForm();
+                  },
                 ),
               ),
             ),

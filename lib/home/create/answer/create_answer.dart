@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/question/question_tile_header.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quill_delta/quill_delta.dart';
@@ -175,13 +176,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
                               question: q,
                             );
                           } else {
-                            return Center(
-                              child: SizedBox(
-                                height: 32.0,
-                                width: 32.0,
-                                child: Constant.greenCircularProgressIndicator,
-                              ),
-                            );
+                            return ShimmerQuestionTile();
                           }
                         },
                       )
@@ -195,21 +190,27 @@ class _CreateAnswerState extends State<CreateAnswer> {
                   children: <Widget>[
                     Text(
                       "Your Answer...",
-                      style: Constant.sectionSubHeadingStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.headingStyle
+                          : LightTheme.headingStyle,
                     ),
                     SizedBox(
                       height: 8.0,
                     ),
                     Text(
                       "Write to your heart's content.\nClear and Concise answer encourages more upvotes.\nUse formatting to structure your answer.",
-                      style: Constant.formFieldHintStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldHintStyle
+                          : LightTheme.formFieldHintStyle,
                     ),
                     SizedBox(
                       height: 8.0,
                     ),
                     Text(
                       "Once answer is published it can't be edited or removed.\nSave your answer as draft and publish it once you are confident.",
-                      style: Constant.formFieldHintStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.formFieldHintStyle
+                          : LightTheme.formFieldHintStyle,
                     ),
                     SizedBox(
                       height: 20.0,
@@ -221,7 +222,9 @@ class _CreateAnswerState extends State<CreateAnswer> {
                       focusNode: _contentFocus,
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: Colors.grey[200],
+                        fillColor: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.textFieldFillColor
+                                   : LightTheme.textFieldFillColor,
                         border: null,
                         focusedBorder: null,
                         contentPadding: Constant.zefyrFieldContentPadding,
@@ -249,7 +252,9 @@ class _CreateAnswerState extends State<CreateAnswer> {
                                 )
                               : Text(
                                   "Save Draft",
-                                  style: Constant.secondaryCTATextStyle,
+                                  style: Theme.of(context).brightness == Brightness.dark
+                                      ? DarkTheme.secondaryCTATextStyle
+                                      : LightTheme.secondaryCTATextStyle,
                                 ),
                           onPressed: () async {
                             if (_draftLoading == false) {
@@ -281,15 +286,14 @@ class _CreateAnswerState extends State<CreateAnswer> {
                                   child: SizedBox(
                                     height: 24.0,
                                     width: 24.0,
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation(Colors.white),
-                                      backgroundColor: Colors.blue[50],
-                                    ),
+                                    child: CircularProgressIndicator(),
                                   ),
                                 )
                               : Text(
                                   "Post Answer",
-                                  style: Constant.primaryCTATextStyle,
+                                  style: Theme.of(context).brightness == Brightness.dark
+                                      ? DarkTheme.primaryCTATextStyle
+                                      : LightTheme.primaryCTATextStyle,
                                 ),
                           padding: Constant.raisedButtonPaddingHigh,
                           shape: RoundedRectangleBorder(

@@ -40,8 +40,8 @@ class _OnboardingState extends State<Onboarding> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async{
-        if(triedExit >= 1){
+      onWillPop: () async {
+        if (triedExit >= 1) {
           SystemChannels.platform.invokeMethod('SystemNavigator.pop');
           return true;
         } else {
@@ -85,52 +85,30 @@ class _OnboardingState extends State<Onboarding> {
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
                     Expanded(
-                      child: RaisedButton(
-                        onPressed: stepOfOnboarding == 1
+                      child: StepButton(
+                        callback: stepOfOnboarding == 1
                             ? null
                             : () {
                                 _pageController.previousPage(
                                     duration: Constant.pageAnimationDuration,
                                     curve: Curves.easeInOut);
                               },
-                        padding: Constant.raisedButtonPaddingLow,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          side: BorderSide(color: Colors.grey[300], width: 2.0),
-                        ),
-                        color: Colors.white,
-                        child: Icon(
-                          Icons.navigate_before,
-                          size: 32.0,
-                          color: Colors.grey[800],
-                        ),
-                        disabledColor: Colors.grey[300],
+                        direction: 'prev',
                       ),
                     ),
                     SizedBox(
                       width: 8.0,
                     ),
                     Expanded(
-                      child: RaisedButton(
-                        onPressed: stepOfOnboarding == 5
+                      child: StepButton(
+                        callback: stepOfOnboarding == 5
                             ? null
                             : () {
                                 _pageController.nextPage(
                                     duration: Constant.pageAnimationDuration,
                                     curve: Curves.easeInOut);
                               },
-                        padding: Constant.raisedButtonPaddingLow,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          side: BorderSide(color: Colors.grey[300], width: 2.0),
-                        ),
-                        color: Colors.white,
-                        disabledColor: Colors.grey[300],
-                        child: Icon(
-                          Icons.navigate_next,
-                          size: 32.0,
-                          color: Colors.grey[800],
-                        ),
+                        direction: 'next',
                       ),
                     ),
                   ],
@@ -161,14 +139,18 @@ class Page5 extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     "Login using your email",
-                    style: Constant.sectionSubHeadingStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.headingStyle
+                        : LightTheme.headingStyle,
                   ),
                   SizedBox(
                     height: 8.0,
                   ),
                   Text(
                     "Securely login without any hassle of remembering password.",
-                    style: Constant.sectionSubHeadingDescriptionStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.headingDescriptionStyle
+                        : LightTheme.headingDescriptionStyle,
                   ),
                   SizedBox(
                     height: 24.0,
@@ -197,20 +179,27 @@ class Page5 extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     "Sign Up for Ednet",
-                    style: Constant.sectionSubHeadingStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.headingStyle
+                        : LightTheme.headingStyle,
                   ),
                   SizedBox(
                     height: 8.0,
                   ),
                   Text(
                     "To build authentic network of students, only verified Email address as users.",
-                    style: Constant.sectionSubHeadingDescriptionStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.headingDescriptionStyle
+                        : LightTheme.headingDescriptionStyle,
                   ),
                   SizedBox(
                     height: 24.0,
                   ),
                   SecondaryCTA(
-                    child: Text("Sign up instruction", style: Constant.secondaryCTATextStyle),
+                    child: Text("Sign up instruction",
+                        style: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.secondaryCTATextStyle
+                            : LightTheme.secondaryCTATextStyle),
                     callback: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(

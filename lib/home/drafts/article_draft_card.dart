@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ednet/home/create/answer/create_answer.dart';
+import 'package:ednet/home/create/article/create_article.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:zefyr/zefyr.dart';
 
-class AnswerDraftCard extends StatelessWidget {
-  final Answer answer;
+class ArticleDraftCard extends StatelessWidget {
+  final Article article;
 
-  const AnswerDraftCard({Key key, this.answer}) : super(key: key);
+  const ArticleDraftCard({Key key, this.article}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +27,8 @@ class AnswerDraftCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Padding(
             padding: Constant.cardPadding,
@@ -37,8 +37,44 @@ class AnswerDraftCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: List.generate(article.topics.length, (i) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Chip(
+                          label: Text(
+                            article.topics[i],
+                          ),
+                          backgroundColor: Colors.grey[100],
+                        ),
+                      );
+                    }),
+                  ),
+                ),
                 SizedBox(
-                  height: 12.0,
+                  height: 8.0,
+                ),
+                Text(
+                  article.title ?? " ",
+                  style: Theme.of(context).brightness == Brightness.dark
+                         ? DarkTheme.articleTitleStyle
+                         : LightTheme.articleTitleStyle,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                Text(
+                  article.subtitle ?? " ",
+                  style: Theme.of(context).brightness == Brightness.dark
+                         ? DarkTheme.articleSubtitleStyle
+                         : LightTheme.articleSubtitleStyle,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(
+                  height: 24.0,
                 ),
                 Container(
                   constraints: BoxConstraints.loose(Size(double.maxFinite, 100.0)),
@@ -47,7 +83,7 @@ class AnswerDraftCard extends StatelessWidget {
                     physics: NeverScrollableScrollPhysics(),
                     child: ZefyrView(
                       document: NotusDocument.fromJson(
-                        jsonDecode(answer.contentJson),
+                        jsonDecode(article.contentJson),
                       ),
                     ),
                   ),
@@ -63,24 +99,26 @@ class AnswerDraftCard extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Expanded(
                   child: SecondaryNegativeCardButton(
                     child: Text(
                       "Delete",
-                      style: Constant.secondaryNegativeTextStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                             ? DarkTheme.secondaryNegativeTextStyle
+                             : LightTheme.secondaryNegativeTextStyle,
                     ),
                     callback: () {
                       showDialog(
                         context: context,
                         builder: (context) {
                           return DeleteConfirmationAlert(
-                            title: "Delete answer draft?",
+                            title: "Delete article draft?",
                             msg: "You will lose this content permenantly.",
                             deleteCallback: () async {
-                              await answer.delete();
                               Navigator.of(context).pop();
+                              await article.delete();
                             },
                             cancelCallback: () {
                               Navigator.of(context).pop();
@@ -92,13 +130,13 @@ class AnswerDraftCard extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: SecondaryBlueCardButton(
+                  child: SecondaryPositiveCardButton(
                     callback: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) {
-                            return CreateAnswer(
-                              answer: answer,
+                            return CreateArticle(
+                              article: article,
                             );
                           },
                         ),
@@ -106,7 +144,9 @@ class AnswerDraftCard extends StatelessWidget {
                     },
                     child: Text(
                       "Finish",
-                      style: Constant.secondaryBlueTextStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                             ? DarkTheme.secondaryPositiveTextStyle
+                             : LightTheme.secondaryPositiveTextStyle,
                     ),
                   ),
                 ),

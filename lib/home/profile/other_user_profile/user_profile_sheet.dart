@@ -44,7 +44,9 @@ class _UserProfileState extends State<UserProfile> {
                         children: <Widget>[
                           Text(
                             user.userName,
-                            style: Constant.sectionSubHeadingStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.headingStyle
+                                   : LightTheme.headingStyle,
                           ),
                           user.isProf
                               ? Icon(
@@ -60,7 +62,11 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                       Text(
                         user.fname + " " + user.lname,
-                        style: Constant.sectionSubHeadingDescriptionStyle,
+                        style: Theme
+                                   .of(context)
+                                   .brightness == Brightness.dark
+                               ? DarkTheme.headingDescriptionStyle
+                               : LightTheme.headingDescriptionStyle,
                       ),
                       SizedBox(
                         height: 8.0,
@@ -128,9 +134,13 @@ class _UserProfileState extends State<UserProfile> {
                                           child: Chip(
                                             label: Text(
                                               university.topics[i],
-                                              style: Constant.topicStyle,
+                                              style: Theme.of(context).brightness == Brightness.dark
+                                                     ? DarkTheme.topicStyle
+                                                     : LightTheme.topicStyle,
                                             ),
-                                            backgroundColor: Colors.grey[300],
+                                            backgroundColor: Theme.of(context).brightness == Brightness.dark
+                                                             ? DarkTheme.chipBackgroundColor
+                                                             : LightTheme.chipBackgroundColor,
                                           ),
                                         );
                                       }),
@@ -149,9 +159,13 @@ class _UserProfileState extends State<UserProfile> {
                                     child: Chip(
                                       label: Text(
                                         user.topics[i],
-                                        style: Constant.topicStyle,
+                                        style: Theme.of(context).brightness == Brightness.dark
+                                               ? DarkTheme.topicStyle
+                                               : LightTheme.topicStyle,
                                       ),
-                                      backgroundColor: Colors.grey[300],
+                                      backgroundColor: Theme.of(context).brightness == Brightness.dark
+                                                       ? DarkTheme.chipBackgroundColor
+                                                       : LightTheme.chipBackgroundColor,
                                     ),
                                   );
                                 }),
@@ -176,7 +190,9 @@ class _UserProfileState extends State<UserProfile> {
                           padding: Constant.raisedButtonPaddingMedium,
                           child: Text(
                             isExpanded ? "Hide Content" : "Explore Content",
-                            style: Constant.secondaryBlueTextStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.secondaryHeadingTextStyle
+                                   : LightTheme.secondaryHeadingTextStyle,
                           ),
                         ),
                       ),

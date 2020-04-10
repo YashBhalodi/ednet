@@ -42,14 +42,20 @@ class _TitlePageState extends State<TitlePage> with AutomaticKeepAliveClientMixi
         children: <Widget>[
           Text(
             "Title",
-            style: Constant.sectionSubHeadingStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                   ? DarkTheme.headingStyle
+                   : LightTheme.headingStyle,
           ),
           SizedBox(
             height: 8.0,
           ),
           Text(
             "Catchy title of your article.\n\nUsually, the name of relevant domain, concepts, theorms etc.",
-            style: Constant.sectionSubHeadingDescriptionStyle,
+            style: Theme
+                       .of(context)
+                       .brightness == Brightness.dark
+                   ? DarkTheme.headingDescriptionStyle
+                   : LightTheme.headingDescriptionStyle,
           ),
           SizedBox(
             height: 64.0,
@@ -65,7 +71,9 @@ class _TitlePageState extends State<TitlePage> with AutomaticKeepAliveClientMixi
               });
             },
             controller: _titleController,
-            style: Constant.formFieldTextStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                   ? DarkTheme.formFieldTextStyle
+                   : LightTheme.formFieldTextStyle,
             minLines: 12,
             maxLines: 12,
             validator: (value) => Constant.articleTitleValidator(value),
@@ -73,7 +81,11 @@ class _TitlePageState extends State<TitlePage> with AutomaticKeepAliveClientMixi
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               filled: true,
-              fillColor: Colors.grey[200],
+              fillColor: Theme
+                             .of(context)
+                             .brightness == Brightness.dark
+                         ? DarkTheme.textFieldFillColor
+                         : LightTheme.textFieldFillColor,
               border: null,
               focusedBorder: null,
               contentPadding: Constant.formFieldContentPadding,

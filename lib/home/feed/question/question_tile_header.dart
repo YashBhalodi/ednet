@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:zefyr/zefyr.dart';
 
 class QuestionTile extends StatelessWidget {
@@ -18,18 +18,16 @@ class QuestionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey[500],
-            offset: Offset(0.0, 3.0),
-            blurRadius: 16.0,
-          ),
-        ],
+        boxShadow: Theme.of(context).brightness == Brightness.dark
+            ? DarkTheme.questionTileShadow
+            : LightTheme.questionTileShadow,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(16.0),
           bottomRight: Radius.circular(16.0),
         ),
-        color: Colors.blue[50],
+        color: Theme.of(context).brightness == Brightness.dark
+            ? DarkTheme.questionTileHeaderBackgroundColor
+            : LightTheme.questionTileHeaderBackgroundColor,
       ),
       margin: EdgeInsets.only(bottom: 12.0),
       child: Column(
@@ -50,9 +48,13 @@ class QuestionTile extends StatelessWidget {
                         child: Chip(
                           label: Text(
                             question.topics[i],
-                            style: Constant.topicStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.topicStyle
+                                   : LightTheme.topicStyle,
                           ),
-                          backgroundColor: Colors.grey[100],
+                          backgroundColor: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.chipBackgroundColor
+                              : LightTheme.chipBackgroundColor,
                         ),
                       );
                     }),
@@ -63,7 +65,9 @@ class QuestionTile extends StatelessWidget {
                 ),
                 Text(
                   question.heading,
-                  style: Constant.questionHeadingStyle,
+                  style: Theme.of(context).brightness == Brightness.dark
+                         ? DarkTheme.questionHeadingStyle
+                         : LightTheme.questionHeadingStyle,
                 ),
                 SizedBox(
                   height: 8.0,
@@ -83,7 +87,9 @@ class QuestionTile extends StatelessWidget {
                           padding: EdgeInsets.only(bottom: 8.0),
                           child: Text(
                             "${question.profUpvoteCount} professor upvoted",
-                            style: Constant.professorUpvoteTextStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                ? DarkTheme.professorUpvoteTextStyle
+                                : LightTheme.professorUpvoteTextStyle,
                           ),
                         ),
                       )
@@ -102,16 +108,7 @@ class QuestionTile extends StatelessWidget {
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
-                            return Shimmer.fromColors(
-                              child: Container(
-                                width: 100.0,
-                                height: 18.0,
-                                color: Colors.white,
-                              ),
-                              baseColor: Colors.grey[300],
-                              highlightColor: Colors.grey[100],
-                              period: Duration(milliseconds: 300),
-                            );
+                            return Container();
                           } else {
                             if (snapshot.data.data != null) {
                               DocumentSnapshot userDoc = snapshot.data;
@@ -126,7 +123,9 @@ class QuestionTile extends StatelessWidget {
                                   children: <Widget>[
                                     Text(
                                       "Asked by",
-                                      style: Constant.dateTimeStyle,
+                                      style: Theme.of(context).brightness == Brightness.dark
+                                             ? DarkTheme.dateTimeStyle
+                                             : LightTheme.dateTimeStyle,
                                     ),
                                     SizedBox(
                                       height: 8.0,
@@ -148,7 +147,9 @@ class QuestionTile extends StatelessWidget {
                                             : Container(),
                                         Text(
                                           userDoc.data['username'],
-                                          style: Constant.usernameStyle,
+                                          style: Theme.of(context).brightness == Brightness.dark
+                                                 ? DarkTheme.usernameStyle
+                                                 : LightTheme.usernameStyle,
                                         ),
                                       ],
                                     ),
@@ -171,14 +172,18 @@ class QuestionTile extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             "On",
-                            style: Constant.dateTimeStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.dateTimeStyle
+                                   : LightTheme.dateTimeStyle,
                           ),
                           SizedBox(
                             height: 8.0,
                           ),
                           Text(
                             Constant.formatDateTime(question.createdOn),
-                            style: Constant.dateTimeStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.dateTimeStyle
+                                   : LightTheme.dateTimeStyle,
                             textAlign: TextAlign.end,
                           ),
                         ],

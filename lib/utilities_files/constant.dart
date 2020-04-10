@@ -31,24 +31,6 @@ class Constant {
         vertical: 16.0,
       );
 
-  static get formFieldTextStyle => TextStyle(
-        fontSize: 18.0,
-        color: Colors.teal[900],
-        fontWeight: FontWeight.w500,
-      );
-
-  static get formFieldHintStyle => TextStyle(
-        fontWeight: FontWeight.w100,
-        fontSize: 14.0,
-        color: Colors.black87,
-      );
-
-  static get counterStyle => TextStyle(
-        fontWeight: FontWeight.w400,
-        color: Colors.black54,
-        fontSize: 8.0,
-      );
-
   static get formFieldContentPadding => EdgeInsets.symmetric(
         horizontal: 12.0,
         vertical: 20.0,
@@ -57,55 +39,6 @@ class Constant {
   static get zefyrFieldContentPadding => EdgeInsets.symmetric(
         horizontal: 6.0,
         vertical: 20.0,
-      );
-
-  static get formFieldBorder => OutlineInputBorder(
-        borderSide: BorderSide(
-          color: Colors.teal[300],
-        ),
-      );
-
-  static get formFieldFocusedBorder => OutlineInputBorder(
-        borderSide: BorderSide(
-          color: Colors.cyan[500],
-          width: 2.0,
-        ),
-      );
-
-  static get formFieldLabelStyle => TextStyle(
-        color: Colors.blue[900],
-        fontSize: 16.0,
-        fontWeight: FontWeight.w500,
-      );
-
-  static get sectionHeadingStyle => TextStyle(
-        fontFamily: 'VarelaRound',
-        fontWeight: FontWeight.w500,
-        fontSize: 36.0,
-        color: Colors.blueGrey[800],
-      );
-
-  static get sectionSubHeadingStyle => TextStyle(
-        fontFamily: 'VarelaRound',
-        fontWeight: FontWeight.w500,
-        fontSize: 28.0,
-        color: Colors.deepPurple[800],
-      );
-
-  static get sectionSubHeadingDescriptionStyle => TextStyle(
-        fontFamily: 'VarelaRound',
-        fontWeight: FontWeight.w400,
-        fontSize: 16.0,
-        color: Colors.deepPurple[800],
-      );
-
-  static get greenCircularProgressIndicator => SizedBox(
-        height: 28.0,
-        width: 28.0,
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation(Colors.green[800]),
-          backgroundColor: Colors.green[50],
-        ),
       );
 
   static get raisedButtonPaddingHigh => EdgeInsets.symmetric(
@@ -131,139 +64,6 @@ class Constant {
         milliseconds: 500,
       );
 
-  static get bottomNavigationTitleStyle => TextStyle(
-        fontSize: 16.0,
-        fontWeight: FontWeight.w500,
-        color: Colors.blue[800],
-      );
-
-  static get appDrawerMenuStyle => TextStyle();
-
-  static get menuButtonTextStyle => TextStyle(
-      fontSize: 24.0,
-      color: Colors.blue[800],
-      fontWeight: FontWeight.w600,
-      fontFamily: 'ValeraRound');
-
-  static get primaryCTATextStyle => TextStyle(
-        fontSize: 18.0,
-        color: Colors.white,
-        fontWeight: FontWeight.w600,
-      );
-
-  static get secondaryCTATextStyle => TextStyle(
-        fontSize: 18.0,
-        color: Colors.grey[800],
-        fontWeight: FontWeight.w500,
-      );
-
-  static get negativeCTATextStyle => TextStyle(
-        fontSize: 24.0,
-        color: Colors.red[600],
-        fontWeight: FontWeight.w600,
-      );
-
-  static get secondaryNegativeTextStyle => TextStyle(
-        color: Colors.red[500],
-        fontSize: 16.0,
-        fontWeight: FontWeight.w600,
-      );
-
-  static get secondaryBlueTextStyle => TextStyle(
-        color: Colors.blue[500],
-        fontSize: 16.0,
-        fontWeight: FontWeight.w600,
-      );
-
-  static get dropDownMenuTitleStyle => TextStyle(
-        color: Colors.grey[700],
-        fontSize: 18.0,
-        fontWeight: FontWeight.w500,
-      );
-
-  static get outlineBlueButtonTextStyle => TextStyle(
-        color: Colors.blue[600],
-        fontSize: 18.0,
-        fontWeight: FontWeight.w500,
-      );
-
-  static get appBarTextStyle => TextStyle(
-        fontFamily: 'ValeraRound',
-        fontWeight: FontWeight.w700,
-      );
-
-  static get questionHeadingStyle => TextStyle(
-        fontSize: 20.0,
-        fontWeight: FontWeight.w600,
-        color: Colors.black87,
-      );
-
-  static get questionDescriptionStyle => TextStyle(
-        fontSize: 16.0,
-        fontWeight: FontWeight.w400,
-        color: Colors.black87,
-      );
-
-  static get dateTimeStyle => TextStyle(
-        fontSize: 12.0,
-        fontWeight: FontWeight.w300,
-        color: Colors.black54,
-      );
-
-  static get dateTimeMediumStyle => TextStyle(
-        fontSize: 18.0,
-        fontWeight: FontWeight.w300,
-        color: Colors.black54,
-      );
-
-  static get usernameStyle => TextStyle(
-        fontSize: 14.0,
-        fontWeight: FontWeight.w500,
-      );
-
-  static get usernameMediumStyle => TextStyle(
-        fontSize: 20.0,
-        fontWeight: FontWeight.w600,
-      );
-
-  static get topicStyle => TextStyle(
-        fontWeight: FontWeight.w400,
-        fontSize: 12.0,
-      );
-
-  static get articleTitleStyle => TextStyle(
-        fontSize: 22.0,
-        fontWeight: FontWeight.w600,
-        color: Colors.black,
-      );
-
-  static get articleSubtitleStyle => TextStyle(
-        fontSize: 20.0,
-        fontWeight: FontWeight.w400,
-        color: Colors.grey[800],
-      );
-
-  static get articleContentStyle => TextStyle(
-        fontSize: 16.0,
-        fontWeight: FontWeight.w400,
-        color: Colors.black,
-      );
-
-  static get answerThumbContentStyle => TextStyle(
-        fontSize: 16.0,
-        fontWeight: FontWeight.w300,
-        color: Colors.black,
-      );
-
-  static get answerContentStyle => TextStyle(
-        fontSize: 18.0,
-        fontWeight: FontWeight.w400,
-        color: Colors.black,
-      );
-
-  static get professorUpvoteTextStyle =>
-      TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.deepOrange);
-
   static String emailValidator(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -275,25 +75,6 @@ class Constant {
     } else {
       return null;
     }
-  }
-
-  static Future<String> getCurrentUserDocId() async {
-    final currentUser = await FirebaseAuth.instance.currentUser();
-    final userDoc = await Firestore.instance
-        .collection('Users')
-        .where('email', isEqualTo: currentUser.email)
-        .getDocuments();
-    return userDoc.documents[0].documentID;
-  }
-
-  static Future<User> getCurrentUserObject() async {
-    final currentUser = await FirebaseAuth.instance.currentUser();
-    final userDoc = await Firestore.instance
-        .collection('Users')
-        .where('email', isEqualTo: currentUser.email)
-        .getDocuments();
-    User user = User.fromSnapshot(userDoc.documents[0]);
-    return user;
   }
 
   static Future<String> userNameAvailableValidator(String value) async {
@@ -451,7 +232,6 @@ class Constant {
 
   static Widget myLinearProgressIndicator(double progress) {
     return LinearProgressIndicator(
-      backgroundColor: Colors.green[50],
       valueColor: AlwaysStoppedAnimation(Colors.green[700]),
       value: progress ?? null,
     );
@@ -495,22 +275,6 @@ class Constant {
     }
   }
 
-  static Future<String> getCurrentUsername() async {
-    try {
-      FirebaseUser curUser = await FirebaseAuth.instance.currentUser();
-      QuerySnapshot curUserQuery = await Firestore.instance
-          .collection('Users')
-          .where('email', isEqualTo: curUser.email)
-          .getDocuments();
-      String username = curUserQuery.documents[0].data['username'];
-      return username;
-    } catch (e) {
-      print("Constant.getCurrentUsername:");
-      print(e);
-      return null;
-    }
-  }
-
   static Future<DocumentReference> getCurrentUserDoc() async {
     FirebaseUser curUser = await FirebaseAuth.instance.currentUser();
     String email = curUser.email;
@@ -533,6 +297,25 @@ class Constant {
       print(e);
       return false;
     }
+  }
+
+  static Future<String> getCurrentUserDocId() async {
+    final currentUser = await FirebaseAuth.instance.currentUser();
+    final userDoc = await Firestore.instance
+        .collection('Users')
+        .where('email', isEqualTo: currentUser.email)
+        .getDocuments();
+    return userDoc.documents[0].documentID;
+  }
+
+  static Future<User> getCurrentUserObject() async {
+    final currentUser = await FirebaseAuth.instance.currentUser();
+    final userDoc = await Firestore.instance
+        .collection('Users')
+        .where('email', isEqualTo: currentUser.email)
+        .getDocuments();
+    User user = User.fromSnapshot(userDoc.documents[0]);
+    return user;
   }
 
   static void userProfileView(context, {@required String userId}) async {
@@ -573,4 +356,498 @@ extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${this.substring(1)}";
   }
+}
+
+class DarkTheme {
+  static get shimmerBaseColor => Colors.grey[800];
+
+  static get shimmerHighLightColor => Colors.grey[700];
+
+  static get chipBackgroundColor => Colors.grey[700];
+
+  static get menuButtonTextStyle => TextStyle(
+        fontSize: 24.0,
+        color: Colors.grey[300],
+        fontWeight: FontWeight.w600,
+        fontFamily: 'ValeraRound',
+      );
+
+  static get menuButtonIconColor => Colors.grey[50];
+
+  static get menuButtonBackgroundColor => Colors.blueGrey[800];
+
+  static get fabBackgroundColor => Colors.cyanAccent;
+
+  static get questionTileHeaderBackgroundColor => Colors.grey[800];
+
+  static get ratingBoxBackgroundColor => Colors.blueGrey[700];
+
+  static get upvoteCountTextStyle => TextStyle(
+        fontWeight: FontWeight.w500,
+        color: upvoteCountColor,
+        fontSize: 14.0,
+      );
+
+  static get upvoteCountColor => Colors.cyanAccent;
+
+  static get downvoteCountTextStyle => TextStyle(
+        fontWeight: FontWeight.w500,
+        color: downvoteCountColor,
+        fontSize: 14.0,
+      );
+
+  static get downvoteCountColor => Colors.red[100];
+
+  static get upvoteButtonBackgroundColor => Colors.blueGrey[700];
+
+  static get upvoteButtonCountColor => Colors.cyanAccent;
+
+  static get upvoteButtonTextStyle => TextStyle(
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+        color: upvoteButtonCountColor,
+      );
+
+  static get downvoteButtonBackgroundColor => Colors.blueGrey[700];
+
+  static get downvoteButtonCountColor => Colors.red[100];
+
+  static get downvoteButtonTextStyle => TextStyle(
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+        color: downvoteButtonCountColor,
+      );
+
+  static get headingStyle => TextStyle(
+        fontFamily: 'VarelaRound',
+        fontWeight: FontWeight.w500,
+        fontSize: 28.0,
+        color: Color(0xfff1f9f9),
+      );
+
+  static get headingDescriptionStyle => TextStyle(
+        fontFamily: 'VarelaRound',
+        fontWeight: FontWeight.w400,
+        fontSize: 16.0,
+        color: Color(0xfff1f9f9),
+      );
+
+  static get textFieldFillColor => Colors.grey[800];
+
+  static get formFieldTextStyle => TextStyle(
+        fontSize: 18.0,
+        color: Color(0xffd7fffd),
+        fontWeight: FontWeight.w500,
+      );
+
+  static get formFieldHintStyle =>
+      TextStyle(fontWeight: FontWeight.w100, fontSize: 14.0, color: Colors.grey[400]);
+
+  static get counterStyle => TextStyle(
+        fontWeight: FontWeight.w400,
+        color: Colors.grey[200],
+        fontSize: 8.0,
+      );
+
+  static get formFieldBorder => OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Color(0xff363062),
+        ),
+      );
+
+  static get formFieldFocusedBorder => OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Color(0xff827397),
+          width: 2.0,
+        ),
+      );
+
+  static get formFieldLabelStyle => TextStyle(
+        color: Color(0xffbbe1fa),
+        fontSize: 16.0,
+        fontWeight: FontWeight.w500,
+      );
+
+  static get appDrawerMenuStyle => TextStyle();
+
+  static get professorUpvoteTextStyle => TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.w400,
+        color: Colors.cyanAccent,
+      );
+
+  static get questionTileShadow => [
+        BoxShadow(
+          color: Colors.grey[900],
+          offset: Offset(0.0, 3.0),
+          blurRadius: 16.0,
+        ),
+      ];
+
+  static get circularProgressIndicator => SizedBox(
+        height: 28.0,
+        width: 28.0,
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(Colors.cyanAccent),
+          backgroundColor: Color(0xff35495e),
+        ),
+      );
+
+  static get primaryCTABackgroundColor => Color(0xff35495e);
+
+  static get primaryCTATextStyle => TextStyle(
+        fontSize: 18.0,
+        color: Colors.cyanAccent,
+        fontWeight: FontWeight.w600,
+      );
+
+  static get secondaryCTATextStyle => TextStyle(
+        fontSize: 18.0,
+        color: Colors.grey[50],
+        fontWeight: FontWeight.w500,
+      );
+
+  static get secondaryNegativeTextStyle => TextStyle(
+        color: Colors.red[50],
+        fontSize: 16.0,
+        fontWeight: FontWeight.w600,
+      );
+
+  static get secondaryHeadingTextStyle => TextStyle(
+        color: Color(0xffd7fffd),
+        fontSize: 16.0,
+        fontWeight: FontWeight.w600,
+      );
+
+  static get dropDownMenuTitleStyle => TextStyle(
+        color: Color(0xffd7fffd),
+        fontSize: 18.0,
+        fontWeight: FontWeight.w500,
+      );
+
+  static get outlineButtonTextColor => Color(0xffd7fffd);
+
+  static get outlineButtonTextStyle => TextStyle(
+        color: outlineButtonTextColor,
+        fontSize: 18.0,
+        fontWeight: FontWeight.w500,
+      );
+
+  static get outlineButtonBackgroundColor => Colors.blueGrey[800];
+
+  static get appBarTextStyle => TextStyle(
+        fontFamily: 'ValeraRound',
+        fontWeight: FontWeight.w700,
+      );
+
+  static get questionHeadingStyle => TextStyle(
+        fontSize: 20.0,
+        fontWeight: FontWeight.w600,
+      );
+
+  static get questionDescriptionStyle => TextStyle(
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+      );
+
+  static get dateTimeStyle => TextStyle(
+        fontSize: 12.0,
+        fontWeight: FontWeight.w300,
+      );
+
+  static get dateTimeMediumStyle => TextStyle(
+        fontSize: 18.0,
+        fontWeight: FontWeight.w300,
+      );
+
+  static get usernameStyle => TextStyle(
+        fontSize: 14.0,
+        fontWeight: FontWeight.w500,
+      );
+
+  static get topicStyle => TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 12.0,
+      );
+
+  static get articleTitleStyle => TextStyle(
+        fontSize: 22.0,
+        fontWeight: FontWeight.w600,
+      );
+
+  static get articleSubtitleStyle => TextStyle(
+        fontSize: 20.0,
+        fontWeight: FontWeight.w300,
+      );
+
+  static get secondaryCTADisabledColor => Colors.grey[800];
+
+  static get secondaryCTABackgroundColor => Colors.grey[700];
+
+  static get secondaryCTABorderColor => Colors.grey[600];
+
+  static get stepButtonIconColor => Colors.grey[100];
+
+  static get stepButtonBackgroundColor => Colors.grey[700];
+
+  static get stepButtonBorderColor => Colors.grey[600];
+
+  static get stepButtonDisabledColor => Colors.grey[800];
+
+  static get secondaryNegativeCardButtonBackgroundColor => Colors.blueGrey[600];
+
+  static get secondaryPositiveCardButtonBackgroundColor => Colors.blueGrey[600];
+
+  static get secondaryPositiveTextStyle => TextStyle(
+      color: Colors.cyanAccent,
+      fontSize: 16.0,
+      fontWeight: FontWeight.w600,
+  );
+}
+
+class LightTheme {
+  static get shimmerBaseColor => Colors.grey[100];
+
+  static get shimmerHighLightColor => Colors.grey[400];
+
+  static get chipBackgroundColor => Colors.grey[100];
+
+  static get menuButtonTextStyle => TextStyle(
+        fontSize: 24.0,
+        color: Colors.blue[800],
+        fontWeight: FontWeight.w600,
+        fontFamily: 'ValeraRound',
+      );
+
+  static get menuButtonIconColor => Colors.blue[700];
+
+  static get menuButtonBackgroundColor => Colors.grey[100];
+
+  static get fabBackgroundColor => Colors.blue[700];
+
+  static get questionTileHeaderBackgroundColor => Colors.blue[50];
+
+  static get ratingBoxBackgroundColor => Colors.grey[50];
+
+  static get upvoteCountTextStyle => TextStyle(
+        fontWeight: FontWeight.w500,
+        color: upvoteCountColor,
+        fontSize: 14.0,
+      );
+
+  static get upvoteCountColor => Colors.green[500];
+
+  static get downvoteCountTextStyle => TextStyle(
+        fontWeight: FontWeight.w500,
+        color: downvoteCountColor,
+        fontSize: 14.0,
+      );
+
+  static get downvoteCountColor => Colors.red[600];
+
+  static get upvoteButtonBackgroundColor => Colors.green[50];
+
+  static get upvoteButtonCountColor => Colors.green[800];
+
+  static get upvoteButtonTextStyle => TextStyle(
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+        color: upvoteButtonCountColor,
+      );
+
+  static get downvoteButtonBackgroundColor => Colors.red[50];
+
+  static get downvoteButtonCountColor => Colors.redAccent;
+
+  static get downvoteButtonTextStyle => TextStyle(
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+        color: downvoteButtonCountColor,
+      );
+
+  static get headingStyle => TextStyle(
+        fontFamily: 'VarelaRound',
+        fontWeight: FontWeight.w500,
+        fontSize: 28.0,
+        color: Color(0xff053f5e),
+      );
+
+  static get headingDescriptionStyle => TextStyle(
+        fontFamily: 'VarelaRound',
+        fontWeight: FontWeight.w400,
+        fontSize: 16.0,
+        color: Color(0xff053f5e),
+      );
+
+  static get textFieldFillColor => Colors.grey[200];
+
+  static get formFieldTextStyle => TextStyle(
+        fontSize: 18.0,
+        color: Colors.teal[900],
+        fontWeight: FontWeight.w500,
+      );
+
+  static get formFieldHintStyle =>
+      TextStyle(fontWeight: FontWeight.w100, fontSize: 14.0, color: Colors.black87);
+
+  static get counterStyle => TextStyle(
+        fontWeight: FontWeight.w400,
+        color: Colors.black54,
+        fontSize: 8.0,
+      );
+
+  static get formFieldBorder => OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Color(0xffb2ebf2),
+        ),
+      );
+
+  static get formFieldFocusedBorder => OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Color(0xff00bcd4),
+          width: 2.0,
+        ),
+      );
+
+  static get formFieldLabelStyle => TextStyle(
+        color: Color(0xff053f5e),
+        fontSize: 16.0,
+        fontWeight: FontWeight.w500,
+      );
+
+  static get appDrawerMenuStyle => TextStyle();
+
+  static get professorUpvoteTextStyle => TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.w400,
+        color: Colors.orange[700],
+      );
+
+  static get questionTileShadow => [
+        BoxShadow(
+          color: Colors.grey[500],
+          offset: Offset(0.0, 3.0),
+          blurRadius: 16.0,
+        ),
+      ];
+
+  static get circularProgressIndicator => SizedBox(
+        height: 28.0,
+        width: 28.0,
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(Colors.white),
+          backgroundColor: Colors.blue[600],
+        ),
+      );
+
+  static get primaryCTABackgroundColor => Colors.blue[600];
+
+  static get primaryCTATextStyle => TextStyle(
+        fontSize: 18.0,
+        color: Colors.white,
+        fontWeight: FontWeight.w600,
+      );
+
+  static get secondaryCTATextStyle => TextStyle(
+        fontSize: 18.0,
+        color: Colors.grey[800],
+        fontWeight: FontWeight.w500,
+      );
+
+  static get secondaryNegativeTextStyle => TextStyle(
+        color: Colors.red[500],
+        fontSize: 16.0,
+        fontWeight: FontWeight.w600,
+      );
+
+  static get secondaryHeadingTextStyle => TextStyle(
+        color: Colors.blue[600],
+        fontSize: 16.0,
+        fontWeight: FontWeight.w600,
+      );
+
+  static get dropDownMenuTitleStyle => TextStyle(
+        color: Colors.grey[700],
+        fontSize: 18.0,
+        fontWeight: FontWeight.w500,
+      );
+
+  static get outlineButtonTextColor => Colors.blue[600];
+
+  static get outlineButtonTextStyle => TextStyle(
+        color: outlineButtonTextColor,
+        fontSize: 18.0,
+        fontWeight: FontWeight.w500,
+      );
+
+  static get outlineButtonBackgroundColor => Colors.grey[100];
+
+  static get appBarTextStyle => TextStyle(
+        fontFamily: 'ValeraRound',
+        fontWeight: FontWeight.w700,
+      );
+
+  static get questionHeadingStyle => TextStyle(
+        fontSize: 20.0,
+        fontWeight: FontWeight.w600,
+      );
+
+  static get questionDescriptionStyle => TextStyle(
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+      );
+
+  static get dateTimeStyle => TextStyle(
+        fontSize: 12.0,
+        fontWeight: FontWeight.w300,
+      );
+
+  static get dateTimeMediumStyle => TextStyle(
+        fontSize: 18.0,
+        fontWeight: FontWeight.w300,
+      );
+
+  static get usernameStyle => TextStyle(
+        fontSize: 14.0,
+        fontWeight: FontWeight.w500,
+      );
+
+  static get topicStyle => TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 12.0,
+      );
+
+  static get articleTitleStyle => TextStyle(
+        fontSize: 22.0,
+        fontWeight: FontWeight.w600,
+      );
+
+  static get articleSubtitleStyle => TextStyle(
+        fontSize: 20.0,
+        fontWeight: FontWeight.w300,
+      );
+
+  static get secondaryCTADisabledColor => Colors.grey[300];
+
+  static get secondaryCTABackgroundColor => Colors.white;
+
+  static get secondaryCTABorderColor => Colors.grey[300];
+
+  static get stepButtonIconColor => Colors.grey[800];
+
+  static get stepButtonBackgroundColor => Colors.white;
+
+  static get stepButtonBorderColor => Colors.grey[300];
+
+  static get stepButtonDisabledColor => Colors.grey[300];
+
+  static get secondaryNegativeCardButtonBackgroundColor => Colors.red[50];
+
+  static get secondaryPositiveCardButtonBackgroundColor => Colors.blue[50];
+
+  static get secondaryPositiveTextStyle => TextStyle(
+      color: Colors.blue[700],
+      fontSize: 16.0,
+      fontWeight: FontWeight.w600,
+  );
 }

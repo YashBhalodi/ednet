@@ -111,7 +111,7 @@ class _CreateArticleState extends State<CreateArticle> {
     String contentResponse = Constant.articleContentValidator(_article.content);
     if (contentResponse == null) {
       final FormState form = _articleFormKey.currentState;
-      if(_selectedTopics.length==0){
+      if (_selectedTopics.length == 0) {
         Constant.showToastInstruction("Atleast one topic should be selected.");
         return false;
       }
@@ -153,7 +153,9 @@ class _CreateArticleState extends State<CreateArticle> {
         appBar: AppBar(
           title: Text(
             "Write an article...",
-            style: Constant.appBarTextStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.appBarTextStyle
+                : LightTheme.appBarTextStyle,
           ),
         ),
         body: Column(
@@ -220,26 +222,15 @@ class _CreateArticleState extends State<CreateArticle> {
                       flex: 1,
                       child: SizedBox(
                         height: double.maxFinite,
-                        child: RaisedButton(
-                          onPressed: _progressValue == 1 / 5
-                              ? null
-                              : () {
-                                  _pageController.previousPage(
-                                      duration: Constant.pageAnimationDuration,
-                                      curve: Curves.easeInOut);
-                                },
-                          padding: Constant.raisedButtonPaddingLow,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                            side: BorderSide(color: Colors.grey[300], width: 2.0),
-                          ),
-                          color: Colors.white,
-                          child: Icon(
-                            Icons.navigate_before,
-                            size: 24.0,
-                            color: Colors.grey[800],
-                          ),
-                          disabledColor: Colors.grey[300],
+                        child: StepButton(
+                          callback: _progressValue == 1 / 5
+                                    ? null
+                                    : () {
+                            _pageController.previousPage(
+                                duration: Constant.pageAnimationDuration,
+                                curve: Curves.easeInOut);
+                          },
+                          direction: 'prev',
                         ),
                       ),
                     ),
@@ -263,7 +254,9 @@ class _CreateArticleState extends State<CreateArticle> {
                                   )
                                 : Text(
                                     "Save Draft",
-                                    style: Constant.secondaryCTATextStyle,
+                                    style: Theme.of(context).brightness == Brightness.dark
+                                        ? DarkTheme.secondaryCTATextStyle
+                                        : LightTheme.secondaryCTATextStyle,
                                   ),
                             callback: () async {
                               if (_draftLoading == false) {
@@ -282,15 +275,14 @@ class _CreateArticleState extends State<CreateArticle> {
                                     child: SizedBox(
                                       height: 24.0,
                                       width: 24.0,
-                                      child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation(Colors.white),
-                                        backgroundColor: Colors.blue[50],
-                                      ),
+                                      child: CircularProgressIndicator(),
                                     ),
                                   )
                                 : Text(
                                     "Publish",
-                                    style: Constant.primaryCTATextStyle,
+                                    style: Theme.of(context).brightness == Brightness.dark
+                                        ? DarkTheme.primaryCTATextStyle
+                                        : LightTheme.primaryCTATextStyle,
                                   ),
                             callback: () async {
                               if (_postLoading == false) {
@@ -312,26 +304,15 @@ class _CreateArticleState extends State<CreateArticle> {
                       flex: 1,
                       child: SizedBox(
                         height: double.maxFinite,
-                        child: RaisedButton(
-                          onPressed: _progressValue == 1
-                              ? null
-                              : () {
-                                  _pageController.nextPage(
-                                      duration: Constant.pageAnimationDuration,
-                                      curve: Curves.easeInOut);
-                                },
-                          padding: Constant.raisedButtonPaddingLow,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                            side: BorderSide(color: Colors.grey[300], width: 2.0),
-                          ),
-                          color: Colors.white,
-                          child: Icon(
-                            Icons.navigate_next,
-                            size: 24.0,
-                            color: Colors.grey[800],
-                          ),
-                          disabledColor: Colors.grey[300],
+                        child: StepButton(
+                          callback: _progressValue == 1
+                                    ? null
+                                    : () {
+                            _pageController.nextPage(
+                                duration: Constant.pageAnimationDuration,
+                                curve: Curves.easeInOut);
+                          },
+                          direction: 'next',
                         ),
                       ),
                     )

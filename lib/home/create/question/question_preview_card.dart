@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:zefyr/zefyr.dart';
 
 class QuestionPreviewCard extends StatelessWidget {
@@ -40,9 +40,13 @@ class QuestionPreviewCard extends StatelessWidget {
                     child: Chip(
                       label: Text(
                         question.topics[i],
-                        style: Constant.topicStyle,
+                        style: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.topicStyle
+                            : LightTheme.topicStyle,
                       ),
-                      backgroundColor: Colors.grey[100],
+                      backgroundColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.chipBackgroundColor
+                          : LightTheme.chipBackgroundColor,
                     ),
                   );
                 }),
@@ -53,7 +57,9 @@ class QuestionPreviewCard extends StatelessWidget {
             ),
             Text(
               question.heading,
-              style: Constant.questionHeadingStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.questionHeadingStyle
+                  : LightTheme.questionHeadingStyle,
               textAlign: TextAlign.justify,
             ),
             SizedBox(
@@ -81,16 +87,7 @@ class QuestionPreviewCard extends StatelessWidget {
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return Shimmer.fromColors(
-                          child: Container(
-                            width: 100.0,
-                            height: 18.0,
-                            color: Colors.white,
-                          ),
-                          baseColor: Colors.grey[300],
-                          highlightColor: Colors.grey[100],
-                          period: Duration(milliseconds: 300),
-                        );
+                        return Container();
                       } else {
                         if (snapshot.data.data != null) {
                           DocumentSnapshot userDoc = snapshot.data;
@@ -107,21 +104,23 @@ class QuestionPreviewCard extends StatelessWidget {
                                   size: 16.0,
                                 ),
                                 question.byProf
-                                ? Icon(
-                                  Icons.star,
-                                  color: Colors.orangeAccent,
-                                  size: 16.0,
-                                )
-                                : Container(),
+                                    ? Icon(
+                                        Icons.star,
+                                        color: Colors.orangeAccent,
+                                        size: 16.0,
+                                      )
+                                    : Container(),
                                 Text(
                                   userDoc.data['username'],
-                                  style: Constant.usernameStyle,
+                                  style: Theme.of(context).brightness == Brightness.dark
+                                      ? DarkTheme.usernameStyle
+                                      : LightTheme.usernameStyle,
                                 ),
                               ],
                             ),
                           );
                         } else {
-                          return Container();   //TODO user account is removed. msg if we want
+                          return Container(); //TODO user account is removed. msg if we want
                         }
                       }
                     },
@@ -131,7 +130,9 @@ class QuestionPreviewCard extends StatelessWidget {
                   flex: 2,
                   child: Text(
                     Constant.formatDateTime(question.createdOn),
-                    style: Constant.dateTimeStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.dateTimeStyle
+                        : LightTheme.dateTimeStyle,
                     textAlign: TextAlign.end,
                   ),
                 )
