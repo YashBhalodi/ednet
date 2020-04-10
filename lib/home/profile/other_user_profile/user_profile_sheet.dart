@@ -134,7 +134,9 @@ class _UserProfileState extends State<UserProfile> {
                                           child: Chip(
                                             label: Text(
                                               university.topics[i],
-                                              style: Constant.topicStyle,
+                                              style: Theme.of(context).brightness == Brightness.dark
+                                                     ? DarkTheme.topicStyle
+                                                     : LightTheme.topicStyle,
                                             ),
                                             backgroundColor: Theme.of(context).brightness == Brightness.dark
                                                              ? DarkTheme.chipBackgroundColor
@@ -157,7 +159,9 @@ class _UserProfileState extends State<UserProfile> {
                                     child: Chip(
                                       label: Text(
                                         user.topics[i],
-                                        style: Constant.topicStyle,
+                                        style: Theme.of(context).brightness == Brightness.dark
+                                               ? DarkTheme.topicStyle
+                                               : LightTheme.topicStyle,
                                       ),
                                       backgroundColor: Theme.of(context).brightness == Brightness.dark
                                                        ? DarkTheme.chipBackgroundColor

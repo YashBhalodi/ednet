@@ -76,7 +76,9 @@ class _ContentPageState extends State<ContentPage> with AutomaticKeepAliveClient
               focusNode: _contentFocus,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.grey[200],
+                fillColor: Theme.of(context).brightness == Brightness.dark
+                           ? DarkTheme.textFieldFillColor
+                           : LightTheme.textFieldFillColor,
                 border: null,
                 focusedBorder: null,
                 contentPadding: Constant.zefyrFieldContentPadding,

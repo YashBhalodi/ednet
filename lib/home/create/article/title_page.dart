@@ -81,7 +81,11 @@ class _TitlePageState extends State<TitlePage> with AutomaticKeepAliveClientMixi
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               filled: true,
-              fillColor: Colors.grey[200],
+              fillColor: Theme
+                             .of(context)
+                             .brightness == Brightness.dark
+                         ? DarkTheme.textFieldFillColor
+                         : LightTheme.textFieldFillColor,
               border: null,
               focusedBorder: null,
               contentPadding: Constant.formFieldContentPadding,

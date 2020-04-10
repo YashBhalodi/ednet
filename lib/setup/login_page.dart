@@ -393,10 +393,7 @@ class LoginPageState extends State<LoginPage>
               child: SizedBox(
                 height: 24.0,
                 width: 24.0,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(Colors.white),
-                  backgroundColor: Colors.blue[200],
-                ),
+                child: CircularProgressIndicator(),
               ),
             )
           : Text(

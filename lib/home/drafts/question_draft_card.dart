@@ -48,7 +48,9 @@ class QuestionDraftCard extends StatelessWidget {
                           child: Chip(
                             label: Text(
                               question.topics[i],
-                              style: Constant.topicStyle,
+                              style: Theme.of(context).brightness == Brightness.dark
+                                  ? DarkTheme.topicStyle
+                                  : LightTheme.topicStyle,
                             ),
                             backgroundColor: Theme.of(context).brightness == Brightness.dark
                                 ? DarkTheme.chipBackgroundColor
@@ -64,7 +66,9 @@ class QuestionDraftCard extends StatelessWidget {
                 ),
                 Text(
                   question.heading ?? "",
-                  style: Constant.questionHeadingStyle,
+                  style: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.questionHeadingStyle
+                      : LightTheme.questionHeadingStyle,
                   textAlign: TextAlign.justify,
                 ),
                 SizedBox(
@@ -110,8 +114,8 @@ class QuestionDraftCard extends StatelessWidget {
                             title: "Delete question draft?",
                             msg: "You will lose this content permenantly.",
                             deleteCallback: () async {
-                              await question.delete();
                               Navigator.of(context).pop();
+                              await question.delete();
                             },
                             cancelCallback: () {
                               Navigator.of(context).pop();
@@ -123,7 +127,7 @@ class QuestionDraftCard extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: SecondaryBlueCardButton(
+                  child: SecondaryPositiveCardButton(
                     callback: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -138,8 +142,8 @@ class QuestionDraftCard extends StatelessWidget {
                     child: Text(
                       "Finish",
                       style: Theme.of(context).brightness == Brightness.dark
-                             ? DarkTheme.secondaryHeadingTextStyle
-                             : LightTheme.secondaryHeadingTextStyle,
+                          ? DarkTheme.secondaryPositiveTextStyle
+                          : LightTheme.secondaryPositiveTextStyle,
                     ),
                   ),
                 ),

@@ -20,7 +20,6 @@ class MyDrafts extends StatelessWidget {
           title: Text("My Drafts"),
         ),
         body: ListView(
-          shrinkWrap: true,
           children: <Widget>[
             ExpansionTile(
               title: Text(
@@ -30,7 +29,6 @@ class MyDrafts extends StatelessWidget {
                     : LightTheme.dropDownMenuTitleStyle,
               ),
               initiallyExpanded: true,
-              backgroundColor: Colors.grey[50],
               children: <Widget>[
                 Scrollbar(
                   child: ListView(
@@ -87,7 +85,6 @@ class MyDrafts extends StatelessWidget {
                        : LightTheme.dropDownMenuTitleStyle,
               ),
               initiallyExpanded: false,
-              backgroundColor: Colors.grey[50],
               children: <Widget>[
                 Scrollbar(
                   child: ListView(
@@ -144,7 +141,6 @@ class MyDrafts extends StatelessWidget {
                        : LightTheme.dropDownMenuTitleStyle,
               ),
               initiallyExpanded: false,
-              backgroundColor: Colors.grey[50],
               children: <Widget>[
                 Scrollbar(
                   child: ListView(

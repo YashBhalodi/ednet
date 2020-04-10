@@ -79,7 +79,11 @@ class _SubtitlePageState extends State<SubtitlePage> with AutomaticKeepAliveClie
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               filled: true,
-              fillColor: Colors.grey[200],
+              fillColor: Theme
+                             .of(context)
+                             .brightness == Brightness.dark
+                         ? DarkTheme.textFieldFillColor
+                         : LightTheme.textFieldFillColor,
               border: null,
               focusedBorder: null,
               contentPadding: Constant.formFieldContentPadding,

@@ -48,7 +48,9 @@ class QuestionTile extends StatelessWidget {
                         child: Chip(
                           label: Text(
                             question.topics[i],
-                            style: Constant.topicStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.topicStyle
+                                   : LightTheme.topicStyle,
                           ),
                           backgroundColor: Theme.of(context).brightness == Brightness.dark
                               ? DarkTheme.chipBackgroundColor
@@ -63,7 +65,9 @@ class QuestionTile extends StatelessWidget {
                 ),
                 Text(
                   question.heading,
-                  style: Constant.questionHeadingStyle,
+                  style: Theme.of(context).brightness == Brightness.dark
+                         ? DarkTheme.questionHeadingStyle
+                         : LightTheme.questionHeadingStyle,
                 ),
                 SizedBox(
                   height: 8.0,
@@ -104,7 +108,7 @@ class QuestionTile extends StatelessWidget {
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
-                            return ShimmerUsername();
+                            return Container();
                           } else {
                             if (snapshot.data.data != null) {
                               DocumentSnapshot userDoc = snapshot.data;
@@ -119,7 +123,9 @@ class QuestionTile extends StatelessWidget {
                                   children: <Widget>[
                                     Text(
                                       "Asked by",
-                                      style: Constant.dateTimeStyle,
+                                      style: Theme.of(context).brightness == Brightness.dark
+                                             ? DarkTheme.dateTimeStyle
+                                             : LightTheme.dateTimeStyle,
                                     ),
                                     SizedBox(
                                       height: 8.0,
@@ -141,7 +147,9 @@ class QuestionTile extends StatelessWidget {
                                             : Container(),
                                         Text(
                                           userDoc.data['username'],
-                                          style: Constant.usernameStyle,
+                                          style: Theme.of(context).brightness == Brightness.dark
+                                                 ? DarkTheme.usernameStyle
+                                                 : LightTheme.usernameStyle,
                                         ),
                                       ],
                                     ),
@@ -164,14 +172,18 @@ class QuestionTile extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             "On",
-                            style: Constant.dateTimeStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.dateTimeStyle
+                                   : LightTheme.dateTimeStyle,
                           ),
                           SizedBox(
                             height: 8.0,
                           ),
                           Text(
                             Constant.formatDateTime(question.createdOn),
-                            style: Constant.dateTimeStyle,
+                            style: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.dateTimeStyle
+                                   : LightTheme.dateTimeStyle,
                             textAlign: TextAlign.end,
                           ),
                         ],

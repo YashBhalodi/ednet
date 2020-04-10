@@ -18,8 +18,7 @@ class _MyCheckBoxTileState extends State<MyCheckBoxTile> {
   @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
-      checkColor: Colors.green[600],
-      activeColor: Colors.green[50],
+      checkColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
       controlAffinity: ListTileControlAffinity.leading,
       value: widget.outputList.contains(widget.title),
       title: Text(
@@ -63,7 +62,7 @@ class PrimaryBlueCTA extends StatelessWidget {
       elevation: 15.0,
       padding: Constant.raisedButtonPaddingHigh,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(16.0),
       ),
       color: Theme.of(context).brightness == Brightness.dark
           ? DarkTheme.primaryCTABackgroundColor
@@ -86,34 +85,19 @@ class SecondaryCTA extends StatelessWidget {
       padding: Constant.raisedButtonPaddingHigh,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
-        side: BorderSide(color: Colors.grey[300], width: 2.0),
-      ),
-      color: Colors.white,
-      disabledColor: Colors.grey[300],
-    );
-  }
-}
-
-class NegativeCTA extends StatelessWidget {
-  final Function callback;
-  final Widget child;
-
-  const NegativeCTA({Key key, this.callback, this.child}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return RaisedButton(
-      onPressed: callback,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(16.0),
-        ),
         side: BorderSide(
-          color: Colors.red[500],
+          color: Theme.of(context).brightness == Brightness.dark
+              ? DarkTheme.secondaryCTABorderColor
+              : LightTheme.secondaryCTABorderColor,
           width: 2.0,
         ),
       ),
-      color: Colors.white,
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.secondaryCTABackgroundColor
+          : LightTheme.secondaryCTABackgroundColor,
+      disabledColor: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.secondaryCTADisabledColor
+          : LightTheme.secondaryCTADisabledColor,
     );
   }
 }
@@ -260,43 +244,44 @@ class SecondaryNegativeCardButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-        onPressed: callback,
-        color: Colors.red[50],
-        padding: EdgeInsets.all(8.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10.0),
-            bottomLeft: Radius.circular(10.0),
-          ),
-          side: BorderSide(
-            color: Colors.red[300],
-            width: 1.0,
-          ),
+      onPressed: callback,
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.secondaryNegativeCardButtonBackgroundColor
+          : LightTheme.secondaryNegativeCardButtonBackgroundColor,
+      padding: EdgeInsets.all(8.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10.0),
+          bottomLeft: Radius.circular(10.0),
         ),
-        child: child);
+        /*side: BorderSide(
+          color: Colors.red[300],
+          width: 1.0,
+        ),*/
+      ),
+      child: child,
+    );
   }
 }
 
-class SecondaryBlueCardButton extends StatelessWidget {
+class SecondaryPositiveCardButton extends StatelessWidget {
   final Function callback;
   final Widget child;
 
-  const SecondaryBlueCardButton({Key key, this.callback, this.child}) : super(key: key);
+  const SecondaryPositiveCardButton({Key key, this.callback, this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
       onPressed: callback,
-      color: Colors.blue[50],
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.secondaryPositiveCardButtonBackgroundColor
+          : LightTheme.secondaryPositiveCardButtonBackgroundColor,
       padding: EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(10.0),
           bottomRight: Radius.circular(10.0),
-        ),
-        side: BorderSide(
-          color: Colors.blue[300],
-          width: 1.0,
         ),
       ),
       child: child,
@@ -451,52 +436,24 @@ class DeleteConfirmationAlert extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Expanded(
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: Colors.red,
-                        width: 1.0,
-                      ),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(16.0),
-                        bottomLeft: Radius.circular(16.0),
-                      ),
-                    ),
-                    color: Colors.white,
+                  child: SecondaryNegativeCardButton(
+                    callback: deleteCallback,
                     child: Text(
                       "Delete",
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.secondaryNegativeTextStyle
+                          : LightTheme.secondaryNegativeTextStyle,
                     ),
-                    padding: Constant.raisedButtonPaddingLow,
-                    onPressed: deleteCallback,
                   ),
                 ),
                 Expanded(
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(16.0),
-                        topRight: Radius.circular(16.0),
-                      ),
-                      side: BorderSide(
-                        color: Colors.blue[700],
-                        width: 1.0,
-                      ),
-                    ),
-                    color: Colors.blue[800],
-                    padding: Constant.raisedButtonPaddingLow,
-                    onPressed: cancelCallback,
+                  child: SecondaryPositiveCardButton(
+                    callback: cancelCallback,
                     child: Text(
                       "Cancle",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.secondaryPositiveTextStyle
+                          : LightTheme.secondaryPositiveTextStyle,
                     ),
                   ),
                 ),
@@ -536,6 +493,54 @@ class BlueOutlineButton extends StatelessWidget {
       disabledColor:
           Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.grey[300],
       elevation: 4.0,
+    );
+  }
+}
+
+class StepButton extends StatelessWidget {
+  final Function callback;
+
+  ///direction=='next' or direction=='prev'
+  final String direction;
+
+  const StepButton({Key key, this.callback, @required this.direction})
+      : assert(direction == 'next' || direction == 'prev'),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: callback,
+      padding: Constant.raisedButtonPaddingLow,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+        side: BorderSide(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.stepButtonBorderColor
+                : LightTheme.stepButtonBorderColor,
+            width: 2.0),
+      ),
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.stepButtonBackgroundColor
+          : LightTheme.stepButtonBackgroundColor,
+      child: direction == 'prev'
+          ? Icon(
+              Icons.navigate_before,
+              size: 24.0,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.stepButtonIconColor
+                  : LightTheme.stepButtonIconColor,
+            )
+          : Icon(
+              Icons.navigate_next,
+              size: 24.0,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.stepButtonIconColor
+                  : LightTheme.stepButtonIconColor,
+            ),
+      disabledColor: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.stepButtonDisabledColor
+          : LightTheme.stepButtonDisabledColor,
     );
   }
 }

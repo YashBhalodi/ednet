@@ -1,10 +1,10 @@
 import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:zefyr/zefyr.dart';
 
 class ArticlePreviewCard extends StatelessWidget {
@@ -39,8 +39,13 @@ class ArticlePreviewCard extends StatelessWidget {
                     child: Chip(
                       label: Text(
                         article.topics[i],
+                        style: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.topicStyle
+                            : LightTheme.topicStyle,
                       ),
-                      backgroundColor: Colors.grey[100],
+                      backgroundColor: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.chipBackgroundColor
+                          : LightTheme.chipBackgroundColor,
                     ),
                   );
                 }),
@@ -51,7 +56,9 @@ class ArticlePreviewCard extends StatelessWidget {
             ),
             Text(
               article.title,
-              style: Constant.articleTitleStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.articleTitleStyle
+                  : LightTheme.articleTitleStyle,
               textAlign: TextAlign.justify,
             ),
             SizedBox(
@@ -59,7 +66,9 @@ class ArticlePreviewCard extends StatelessWidget {
             ),
             Text(
               article.subtitle,
-              style: Constant.articleSubtitleStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.articleSubtitleStyle
+                  : LightTheme.articleSubtitleStyle,
               textAlign: TextAlign.justify,
             ),
             SizedBox(
@@ -81,13 +90,11 @@ class ArticlePreviewCard extends StatelessWidget {
                 Expanded(
                   flex: 4,
                   child: StreamBuilder(
-                    stream: Firestore.instance
-                        .collection('Users')
-                        .document(article.userId)
-                        .snapshots(),
+                    stream:
+                        Firestore.instance.collection('Users').document(article.userId).snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return ShimmerUsername();
+                        return Container();
                       } else {
                         if (snapshot.data.data != null) {
                           DocumentSnapshot userDoc = snapshot.data;
@@ -104,21 +111,23 @@ class ArticlePreviewCard extends StatelessWidget {
                                   size: 16.0,
                                 ),
                                 article.byProf
-                                ? Icon(
-                                  Icons.star,
-                                  color: Colors.orangeAccent,
-                                  size: 16.0,
-                                )
-                                : Container(),
+                                    ? Icon(
+                                        Icons.star,
+                                        color: Colors.orangeAccent,
+                                        size: 16.0,
+                                      )
+                                    : Container(),
                                 Text(
                                   userDoc.data['username'],
-                                  style: Constant.usernameStyle,
+                                  style: Theme.of(context).brightness == Brightness.dark
+                                      ? DarkTheme.usernameStyle
+                                      : LightTheme.usernameStyle,
                                 ),
                               ],
                             ),
                           );
                         } else {
-                          return Container();   //TODO user account is removed. msg if we want
+                          return Container(); //TODO user account is removed. msg if we want
                         }
                       }
                     },
@@ -129,7 +138,9 @@ class ArticlePreviewCard extends StatelessWidget {
                   flex: 2,
                   child: Text(
                     Constant.formatDateTime(article.createdOn),
-                    style: Constant.dateTimeStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.dateTimeStyle
+                        : LightTheme.dateTimeStyle,
                     textAlign: TextAlign.end,
                   ),
                 )

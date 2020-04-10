@@ -86,7 +86,7 @@ class AnswerThumbCard extends StatelessWidget {
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return ShimmerUsername();
+                          return Container();
                         } else {
                           if (snapshot.data.data != null) {
                             DocumentSnapshot userDoc = snapshot.data;
@@ -111,7 +111,9 @@ class AnswerThumbCard extends StatelessWidget {
                                       : Container(),
                                   Text(
                                     userDoc.data['username'],
-                                    style: Constant.usernameStyle,
+                                    style: Theme.of(context).brightness == Brightness.dark
+                                           ? DarkTheme.usernameStyle
+                                           : LightTheme.usernameStyle,
                                   ),
                                 ],
                               ),
@@ -127,7 +129,9 @@ class AnswerThumbCard extends StatelessWidget {
                     flex: 2,
                     child: Text(
                       Constant.formatDateTime(answer.createdOn),
-                      style: Constant.dateTimeStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                             ? DarkTheme.dateTimeStyle
+                             : LightTheme.dateTimeStyle,
                       textAlign: TextAlign.end,
                     ),
                   )

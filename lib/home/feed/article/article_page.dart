@@ -1,12 +1,10 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:zefyr/zefyr.dart';
 
 class ArticlePage extends StatelessWidget {
@@ -20,17 +18,20 @@ class ArticlePage extends StatelessWidget {
       child: Scaffold(
         body: Scrollbar(
           child: ListView(
-            shrinkWrap: true,
             padding: Constant.edgePadding,
             children: <Widget>[
               Text(
                 article.title,
-                style: Constant.articleTitleStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                       ? DarkTheme.articleTitleStyle
+                       : LightTheme.articleTitleStyle,
               ),
               SizedBox(height: 18.0),
               Text(
                 article.subtitle,
-                style: Constant.articleSubtitleStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                       ? DarkTheme.articleSubtitleStyle
+                       : LightTheme.articleSubtitleStyle,
               ),
               SizedBox(
                 height: 24.0,
@@ -56,7 +57,7 @@ class ArticlePage extends StatelessWidget {
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return ShimmerUsername();
+                          return Container();
                         } else {
                           if (snapshot.data.data != null) {
                             DocumentSnapshot userDoc = snapshot.data;
@@ -71,7 +72,9 @@ class ArticlePage extends StatelessWidget {
                                 children: <Widget>[
                                   Text(
                                     "Written by",
-                                    style: Constant.dateTimeStyle,
+                                    style: Theme.of(context).brightness == Brightness.dark
+                                        ? DarkTheme.dateTimeStyle
+                                        : LightTheme.dateTimeStyle,
                                   ),
                                   SizedBox(
                                     height: 8.0,
@@ -85,15 +88,17 @@ class ArticlePage extends StatelessWidget {
                                         size: 16.0,
                                       ),
                                       article.byProf
-                                      ? Icon(
-                                        Icons.star,
-                                        color: Colors.orangeAccent,
-                                        size: 16.0,
-                                      )
-                                      : Container(),
+                                          ? Icon(
+                                              Icons.star,
+                                              color: Colors.orangeAccent,
+                                              size: 16.0,
+                                            )
+                                          : Container(),
                                       Text(
                                         userDoc.data['username'],
-                                        style: Constant.usernameStyle,
+                                        style: Theme.of(context).brightness == Brightness.dark
+                                               ? DarkTheme.usernameStyle
+                                               : LightTheme.usernameStyle,
                                       ),
                                     ],
                                   ),
@@ -115,14 +120,18 @@ class ArticlePage extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           "On",
-                          style: Constant.dateTimeStyle,
+                          style: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.dateTimeStyle
+                              : LightTheme.dateTimeStyle,
                         ),
                         SizedBox(
                           height: 8.0,
                         ),
                         Text(
                           Constant.formatDateTime(article.createdOn),
-                          style: Constant.dateTimeMediumStyle,
+                          style: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.dateTimeMediumStyle
+                              : LightTheme.dateTimeMediumStyle,
                           textAlign: TextAlign.end,
                         ),
                       ],
@@ -158,11 +167,9 @@ class ArticlePage extends StatelessWidget {
               ),
               Text(
                 "So...What do you think?\n\nDoes it deserve an upvote?",
-                style: Theme
-                           .of(context)
-                           .brightness == Brightness.dark
-                       ? DarkTheme.headingDescriptionStyle
-                       : LightTheme.headingDescriptionStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.headingDescriptionStyle
+                    : LightTheme.headingDescriptionStyle,
                 textAlign: TextAlign.center,
               ),
               StreamBuilder(
@@ -178,8 +185,8 @@ class ArticlePage extends StatelessWidget {
                           child: Text(
                             "${a.profUpvoteCount} professor upvoted",
                             style: Theme.of(context).brightness == Brightness.dark
-                                   ? DarkTheme.professorUpvoteTextStyle
-                                   : LightTheme.professorUpvoteTextStyle,
+                                ? DarkTheme.professorUpvoteTextStyle
+                                : LightTheme.professorUpvoteTextStyle,
                           ),
                         ),
                       );
@@ -226,15 +233,7 @@ class ArticlePage extends StatelessWidget {
                       ),
                     );
                   } else {
-                    return Shimmer.fromColors(
-                      child: Container(
-                        height: 56.0,
-                        color: Colors.white,
-                        width: double.maxFinite,
-                      ),
-                      baseColor: Colors.grey[100],
-                      highlightColor: Colors.grey[300],
-                    );
+                    return ShimmerRatingBox();
                   }
                 },
               ),

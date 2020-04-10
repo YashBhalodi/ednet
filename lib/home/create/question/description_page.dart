@@ -8,7 +8,11 @@ class DescriptionPage extends StatefulWidget {
   final PageController parentPageController;
   final ZefyrController zefyrDescriptionController;
 
-  const DescriptionPage({Key key, @required this.question, @required this.parentPageController,@required this.zefyrDescriptionController})
+  const DescriptionPage(
+      {Key key,
+      @required this.question,
+      @required this.parentPageController,
+      @required this.zefyrDescriptionController})
       : super(key: key);
 
   @override
@@ -22,9 +26,10 @@ class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAli
   @override
   void initState() {
     super.initState();
-    _descriptionFocus.addListener((){
-      if(_descriptionFocus.hasFocus){
-        _scrollController.animateTo(150, duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
+    _descriptionFocus.addListener(() {
+      if (_descriptionFocus.hasFocus) {
+        _scrollController.animateTo(150,
+            duration: Constant.scrollAnimationDuration, curve: Curves.easeInOut);
       }
     });
   }
@@ -49,19 +54,17 @@ class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAli
             Text(
               "Description",
               style: Theme.of(context).brightness == Brightness.dark
-                     ? DarkTheme.headingStyle
-                     : LightTheme.headingStyle,
+                  ? DarkTheme.headingStyle
+                  : LightTheme.headingStyle,
             ),
             SizedBox(
               height: 8.0,
             ),
             Text(
               "Explain your question in details\n\nIt's best to be clear, concise and to the point.",
-              style: Theme
-                         .of(context)
-                         .brightness == Brightness.dark
-                     ? DarkTheme.headingDescriptionStyle
-                     : LightTheme.headingDescriptionStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.headingDescriptionStyle
+                  : LightTheme.headingDescriptionStyle,
             ),
             SizedBox(
               height: 64.0,
@@ -73,7 +76,9 @@ class _DescriptionPageState extends State<DescriptionPage> with AutomaticKeepAli
               focusNode: _descriptionFocus,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.grey[200],
+                fillColor: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.textFieldFillColor
+                    : LightTheme.textFieldFillColor,
                 border: null,
                 focusedBorder: null,
                 contentPadding: Constant.zefyrFieldContentPadding,

@@ -69,7 +69,9 @@ class ArticleThumbCard extends StatelessWidget {
               ),
               Text(
                 article.title,
-                style: Constant.articleTitleStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                       ? DarkTheme.articleTitleStyle
+                       : LightTheme.articleTitleStyle,
                 textAlign: TextAlign.justify,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -79,7 +81,9 @@ class ArticleThumbCard extends StatelessWidget {
               ),
               Text(
                 article.subtitle,
-                style: Constant.articleSubtitleStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                       ? DarkTheme.articleSubtitleStyle
+                       : LightTheme.articleSubtitleStyle,
                 textAlign: TextAlign.justify,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -130,7 +134,7 @@ class ArticleThumbCard extends StatelessWidget {
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return ShimmerUsername();
+                          return Container();
                         } else {
                           if (snapshot.data.data != null) {
                             DocumentSnapshot userDoc = snapshot.data;
@@ -155,7 +159,9 @@ class ArticleThumbCard extends StatelessWidget {
                                   : Container(),
                                   Text(
                                     userDoc.data['username'],
-                                    style: Constant.usernameStyle,
+                                    style: Theme.of(context).brightness == Brightness.dark
+                                           ? DarkTheme.usernameStyle
+                                           : LightTheme.usernameStyle,
                                   ),
                                 ],
                               ),
@@ -172,7 +178,9 @@ class ArticleThumbCard extends StatelessWidget {
                     flex: 2,
                     child: Text(
                       Constant.formatDateTime(article.createdOn),
-                      style: Constant.dateTimeStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                             ? DarkTheme.dateTimeStyle
+                             : LightTheme.dateTimeStyle,
                       textAlign: TextAlign.end,
                     ),
                   )

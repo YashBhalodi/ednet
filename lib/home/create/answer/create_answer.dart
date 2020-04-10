@@ -222,7 +222,9 @@ class _CreateAnswerState extends State<CreateAnswer> {
                       focusNode: _contentFocus,
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: Colors.grey[200],
+                        fillColor: Theme.of(context).brightness == Brightness.dark
+                                   ? DarkTheme.textFieldFillColor
+                                   : LightTheme.textFieldFillColor,
                         border: null,
                         focusedBorder: null,
                         contentPadding: Constant.zefyrFieldContentPadding,
@@ -284,10 +286,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
                                   child: SizedBox(
                                     height: 24.0,
                                     width: 24.0,
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation(Colors.white),
-                                      backgroundColor: Colors.blue[50],
-                                    ),
+                                    child: CircularProgressIndicator(),
                                   ),
                                 )
                               : Text(

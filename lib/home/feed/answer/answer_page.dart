@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/question/question_tile_header.dart';
 import 'package:ednet/utilities_files/classes.dart';
@@ -8,7 +7,6 @@ import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:zefyr/zefyr.dart';
 
 class AnswerPage extends StatelessWidget {
@@ -21,11 +19,8 @@ class AnswerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
         body: Scrollbar(
           child: ListView(
-            shrinkWrap: true,
             children: <Widget>[
               question == null
                   ? StreamBuilder(
@@ -73,7 +68,7 @@ class AnswerPage extends StatelessWidget {
                               .snapshots(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
-                              return ShimmerUsername();
+                              return Container();
                             } else {
                               if (snapshot.data.data != null) {
                                 DocumentSnapshot userDoc = snapshot.data;
@@ -88,7 +83,9 @@ class AnswerPage extends StatelessWidget {
                                     children: <Widget>[
                                       Text(
                                         "Answered by",
-                                        style: Constant.dateTimeStyle,
+                                        style: Theme.of(context).brightness == Brightness.dark
+                                            ? DarkTheme.dateTimeStyle
+                                            : LightTheme.dateTimeStyle,
                                       ),
                                       SizedBox(
                                         height: 8.0,
@@ -110,7 +107,9 @@ class AnswerPage extends StatelessWidget {
                                               : Container(),
                                           Text(
                                             userDoc.data['username'],
-                                            style: Constant.usernameStyle,
+                                            style: Theme.of(context).brightness == Brightness.dark
+                                                   ? DarkTheme.usernameStyle
+                                                   : LightTheme.usernameStyle,
                                           ),
                                         ],
                                       ),
@@ -132,14 +131,18 @@ class AnswerPage extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               "On",
-                              style: Constant.dateTimeStyle,
+                              style: Theme.of(context).brightness == Brightness.dark
+                                  ? DarkTheme.dateTimeStyle
+                                  : LightTheme.dateTimeStyle,
                             ),
                             SizedBox(
                               height: 8.0,
                             ),
                             Text(
                               Constant.formatDateTime(answer.createdOn),
-                              style: Constant.dateTimeMediumStyle,
+                              style: Theme.of(context).brightness == Brightness.dark
+                                  ? DarkTheme.dateTimeMediumStyle
+                                  : LightTheme.dateTimeMediumStyle,
                               textAlign: TextAlign.end,
                             ),
                           ],
@@ -243,15 +246,7 @@ class AnswerPage extends StatelessWidget {
                           ),
                         );
                       } else {
-                        return Shimmer.fromColors(
-                          child: Container(
-                            height: 56.0,
-                            color: Colors.white,
-                            width: double.maxFinite,
-                          ),
-                          baseColor: Colors.grey[100],
-                          highlightColor: Colors.grey[300],
-                        );
+                        return ShimmerRatingBox();
                       }
                     },
                   ),

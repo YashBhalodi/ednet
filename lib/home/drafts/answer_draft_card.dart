@@ -79,8 +79,8 @@ class AnswerDraftCard extends StatelessWidget {
                             title: "Delete answer draft?",
                             msg: "You will lose this content permenantly.",
                             deleteCallback: () async {
-                              await answer.delete();
                               Navigator.of(context).pop();
+                              await answer.delete();
                             },
                             cancelCallback: () {
                               Navigator.of(context).pop();
@@ -92,7 +92,7 @@ class AnswerDraftCard extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: SecondaryBlueCardButton(
+                  child: SecondaryPositiveCardButton(
                     callback: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -107,8 +107,8 @@ class AnswerDraftCard extends StatelessWidget {
                     child: Text(
                       "Finish",
                       style: Theme.of(context).brightness == Brightness.dark
-                             ? DarkTheme.secondaryHeadingTextStyle
-                             : LightTheme.secondaryHeadingTextStyle,
+                             ? DarkTheme.secondaryPositiveTextStyle
+                             : LightTheme.secondaryPositiveTextStyle,
                     ),
                   ),
                 ),

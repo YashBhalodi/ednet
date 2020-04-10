@@ -1930,8 +1930,10 @@ class ShimmerMainHome extends StatelessWidget {
           child: Text(
             "EDNET",
             style: TextStyle(
-              fontSize: 36.0,
+              fontSize: 72.0,
               fontWeight: FontWeight.w700,
+              letterSpacing: 2,
+              color: Colors.cyanAccent
             ),
           ),
         ),
@@ -1956,6 +1958,25 @@ class ShimmerUsername extends StatelessWidget {
           ? DarkTheme.shimmerHighLightColor
           : LightTheme.shimmerHighLightColor,
       period: Duration(milliseconds: 300),
+    );
+  }
+}
+
+class ShimmerRatingBox extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      child: Container(
+        height: 56.0,
+        color: Colors.white,
+        width: double.maxFinite,
+      ),
+      baseColor: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.shimmerBaseColor
+          : LightTheme.shimmerBaseColor,
+      highlightColor: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.shimmerHighLightColor
+          : LightTheme.shimmerHighLightColor,
     );
   }
 }

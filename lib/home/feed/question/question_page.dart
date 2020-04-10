@@ -19,7 +19,6 @@ class QuestionPage extends StatelessWidget {
       child: Scaffold(
         body: Scrollbar(
           child: ListView(
-            shrinkWrap: true,
             children: <Widget>[
                 StreamBuilder(
                     stream: Firestore.instance.collection('Questions').document(question.id).snapshots(),

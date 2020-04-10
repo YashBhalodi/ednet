@@ -56,7 +56,9 @@ class QuestionThumbCard extends StatelessWidget {
                       child: Chip(
                         label: Text(
                           question.topics[i],
-                          style: Constant.topicStyle,
+                          style: Theme.of(context).brightness == Brightness.dark
+                                 ? DarkTheme.topicStyle
+                                 : LightTheme.topicStyle,
                         ),
                         backgroundColor: Theme.of(context).brightness == Brightness.dark
                             ? DarkTheme.chipBackgroundColor
@@ -71,7 +73,9 @@ class QuestionThumbCard extends StatelessWidget {
               ),
               Text(
                 question.heading,
-                style: Constant.questionHeadingStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                       ? DarkTheme.questionHeadingStyle
+                       : LightTheme.questionHeadingStyle,
                 textAlign: TextAlign.justify,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
@@ -122,7 +126,7 @@ class QuestionThumbCard extends StatelessWidget {
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return ShimmerUsername();
+                          return Container();
                         } else {
                           if (snapshot.data.data != null) {
                             DocumentSnapshot userDoc = snapshot.data;
@@ -147,7 +151,9 @@ class QuestionThumbCard extends StatelessWidget {
                                       : Container(),
                                   Text(
                                     userDoc.data['username'],
-                                    style: Constant.usernameStyle,
+                                    style: Theme.of(context).brightness == Brightness.dark
+                                           ? DarkTheme.usernameStyle
+                                           : LightTheme.usernameStyle,
                                   ),
                                 ],
                               ),
@@ -163,7 +169,9 @@ class QuestionThumbCard extends StatelessWidget {
                     flex: 2,
                     child: Text(
                       Constant.formatDateTime(question.createdOn),
-                      style: Constant.dateTimeStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                             ? DarkTheme.dateTimeStyle
+                             : LightTheme.dateTimeStyle,
                       textAlign: TextAlign.end,
                     ),
                   )

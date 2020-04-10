@@ -85,52 +85,30 @@ class _OnboardingState extends State<Onboarding> {
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
                     Expanded(
-                      child: RaisedButton(
-                        onPressed: stepOfOnboarding == 1
+                      child: StepButton(
+                        callback: stepOfOnboarding == 1
                             ? null
                             : () {
                                 _pageController.previousPage(
                                     duration: Constant.pageAnimationDuration,
                                     curve: Curves.easeInOut);
                               },
-                        padding: Constant.raisedButtonPaddingLow,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          side: BorderSide(color: Colors.grey[300], width: 2.0),
-                        ),
-                        color: Colors.white,
-                        child: Icon(
-                          Icons.navigate_before,
-                          size: 32.0,
-                          color: Colors.grey[800],
-                        ),
-                        disabledColor: Colors.grey[300],
+                        direction: 'prev',
                       ),
                     ),
                     SizedBox(
                       width: 8.0,
                     ),
                     Expanded(
-                      child: RaisedButton(
-                        onPressed: stepOfOnboarding == 5
+                      child: StepButton(
+                        callback: stepOfOnboarding == 5
                             ? null
                             : () {
                                 _pageController.nextPage(
                                     duration: Constant.pageAnimationDuration,
                                     curve: Curves.easeInOut);
                               },
-                        padding: Constant.raisedButtonPaddingLow,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          side: BorderSide(color: Colors.grey[300], width: 2.0),
-                        ),
-                        color: Colors.white,
-                        disabledColor: Colors.grey[300],
-                        child: Icon(
-                          Icons.navigate_next,
-                          size: 32.0,
-                          color: Colors.grey[800],
-                        ),
+                        direction: 'next',
                       ),
                     ),
                   ],

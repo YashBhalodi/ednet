@@ -58,7 +58,9 @@ class ArticleDraftCard extends StatelessWidget {
                 ),
                 Text(
                   article.title ?? " ",
-                  style: Constant.articleTitleStyle,
+                  style: Theme.of(context).brightness == Brightness.dark
+                         ? DarkTheme.articleTitleStyle
+                         : LightTheme.articleTitleStyle,
                   textAlign: TextAlign.justify,
                 ),
                 SizedBox(
@@ -66,7 +68,9 @@ class ArticleDraftCard extends StatelessWidget {
                 ),
                 Text(
                   article.subtitle ?? " ",
-                  style: Constant.articleSubtitleStyle,
+                  style: Theme.of(context).brightness == Brightness.dark
+                         ? DarkTheme.articleSubtitleStyle
+                         : LightTheme.articleSubtitleStyle,
                   textAlign: TextAlign.justify,
                 ),
                 SizedBox(
@@ -113,8 +117,8 @@ class ArticleDraftCard extends StatelessWidget {
                             title: "Delete article draft?",
                             msg: "You will lose this content permenantly.",
                             deleteCallback: () async {
-                              await article.delete();
                               Navigator.of(context).pop();
+                              await article.delete();
                             },
                             cancelCallback: () {
                               Navigator.of(context).pop();
@@ -126,7 +130,7 @@ class ArticleDraftCard extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: SecondaryBlueCardButton(
+                  child: SecondaryPositiveCardButton(
                     callback: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -141,8 +145,8 @@ class ArticleDraftCard extends StatelessWidget {
                     child: Text(
                       "Finish",
                       style: Theme.of(context).brightness == Brightness.dark
-                             ? DarkTheme.secondaryHeadingTextStyle
-                             : LightTheme.secondaryHeadingTextStyle,
+                             ? DarkTheme.secondaryPositiveTextStyle
+                             : LightTheme.secondaryPositiveTextStyle,
                     ),
                   ),
                 ),

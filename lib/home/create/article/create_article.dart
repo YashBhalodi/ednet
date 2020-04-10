@@ -222,26 +222,15 @@ class _CreateArticleState extends State<CreateArticle> {
                       flex: 1,
                       child: SizedBox(
                         height: double.maxFinite,
-                        child: RaisedButton(
-                          onPressed: _progressValue == 1 / 5
-                              ? null
-                              : () {
-                                  _pageController.previousPage(
-                                      duration: Constant.pageAnimationDuration,
-                                      curve: Curves.easeInOut);
-                                },
-                          padding: Constant.raisedButtonPaddingLow,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                            side: BorderSide(color: Colors.grey[300], width: 2.0),
-                          ),
-                          color: Colors.white,
-                          child: Icon(
-                            Icons.navigate_before,
-                            size: 24.0,
-                            color: Colors.grey[800],
-                          ),
-                          disabledColor: Colors.grey[300],
+                        child: StepButton(
+                          callback: _progressValue == 1 / 5
+                                    ? null
+                                    : () {
+                            _pageController.previousPage(
+                                duration: Constant.pageAnimationDuration,
+                                curve: Curves.easeInOut);
+                          },
+                          direction: 'prev',
                         ),
                       ),
                     ),
@@ -286,10 +275,7 @@ class _CreateArticleState extends State<CreateArticle> {
                                     child: SizedBox(
                                       height: 24.0,
                                       width: 24.0,
-                                      child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation(Colors.white),
-                                        backgroundColor: Colors.blue[50],
-                                      ),
+                                      child: CircularProgressIndicator(),
                                     ),
                                   )
                                 : Text(
@@ -318,26 +304,15 @@ class _CreateArticleState extends State<CreateArticle> {
                       flex: 1,
                       child: SizedBox(
                         height: double.maxFinite,
-                        child: RaisedButton(
-                          onPressed: _progressValue == 1
-                              ? null
-                              : () {
-                                  _pageController.nextPage(
-                                      duration: Constant.pageAnimationDuration,
-                                      curve: Curves.easeInOut);
-                                },
-                          padding: Constant.raisedButtonPaddingLow,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                            side: BorderSide(color: Colors.grey[300], width: 2.0),
-                          ),
-                          color: Colors.white,
-                          child: Icon(
-                            Icons.navigate_next,
-                            size: 24.0,
-                            color: Colors.grey[800],
-                          ),
-                          disabledColor: Colors.grey[300],
+                        child: StepButton(
+                          callback: _progressValue == 1
+                                    ? null
+                                    : () {
+                            _pageController.nextPage(
+                                duration: Constant.pageAnimationDuration,
+                                curve: Curves.easeInOut);
+                          },
+                          direction: 'next',
                         ),
                       ),
                     )
