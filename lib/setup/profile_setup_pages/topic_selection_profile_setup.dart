@@ -23,7 +23,7 @@ class TopicSelection extends StatefulWidget {
   _TopicSelectionState createState() => _TopicSelectionState();
 }
 
-class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAliveClientMixin{
+class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAliveClientMixin {
   GlobalKey _topicFormKey = GlobalKey<FormState>();
   FocusNode _topicFieldFocus = FocusNode();
   FocusNode _topicCreateButtonFocus = FocusNode();
@@ -109,27 +109,27 @@ class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAlive
                   },
                   keyboardType: TextInputType.text,
                   style: Theme.of(context).brightness == Brightness.dark
-                         ? DarkTheme.formFieldTextStyle
-                         : LightTheme.formFieldTextStyle,
+                      ? DarkTheme.formFieldTextStyle
+                      : LightTheme.formFieldTextStyle,
                   decoration: InputDecoration(
                     counterStyle: Theme.of(context).brightness == Brightness.dark
-                                  ? DarkTheme.counterStyle
-                                  : LightTheme.counterStyle,
+                        ? DarkTheme.counterStyle
+                        : LightTheme.counterStyle,
                     contentPadding: Constant.formFieldContentPadding,
                     hintText: "Kinematics",
                     hintStyle: Theme.of(context).brightness == Brightness.dark
-                               ? DarkTheme.formFieldHintStyle
-                               : LightTheme.formFieldHintStyle,
+                        ? DarkTheme.formFieldHintStyle
+                        : LightTheme.formFieldHintStyle,
                     border: Theme.of(context).brightness == Brightness.dark
-                            ? DarkTheme.formFieldBorder
-                            : LightTheme.formFieldBorder,
+                        ? DarkTheme.formFieldBorder
+                        : LightTheme.formFieldBorder,
                     focusedBorder: Theme.of(context).brightness == Brightness.dark
-                                   ? DarkTheme.formFieldFocusedBorder
-                                   : LightTheme.formFieldFocusedBorder,
+                        ? DarkTheme.formFieldFocusedBorder
+                        : LightTheme.formFieldFocusedBorder,
                     labelText: "Topic Name",
                     labelStyle: Theme.of(context).brightness == Brightness.dark
-                                ? DarkTheme.formFieldLabelStyle
-                                : LightTheme.formFieldLabelStyle,
+                        ? DarkTheme.formFieldLabelStyle
+                        : LightTheme.formFieldLabelStyle,
                   ),
                   focusNode: _topicFieldFocus,
                 ),
@@ -137,8 +137,8 @@ class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAlive
               SizedBox(
                 height: 16.0,
               ),
-              RaisedButton(
-                onPressed: () async {
+              PrimaryBlueCTA(
+                callback: () async {
                   var errorResponse = await Constant.topicNameValidator(_topicFieldController.text);
                   setState(() {
                     _topicValidatorResponse = errorResponse;
@@ -153,25 +153,11 @@ class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAlive
                     FocusScope.of(context).requestFocus(_topicFieldFocus);
                   }
                 },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.0),
-                    ),
-                    side: BorderSide(
-                      color: Colors.blue[800],
-                      width: 2.0,
-                    )),
-                elevation: 10.0,
-                color: Colors.blue[50],
-                padding: Constant.raisedButtonPaddingMedium,
-                child: Text(
-                  "Create Topic",
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.blue[800],
-                  ),
-                ),
-              )
+                child: Text("Create Topic",
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.primaryCTATextStyle
+                        : LightTheme.primaryCTATextStyle,),
+              ),
             ],
           ),
         );
@@ -206,8 +192,8 @@ class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAlive
               Text(
                 "Topics",
                 style: Theme.of(context).brightness == Brightness.dark
-                       ? DarkTheme.headingStyle
-                       : LightTheme.headingStyle,
+                    ? DarkTheme.headingStyle
+                    : LightTheme.headingStyle,
               ),
               SizedBox(
                 height: 12.0,
@@ -216,11 +202,9 @@ class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAlive
                 widget.isStudent
                     ? "Select all the topics that interests you."
                     : "Select or add topics taught at your university",
-                style: Theme
-                           .of(context)
-                           .brightness == Brightness.dark
-                       ? DarkTheme.headingDescriptionStyle
-                       : LightTheme.headingDescriptionStyle,
+                style: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.headingDescriptionStyle
+                    : LightTheme.headingDescriptionStyle,
               ),
             ],
           ),
@@ -280,64 +264,54 @@ class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAlive
           children: <Widget>[
             widget.isStudent
                 ? Container()
-                : RaisedButton(
-                    onPressed: () {
+                : BlueOutlineButton(
+                    callback: () {
                       _showTopicCreatingDialog();
                     },
-                    padding: Constant.raisedButtonPaddingHigh,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                      side: BorderSide(color: Colors.blue[800], width: 2.0),
-                    ),
-                    color: Colors.blue[50],
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Icon(
-                          Icons.add_circle,
-                          size: 20.0,
-                          color: Colors.blue[800],
+                          Icons.add,
+                          size: 18.0,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.outlineButtonTextColor
+                              : LightTheme.outlineButtonTextColor,
                         ),
                         SizedBox(
-                          width: 8.0,
+                          width: 4.0,
                         ),
                         Text(
                           "Add Topic",
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            color: Colors.blue[800],
-                          ),
+                          style: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.outlineButtonTextStyle
+                              : LightTheme.outlineButtonTextStyle,
                         )
                       ],
                     ),
                   ),
-            RaisedButton(
-              onPressed: () async {
+            PrimaryBlueCTA(
+              callback: () async {
                 _submitTopicSelectionForm();
               },
-              padding: Constant.raisedButtonPaddingHigh,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-                side: BorderSide(color: Colors.green[800], width: 2.0),
-              ),
-              color: Colors.green[50],
               child: Row(
                 children: <Widget>[
                   Text(
                     "Finish",
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      color: Colors.green[800],
-                    ),
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.primaryCTATextStyle
+                        : LightTheme.primaryCTATextStyle,
                   ),
                   SizedBox(
                     width: 8.0,
                   ),
                   Icon(
                     Icons.check,
-                    color: Colors.green[800],
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.primaryCTATextColor
+                        : LightTheme.primaryCTATextColor,
                     size: 20.0,
                   ),
                 ],

@@ -79,39 +79,42 @@ class _OnboardingState extends State<Onboarding> {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Expanded(
-                      child: StepButton(
-                        callback: stepOfOnboarding == 1
-                            ? null
-                            : () {
-                                _pageController.previousPage(
-                                    duration: Constant.pageAnimationDuration,
-                                    curve: Curves.easeInOut);
-                              },
-                        direction: 'prev',
+                child: SizedBox(
+                  height: 50,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Expanded(
+                        child: StepButton(
+                          callback: stepOfOnboarding == 1
+                              ? null
+                              : () {
+                                  _pageController.previousPage(
+                                      duration: Constant.pageAnimationDuration,
+                                      curve: Curves.easeInOut);
+                                },
+                          direction: 'prev',
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Expanded(
-                      child: StepButton(
-                        callback: stepOfOnboarding == 5
-                            ? null
-                            : () {
-                                _pageController.nextPage(
-                                    duration: Constant.pageAnimationDuration,
-                                    curve: Curves.easeInOut);
-                              },
-                        direction: 'next',
+                      SizedBox(
+                        width: 8.0,
                       ),
-                    ),
-                  ],
+                      Expanded(
+                        child: StepButton(
+                          callback: stepOfOnboarding == 5
+                              ? null
+                              : () {
+                                  _pageController.nextPage(
+                                      duration: Constant.pageAnimationDuration,
+                                      curve: Curves.easeInOut);
+                                },
+                          direction: 'next',
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -163,7 +166,6 @@ class Page5 extends StatelessWidget {
         ),
         Divider(
           thickness: 1.5,
-          color: Colors.blue[200],
           endIndent: 5.0,
           indent: 5.0,
         ),

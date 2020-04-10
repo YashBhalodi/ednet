@@ -1942,26 +1942,6 @@ class ShimmerMainHome extends StatelessWidget {
   }
 }
 
-class ShimmerUsername extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      child: Container(
-        width: 100.0,
-        height: 18.0,
-        color: Colors.white,
-      ),
-      baseColor: Theme.of(context).brightness == Brightness.dark
-          ? DarkTheme.shimmerBaseColor
-          : LightTheme.shimmerBaseColor,
-      highlightColor: Theme.of(context).brightness == Brightness.dark
-          ? DarkTheme.shimmerHighLightColor
-          : LightTheme.shimmerHighLightColor,
-      period: Duration(milliseconds: 300),
-    );
-  }
-}
-
 class ShimmerRatingBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -47,61 +47,6 @@ class _MyCheckBoxTileState extends State<MyCheckBoxTile> {
   }
 }
 
-class PrimaryBlueCTA extends StatelessWidget {
-  final Function callback;
-  final Widget child;
-
-  const PrimaryBlueCTA({Key key, @required this.callback, @required this.child}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return RaisedButton(
-      onPressed: callback,
-      child: child,
-      autofocus: true,
-      elevation: 15.0,
-      padding: Constant.raisedButtonPaddingHigh,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      color: Theme.of(context).brightness == Brightness.dark
-          ? DarkTheme.primaryCTABackgroundColor
-          : LightTheme.primaryCTABackgroundColor,
-    );
-  }
-}
-
-class SecondaryCTA extends StatelessWidget {
-  final Widget child;
-  final Function callback;
-
-  const SecondaryCTA({Key key, @required this.callback, @required this.child}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return RaisedButton(
-      child: child,
-      onPressed: callback,
-      padding: Constant.raisedButtonPaddingHigh,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-        side: BorderSide(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? DarkTheme.secondaryCTABorderColor
-              : LightTheme.secondaryCTABorderColor,
-          width: 2.0,
-        ),
-      ),
-      color: Theme.of(context).brightness == Brightness.dark
-          ? DarkTheme.secondaryCTABackgroundColor
-          : LightTheme.secondaryCTABackgroundColor,
-      disabledColor: Theme.of(context).brightness == Brightness.dark
-          ? DarkTheme.secondaryCTADisabledColor
-          : LightTheme.secondaryCTADisabledColor,
-    );
-  }
-}
-
 class UpvoteBox extends StatelessWidget {
   final int upvoteCount;
 
@@ -397,6 +342,201 @@ class DownvoteButton extends StatelessWidget {
   }
 }
 
+class PrimaryBlueCTA extends StatelessWidget {
+  final Function callback;
+  final Widget child;
+
+  const PrimaryBlueCTA({Key key, @required this.callback, @required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: callback,
+      child: child,
+      autofocus: true,
+      elevation: 15.0,
+      padding: Constant.raisedButtonPaddingHigh,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.primaryCTABackgroundColor
+          : LightTheme.primaryCTABackgroundColor,
+    );
+  }
+}
+
+class SecondaryCTA extends StatelessWidget {
+  final Widget child;
+  final Function callback;
+
+  const SecondaryCTA({Key key, @required this.callback, @required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      child: child,
+      onPressed: callback,
+      padding: Constant.raisedButtonPaddingHigh,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+        side: BorderSide(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? DarkTheme.secondaryCTABorderColor
+              : LightTheme.secondaryCTABorderColor,
+          width: 2.0,
+        ),
+      ),
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.secondaryCTABackgroundColor
+          : LightTheme.secondaryCTABackgroundColor,
+      disabledColor: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.secondaryCTADisabledColor
+          : LightTheme.secondaryCTADisabledColor,
+    );
+  }
+}
+
+class BlueOutlineButton extends StatelessWidget {
+  final Widget child;
+  final Function callback;
+
+  const BlueOutlineButton({Key key, @required this.callback, @required this.child})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: callback,
+      child: child,
+      padding: Constant.raisedButtonPaddingMedium,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+        side: BorderSide(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.outlineButtonTextColor
+                : LightTheme.outlineButtonTextColor,
+            width: 2.0),
+      ),
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.outlineButtonBackgroundColor
+          : LightTheme.outlineButtonBackgroundColor,
+      disabledColor:
+          Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.grey[300],
+      elevation: 4.0,
+    );
+  }
+}
+
+class StepButton extends StatelessWidget {
+  final Function callback;
+
+  ///direction=='next' or direction=='prev'
+  final String direction;
+
+  const StepButton({Key key, this.callback, @required this.direction})
+      : assert(direction == 'next' || direction == 'prev'),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: callback,
+      padding: Constant.raisedButtonPaddingLow,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+        side: BorderSide(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.stepButtonBorderColor
+                : LightTheme.stepButtonBorderColor,
+            width: 2.0),
+      ),
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.stepButtonBackgroundColor
+          : LightTheme.stepButtonBackgroundColor,
+      child: direction == 'prev'
+          ? Icon(
+              Icons.navigate_before,
+              size: 26.0,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.stepButtonIconColor
+                  : LightTheme.stepButtonIconColor,
+            )
+          : Icon(
+              Icons.navigate_next,
+              size: 26.0,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.stepButtonIconColor
+                  : LightTheme.stepButtonIconColor,
+            ),
+      disabledColor: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.stepButtonDisabledColor
+          : LightTheme.stepButtonDisabledColor,
+    );
+  }
+}
+
+class LeftSecondaryCTAButton extends StatelessWidget {
+  final Function callback;
+  final Widget child;
+
+  const LeftSecondaryCTAButton({Key key, this.callback, this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      child: child,
+      onPressed: callback,
+      padding: Constant.raisedButtonPaddingHigh,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16.0),
+          bottomLeft: Radius.circular(16.0),
+        ),
+        /*side: BorderSide(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? DarkTheme.secondaryCTABorderColor
+              : LightTheme.secondaryCTABorderColor,
+          width: 2.0,
+        ),*/
+      ),
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.secondaryCTABackgroundColor
+          : LightTheme.secondaryCTABackgroundColor,
+      disabledColor: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.secondaryCTADisabledColor
+          : LightTheme.secondaryCTADisabledColor,
+    );
+  }
+}
+
+class RightPrimaryBlueCTAButton extends StatelessWidget {
+  final Function callback;
+  final Widget child;
+
+  const RightPrimaryBlueCTAButton({Key key, this.callback, this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: callback,
+      child: child,
+      autofocus: true,
+      elevation: 15.0,
+      padding: Constant.raisedButtonPaddingHigh,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(16.0),
+          topRight: Radius.circular(16.0),
+        ),
+      ),
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.primaryCTABackgroundColor
+          : LightTheme.primaryCTABackgroundColor,
+    );
+  }
+}
+
 class DeleteConfirmationAlert extends StatelessWidget {
   final String title;
   final String msg;
@@ -462,85 +602,6 @@ class DeleteConfirmationAlert extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-}
-
-class BlueOutlineButton extends StatelessWidget {
-  final Widget child;
-  final Function callback;
-
-  const BlueOutlineButton({Key key, @required this.callback, @required this.child})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return RaisedButton(
-      onPressed: callback,
-      child: child,
-      padding: Constant.raisedButtonPaddingMedium,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-        side: BorderSide(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? DarkTheme.outlineButtonTextColor
-                : LightTheme.outlineButtonTextColor,
-            width: 2.0),
-      ),
-      color: Theme.of(context).brightness == Brightness.dark
-          ? DarkTheme.outlineButtonBackgroundColor
-          : LightTheme.outlineButtonBackgroundColor,
-      disabledColor:
-          Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.grey[300],
-      elevation: 4.0,
-    );
-  }
-}
-
-class StepButton extends StatelessWidget {
-  final Function callback;
-
-  ///direction=='next' or direction=='prev'
-  final String direction;
-
-  const StepButton({Key key, this.callback, @required this.direction})
-      : assert(direction == 'next' || direction == 'prev'),
-        super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return RaisedButton(
-      onPressed: callback,
-      padding: Constant.raisedButtonPaddingLow,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-        side: BorderSide(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? DarkTheme.stepButtonBorderColor
-                : LightTheme.stepButtonBorderColor,
-            width: 2.0),
-      ),
-      color: Theme.of(context).brightness == Brightness.dark
-          ? DarkTheme.stepButtonBackgroundColor
-          : LightTheme.stepButtonBackgroundColor,
-      child: direction == 'prev'
-          ? Icon(
-              Icons.navigate_before,
-              size: 24.0,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? DarkTheme.stepButtonIconColor
-                  : LightTheme.stepButtonIconColor,
-            )
-          : Icon(
-              Icons.navigate_next,
-              size: 24.0,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? DarkTheme.stepButtonIconColor
-                  : LightTheme.stepButtonIconColor,
-            ),
-      disabledColor: Theme.of(context).brightness == Brightness.dark
-          ? DarkTheme.stepButtonDisabledColor
-          : LightTheme.stepButtonDisabledColor,
     );
   }
 }

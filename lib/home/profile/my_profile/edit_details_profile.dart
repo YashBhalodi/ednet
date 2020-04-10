@@ -278,10 +278,7 @@ class _EditDetailsTileState extends State<EditDetailsTile> {
                         ? SizedBox(
                             height: 20.0,
                             width: 20.0,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation(Colors.blue[600]),
-                              backgroundColor: Colors.blue[50],
-                            ),
+                            child: CircularProgressIndicator(),
                           )
                         : Text(
                             "Update Details",

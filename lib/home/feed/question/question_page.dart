@@ -20,17 +20,20 @@ class QuestionPage extends StatelessWidget {
         body: Scrollbar(
           child: ListView(
             children: <Widget>[
-                StreamBuilder(
-                    stream: Firestore.instance.collection('Questions').document(question.id).snapshots(),
-                    builder: (context,snapshot){
-                        if(snapshot.hasData){
-                            Question q = Question.fromSnapshot(snapshot.data);
-                            return QuestionTile(question: q,);
-                        } else {
-                            return ShimmerQuestionTile();
-                        }
-                    },
-                ),
+              StreamBuilder(
+                stream:
+                    Firestore.instance.collection('Questions').document(question.id).snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    Question q = Question.fromSnapshot(snapshot.data);
+                    return QuestionTile(
+                      question: q,
+                    );
+                  } else {
+                    return ShimmerQuestionTile();
+                  }
+                },
+              ),
               StreamBuilder(
                 stream: Firestore.instance
                     .collection('Answers')
@@ -60,8 +63,8 @@ class QuestionPage extends StatelessWidget {
                             "Be the first person to answer.",
                             textAlign: TextAlign.center,
                             style: Theme.of(context).brightness == Brightness.dark
-                                   ? DarkTheme.secondaryHeadingTextStyle
-                                   : LightTheme.secondaryHeadingTextStyle,
+                                ? DarkTheme.secondaryHeadingTextStyle
+                                : LightTheme.secondaryHeadingTextStyle,
                           ),
                         ),
                       );
@@ -91,8 +94,10 @@ class QuestionPage extends StatelessWidget {
                       children: <Widget>[
                         Icon(
                           Icons.mode_edit,
-                          color: Colors.white,
                           size: 20.0,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.primaryCTATextColor
+                              : LightTheme.primaryCTATextColor,
                         ),
                         SizedBox(
                           width: 8.0,
@@ -100,8 +105,8 @@ class QuestionPage extends StatelessWidget {
                         Text(
                           "Write Answer",
                           style: Theme.of(context).brightness == Brightness.dark
-                                 ? DarkTheme.primaryCTATextStyle
-                                 : LightTheme.primaryCTATextStyle,
+                              ? DarkTheme.primaryCTATextStyle
+                              : LightTheme.primaryCTATextStyle,
                         ),
                       ],
                     ),

@@ -5,6 +5,7 @@ import 'package:ednet/home/feed/question/question_tile_header.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/shimmer_widgets.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quill_delta/quill_delta.dart';
@@ -223,8 +224,8 @@ class _CreateAnswerState extends State<CreateAnswer> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Theme.of(context).brightness == Brightness.dark
-                                   ? DarkTheme.textFieldFillColor
-                                   : LightTheme.textFieldFillColor,
+                            ? DarkTheme.textFieldFillColor
+                            : LightTheme.textFieldFillColor,
                         border: null,
                         focusedBorder: null,
                         contentPadding: Constant.zefyrFieldContentPadding,
@@ -241,7 +242,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       Expanded(
-                        child: RaisedButton(
+                        child: LeftSecondaryCTAButton(
                           child: _draftLoading
                               ? Center(
                                   child: SizedBox(
@@ -256,31 +257,15 @@ class _CreateAnswerState extends State<CreateAnswer> {
                                       ? DarkTheme.secondaryCTATextStyle
                                       : LightTheme.secondaryCTATextStyle,
                                 ),
-                          onPressed: () async {
+                          callback: () async {
                             if (_draftLoading == false) {
                               await _saveAnswerDraft();
                             }
                           },
-                          padding: Constant.raisedButtonPaddingHigh,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              bottomLeft: Radius.circular(10.0),
-                            ),
-                            side: BorderSide(color: Colors.grey[300], width: 2.0),
-                          ),
-                          color: Colors.white,
-                          disabledColor: Colors.grey[300],
                         ),
                       ),
                       Expanded(
-                        child: RaisedButton(
-                          onPressed: () async {
-                            if (_postLoading == false) {
-                              await _publishAnswer();
-                            }
-                          },
-                          textColor: Colors.white,
+                        child: RightPrimaryBlueCTAButton(
                           child: _postLoading
                               ? Center(
                                   child: SizedBox(
@@ -295,16 +280,11 @@ class _CreateAnswerState extends State<CreateAnswer> {
                                       ? DarkTheme.primaryCTATextStyle
                                       : LightTheme.primaryCTATextStyle,
                                 ),
-                          padding: Constant.raisedButtonPaddingHigh,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10.0),
-                              bottomRight: Radius.circular(10.0),
-                            ),
-                            side: BorderSide(color: Colors.blue[400], width: 2.0),
-                          ),
-                          color: Colors.blue[700],
-                          disabledColor: Colors.grey[300],
+                          callback: () async {
+                            if (_postLoading == false) {
+                              await _publishAnswer();
+                            }
+                          },
                         ),
                       ),
                     ],
