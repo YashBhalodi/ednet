@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:ednet/home/home_page.dart';
@@ -6,6 +8,7 @@ import 'package:ednet/setup/profile_setup_pages/admin_profile_page.dart';
 import 'package:ednet/setup/profile_setup_pages/student_profile_page.dart';
 import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,10 +17,19 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    runApp(
-      MyApp(
-        pref: pref,
-      ),
+    Crashlytics.instance.enableInDevMode = true;
+    Crashlytics.instance.setUserEmail('yashbhalodi007@gmail.com');
+    FlutterError.onError = (error) {
+      // dumps errors to console
+      FlutterError.dumpErrorToConsole(error);
+      // re-throws error so that `runZoned` handles it
+      throw error;
+    };
+    runZoned<Future<void>>(
+          () async {
+        runApp(MyApp(pref: pref));
+      },
+      onError: Crashlytics.instance.recordError,
     );
   });
 }
@@ -72,7 +84,7 @@ class _EntryPointState extends State<EntryPoint> {
   void didChangeDependencies() {
     print("didChangeDependencies");
     FirebaseAuth.instance.onAuthStateChanged.listen(
-      (user) async {
+          (user) async {
         print("line 205:- stream listening");
         //No user logged in
         if (user == null) {
