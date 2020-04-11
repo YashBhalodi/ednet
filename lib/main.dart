@@ -29,7 +29,9 @@ void main() {
           () async {
         runApp(MyApp(pref: pref));
       },
-      onError: Crashlytics.instance.recordError,
+      onError: (error) {
+        Crashlytics.instance.recordFlutterError(error);
+      },
     );
   });
 }
