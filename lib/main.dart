@@ -18,7 +18,6 @@ void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     Crashlytics.instance.enableInDevMode = true;
-    Crashlytics.instance.setUserEmail('yashbhalodi007@gmail.com');
     FlutterError.onError = (error) {
       // dumps errors to console
       FlutterError.dumpErrorToConsole(error);
@@ -32,6 +31,7 @@ void main() {
       onError: (e, s) {
         Crashlytics.instance.recordError(e, s);
         Crashlytics.instance.recordFlutterError(e);
+        FlutterError.dumpErrorToConsole(e);
       },
     );
   });

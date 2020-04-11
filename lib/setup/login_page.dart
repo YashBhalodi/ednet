@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -230,7 +231,9 @@ class LoginPageState extends State<LoginPage>
           }
         }
         await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
-        print("After login:-" + FirebaseAuth.instance.currentUser().toString());
+        final user = await FirebaseAuth.instance.currentUser();
+        Crashlytics.instance.setUserEmail(user.email);
+        print("After login:-" + user.email);
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setBool("welcome", true);
       } catch (e) {
