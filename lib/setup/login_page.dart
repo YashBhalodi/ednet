@@ -48,21 +48,24 @@ class LoginPageState extends State<LoginPage>
     if (deepLink != null) {
       _link = deepLink.toString();
       //TODO in case we use multiple dynamic link, verify that the link is login link.
-      _signInWithEmailAndLink();
+      await _signInWithEmailAndLink();
     }
 
-    FirebaseDynamicLinks.instance.onLink(onSuccess: (PendingDynamicLinkData dynamicLink) async {
-      final Uri deepLink = dynamicLink?.link;
+    FirebaseDynamicLinks.instance.onLink(
+      onSuccess: (PendingDynamicLinkData dynamicLink) async {
+        final Uri deepLink = dynamicLink?.link;
 
-      if (deepLink != null) {
-        _link = deepLink.toString();
-        print("59 _link:-" + _link);
-        _signInWithEmailAndLink();
-      }
-    }, onError: (OnLinkErrorException e) async {
-      print('onLinkError');
-      print(e.message);
-    });
+        if (deepLink != null) {
+          _link = deepLink.toString();
+          print("59 _link:-" + _link);
+          await _signInWithEmailAndLink();
+        }
+      },
+      onError: (OnLinkErrorException e) async {
+        print('onLinkError');
+        print(e.message);
+      },
+    );
   }
 
   Future<bool> _validateAndSave() async {
@@ -221,27 +224,28 @@ class LoginPageState extends State<LoginPage>
 
   Future<void> _signInWithEmailAndLink() async {
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Logging you in..."),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(16.0),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Logging you in..."),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(16.0),
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(
+                height: 32.0,
+                width: 32.0,
+                child: CircularProgressIndicator(),
               ),
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(
-                  height: 32.0,
-                  width: 32.0,
-                  child: CircularProgressIndicator(),
-                ),
-              ],
-            ),
-          );
-        });
+            ],
+          ),
+        );
+      },
+    );
     final FirebaseAuth auth = FirebaseAuth.instance;
     bool validLink = await auth.isSignInWithEmailLink(_link);
     print("email:- $_email");
@@ -267,9 +271,9 @@ class LoginPageState extends State<LoginPage>
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setBool("welcome", true);
       } catch (e) {
-        await Future.delayed(const Duration(milliseconds: 500), (){});
+        await Future.delayed(const Duration(milliseconds: 500), () {});
         FirebaseUser user = await FirebaseAuth.instance.currentUser();
-        if(user==null){
+        if (user == null) {
           PlatformException err = e;
           if (err.code == "ERROR_INVALID_ACTION_CODE") {
             Navigator.of(context).pop();
@@ -406,15 +410,11 @@ class LoginPageState extends State<LoginPage>
 
     final loginForm = Form(
       key: _formKey,
-      child: ListView(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        children: <Widget>[
-          email,
-          SizedBox(height: 24),
-          loginButton,
-        ]
-      ),
+      child: ListView(physics: NeverScrollableScrollPhysics(), shrinkWrap: true, children: <Widget>[
+        email,
+        SizedBox(height: 24),
+        loginButton,
+      ]),
     );
     return loginForm;
   }

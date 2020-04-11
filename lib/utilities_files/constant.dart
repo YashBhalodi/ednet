@@ -99,7 +99,7 @@ class Constant {
 
   static Future<String> topicNameValidator(String value) async {
     //TODO add Spamming prevention mechanism
-    if (value.length == 0) {
+    if (value.trim().length == 0) {
       return "Please provide topic name";
     }
     final topicDoc = await Firestore.instance
@@ -116,7 +116,7 @@ class Constant {
   static String nameValidator(String value) {
     Pattern pattern = r'^[a-zA-Z ]*$';
     RegExp regExp = new RegExp(pattern);
-    if (value.length == 0) {
+    if (value.trim().length == 0) {
       return "We would like to know your name";
     } else if (!regExp.hasMatch(value.trim())) {
       return "Name can only contain alphabets";
@@ -128,7 +128,7 @@ class Constant {
   static String countryValidator(String value) {
     Pattern pattern = r'^[a-zA-Z ]*$';
     RegExp regExp = new RegExp(pattern);
-    if (value.length == 0) {
+    if (value.trim().length == 0) {
       return "Please provide Country.";
     } else if (!regExp.hasMatch(value.trim())) {
       return "Country name can contain only alphabets.";
@@ -140,7 +140,7 @@ class Constant {
   static String stateValidator(String value) {
     Pattern pattern = r'^[a-zA-Z ]*$';
     RegExp regExp = new RegExp(pattern);
-    if (value.length == 0) {
+    if (value.trim().length == 0) {
       return "Please provide Region or State.";
     } else if (!regExp.hasMatch(value.trim())) {
       return "Region/State name can contain only alphabets.";
@@ -152,7 +152,7 @@ class Constant {
   static String cityValidator(String value) {
     Pattern pattern = r'^[a-zA-Z ]*$';
     RegExp regExp = new RegExp(pattern);
-    if (value.length == 0) {
+    if (value.trim().length == 0) {
       return "Please provide City.";
     } else if (!regExp.hasMatch(value.trim())) {
       return "City name can contain only alphabets.";
@@ -222,7 +222,7 @@ class Constant {
   }
 
   static String answerValidator(value) {
-    if (value.length < 100) {
+    if (value.trim().length < 100) {
       Constant.showToastInstruction("Answer should be atleast 100 characters long.");
       return "Please write answer atleast 100 characters long";
     } else {
