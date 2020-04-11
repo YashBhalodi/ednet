@@ -2,7 +2,9 @@ import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/profile/other_user_profile/user_profile_sheet.dart';
+import 'package:ednet/setup/signup_instruction_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -239,12 +241,7 @@ class Constant {
 
   static void showToastInstruction(String msg) {
     Fluttertoast.showToast(
-        msg: msg,
-        fontSize: 18.0,
-        backgroundColor: Colors.grey[800],
-        textColor: Colors.white,
-        gravity: ToastGravity.BOTTOM,
-        toastLength: Toast.LENGTH_LONG);
+        msg: msg, fontSize: 18.0, gravity: ToastGravity.BOTTOM, toastLength: Toast.LENGTH_LONG);
   }
 
   static void showToastError(String msg) {
@@ -344,6 +341,91 @@ class Constant {
         );
       },
     );
+  }
+
+  static void showNoSignUpDialog(context) {
+      showDialog(
+          context: context,
+          builder: (context) {
+              return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(16.0),
+                      ),
+                  ),
+                  content: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                          Text("Your university hasn't applied for ednet yet."),
+                          SizedBox(
+                              height: 32.0,
+                          ),
+                          SecondaryCTA(
+                              child: Text(
+                                  "Sign up instruction",
+                                  style: Theme
+                                             .of(context)
+                                             .brightness == Brightness.dark
+                                         ? DarkTheme.secondaryCTATextStyle
+                                         : LightTheme.secondaryCTATextStyle,
+                              ),
+                              callback: () {
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) {
+                                              return SignUpInstruction();
+                                          },
+                                      ),
+                                  );
+                              },
+                          ),
+                      ],
+                  ),
+              );
+          });
+  }
+
+  static void showAccountDisabledDialog(context) {
+      showDialog(
+          context: context,
+          builder: (context) {
+              return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(16.0),
+                      ),
+                  ),
+                  title: Text("Account Disabled"),
+                  content: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                          Text(
+                              "We received request from your university admin to temporarily suspend your EDNET account.\n\nYou may have violated the community standard by performing malicious activities.\n\nPlease try again after a while."),
+                          SizedBox(
+                              height: 32.0,
+                          ),
+                          SecondaryCTA(
+                              child: Text(
+                                  "OK",
+                                  style: Theme
+                                             .of(context)
+                                             .brightness == Brightness.dark
+                                         ? DarkTheme.secondaryCTATextStyle
+                                         : LightTheme.secondaryCTATextStyle,
+                              ),
+                              callback: () {
+                                  Navigator.of(context).pop();
+                              },
+                          ),
+                      ],
+                  ),
+              );
+          });
   }
 
   static String formatDateTime(DateTime timestamp) {

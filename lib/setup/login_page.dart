@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ednet/setup/signup_instruction_page.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -99,46 +98,7 @@ class LoginPageState extends State<LoginPage>
           } else {
             //searchResult is zero, hence email is not a valid sign up email.
             sent = false;
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(16.0),
-                      ),
-                    ),
-                    content: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text("Your university hasn't applied for ednet yet."),
-                        SizedBox(
-                          height: 32.0,
-                        ),
-                        SecondaryCTA(
-                          child: Text(
-                            "Sign up instruction",
-                            style: Theme.of(context).brightness == Brightness.dark
-                                   ? DarkTheme.secondaryCTATextStyle
-                                   : LightTheme.secondaryCTATextStyle,
-                          ),
-                          callback: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return SignUpInstruction();
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                });
+            Constant.showNoSignUpDialog(context);
             setState(() {
               _loginLoading = false;
             });
@@ -164,7 +124,8 @@ class LoginPageState extends State<LoginPage>
 
   Future<bool> _sendSignInWithEmailLink() async {
     try {
-      FirebaseAuth.instance.sendSignInWithEmailLink(
+      await FirebaseAuth.instance
+          .sendSignInWithEmailLink(
           email: _email,
           androidInstallIfNotAvailable: true,
           iOSBundleID: "com.ednet.ednet",
@@ -172,12 +133,14 @@ class LoginPageState extends State<LoginPage>
           androidPackageName: "com.ednet.ednet",
           url: "https://ednet.page.link/secureSignIn",
           handleCodeInApp: true);
+      return true;
     } catch (e) {
-      _showDialog(e.toString());
+      PlatformException err = e;
+      if (err.code == "ERROR_USER_DISABLED") {
+        Constant.showAccountDisabledDialog(context);
+      }
       return false;
     }
-    print(_email + "<< sent");
-    return true;
   }
 
   Future<void> _updateSignUpStatus() async {
@@ -325,26 +288,6 @@ class LoginPageState extends State<LoginPage>
     }
   }
 
-  void _showDialog(String error) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: new Text("Error"),
-          content: new Text("Please Try Again.\nError code: " + error),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -421,4 +364,5 @@ class LoginPageState extends State<LoginPage>
 
   @override
   bool get wantKeepAlive => true;
+
 }

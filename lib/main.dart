@@ -29,8 +29,9 @@ void main() {
           () async {
         runApp(MyApp(pref: pref));
       },
-      onError: (error) {
-        Crashlytics.instance.recordFlutterError(error);
+      onError: (e, s) {
+        Crashlytics.instance.recordError(e, s);
+        Crashlytics.instance.recordFlutterError(e);
       },
     );
   });
@@ -116,67 +117,82 @@ class _EntryPointState extends State<EntryPoint> {
         } else {
           //User logged in
           print("line 233:- user logged in");
-          DocumentSnapshot universitySnap;
-          DocumentSnapshot userDocSnapshot;
-          Future<QuerySnapshot> retrieveData() async {
-            print("retrieveData() called");
-            QuerySnapshot userProfileResponse;
-            try {
-              userProfileResponse = await Firestore.instance
-                  .collection('Users')
-                  .where('email', isEqualTo: user.email)
-                  .getDocuments();
-              String uniName = userProfileResponse.documents[0].data['university'];
-              final universityResponse = await Firestore.instance
-                  .collection('University')
-                  .where('name', isEqualTo: uniName)
-                  .getDocuments();
-              universitySnap = universityResponse.documents[0];
-            } catch (e) {
-              print("retrieveData:-");
-              print(e);
-            }
-            return userProfileResponse;
-          }
+          bool validSession = true;
 
-          await retrieveData().then((v) {
-            print(v.documents[0]);
-            userDocSnapshot = v.documents[0];
+          //TODO see if the user account is disabled or not.
+          /*
+          user.reload().catchError((e) {
+            PlatformException err = e;
+            if (err.code == "ERROR_USER_DISABLED") {
+              validSession = false;
+              Constant.showAccountDisabledDialog(context);
+            }
           });
-          bool isProfileSet = userDocSnapshot['isProfileSet'];
-          if (isProfileSet) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) {
-                  return Home(
-                    userSnap: userDocSnapshot,
-                  );
-                },
-              ),
-            );
-          } else {
-            bool isAdmin = userDocSnapshot['isAdmin'] as bool;
-            if (isAdmin) {
+          */
+
+          if (validSession) {
+            DocumentSnapshot universitySnap;
+            DocumentSnapshot userDocSnapshot;
+            Future<QuerySnapshot> retrieveData() async {
+              print("retrieveData() called");
+              QuerySnapshot userProfileResponse;
+              try {
+                userProfileResponse = await Firestore.instance
+                    .collection('Users')
+                    .where('email', isEqualTo: user.email)
+                    .getDocuments();
+                String uniName = userProfileResponse.documents[0].data['university'];
+                final universityResponse = await Firestore.instance
+                    .collection('University')
+                    .where('name', isEqualTo: uniName)
+                    .getDocuments();
+                universitySnap = universityResponse.documents[0];
+              } catch (e) {
+                print("retrieveData:-");
+                print(e);
+              }
+              return userProfileResponse;
+            }
+
+            await retrieveData().then((v) {
+              print(v.documents[0]);
+              userDocSnapshot = v.documents[0];
+            });
+            bool isProfileSet = userDocSnapshot['isProfileSet'];
+            if (isProfileSet) {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) {
-                    return AdminProfileSetup(
+                    return Home(
                       userSnap: userDocSnapshot,
-                      universitySnap: universitySnap,
                     );
                   },
                 ),
               );
             } else {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return StudentProfileSetup(
-                      userSnap: userDocSnapshot,
-                    );
-                  },
-                ),
-              );
+              bool isAdmin = userDocSnapshot['isAdmin'] as bool;
+              if (isAdmin) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return AdminProfileSetup(
+                        userSnap: userDocSnapshot,
+                        universitySnap: universitySnap,
+                      );
+                    },
+                  ),
+                );
+              } else {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return StudentProfileSetup(
+                        userSnap: userDocSnapshot,
+                      );
+                    },
+                  ),
+                );
+              }
             }
           }
         }
