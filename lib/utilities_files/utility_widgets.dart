@@ -6,8 +6,9 @@ class MyCheckBoxTile extends StatefulWidget {
   final List<String> outputList;
   final String title;
   final int maxElement;
+  final String subtitle;
 
-  const MyCheckBoxTile({Key key, @required this.outputList, @required this.title, this.maxElement})
+  const MyCheckBoxTile({Key key, @required this.outputList, @required this.title, this.maxElement, this.subtitle})
       : super(key: key);
 
   @override
@@ -23,6 +24,16 @@ class _MyCheckBoxTileState extends State<MyCheckBoxTile> {
       value: widget.outputList.contains(widget.title),
       title: Text(
         widget.title,
+      ),
+      subtitle: widget.subtitle == null
+                ? null
+                : Text(
+        widget.subtitle,
+        style: Theme
+                   .of(context)
+                   .brightness == Brightness.dark
+               ? DarkTheme.dateTimeStyle
+               : LightTheme.dateTimeStyle,
       ),
       onChanged: (value) {
         if (value == true) {

@@ -853,7 +853,8 @@ class Report {
         Constant.showToastSuccess("Your report has been submitted");
         return true;
       } else {
-        Constant.showToastInstruction("You have already submitted a report for this content");
+          Constant.showToastInstruction(
+              "You have already submitted a report for this content earlier");
         return false;
       }
     } catch (e) {

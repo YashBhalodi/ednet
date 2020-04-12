@@ -17,15 +17,6 @@ class QuestionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () async {
-          Report r = Report(
-              comment: "Dummy comment",
-              reportedOn: DateTime.now(),
-              violations: ["number 1", "number 2", "number 3"],
-              weight: 3.25);
-          r.reporter = await Constant.getCurrentUserDocId();
-          await r.upload('Questions', question.id);
-        }),
         body: Scrollbar(
           child: ListView(
             children: <Widget>[

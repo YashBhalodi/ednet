@@ -232,6 +232,16 @@ class Constant {
     }
   }
 
+  static String reportCommentValidator(value) {
+      if (value
+          .trim()
+          .length < 10) {
+          return "Description should be atleast 10 characters long";
+      } else {
+          return null;
+      }
+  }
+
   static Widget myLinearProgressIndicator(double progress) {
     return LinearProgressIndicator(
       valueColor: AlwaysStoppedAnimation(Colors.green[700]),
@@ -241,7 +251,11 @@ class Constant {
 
   static void showToastInstruction(String msg) {
     Fluttertoast.showToast(
-        msg: msg, fontSize: 18.0, gravity: ToastGravity.BOTTOM, toastLength: Toast.LENGTH_LONG);
+        msg: msg,
+        fontSize: 18.0,
+        gravity: ToastGravity.BOTTOM,
+        toastLength: Toast.LENGTH_LONG,
+    );
   }
 
   static void showToastError(String msg) {
