@@ -102,24 +102,27 @@ class Question {
   String userId;
   String descriptionJson;
   int profUpvoteCount;
+  int reportCount;
 
-  Question(
-      {this.heading,
-      this.description,
-      this.createdOn,
-      this.editedOn,
-      this.upvoteCount,
-      this.downvoteCount,
-      this.upvoters,
-      this.downvoters,
-      this.topics,
-      this.byProf,
-      this.id,
-      this.isDraft,
-      this.answerCount,
-      this.userId,
-      this.descriptionJson,
-      this.profUpvoteCount});
+  Question({
+    this.heading,
+    this.description,
+    this.createdOn,
+    this.editedOn,
+    this.upvoteCount,
+    this.downvoteCount,
+    this.upvoters,
+    this.downvoters,
+    this.topics,
+    this.byProf,
+    this.id,
+    this.isDraft,
+    this.answerCount,
+    this.userId,
+    this.descriptionJson,
+    this.profUpvoteCount,
+    this.reportCount,
+  });
 
   Question.fromSnapshot(DocumentSnapshot snapshot) {
     heading = snapshot.data['heading'];
@@ -138,6 +141,7 @@ class Question {
     userId = snapshot.data['userid'] as String;
     descriptionJson = snapshot.data['descriptionJson'] as String;
     profUpvoteCount = snapshot.data['profUpvoteCount'] as int ?? 0;
+    reportCount = snapshot.data['reportCount'] as int ?? 0;
   }
 
   Future<bool> uploadQuestion() async {
@@ -158,6 +162,7 @@ class Question {
         'userid': this.userId,
         'descriptionJson': this.descriptionJson,
         'profUpvoteCount': this.profUpvoteCount,
+        'reportCount': this.reportCount,
       });
       return true;
     } catch (e) {
@@ -191,6 +196,7 @@ class Question {
         'userid': this.userId,
         'descriptionJson': this.descriptionJson,
         'profUpvoteCount': this.profUpvoteCount,
+        'reportCount': this.reportCount,
       });
       return true;
     } catch (e) {
@@ -301,6 +307,14 @@ class Question {
       return true;
     }
   }
+
+//TODO static methods to return stream for increasing readability in code
+//Fetch all questions
+//Fetch all answer to this question
+//Fetch all reports of this question
+//Fetch all questions by this user
+//Fetch Draft questions by this user
+//Fetch this particular question
 }
 
 class Article {
@@ -320,6 +334,7 @@ class Article {
   String userId;
   String contentJson;
   int profUpvoteCount;
+  int reportCount;
 
   Article(
       {this.title,
@@ -337,7 +352,8 @@ class Article {
       this.isDraft,
       this.userId,
       this.contentJson,
-      this.profUpvoteCount});
+        this.profUpvoteCount,
+        this.reportCount});
 
   Article.fromSnapshot(DocumentSnapshot snapshot) {
     title = snapshot.data['title'];
@@ -356,6 +372,7 @@ class Article {
     userId = snapshot.data['userid'] as String;
     contentJson = snapshot.data['contentJson'] as String;
     profUpvoteCount = snapshot.data['profUpvoteCount'] as int ?? 0;
+    reportCount = snapshot.data['reportCount'] as int ?? 0;
   }
 
   @override
@@ -381,7 +398,8 @@ class Article {
         'isDraft': this.isDraft,
         'userid': this.userId,
         'contentJson': this.contentJson,
-        'profUpvoteCount': this.profUpvoteCount
+        'profUpvoteCount': this.profUpvoteCount,
+        'reportCount': this.reportCount
       });
       return true;
     } catch (e) {
@@ -408,7 +426,8 @@ class Article {
         'isDraft': this.isDraft,
         'userid': this.userId,
         'contentJson': this.contentJson,
-        'profUpvoteCount': this.profUpvoteCount
+        'profUpvoteCount': this.profUpvoteCount,
+        'reportCount': this.reportCount
       });
       return true;
     } catch (e) {
@@ -519,6 +538,14 @@ class Article {
       return true;
     }
   }
+
+//TODO static methods returning streams
+//Fetch all articles
+//Fetch all reports of this article
+//Fetch Draft articles by this user
+//Fetch this particular article
+
+
 }
 
 class Answer {
@@ -535,6 +562,7 @@ class Answer {
   bool isDraft;
   String contentJson;
   int profUpvoteCount;
+  int reportCount;
 
   Answer(
       {this.content,
@@ -549,7 +577,8 @@ class Answer {
       this.byProf,
       this.isDraft,
       this.contentJson,
-      this.profUpvoteCount});
+        this.profUpvoteCount,
+        this.reportCount});
 
   Answer.fromSnapshot(DocumentSnapshot snapshot) {
     content = snapshot.data['content'];
@@ -565,6 +594,7 @@ class Answer {
     queID = snapshot.data['questionId'] as String;
     contentJson = snapshot.data['contentJson'] as String;
     profUpvoteCount = snapshot.data['profUpvoteCount'] as int ?? 0;
+    reportCount = snapshot.data['reportCount'] as int ?? 0;
   }
 
   Future<bool> uploadAnswer(bool doIncrement) async {
@@ -583,6 +613,7 @@ class Answer {
         'questionId': this.queID,
         'contentJson': this.contentJson,
         'profUpvoteCount': this.profUpvoteCount,
+        'reportCount': this.reportCount,
       });
       //updating answer count in the relevant question
       if (doIncrement) {
@@ -613,6 +644,7 @@ class Answer {
         'questionId': this.queID,
         'contentJson': this.contentJson,
         'profUpvoteCount': this.profUpvoteCount,
+        'reportCount': this.reportCount,
       });
       return true;
     } catch (e) {
@@ -730,6 +762,13 @@ class Answer {
       return true;
     }
   }
+
+//TODO static methods to return stream for increasing readability in code
+//Fetch all reports of this answer
+//Fetch all answers by this user
+//Fetch Draft answer by this user
+//Fetch this particular answer
+
 }
 
 class University {
@@ -762,4 +801,68 @@ class University {
       return false;
     }
   }
+}
+
+class Report {
+  String comment;
+  String reporter;
+  List<String> violations;
+  DateTime reportedOn;
+  double weight;
+  String id;
+
+  Report({this.comment, this.reporter, this.violations, this.reportedOn, this.weight});
+
+  Report.fromSnapshot(DocumentSnapshot snapshot) {
+    this.reportedOn = (snapshot.data['reportedOn'] as Timestamp)?.toDate();
+    this.comment = snapshot.data['comment'] as String;
+    this.reporter = snapshot.data['reporter'] as String;
+    this.violations = snapshot.data['violations']?.cast<String>();
+    this.weight = snapshot.data['weight'] as double;
+  }
+
+  ///Upload report to the sub-collection named "reports" in respective content document in firebase.
+  ///
+  ///[contentCollection]=='Questions' or [contentCollection]=='Articles' or [contentCollection]=='Answers'
+  Future<bool> upload(String contentCollection, String docId) async {
+    try {
+      //Checking if user has already submitted a report
+      bool submittedOnce = false;
+      await Firestore.instance
+          .collection(contentCollection + "/" + docId + "/reports")
+          .where('reporter', isEqualTo: this.reporter)
+          .getDocuments()
+          .then((v) {
+        if (v.documents.length > 0) {
+          submittedOnce = true;
+        }
+      });
+
+      if (submittedOnce == false) {
+        await Firestore.instance.collection(contentCollection + "/" + docId + "/reports").add({
+          'comment': this.comment,
+          'violations': this.violations,
+          'weight': this.weight,
+          'reporter': this.reporter,
+          'reportedOn': this.reportedOn,
+        });
+        await Firestore.instance
+            .collection(contentCollection)
+            .document(docId)
+            .updateData({'reportCount': FieldValue.increment(1)});
+        Constant.showToastSuccess("Your report has been submitted");
+        return true;
+      } else {
+        Constant.showToastInstruction("You have already submitted a report for this content");
+        return false;
+      }
+    } catch (e) {
+      print('860__Report__Report.upload__classes.dart');
+      print(e);
+      return false;
+    }
+  }
+//TODO delete report
+//Decrease reportCount of relevant content
+
 }

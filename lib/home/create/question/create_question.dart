@@ -86,6 +86,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question.upvoters = [];
     _question.downvoters = [];
     _question.isDraft = true;
+    _question.reportCount = 0;
     _question.profUpvoteCount = 0;
     _question.description = _zefyrController.document.toPlainText();
     _question.descriptionJson = jsonEncode(_zefyrController.document.toJson());
@@ -105,6 +106,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
     _question.upvoters = [];
     _question.downvoters = [];
     _question.isDraft = false;
+    _question.reportCount = 0;
     _question.profUpvoteCount = 0;
     _question.description = _zefyrController.document.toPlainText().trim();
     _question.descriptionJson = jsonEncode(_zefyrController.document.toJson());

@@ -17,12 +17,21 @@ class QuestionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(onPressed: () async {
+          Report r = Report(
+              comment: "Dummy comment",
+              reportedOn: DateTime.now(),
+              violations: ["number 1", "number 2", "number 3"],
+              weight: 3.25);
+          r.reporter = await Constant.getCurrentUserDocId();
+          await r.upload('Questions', question.id);
+        }),
         body: Scrollbar(
           child: ListView(
             children: <Widget>[
               StreamBuilder(
                 stream:
-                    Firestore.instance.collection('Questions').document(question.id).snapshots(),
+                Firestore.instance.collection('Questions').document(question.id).snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     Question q = Question.fromSnapshot(snapshot.data);
@@ -63,8 +72,8 @@ class QuestionPage extends StatelessWidget {
                             "Be the first person to answer.",
                             textAlign: TextAlign.center,
                             style: Theme.of(context).brightness == Brightness.dark
-                                ? DarkTheme.secondaryHeadingTextStyle
-                                : LightTheme.secondaryHeadingTextStyle,
+                                   ? DarkTheme.secondaryHeadingTextStyle
+                                   : LightTheme.secondaryHeadingTextStyle,
                           ),
                         ),
                       );
@@ -75,7 +84,7 @@ class QuestionPage extends StatelessWidget {
                       physics: NeverScrollableScrollPhysics(),
                       children: List.generate(
                         3,
-                        (i) => ShimmerAnswerThumbCard(),
+                            (i) => ShimmerAnswerThumbCard(),
                       ),
                     );
                   }
@@ -96,8 +105,8 @@ class QuestionPage extends StatelessWidget {
                           Icons.mode_edit,
                           size: 20.0,
                           color: Theme.of(context).brightness == Brightness.dark
-                              ? DarkTheme.primaryCTATextColor
-                              : LightTheme.primaryCTATextColor,
+                                 ? DarkTheme.primaryCTATextColor
+                                 : LightTheme.primaryCTATextColor,
                         ),
                         SizedBox(
                           width: 8.0,
@@ -105,8 +114,8 @@ class QuestionPage extends StatelessWidget {
                         Text(
                           "Write Answer",
                           style: Theme.of(context).brightness == Brightness.dark
-                              ? DarkTheme.primaryCTATextStyle
-                              : LightTheme.primaryCTATextStyle,
+                                 ? DarkTheme.primaryCTATextStyle
+                                 : LightTheme.primaryCTATextStyle,
                         ),
                       ],
                     ),
