@@ -85,7 +85,7 @@ class _ReportContentState extends State<ReportContent> {
         "Violations that are not covered above"
       ];
     } else if (widget.contentCollection == 'Articles') {
-      _selectedViolationList = [
+      _availableViolationList = [
         "Harassment",
         "Spam",
         "Poorly Written",
@@ -132,6 +132,7 @@ class _ReportContentState extends State<ReportContent> {
     if (_selectedViolationList.length >= 1) {
       final FormState _form = _formKey.currentState;
       if (_form.validate()) {
+        FocusScope.of(context).unfocus();
         _form.save();
         _report.reporter = await Constant.getCurrentUserDocId();
         _report.weight = 0.0; //TODO Calculate weight
@@ -148,7 +149,7 @@ class _ReportContentState extends State<ReportContent> {
         return;
       }
     } else {
-      Constant.showToastError("Please select atlest one option");
+      Constant.showToastError("Please select atleast one option");
       setState(() {
         _submitLoading = false;
       });
@@ -189,6 +190,9 @@ class _ReportContentState extends State<ReportContent> {
                 controller: _scrollController,
                 shrinkWrap: true,
                 children: <Widget>[
+                  SizedBox(
+                    height: 8,
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 16.0),
                     child: Text(
@@ -199,7 +203,7 @@ class _ReportContentState extends State<ReportContent> {
                     ),
                   ),
                   SizedBox(
-                    height: 16.0,
+                    height: 24.0,
                   ),
                   ListView.builder(
                     shrinkWrap: true,
@@ -233,6 +237,12 @@ class _ReportContentState extends State<ReportContent> {
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
                           alignLabelWithHint: true,
+                          filled: true,
+                          fillColor: Theme
+                                         .of(context)
+                                         .brightness == Brightness.dark
+                                     ? DarkTheme.textFieldFillColor
+                                     : LightTheme.textFieldFillColor,
                           counterStyle: Theme.of(context).brightness == Brightness.dark
                               ? DarkTheme.counterStyle
                               : LightTheme.counterStyle,

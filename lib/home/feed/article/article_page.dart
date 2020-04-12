@@ -1,5 +1,7 @@
 import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ednet/home/feed/report_content_sheet.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/shimmer_widgets.dart';
@@ -7,28 +9,60 @@ import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:zefyr/zefyr.dart';
 
-class ArticlePage extends StatelessWidget {
+class ArticlePage extends StatefulWidget {
   final Article article;
 
   const ArticlePage({Key key, this.article}) : super(key: key);
 
   @override
+  _ArticlePageState createState() => _ArticlePageState();
+}
+
+class _ArticlePageState extends State<ArticlePage> {
+  Widget _popUpMenu() {
+    return PopupMenuButton(
+      itemBuilder: (_) {
+        return [
+          PopupMenuItem<int>(
+            child: Text("Report Article"),
+            value: 1,
+          ),
+        ];
+      },
+      onSelected: (i) {
+        if (i == 1) {
+          ReportFlow.showReportBottomSheet(
+            context,
+            contentCollection: 'Articles',
+            contentDocId: widget.article.id,
+          );
+        }
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          actions: <Widget>[
+            _popUpMenu(),
+          ],
+        ),
         body: Scrollbar(
           child: ListView(
             padding: Constant.edgePadding,
             children: <Widget>[
               Text(
-                article.title,
+                widget.article.title,
                 style: Theme.of(context).brightness == Brightness.dark
                        ? DarkTheme.articleTitleStyle
                        : LightTheme.articleTitleStyle,
               ),
               SizedBox(height: 18.0),
               Text(
-                article.subtitle,
+                widget.article.subtitle,
                 style: Theme.of(context).brightness == Brightness.dark
                        ? DarkTheme.articleSubtitleStyle
                        : LightTheme.articleSubtitleStyle,
@@ -38,7 +72,7 @@ class ArticlePage extends StatelessWidget {
               ),
               ZefyrView(
                 document: NotusDocument.fromJson(
-                  jsonDecode(article.contentJson),
+                  jsonDecode(widget.article.contentJson),
                 ),
               ),
               SizedBox(
@@ -53,7 +87,7 @@ class ArticlePage extends StatelessWidget {
                     child: StreamBuilder(
                       stream: Firestore.instance
                           .collection('Users')
-                          .document(article.userId)
+                          .document(widget.article.userId)
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
@@ -63,7 +97,7 @@ class ArticlePage extends StatelessWidget {
                             DocumentSnapshot userDoc = snapshot.data;
                             return GestureDetector(
                               onTap: () {
-                                Constant.userProfileView(context, userId: article.userId);
+                                Constant.userProfileView(context, userId: widget.article.userId);
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -73,8 +107,8 @@ class ArticlePage extends StatelessWidget {
                                   Text(
                                     "Written by",
                                     style: Theme.of(context).brightness == Brightness.dark
-                                        ? DarkTheme.dateTimeStyle
-                                        : LightTheme.dateTimeStyle,
+                                           ? DarkTheme.dateTimeStyle
+                                           : LightTheme.dateTimeStyle,
                                   ),
                                   SizedBox(
                                     height: 8.0,
@@ -87,13 +121,13 @@ class ArticlePage extends StatelessWidget {
                                         Icons.person,
                                         size: 16.0,
                                       ),
-                                      article.byProf
-                                          ? Icon(
-                                              Icons.star,
-                                              color: Colors.orangeAccent,
-                                              size: 16.0,
-                                            )
-                                          : Container(),
+                                      widget.article.byProf
+                                      ? Icon(
+                                        Icons.star,
+                                        color: Colors.orangeAccent,
+                                        size: 16.0,
+                                      )
+                                      : Container(),
                                       Text(
                                         userDoc.data['username'],
                                         style: Theme.of(context).brightness == Brightness.dark
@@ -121,17 +155,17 @@ class ArticlePage extends StatelessWidget {
                         Text(
                           "On",
                           style: Theme.of(context).brightness == Brightness.dark
-                              ? DarkTheme.dateTimeStyle
-                              : LightTheme.dateTimeStyle,
+                                 ? DarkTheme.dateTimeStyle
+                                 : LightTheme.dateTimeStyle,
                         ),
                         SizedBox(
                           height: 8.0,
                         ),
                         Text(
-                          Constant.formatDateTime(article.createdOn),
+                          Constant.formatDateTime(widget.article.createdOn),
                           style: Theme.of(context).brightness == Brightness.dark
-                              ? DarkTheme.dateTimeMediumStyle
-                              : LightTheme.dateTimeMediumStyle,
+                                 ? DarkTheme.dateTimeMediumStyle
+                                 : LightTheme.dateTimeMediumStyle,
                           textAlign: TextAlign.end,
                         ),
                       ],
@@ -168,12 +202,15 @@ class ArticlePage extends StatelessWidget {
               Text(
                 "So...What do you think?\n\nDoes it deserve an upvote?",
                 style: Theme.of(context).brightness == Brightness.dark
-                    ? DarkTheme.headingDescriptionStyle
-                    : LightTheme.headingDescriptionStyle,
+                       ? DarkTheme.headingDescriptionStyle
+                       : LightTheme.headingDescriptionStyle,
                 textAlign: TextAlign.center,
               ),
               StreamBuilder(
-                stream: Firestore.instance.collection('Articles').document(article.id).snapshots(),
+                stream: Firestore.instance
+                    .collection('Articles')
+                    .document(widget.article.id)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     Article a = Article.fromSnapshot(snapshot.data);
@@ -185,8 +222,8 @@ class ArticlePage extends StatelessWidget {
                           child: Text(
                             "${a.profUpvoteCount} professor upvoted",
                             style: Theme.of(context).brightness == Brightness.dark
-                                ? DarkTheme.professorUpvoteTextStyle
-                                : LightTheme.professorUpvoteTextStyle,
+                                   ? DarkTheme.professorUpvoteTextStyle
+                                   : LightTheme.professorUpvoteTextStyle,
                           ),
                         ),
                       );
@@ -202,7 +239,10 @@ class ArticlePage extends StatelessWidget {
                 height: 32.0,
               ),
               StreamBuilder(
-                stream: Firestore.instance.collection('Articles').document(article.id).snapshots(),
+                stream: Firestore.instance
+                    .collection('Articles')
+                    .document(widget.article.id)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     Article a = Article.fromSnapshot(snapshot.data);
