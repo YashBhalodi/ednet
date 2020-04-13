@@ -29,9 +29,9 @@ void main() {
         runApp(MyApp(pref: pref));
       },
       onError: (e, s) {
-        Crashlytics.instance.recordError(e, s);
+        /*Crashlytics.instance.recordError(e, s);
         Crashlytics.instance.recordFlutterError(e);
-        FlutterError.dumpErrorToConsole(e);
+        FlutterError.dumpErrorToConsole(e);*/
       },
     );
   });
