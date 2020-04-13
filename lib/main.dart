@@ -85,13 +85,10 @@ class EntryPoint extends StatefulWidget {
 class _EntryPointState extends State<EntryPoint> {
   @override
   void didChangeDependencies() {
-    print("didChangeDependencies");
     FirebaseAuth.instance.onAuthStateChanged.listen(
           (user) async {
-        print("line 205:- stream listening");
         //No user logged in
         if (user == null) {
-          print("line 208:- no user");
           //Not first time app use
           if (widget.pref.getBool("welcome") != null) {
             Navigator.of(context).push(
@@ -116,7 +113,6 @@ class _EntryPointState extends State<EntryPoint> {
           }
         } else {
           //User logged in
-          print("line 233:- user logged in");
           bool validSession = true;
 
           //TODO see if the user account is disabled or not.
@@ -134,7 +130,6 @@ class _EntryPointState extends State<EntryPoint> {
             DocumentSnapshot universitySnap;
             DocumentSnapshot userDocSnapshot;
             Future<QuerySnapshot> retrieveData() async {
-              print("retrieveData() called");
               QuerySnapshot userProfileResponse;
               try {
                 userProfileResponse = await Firestore.instance
