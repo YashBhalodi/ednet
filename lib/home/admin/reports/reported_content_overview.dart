@@ -27,6 +27,8 @@ class ReportedContents extends StatelessWidget {
   }
 }
 
+//TODO using a streamBuilder to fetch reported content of a single user and then making a list out of these.
+
 class ReportedQuestions extends StatefulWidget {
   final User admin;
 
