@@ -15,19 +15,18 @@ class User {
   List<String> topics;
   String id;
 
-  User(
-      {this.email,
-      this.userName,
-      this.isAdmin,
-      this.isProf,
-      this.isProfileSet,
-      this.university,
-      this.fname,
-      this.lname,
-      this.bio,
-      this.mobile,
-      this.topics,
-      this.id});
+  User({this.email,
+    this.userName,
+    this.isAdmin,
+    this.isProf,
+    this.isProfileSet,
+    this.university,
+    this.fname,
+    this.lname,
+    this.bio,
+    this.mobile,
+    this.topics,
+    this.id});
 
   User.fromSnapshot(DocumentSnapshot snapshot) {
     isAdmin = snapshot.data['isAdmin'] as bool;
@@ -124,6 +123,11 @@ class Question {
     this.reportCount,
   });
 
+  @override
+  String toString() {
+    return 'Question{heading: $heading, description: $description, createdOn: $createdOn, editedOn: $editedOn, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, answerCount: $answerCount, userId: $userId, descriptionJson: $descriptionJson, profUpvoteCount: $profUpvoteCount}';
+  }
+
   Question.fromSnapshot(DocumentSnapshot snapshot) {
     heading = snapshot.data['heading'];
     description = snapshot.data['description'];
@@ -170,11 +174,6 @@ class Question {
       print(e);
       return false;
     }
-  }
-
-  @override
-  String toString() {
-    return 'Question{heading: $heading, description: $description, createdOn: $createdOn, editedOn: $editedOn, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, answerCount: $answerCount, userId: $userId, descriptionJson: $descriptionJson, profUpvoteCount: $profUpvoteCount}';
   }
 
   Future<bool> updateQuestion() async {
@@ -331,6 +330,25 @@ class Question {
     }
   }
 
+  Future<bool> deleteWithAnswers() async {
+    try {
+      await Firestore.instance.collection('Answers')
+          .where('questionId', isEqualTo: this.id)
+          .getDocuments()
+          .then((querySnapshot) {
+        querySnapshot.documents.forEach((doc) {
+          doc.reference.delete();
+        });
+      });
+      await Firestore.instance.collection('Questions').document(this.id).delete();
+      return true;
+    } catch (e) {
+      print('346__Question__Question.deleteWithAnswers__classes.dart');
+      print(e);
+      return false;
+    }
+  }
+
 //TODO static methods to return stream for increasing readability in code
 //Fetch all questions
 //Fetch all answer to this question
@@ -359,22 +377,21 @@ class Article {
   int profUpvoteCount;
   int reportCount;
 
-  Article(
-      {this.title,
-      this.subtitle,
-      this.content,
-      this.createdOn,
-      this.editedOn,
-      this.upvoteCount,
-      this.downvoteCount,
-      this.upvoters,
-      this.downvoters,
-      this.topics,
-      this.id,
-      this.byProf,
-      this.isDraft,
-      this.userId,
-      this.contentJson,
+  Article({this.title,
+    this.subtitle,
+    this.content,
+    this.createdOn,
+    this.editedOn,
+    this.upvoteCount,
+    this.downvoteCount,
+    this.upvoters,
+    this.downvoters,
+    this.topics,
+    this.id,
+    this.byProf,
+    this.isDraft,
+    this.userId,
+    this.contentJson,
         this.profUpvoteCount,
         this.reportCount});
 
@@ -586,19 +603,18 @@ class Answer {
   int profUpvoteCount;
   int reportCount;
 
-  Answer(
-      {this.content,
-      this.queID,
-      this.id,
-      this.userId,
-      this.createdOn,
-      this.upvoters,
-      this.downvoters,
-      this.upvoteCount,
-      this.downvoteCount,
-      this.byProf,
-      this.isDraft,
-      this.contentJson,
+  Answer({this.content,
+    this.queID,
+    this.id,
+    this.userId,
+    this.createdOn,
+    this.upvoters,
+    this.downvoters,
+    this.upvoteCount,
+    this.downvoteCount,
+    this.byProf,
+    this.isDraft,
+    this.contentJson,
         this.profUpvoteCount,
         this.reportCount});
 
@@ -862,7 +878,8 @@ class Report {
       });
 
       if (submittedOnce == false) {
-        await Firestore.instance.collection(contentCollection + "/" + docId + "/reports").add({
+        await Firestore.instance.collection(contentCollection + "/" + docId + "/reports")
+            .add({
           'comment': this.comment,
           'violations': this.violations,
           'weight': this.weight,

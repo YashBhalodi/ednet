@@ -28,12 +28,12 @@ class _MyCheckBoxTileState extends State<MyCheckBoxTile> {
       subtitle: widget.subtitle == null
                 ? null
                 : Text(
-        widget.subtitle,
-        style: Theme
-                   .of(context)
-                   .brightness == Brightness.dark
-               ? DarkTheme.dateTimeStyle
-               : LightTheme.dateTimeStyle,
+          widget.subtitle,
+          style: Theme
+                     .of(context)
+                     .brightness == Brightness.dark
+                 ? DarkTheme.dateTimeStyle
+                 : LightTheme.dateTimeStyle,
       ),
       onChanged: (value) {
         if (value == true) {
@@ -504,12 +504,6 @@ class LeftSecondaryCTAButton extends StatelessWidget {
           topLeft: Radius.circular(16.0),
           bottomLeft: Radius.circular(16.0),
         ),
-        /*side: BorderSide(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? DarkTheme.secondaryCTABorderColor
-              : LightTheme.secondaryCTABorderColor,
-          width: 2.0,
-        ),*/
       ),
       color: Theme.of(context).brightness == Brightness.dark
           ? DarkTheme.secondaryCTABackgroundColor
@@ -625,11 +619,11 @@ class ReportDiscardButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      color: Theme
-                 .of(context)
-                 .brightness == Brightness.dark
-             ? DarkTheme.secondaryNegativeCardButtonBackgroundColor
-             : LightTheme.secondaryNegativeCardButtonBackgroundColor,
+        color: Theme
+                   .of(context)
+                   .brightness == Brightness.dark
+               ? DarkTheme.secondaryNegativeCardButtonBackgroundColor
+               : LightTheme.secondaryNegativeCardButtonBackgroundColor,
       onPressed: callback,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -642,26 +636,22 @@ class ReportDiscardButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Icon(
+            /*Icon(
             Icons.delete,
             color:
-            Theme
-                .of(context)
-                .brightness == Brightness.dark
-            ? Colors.red[50]
-            : Colors.red[500],
+                Theme.of(context).brightness == Brightness.dark ? Colors.red[50] : Colors.red[500],
             size: 20.0,
           ),
           SizedBox(
             width: 4.0,
-          ),
+          ),*/
           Text(
             "Discard",
-            style: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.secondaryNegativeTextStyle
-                   : LightTheme.secondaryNegativeTextStyle,
+              style: Theme
+                         .of(context)
+                         .brightness == Brightness.dark
+                     ? DarkTheme.secondaryNegativeTextStyle
+                     : LightTheme.secondaryNegativeTextStyle,
           ),
         ],
       ),
@@ -685,9 +675,9 @@ class ReportDiscardConfirmationAlert extends StatelessWidget {
           Radius.circular(16.0),
         ),
       ),
-      title: Text(allReports
-                  ? "Discard All Reports?"
-                  : "Discard this report?"),
+        title: Text(allReports
+                    ? "Discard All Reports?"
+                    : "Discard this report?"),
       contentPadding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -698,11 +688,11 @@ class ReportDiscardConfirmationAlert extends StatelessWidget {
             //TODO write better message
             child: Text(
               "To maintain the quality of contents in EDNET, users report the content according to their perspective.\n\nHowever, as per your judgement, if the content is falsely reported, you can delete the report.",
-              style: Theme
-                         .of(context)
-                         .brightness == Brightness.dark
-                     ? DarkTheme.formFieldHintStyle
-                     : LightTheme.formFieldHintStyle,
+                style: Theme
+                           .of(context)
+                           .brightness == Brightness.dark
+                       ? DarkTheme.formFieldHintStyle
+                       : LightTheme.formFieldHintStyle,
             ),
           ),
           SizedBox(
@@ -720,11 +710,11 @@ class ReportDiscardConfirmationAlert extends StatelessWidget {
                     callback: discardCallback,
                     child: Text(
                       "Discard",
-                      style: Theme
-                                 .of(context)
-                                 .brightness == Brightness.dark
-                             ? DarkTheme.secondaryNegativeTextStyle
-                             : LightTheme.secondaryNegativeTextStyle,
+                        style: Theme
+                                   .of(context)
+                                   .brightness == Brightness.dark
+                               ? DarkTheme.secondaryNegativeTextStyle
+                               : LightTheme.secondaryNegativeTextStyle,
                     ),
                   ),
                 ),
@@ -733,11 +723,11 @@ class ReportDiscardConfirmationAlert extends StatelessWidget {
                     callback: cancelCallback,
                     child: Text(
                       "Cancle",
-                      style: Theme
-                                 .of(context)
-                                 .brightness == Brightness.dark
-                             ? DarkTheme.secondaryPositiveTextStyle
-                             : LightTheme.secondaryPositiveTextStyle,
+                        style: Theme
+                                   .of(context)
+                                   .brightness == Brightness.dark
+                               ? DarkTheme.secondaryPositiveTextStyle
+                               : LightTheme.secondaryPositiveTextStyle,
                     ),
                   ),
                 ),
@@ -748,4 +738,27 @@ class ReportDiscardConfirmationAlert extends StatelessWidget {
       ),
     );
   }
+}
+
+class NegativePrimaryButton extends StatelessWidget {
+    final Function callback;
+    final Widget child;
+
+    const NegativePrimaryButton({Key key, @required this.callback, @required this.child})
+        : super(key: key);
+
+    @override
+    Widget build(BuildContext context) {
+        return RaisedButton(
+            onPressed: callback,
+            child: child,
+            padding: Constant.raisedButtonPaddingHigh,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular((16.0)))),
+            color: Theme
+                       .of(context)
+                       .brightness == Brightness.dark
+                   ? DarkTheme.negativePrimaryButtonColor
+                   : LightTheme.negativePrimaryButtonColor,
+        );
+    }
 }

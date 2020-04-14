@@ -707,6 +707,15 @@ class DarkTheme {
   static get tabSelectedLabelColor => Colors.cyanAccent;
 
   static get tabUnselectedLabelColor => Colors.grey[400];
+
+  static get negativePrimaryButtonColor => Colors.blueGrey[700];
+
+  static get negativePrimaryButtonTextStyle =>
+      TextStyle(
+          color: Colors.red[100],
+          fontSize: 20.0,
+          fontWeight: FontWeight.w600,
+      );
 }
 
 class LightTheme {
@@ -963,4 +972,13 @@ class LightTheme {
   static get tabSelectedLabelColor => Colors.blue[700];
 
   static get tabUnselectedLabelColor => Colors.blueGrey[600];
+
+  static get negativePrimaryButtonColor => Colors.red[300];
+
+  static get negativePrimaryButtonTextStyle =>
+      TextStyle(
+          color: Colors.white,
+          fontSize: 20.0,
+          fontWeight: FontWeight.w600,
+      );
 }

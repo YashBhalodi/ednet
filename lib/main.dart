@@ -150,7 +150,6 @@ class _EntryPointState extends State<EntryPoint> {
             }
 
             await retrieveData().then((v) {
-              print(v.documents[0]);
               userDocSnapshot = v.documents[0];
             });
             bool isProfileSet = userDocSnapshot['isProfileSet'];
