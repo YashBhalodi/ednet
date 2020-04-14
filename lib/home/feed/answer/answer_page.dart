@@ -38,13 +38,13 @@ class _AnswerPageState extends State<AnswerPage> {
       },
       onSelected: (i) {
         if (i == 1) {
-          ReportFlow.showReportBottomSheet(
+            ReportFlow.showSubmitReportBottomSheet(
             context,
             contentCollection: 'Questions',
             contentDocId: widget.question.id,
           );
         } else if (i == 2) {
-          ReportFlow.showReportBottomSheet(
+            ReportFlow.showSubmitReportBottomSheet(
             context,
             contentCollection: 'Answers',
             contentDocId: widget.answer.id,

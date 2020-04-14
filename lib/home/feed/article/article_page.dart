@@ -31,7 +31,7 @@ class _ArticlePageState extends State<ArticlePage> {
       },
       onSelected: (i) {
         if (i == 1) {
-          ReportFlow.showReportBottomSheet(
+            ReportFlow.showSubmitReportBottomSheet(
             context,
             contentCollection: 'Articles',
             contentDocId: widget.article.id,

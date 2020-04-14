@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class ReportFlow {
   ///[contentCollection]=='Questions' or [contentCollection]=='Answers' or [contentCollection]=='Articles'
   ///[contentDocId] is the document id in which the sub-collection 'reports' will be created if not already present.
-  static void showReportBottomSheet(
+    static void showSubmitReportBottomSheet(
     context, {
     @required String contentCollection,
     @required String contentDocId,
@@ -32,7 +32,7 @@ class ReportFlow {
                     MediaQuery.of(context).viewInsets.bottom,
               ),
             ),
-            child: ReportContent(
+              child: SubmitContentReport(
               contentCollection: contentCollection,
               contentDocId: contentDocId,
             ),
@@ -41,20 +41,20 @@ class ReportFlow {
   }
 }
 
-class ReportContent extends StatefulWidget {
+class SubmitContentReport extends StatefulWidget {
   final String contentCollection;
   final String contentDocId;
 
   ///[contentCollection]=='Questions' or [contentCollection]=='Answers' or [contentCollection]=='Articles'
   ///[contentDocId] is the document id in which the sub-collection 'reports' will be created if not already present.
-  const ReportContent({Key key, @required this.contentCollection, @required this.contentDocId})
+  const SubmitContentReport({Key key, @required this.contentCollection, @required this.contentDocId})
       : super(key: key);
 
   @override
-  _ReportContentState createState() => _ReportContentState();
+  _SubmitContentReportState createState() => _SubmitContentReportState();
 }
 
-class _ReportContentState extends State<ReportContent> {
+class _SubmitContentReportState extends State<SubmitContentReport> {
   ScrollController _scrollController = ScrollController();
   GlobalKey _formKey = GlobalKey<FormState>();
   Report _report = Report();

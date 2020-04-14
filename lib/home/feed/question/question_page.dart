@@ -31,7 +31,7 @@ class _QuestionPageState extends State<QuestionPage> {
       },
       onSelected: (i) {
         if (i == 1) {
-          ReportFlow.showReportBottomSheet(
+            ReportFlow.showSubmitReportBottomSheet(
             context,
             contentCollection: 'Questions',
             contentDocId: widget.question.id,

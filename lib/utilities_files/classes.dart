@@ -308,6 +308,29 @@ class Question {
     }
   }
 
+  Future<bool> discardAllReports() async {
+    try {
+      await Firestore.instance
+          .collection('Questions')
+          .document(this.id)
+          .collection('reports')
+          .getDocuments()
+          .then((querySnapshot) {
+        querySnapshot.documents.forEach((doc) {
+          doc.reference.delete();
+        });
+      });
+      await Firestore.instance.collection('Questions').document(this.id).updateData({
+        'reportCount': 0,
+      });
+      return true;
+    } catch (e) {
+      print('328__Question__Question.discardAllReports__classes.dart');
+      print(e);
+      return false;
+    }
+  }
+
 //TODO static methods to return stream for increasing readability in code
 //Fetch all questions
 //Fetch all answer to this question
@@ -544,7 +567,6 @@ class Article {
 //Fetch all reports of this article
 //Fetch Draft articles by this user
 //Fetch this particular article
-
 
 }
 
@@ -819,6 +841,7 @@ class Report {
     this.reporter = snapshot.data['reporter'] as String;
     this.violations = snapshot.data['violations']?.cast<String>();
     this.weight = snapshot.data['weight'] as double;
+    this.id = snapshot.documentID;
   }
 
   ///Upload report to the sub-collection named "reports" in respective content document in firebase.
@@ -853,8 +876,8 @@ class Report {
         Constant.showToastSuccess("Your report has been submitted");
         return true;
       } else {
-          Constant.showToastInstruction(
-              "You have already submitted a report for this content earlier");
+        Constant.showToastInstruction(
+            "You have already submitted a report for this content earlier");
         return false;
       }
     } catch (e) {
@@ -863,7 +886,23 @@ class Report {
       return false;
     }
   }
-//TODO delete report
-//Decrease reportCount of relevant content
 
+  Future<bool> delete(String contentCollection, String docID) async {
+    try {
+      await Firestore.instance
+          .collection(contentCollection)
+          .document(docID)
+          .collection('reports')
+          .document(this.id)
+          .delete();
+      await Firestore.instance.collection(contentCollection).document(docID).updateData({
+        'reportCount': FieldValue.increment(-1),
+      });
+      return true;
+    } catch (e) {
+      print('879__Report__Report.delete__classes.dart');
+      print(e);
+      return false;
+    }
+  }
 }

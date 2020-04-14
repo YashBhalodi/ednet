@@ -616,3 +616,136 @@ class DeleteConfirmationAlert extends StatelessWidget {
     );
   }
 }
+
+class ReportDiscardButton extends StatelessWidget {
+  final Function callback;
+
+  const ReportDiscardButton({Key key, this.callback}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      color: Theme
+                 .of(context)
+                 .brightness == Brightness.dark
+             ? DarkTheme.secondaryNegativeCardButtonBackgroundColor
+             : LightTheme.secondaryNegativeCardButtonBackgroundColor,
+      onPressed: callback,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(16.0),
+        ),
+      ),
+      padding: Constant.raisedButtonPaddingMedium,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.delete,
+            color:
+            Theme
+                .of(context)
+                .brightness == Brightness.dark
+            ? Colors.red[50]
+            : Colors.red[500],
+            size: 20.0,
+          ),
+          SizedBox(
+            width: 4.0,
+          ),
+          Text(
+            "Discard",
+            style: Theme
+                       .of(context)
+                       .brightness == Brightness.dark
+                   ? DarkTheme.secondaryNegativeTextStyle
+                   : LightTheme.secondaryNegativeTextStyle,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ReportDiscardConfirmationAlert extends StatelessWidget {
+  final Function discardCallback;
+  final Function cancelCallback;
+  final bool allReports;
+
+  const ReportDiscardConfirmationAlert({Key key, @required this.discardCallback, @required this.cancelCallback, this.allReports})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(16.0),
+        ),
+      ),
+      title: Text(allReports
+                  ? "Discard All Reports?"
+                  : "Discard this report?"),
+      contentPadding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            //TODO write better message
+            child: Text(
+              "To maintain the quality of contents in EDNET, users report the content according to their perspective.\n\nHowever, as per your judgement, if the content is falsely reported, you can delete the report.",
+              style: Theme
+                         .of(context)
+                         .brightness == Brightness.dark
+                     ? DarkTheme.formFieldHintStyle
+                     : LightTheme.formFieldHintStyle,
+            ),
+          ),
+          SizedBox(
+            height: 32.0,
+          ),
+          SizedBox(
+            height: 40.0,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(
+                  child: SecondaryNegativeCardButton(
+                    callback: discardCallback,
+                    child: Text(
+                      "Discard",
+                      style: Theme
+                                 .of(context)
+                                 .brightness == Brightness.dark
+                             ? DarkTheme.secondaryNegativeTextStyle
+                             : LightTheme.secondaryNegativeTextStyle,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: SecondaryPositiveCardButton(
+                    callback: cancelCallback,
+                    child: Text(
+                      "Cancle",
+                      style: Theme
+                                 .of(context)
+                                 .brightness == Brightness.dark
+                             ? DarkTheme.secondaryPositiveTextStyle
+                             : LightTheme.secondaryPositiveTextStyle,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
