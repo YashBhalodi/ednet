@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ednet/home/admin/reports/answer_report_review.dart';
 import 'package:ednet/home/admin/reports/question_report_review.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
@@ -49,11 +50,11 @@ class _ReportedContentsState extends State<ReportedContents> with AutomaticKeepA
     super.build(context);
     return _isLoading
            ? Center(
-      child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(),
     )
            : Scrollbar(
-      child: ListView(
-        children: <Widget>[
+        child: ListView(
+            children: <Widget>[
                 ReportedQuestions(
                   userList: _userList,
                 ),
@@ -63,8 +64,8 @@ class _ReportedContentsState extends State<ReportedContents> with AutomaticKeepA
                 ReportedArticles(
                   userList: _userList,
                 ),
-        ],
-      ),
+            ],
+        ),
     );
   }
 
@@ -84,11 +85,11 @@ class ReportedQuestions extends StatelessWidget {
     return ExpansionTile(
       title: Text(
         "Reported Questions",
-        style: Theme
-                   .of(context)
-                   .brightness == Brightness.dark
-               ? DarkTheme.dropDownMenuTitleStyle
-               : LightTheme.dropDownMenuTitleStyle,
+          style: Theme
+                     .of(context)
+                     .brightness == Brightness.dark
+                 ? DarkTheme.dropDownMenuTitleStyle
+                 : LightTheme.dropDownMenuTitleStyle,
       ),
       children: userList.map((userId) {
         return StreamBuilder(
@@ -114,11 +115,11 @@ class ReportedQuestions extends StatelessWidget {
                       ),
                       trailing: Text(
                         q.reportCount.toString(),
-                        style: Theme
-                                   .of(context)
-                                   .brightness == Brightness.dark
-                               ? DarkTheme.secondaryNegativeTextStyle
-                               : LightTheme.secondaryNegativeTextStyle,
+                          style: Theme
+                                     .of(context)
+                                     .brightness == Brightness.dark
+                                 ? DarkTheme.secondaryNegativeTextStyle
+                                 : LightTheme.secondaryNegativeTextStyle,
                       ),
                       onTap: () {
                         Navigator.of(context).push(
@@ -153,11 +154,11 @@ class ReportedAnswers extends StatelessWidget {
     return ExpansionTile(
       title: Text(
         "Reported Answers",
-        style: Theme
-                   .of(context)
-                   .brightness == Brightness.dark
-               ? DarkTheme.dropDownMenuTitleStyle
-               : LightTheme.dropDownMenuTitleStyle,
+          style: Theme
+                     .of(context)
+                     .brightness == Brightness.dark
+                 ? DarkTheme.dropDownMenuTitleStyle
+                 : LightTheme.dropDownMenuTitleStyle,
       ),
       children: userList.map((userId) {
         return StreamBuilder(
@@ -183,12 +184,21 @@ class ReportedAnswers extends StatelessWidget {
                       ),
                       trailing: Text(
                         a.reportCount.toString(),
-                        style: Theme
-                                   .of(context)
-                                   .brightness == Brightness.dark
-                               ? DarkTheme.secondaryNegativeTextStyle
-                               : LightTheme.secondaryNegativeTextStyle,
+                          style: Theme
+                                     .of(context)
+                                     .brightness == Brightness.dark
+                                 ? DarkTheme.secondaryNegativeTextStyle
+                                 : LightTheme.secondaryNegativeTextStyle,
                       ),
+                        onTap: () {
+                            Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) {
+                                        return AnswerReportsReviewPage(answer: a,);
+                                    },
+                                ),
+                            );
+                        },
                     );
                   });
             } else {
@@ -211,11 +221,11 @@ class ReportedArticles extends StatelessWidget {
     return ExpansionTile(
       title: Text(
         "Reported Articles",
-        style: Theme
-                   .of(context)
-                   .brightness == Brightness.dark
-               ? DarkTheme.dropDownMenuTitleStyle
-               : LightTheme.dropDownMenuTitleStyle,
+          style: Theme
+                     .of(context)
+                     .brightness == Brightness.dark
+                 ? DarkTheme.dropDownMenuTitleStyle
+                 : LightTheme.dropDownMenuTitleStyle,
       ),
       children: userList.map((userId) {
         return StreamBuilder(
@@ -241,11 +251,11 @@ class ReportedArticles extends StatelessWidget {
                       ),
                       trailing: Text(
                         a.reportCount.toString(),
-                        style: Theme
-                                   .of(context)
-                                   .brightness == Brightness.dark
-                               ? DarkTheme.secondaryNegativeTextStyle
-                               : LightTheme.secondaryNegativeTextStyle,
+                          style: Theme
+                                     .of(context)
+                                     .brightness == Brightness.dark
+                                 ? DarkTheme.secondaryNegativeTextStyle
+                                 : LightTheme.secondaryNegativeTextStyle,
                       ),
                     );
                   });

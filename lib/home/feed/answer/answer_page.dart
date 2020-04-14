@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/question/question_tile_header.dart';
@@ -9,7 +9,6 @@ import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:zefyr/zefyr.dart';
 
 class AnswerPage extends StatefulWidget {
   final Answer answer;
@@ -24,6 +23,7 @@ class AnswerPage extends StatefulWidget {
 class _AnswerPageState extends State<AnswerPage> {
   Widget _popUpMenu() {
     return PopupMenuButton(
+      offset: Offset.fromDirection(math.pi / 2, AppBar().preferredSize.height),
       itemBuilder: (_) {
         return [
           PopupMenuItem<int>(
@@ -38,13 +38,13 @@ class _AnswerPageState extends State<AnswerPage> {
       },
       onSelected: (i) {
         if (i == 1) {
-            ReportFlow.showSubmitReportBottomSheet(
+          ReportFlow.showSubmitReportBottomSheet(
             context,
             contentCollection: 'Questions',
             contentDocId: widget.question.id,
           );
         } else if (i == 2) {
-            ReportFlow.showSubmitReportBottomSheet(
+          ReportFlow.showSubmitReportBottomSheet(
             context,
             contentCollection: 'Answers',
             contentDocId: widget.answer.id,
@@ -91,108 +91,8 @@ class _AnswerPageState extends State<AnswerPage> {
                 physics: NeverScrollableScrollPhysics(),
                 padding: Constant.edgePadding,
                 children: <Widget>[
-                  ZefyrView(
-                    document: NotusDocument.fromJson(
-                      jsonDecode(widget.answer.contentJson),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: StreamBuilder(
-                          stream: Firestore.instance
-                              .collection('Users')
-                              .document(widget.answer.userId)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return Container();
-                            } else {
-                              if (snapshot.data.data != null) {
-                                DocumentSnapshot userDoc = snapshot.data;
-                                return GestureDetector(
-                                  onTap: () {
-                                    Constant.userProfileView(context, userId: widget.answer.userId);
-                                  },
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Text(
-                                        "Answered by",
-                                        style: Theme.of(context).brightness == Brightness.dark
-                                               ? DarkTheme.dateTimeStyle
-                                               : LightTheme.dateTimeStyle,
-                                      ),
-                                      SizedBox(
-                                        height: 8.0,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.person,
-                                            size: 16.0,
-                                          ),
-                                          widget.answer.byProf
-                                          ? Icon(
-                                            Icons.star,
-                                            color: Colors.orangeAccent,
-                                            size: 16.0,
-                                          )
-                                          : Container(),
-                                          Text(
-                                            userDoc.data['username'],
-                                            style: Theme.of(context).brightness == Brightness.dark
-                                                   ? DarkTheme.usernameStyle
-                                                   : LightTheme.usernameStyle,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              } else {
-                                return Container(); //TODO user account is removed. msg if we want
-                              }
-                            }
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(
-                              "On",
-                              style: Theme.of(context).brightness == Brightness.dark
-                                     ? DarkTheme.dateTimeStyle
-                                     : LightTheme.dateTimeStyle,
-                            ),
-                            SizedBox(
-                              height: 8.0,
-                            ),
-                            Text(
-                              Constant.formatDateTime(widget.answer.createdOn),
-                              style: Theme.of(context).brightness == Brightness.dark
-                                     ? DarkTheme.dateTimeMediumStyle
-                                     : LightTheme.dateTimeMediumStyle,
-                              textAlign: TextAlign.end,
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                  AnswerContentView(
+                    answer: widget.answer,
                   ),
                   SizedBox(
                     height: 32.0,

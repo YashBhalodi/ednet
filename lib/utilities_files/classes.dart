@@ -332,7 +332,8 @@ class Question {
 
   Future<bool> deleteWithAnswers() async {
     try {
-      await Firestore.instance.collection('Answers')
+      await Firestore.instance
+          .collection('Answers')
           .where('questionId', isEqualTo: this.id)
           .getDocuments()
           .then((querySnapshot) {
@@ -392,8 +393,8 @@ class Article {
     this.isDraft,
     this.userId,
     this.contentJson,
-        this.profUpvoteCount,
-        this.reportCount});
+    this.profUpvoteCount,
+    this.reportCount});
 
   Article.fromSnapshot(DocumentSnapshot snapshot) {
     title = snapshot.data['title'];
@@ -615,8 +616,8 @@ class Answer {
     this.byProf,
     this.isDraft,
     this.contentJson,
-        this.profUpvoteCount,
-        this.reportCount});
+    this.profUpvoteCount,
+    this.reportCount});
 
   Answer.fromSnapshot(DocumentSnapshot snapshot) {
     content = snapshot.data['content'];
@@ -705,6 +706,23 @@ class Answer {
       return true;
     } catch (e) {
       print("Answer.delete()");
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> deletePublished() async {
+    //reduce answer count of relevant question
+    try {
+      await Firestore.instance
+          .collection('Questions')
+          .document(this.queID)
+          .updateData({'answerCount': FieldValue.increment(-1)});
+      //delete the answer
+      await this.delete();
+      return true;
+    } catch (e) {
+      print('721__Answer__Answer.deletePublished__classes.dart');
       print(e);
       return false;
     }
@@ -801,6 +819,29 @@ class Answer {
     }
   }
 
+  Future<bool> discardAllReports() async {
+    try {
+      await Firestore.instance
+          .collection('Answers')
+          .document(this.id)
+          .collection('reports')
+          .getDocuments()
+          .then((querySnapshot) {
+        querySnapshot.documents.forEach((doc) {
+          doc.reference.delete();
+        });
+      });
+      await Firestore.instance.collection('Answers').document(this.id).updateData({
+        'reportCount': 0,
+      });
+      return true;
+    } catch (e) {
+      print('821__Answer__Answer.discardAllReports__classes.dart');
+      print(e);
+      return false;
+    }
+  }
+
 //TODO static methods to return stream for increasing readability in code
 //Fetch all reports of this answer
 //Fetch all answers by this user
@@ -878,8 +919,7 @@ class Report {
       });
 
       if (submittedOnce == false) {
-        await Firestore.instance.collection(contentCollection + "/" + docId + "/reports")
-            .add({
+        await Firestore.instance.collection(contentCollection + "/" + docId + "/reports").add({
           'comment': this.comment,
           'violations': this.violations,
           'weight': this.weight,

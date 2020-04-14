@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/report_content_sheet.dart';
@@ -21,23 +22,24 @@ class ArticlePage extends StatefulWidget {
 class _ArticlePageState extends State<ArticlePage> {
   Widget _popUpMenu() {
     return PopupMenuButton(
-      itemBuilder: (_) {
-        return [
-          PopupMenuItem<int>(
-            child: Text("Report Article"),
-            value: 1,
-          ),
-        ];
-      },
-      onSelected: (i) {
-        if (i == 1) {
-            ReportFlow.showSubmitReportBottomSheet(
-            context,
-            contentCollection: 'Articles',
-            contentDocId: widget.article.id,
-          );
-        }
-      },
+        offset: Offset.fromDirection(math.pi / 2, AppBar().preferredSize.height),
+        itemBuilder: (_) {
+            return [
+                PopupMenuItem<int>(
+                    child: Text("Report Article"),
+                    value: 1,
+                ),
+            ];
+        },
+        onSelected: (i) {
+            if (i == 1) {
+                ReportFlow.showSubmitReportBottomSheet(
+                    context,
+                    contentCollection: 'Articles',
+                    contentDocId: widget.article.id,
+                );
+            }
+        },
     );
   }
 

@@ -8,7 +8,6 @@ class AdminPanelHome extends StatelessWidget {
   final User admin;
 
   const AdminPanelHome({Key key, this.admin}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

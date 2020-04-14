@@ -7,6 +7,8 @@
 //let admin delete the content (Content that are reported more than 5 times)
 //If possible, they should be able to review next reported content in the same sheet
 
+import 'dart:math' as math;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/admin/reports/content_report_card.dart';
 import 'package:ednet/home/feed/question/question_tile_header.dart';
@@ -50,37 +52,38 @@ class QuestionReportsReviewPage extends StatelessWidget {
 
   Widget _showPopUpMenu(context) {
     return PopupMenuButton<int>(
-      itemBuilder: (context) {
-        return [
-          PopupMenuItem(
-            value: 1,
-            child: Text("Discard all reports"),
-          ),
-        ];
-      },
-      onSelected: (i) async {
-        if (i == 1) {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return ReportDiscardConfirmationAlert(
-                discardCallback: () async {
-                  Navigator.of(context).pop();
-                  bool stat = await question.discardAllReports();
-                  stat
-                      ? Constant.showToastSuccess("All reports discarded")
-                      : Constant.showToastError("Operation failed");
-                  Navigator.of(context).pop();
-                },
-                cancelCallback: () {
-                  Navigator.of(context).pop();
-                },
-                allReports: true,
-              );
-            },
-          );
-        }
-      },
+        offset: Offset.fromDirection(math.pi / 2, AppBar().preferredSize.height),
+        itemBuilder: (context) {
+            return [
+                PopupMenuItem(
+                    value: 1,
+                    child: Text("Discard all reports"),
+                ),
+            ];
+        },
+        onSelected: (i) async {
+            if (i == 1) {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                        return ReportDiscardConfirmationAlert(
+                            discardCallback: () async {
+                                Navigator.of(context).pop();
+                                bool stat = await question.discardAllReports();
+                                stat
+                                ? Constant.showToastSuccess("All reports discarded")
+                                : Constant.showToastError("Operation failed");
+                                Navigator.of(context).pop();
+                            },
+                            cancelCallback: () {
+                                Navigator.of(context).pop();
+                            },
+                            allReports: true,
+                        );
+                    },
+                );
+            }
+        },
     );
   }
 
@@ -92,7 +95,7 @@ class QuestionReportsReviewPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Review Reports",
+              "Question Reports",
             style: Theme.of(context).brightness == Brightness.dark
                 ? DarkTheme.appBarTextStyle
                 : LightTheme.appBarTextStyle,
