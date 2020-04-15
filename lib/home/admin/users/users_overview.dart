@@ -2,34 +2,188 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 
-class AdminUsersList extends StatelessWidget {
+class AdminUsersList extends StatefulWidget {
   final User admin;
 
   const AdminUsersList({Key key, this.admin}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scrollbar(
-      child: ListView(
-        //TODO radial stat summary of how many fractions of total students, profs have signed up.
-        children: <Widget>[
-          ProfileSetStudents(
-            admin: admin,
-          ),
-          ProfileSetProfs(
-            admin: admin,
-          ),
-        ],
-      ),
-    );
-  }
+  _AdminUsersListState createState() => _AdminUsersListState();
+}
+
+class _AdminUsersListState extends State<AdminUsersList> with AutomaticKeepAliveClientMixin {
+    int _totalStudentCount = 0;
+    int _signedUpStudentCount = 0;
+    int _totalProfCount = 0;
+    int _signedUpProfCount = 0;
+    List<DocumentSnapshot> _signedUpStudentsDocList = [];
+    List<DocumentSnapshot> _signedUpProfDocList = [];
+    bool _isLoading = false;
+    final GlobalKey<AnimatedCircularChartState> _studentChartKey =
+    new GlobalKey<AnimatedCircularChartState>();
+    List<CircularStackEntry> _studentChartInitData = <CircularStackEntry>[
+        CircularStackEntry(<CircularSegmentEntry>[
+            CircularSegmentEntry(0, Colors.greenAccent, rankKey: 'signedup'),
+            CircularSegmentEntry(100, Colors.blueGrey, rankKey: 'total'),
+        ], rankKey: 'Students'),
+    ];
+    final GlobalKey<AnimatedCircularChartState> _profChartKey =
+    new GlobalKey<AnimatedCircularChartState>();
+    List<CircularStackEntry> _profChartInitData = <CircularStackEntry>[
+        CircularStackEntry(<CircularSegmentEntry>[
+            CircularSegmentEntry(0, Colors.greenAccent, rankKey: 'signedup'),
+            CircularSegmentEntry(100, Colors.blueGrey, rankKey: 'total'),
+        ], rankKey: 'Professor'),
+    ];
+
+    Future<void> loadData() async {
+        setState(() {
+            _isLoading = true;
+        });
+
+        //set initial chart data
+        //counting total students and prof
+        await Firestore.instance
+            .collection('SignUpApplications')
+            .where('university', isEqualTo: widget.admin.university)
+            .getDocuments()
+            .then((querySnapshot) {
+            querySnapshot.documents.forEach((doc) {
+                if (doc.data['type'] == 'prof') {
+                    _totalProfCount++;
+                } else if (doc.data['type'] == 'student') {
+                    _totalStudentCount++;
+                }
+            });
+        });
+
+        //counting profile set students and profs and appending respective doc to respective list
+        await Firestore.instance
+            .collection('Users')
+            .where('university', isEqualTo: widget.admin.university)
+            .where('isProfileSet', isEqualTo: true)
+            .getDocuments()
+            .then((querySnapshot) {
+            querySnapshot.documents.forEach((doc) {
+                if (doc.data['isProf'] == true) {
+                    _signedUpProfCount++;
+                    _signedUpProfDocList.add(doc);
+                } else if (doc.data['isProf'] == false && doc.data['isAdmin'] == false) {
+                    _signedUpStudentCount++;
+                    _signedUpStudentsDocList.add(doc);
+                }
+            });
+        });
+        List<CircularStackEntry> _profChartFinalData = <CircularStackEntry>[
+            CircularStackEntry(<CircularSegmentEntry>[
+                CircularSegmentEntry(
+                    _signedUpStudentCount.floorToDouble(), Colors.greenAccent, rankKey: 'signedup'),
+                CircularSegmentEntry(
+                    (_totalProfCount - _signedUpProfCount).floorToDouble(), Colors.blueGrey,
+                    rankKey: 'total'),
+            ], rankKey: 'Professor'),
+        ];
+        List<CircularStackEntry> _studentChartFinalData = <CircularStackEntry>[
+            CircularStackEntry(<CircularSegmentEntry>[
+                CircularSegmentEntry(
+                    _signedUpStudentCount.floorToDouble(), Colors.greenAccent, rankKey: 'signedup'),
+                CircularSegmentEntry(
+                    (_totalStudentCount - _signedUpStudentCount).floorToDouble(), Colors.blueGrey,
+                    rankKey: 'total'),
+            ], rankKey: 'Student'),
+        ];
+        _studentChartKey.currentState.updateData(_studentChartFinalData);
+        _profChartKey.currentState.updateData(_profChartFinalData);
+        print("signed up prof:-$_signedUpProfCount");
+        print("signed up student:-$_signedUpStudentCount");
+        setState(() {
+            _isLoading = false;
+        });
+    }
+
+    @override
+    void initState() {
+        loadData();
+        super.initState();
+    }
+
+    @override
+    Widget build(BuildContext context) {
+        super.build(context);
+        //2 radial charts
+        return Scrollbar(
+            child: ListView(
+                children: <Widget>[
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                        child: Text(
+                            widget.admin.university,
+                            style: Theme
+                                       .of(context)
+                                       .brightness == Brightness.dark
+                                   ? DarkTheme.headingStyle
+                                   : LightTheme.headingStyle,
+                        ),
+                    ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                            Spacer(),
+                            AnimatedCircularChart(
+                                key: _studentChartKey,
+                                size: const Size(150.0, 150.0),
+                                initialChartData: _studentChartInitData,
+                                chartType: CircularChartType.Radial,
+                                holeRadius: 25.0,
+                                duration: Duration(milliseconds: 2000),
+                            ),
+                            Spacer(),
+                            AnimatedCircularChart(
+                                key: _profChartKey,
+                                size: const Size(150.0, 150.0),
+                                initialChartData: _profChartInitData,
+                                chartType: CircularChartType.Radial,
+                                holeRadius: 25.0,
+                                duration: Duration(milliseconds: 2000),
+                            ),
+                            Spacer(),
+                        ],
+                    ),
+                    _isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                    )
+                    : ListView(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        children: <Widget>[
+                            ProfileSetStudents(
+                                signedUpStudents: _signedUpStudentsDocList,
+                            ),
+                            ProfileSetProfs(
+                                signedUpProfs: _signedUpProfDocList,
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+        );
+    }
+
+    @override
+    bool get wantKeepAlive => true;
 }
 
 class ProfileSetStudents extends StatelessWidget {
-  final User admin;
+    final List<DocumentSnapshot> signedUpStudents;
 
-  const ProfileSetStudents({Key key, this.admin}) : super(key: key);
+    ProfileSetStudents({
+        Key key,
+        this.signedUpStudents,
+    }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,53 +195,45 @@ class ProfileSetStudents extends StatelessWidget {
             : LightTheme.dropDownMenuTitleStyle,
       ),
       children: <Widget>[
-        StreamBuilder(
-          stream: Firestore.instance
-              .collection('Users')
-              .where('university', isEqualTo: admin.university)
-              .where('isProfileSet', isEqualTo: true)
-              .where('isProf', isEqualTo: false)
-              .where('isAdmin', isEqualTo: false)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data.documents.length == 0) {
-                return Text(
-                  "No students from ${admin.university} has finished sign up procedure yet.",
-                  style: Theme.of(context).brightness == Brightness.dark
-                      ? DarkTheme.headingDescriptionStyle
-                      : LightTheme.headingDescriptionStyle,
-                );
-              } else {
-                return ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (_, i) {
-                    User u = User.fromSnapshot(snapshot.data.documents[i]);
-                    return ListTile(
+          signedUpStudents.length == 0
+          ? Container(
+              child: Center(
+                  child: Text(
+                      "No Student Signed Up yet",
+                      style: Theme
+                                 .of(context)
+                                 .brightness == Brightness.dark
+                             ? DarkTheme.secondaryHeadingTextStyle
+                             : LightTheme.secondaryHeadingTextStyle,
+                  ),
+              ),
+          )
+          : ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: signedUpStudents.length,
+              itemBuilder: (_, i) {
+                  User u = User.fromSnapshot(signedUpStudents[i]);
+                  return ListTile(
                       title: Text(u.userName),
                       onTap: () {
-                        Constant.userProfileView(context, userId: u.id);
+                          Constant.userProfileView(context, userId: u.id);
                       },
-                    );
-                  },
-                );
-              }
-            } else {
-              return Container();
-            }
-          },
-        ),
+                  );
+              },
+          ),
       ],
     );
   }
 }
 
 class ProfileSetProfs extends StatelessWidget {
-  final User admin;
+    final List<DocumentSnapshot> signedUpProfs;
 
-  const ProfileSetProfs({Key key, this.admin}) : super(key: key);
+    const ProfileSetProfs({
+        Key key,
+        this.signedUpProfs,
+    }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -99,44 +245,33 @@ class ProfileSetProfs extends StatelessWidget {
             : LightTheme.dropDownMenuTitleStyle,
       ),
       children: <Widget>[
-        StreamBuilder(
-          stream: Firestore.instance
-              .collection('Users')
-              .where('university', isEqualTo: admin.university)
-              .where('isProfileSet', isEqualTo: true)
-              .where('isProf', isEqualTo: true)
-              .where('isAdmin', isEqualTo: false)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data.documents.length == 0) {
-                return Text(
-                  "No professors from ${admin.university} has finished sign up procedure yet.",
-                  style: Theme.of(context).brightness == Brightness.dark
-                      ? DarkTheme.headingDescriptionStyle
-                      : LightTheme.headingDescriptionStyle,
-                );
-              } else {
-                return ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (_, i) {
-                    User u = User.fromSnapshot(snapshot.data.documents[i]);
-                    return ListTile(
+          signedUpProfs.length == 0
+          ? Container(
+              child: Center(
+                  child: Text(
+                      "No Professor Signed Up yet",
+                      style: Theme
+                                 .of(context)
+                                 .brightness == Brightness.dark
+                             ? DarkTheme.secondaryHeadingTextStyle
+                             : LightTheme.secondaryHeadingTextStyle,
+                  ),
+              ),
+          )
+          : ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: signedUpProfs.length,
+              itemBuilder: (_, i) {
+                  User u = User.fromSnapshot(signedUpProfs[i]);
+                  return ListTile(
                       title: Text(u.userName),
                       onTap: () {
-                        Constant.userProfileView(context, userId: u.id);
+                          Constant.userProfileView(context, userId: u.id);
                       },
-                    );
-                  },
-                );
-              }
-            } else {
-              return Container();
-            }
-          },
-        ),
+                  );
+              },
+          ),
       ],
     );
   }
