@@ -23,17 +23,13 @@ class _AdminUsersListState extends State<AdminUsersList> with AutomaticKeepAlive
     bool _isLoading = false;
     final GlobalKey<AnimatedCircularChartState> _studentChartKey =
     new GlobalKey<AnimatedCircularChartState>();
-    List<CircularStackEntry> _studentChartInitData;
     final GlobalKey<AnimatedCircularChartState> _profChartKey =
     new GlobalKey<AnimatedCircularChartState>();
-    List<CircularStackEntry> _profChartInitData;
 
     Future<void> loadData() async {
         setState(() {
             _isLoading = true;
         });
-
-        //set initial chart data
         //counting total students and prof
         await Firestore.instance
             .collection('SignUpApplications')
@@ -118,8 +114,6 @@ class _AdminUsersListState extends State<AdminUsersList> with AutomaticKeepAlive
         ];
         _studentChartKey.currentState.updateData(_studentChartFinalData);
         _profChartKey.currentState.updateData(_profChartFinalData);
-        print("signed up prof:-$_signedUpProfCount");
-        print("signed up student:-$_signedUpStudentCount");
         setState(() {
             _isLoading = false;
         });
@@ -129,43 +123,6 @@ class _AdminUsersListState extends State<AdminUsersList> with AutomaticKeepAlive
     void initState() {
         loadData();
         super.initState();
-    }
-
-    @override
-    void didChangeDependencies() {
-        _studentChartInitData = <CircularStackEntry>[
-            CircularStackEntry(
-                <CircularSegmentEntry>[
-                    CircularSegmentEntry(
-                        1,
-                        Theme
-                            .of(context)
-                            .brightness == Brightness.dark
-                        ? DarkTheme.graphBackgroundColor
-                        : LightTheme.graphBackgroundColor,
-                        rankKey: 'total',
-                    ),
-                ],
-                rankKey: 'Students',
-            ),
-        ];
-        _profChartInitData = <CircularStackEntry>[
-            CircularStackEntry(
-                <CircularSegmentEntry>[
-                    CircularSegmentEntry(
-                        1,
-                        Theme
-                            .of(context)
-                            .brightness == Brightness.dark
-                        ? DarkTheme.graphBackgroundColor
-                        : LightTheme.graphBackgroundColor,
-                        rankKey: 'total',
-                    ),
-                ],
-                rankKey: 'Professor',
-            ),
-        ];
-        super.didChangeDependencies();
     }
 
     @override
@@ -186,91 +143,14 @@ class _AdminUsersListState extends State<AdminUsersList> with AutomaticKeepAlive
                             textAlign: TextAlign.center,
                         ),
                     ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                            Spacer(
-                                flex: 1,
-                            ),
-                            Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                    AnimatedCircularChart(
-                                        key: _studentChartKey,
-                                        size: const Size(150.0, 150.0),
-                                        initialChartData: _studentChartInitData,
-                                        chartType: CircularChartType.Radial,
-                                        holeLabel: _signedUpStudentCount == 0
-                                                   ? null
-                                                   : _signedUpStudentCount.toString(),
-                                        duration: Duration(milliseconds: 1500),
-                                        holeRadius: 50.0,
-                                        labelStyle: Theme
-                                                        .of(context)
-                                                        .brightness == Brightness.dark
-                                                    ? DarkTheme.graphLabelStyle
-                                                    : LightTheme.graphLabelStyle,
-                                    ),
-                                    SizedBox(
-                                        height: 16.0,
-                                    ),
-                                    Text(
-                                        "Students",
-                                        style: Theme
-                                                   .of(context)
-                                                   .brightness == Brightness.dark
-                                               ? DarkTheme.graphDescriptionStyle
-                                               : LightTheme.graphDescriptionStyle,
-                                    ),
-                                ],
-                            ),
-                            Spacer(
-                                flex: 1,
-                            ),
-                            Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                    AnimatedCircularChart(
-                                        key: _profChartKey,
-                                        size: const Size(150.0, 150.0),
-                                        initialChartData: _profChartInitData,
-                                        chartType: CircularChartType.Radial,
-                                        holeLabel: _signedUpProfCount == 0
-                                                   ? null
-                                                   : _signedUpProfCount.toString(),
-                                        duration: Duration(milliseconds: 1500),
-                                        holeRadius: 50.0,
-                                        labelStyle: Theme
-                                                        .of(context)
-                                                        .brightness == Brightness.dark
-                                                    ? DarkTheme.graphLabelStyle
-                                                    : LightTheme.graphLabelStyle,
-                                    ),
-                                    SizedBox(
-                                        height: 16.0,
-                                    ),
-                                    Text(
-                                        "Professors",
-                                        style: Theme
-                                                   .of(context)
-                                                   .brightness == Brightness.dark
-                                               ? DarkTheme.graphDescriptionStyle
-                                               : LightTheme.graphDescriptionStyle,
-                                    ),
-                                ],
-                            ),
-                            Spacer(
-                                flex: 1,
-                            ),
-                        ],
+                    SummaryChartRow(
+                        profKey: _profChartKey,
+                        studentKey: _studentChartKey,
+                        studentCount: _signedUpStudentCount,
+                        profCont: _signedUpProfCount,
                     ),
                     SizedBox(
-                        height: 8,
+                        height: 16,
                     ),
                     _isLoading
                     ? Center(
@@ -395,4 +275,150 @@ class ProfileSetProfs extends StatelessWidget {
       ],
     );
   }
+}
+
+class SummaryChartRow extends StatefulWidget {
+    final GlobalKey studentKey;
+    final GlobalKey profKey;
+    final int studentCount;
+    final int profCont;
+
+    const SummaryChartRow({Key key, this.studentKey, this.profKey, this.studentCount, this.profCont})
+        : super(key: key);
+
+    @override
+    _SummaryChartRowState createState() => _SummaryChartRowState();
+}
+
+class _SummaryChartRowState extends State<SummaryChartRow> with AutomaticKeepAliveClientMixin {
+    List<CircularStackEntry> _studentChartInitData;
+    List<CircularStackEntry> _profChartInitData;
+
+    @override
+    void didChangeDependencies() {
+        _studentChartInitData = <CircularStackEntry>[
+            CircularStackEntry(
+                <CircularSegmentEntry>[
+                    CircularSegmentEntry(
+                        1,
+                        Theme
+                            .of(context)
+                            .brightness == Brightness.dark
+                        ? DarkTheme.graphBackgroundColor
+                        : LightTheme.graphBackgroundColor,
+                        rankKey: 'total',
+                    ),
+                ],
+                rankKey: 'Students',
+            ),
+        ];
+        _profChartInitData = <CircularStackEntry>[
+            CircularStackEntry(
+                <CircularSegmentEntry>[
+                    CircularSegmentEntry(
+                        1,
+                        Theme
+                            .of(context)
+                            .brightness == Brightness.dark
+                        ? DarkTheme.graphBackgroundColor
+                        : LightTheme.graphBackgroundColor,
+                        rankKey: 'total',
+                    ),
+                ],
+                rankKey: 'Professor',
+            ),
+        ];
+        super.didChangeDependencies();
+    }
+
+    @override
+    Widget build(BuildContext context) {
+        super.build(context);
+        return Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+                Spacer(
+                    flex: 1,
+                ),
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                        AnimatedCircularChart(
+                            key: widget.studentKey,
+                            size: const Size(150.0, 150.0),
+                            initialChartData: _studentChartInitData,
+                            chartType: CircularChartType.Radial,
+                            holeLabel: widget.studentCount == 0
+                                       ? null
+                                       : widget.studentCount.toString(),
+                            duration: Duration(milliseconds: 1500),
+                            holeRadius: 50.0,
+                            labelStyle: Theme
+                                            .of(context)
+                                            .brightness == Brightness.dark
+                                        ? DarkTheme.graphLabelStyle
+                                        : LightTheme.graphLabelStyle,
+                        ),
+                        SizedBox(
+                            height: 16.0,
+                        ),
+                        Text(
+                            "Students",
+                            style: Theme
+                                       .of(context)
+                                       .brightness == Brightness.dark
+                                   ? DarkTheme.graphDescriptionStyle
+                                   : LightTheme.graphDescriptionStyle,
+                        ),
+                    ],
+                ),
+                Spacer(
+                    flex: 1,
+                ),
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                        AnimatedCircularChart(
+                            key: widget.profKey,
+                            size: const Size(150.0, 150.0),
+                            initialChartData: _profChartInitData,
+                            chartType: CircularChartType.Radial,
+                            holeLabel: widget.profCont == 0
+                                       ? null
+                                       : widget.profCont.toString(),
+                            duration: Duration(milliseconds: 1500),
+                            holeRadius: 50.0,
+                            labelStyle: Theme
+                                            .of(context)
+                                            .brightness == Brightness.dark
+                                        ? DarkTheme.graphLabelStyle
+                                        : LightTheme.graphLabelStyle,
+                        ),
+                        SizedBox(
+                            height: 16.0,
+                        ),
+                        Text(
+                            "Professors",
+                            style: Theme
+                                       .of(context)
+                                       .brightness == Brightness.dark
+                                   ? DarkTheme.graphDescriptionStyle
+                                   : LightTheme.graphDescriptionStyle,
+                        ),
+                    ],
+                ),
+                Spacer(
+                    flex: 1,
+                ),
+            ],
+        );
+    }
+
+    @override
+    bool get wantKeepAlive => true;
 }
