@@ -894,3 +894,152 @@ class AnswerContentView extends StatelessWidget {
     );
   }
 }
+
+class ArticleContentView extends StatelessWidget {
+  final Article article;
+
+  const ArticleContentView({Key key, this.article}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          article.title,
+          style: Theme
+                     .of(context)
+                     .brightness == Brightness.dark
+                 ? DarkTheme.articleTitleStyle
+                 : LightTheme.articleTitleStyle,
+        ),
+        SizedBox(height: 18.0),
+        Text(
+          article.subtitle,
+          style: Theme
+                     .of(context)
+                     .brightness == Brightness.dark
+                 ? DarkTheme.articleSubtitleStyle
+                 : LightTheme.articleSubtitleStyle,
+        ),
+        SizedBox(
+          height: 24.0,
+        ),
+        ZefyrView(
+          document: NotusDocument.fromJson(
+            jsonDecode(article.contentJson),
+          ),
+        ),
+        SizedBox(
+          height: 18.0,
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              child: StreamBuilder(
+                stream: Firestore.instance
+                    .collection('Users')
+                    .document(article.userId)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Container();
+                  } else {
+                    if (snapshot.data.data != null) {
+                      DocumentSnapshot userDoc = snapshot.data;
+                      return GestureDetector(
+                        onTap: () {
+                          Constant.userProfileView(context, userId: article.userId);
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              "Written by",
+                              style: Theme
+                                         .of(context)
+                                         .brightness == Brightness.dark
+                                     ? DarkTheme.dateTimeStyle
+                                     : LightTheme.dateTimeStyle,
+                            ),
+                            SizedBox(
+                              height: 8.0,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.person,
+                                  size: 16.0,
+                                ),
+                                article.byProf
+                                ? Icon(
+                                  Icons.star,
+                                  color: Colors.orangeAccent,
+                                  size: 16.0,
+                                )
+                                : Container(),
+                                Text(
+                                  userDoc.data['username'],
+                                  style: Theme
+                                             .of(context)
+                                             .brightness == Brightness.dark
+                                         ? DarkTheme.usernameStyle
+                                         : LightTheme.usernameStyle,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return Container(); //TODO user account is removed. msg if we want
+                    }
+                  }
+                },
+              ),
+            ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    "On",
+                    style: Theme
+                               .of(context)
+                               .brightness == Brightness.dark
+                           ? DarkTheme.dateTimeStyle
+                           : LightTheme.dateTimeStyle,
+                  ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  Text(
+                    Constant.formatDateTime(article.createdOn),
+                    style: Theme
+                               .of(context)
+                               .brightness == Brightness.dark
+                           ? DarkTheme.dateTimeMediumStyle
+                           : LightTheme.dateTimeMediumStyle,
+                    textAlign: TextAlign.end,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}
+

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/admin/reports/answer_report_review.dart';
+import 'package:ednet/home/admin/reports/article_report_review.dart';
 import 'package:ednet/home/admin/reports/question_report_review.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
@@ -257,6 +258,15 @@ class ReportedArticles extends StatelessWidget {
                                  ? DarkTheme.secondaryNegativeTextStyle
                                  : LightTheme.secondaryNegativeTextStyle,
                       ),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ArticleReportsReviewPage(article: a,);
+                            },
+                          ),
+                        );
+                      },
                     );
                   });
             } else {

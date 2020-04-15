@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,7 +7,6 @@ import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:zefyr/zefyr.dart';
 
 class ArticlePage extends StatefulWidget {
   final Article article;
@@ -56,125 +54,7 @@ class _ArticlePageState extends State<ArticlePage> {
           child: ListView(
             padding: Constant.edgePadding,
             children: <Widget>[
-              Text(
-                widget.article.title,
-                style: Theme.of(context).brightness == Brightness.dark
-                       ? DarkTheme.articleTitleStyle
-                       : LightTheme.articleTitleStyle,
-              ),
-              SizedBox(height: 18.0),
-              Text(
-                widget.article.subtitle,
-                style: Theme.of(context).brightness == Brightness.dark
-                       ? DarkTheme.articleSubtitleStyle
-                       : LightTheme.articleSubtitleStyle,
-              ),
-              SizedBox(
-                height: 24.0,
-              ),
-              ZefyrView(
-                document: NotusDocument.fromJson(
-                  jsonDecode(widget.article.contentJson),
-                ),
-              ),
-              SizedBox(
-                height: 18.0,
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    child: StreamBuilder(
-                      stream: Firestore.instance
-                          .collection('Users')
-                          .document(widget.article.userId)
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Container();
-                        } else {
-                          if (snapshot.data.data != null) {
-                            DocumentSnapshot userDoc = snapshot.data;
-                            return GestureDetector(
-                              onTap: () {
-                                Constant.userProfileView(context, userId: widget.article.userId);
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Text(
-                                    "Written by",
-                                    style: Theme.of(context).brightness == Brightness.dark
-                                           ? DarkTheme.dateTimeStyle
-                                           : LightTheme.dateTimeStyle,
-                                  ),
-                                  SizedBox(
-                                    height: 8.0,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.person,
-                                        size: 16.0,
-                                      ),
-                                      widget.article.byProf
-                                      ? Icon(
-                                        Icons.star,
-                                        color: Colors.orangeAccent,
-                                        size: 16.0,
-                                      )
-                                      : Container(),
-                                      Text(
-                                        userDoc.data['username'],
-                                        style: Theme.of(context).brightness == Brightness.dark
-                                               ? DarkTheme.usernameStyle
-                                               : LightTheme.usernameStyle,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
-                          } else {
-                            return Container(); //TODO user account is removed. msg if we want
-                          }
-                        }
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
-                          "On",
-                          style: Theme.of(context).brightness == Brightness.dark
-                                 ? DarkTheme.dateTimeStyle
-                                 : LightTheme.dateTimeStyle,
-                        ),
-                        SizedBox(
-                          height: 8.0,
-                        ),
-                        Text(
-                          Constant.formatDateTime(widget.article.createdOn),
-                          style: Theme.of(context).brightness == Brightness.dark
-                                 ? DarkTheme.dateTimeMediumStyle
-                                 : LightTheme.dateTimeMediumStyle,
-                          textAlign: TextAlign.end,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+              ArticleContentView(article: widget.article,),
               SizedBox(
                 height: 32.0,
               ),
@@ -286,3 +166,4 @@ class _ArticlePageState extends State<ArticlePage> {
     );
   }
 }
+

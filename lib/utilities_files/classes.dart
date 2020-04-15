@@ -580,6 +580,29 @@ class Article {
     }
   }
 
+  Future<bool> discardAllReports() async {
+    try {
+      await Firestore.instance
+          .collection('Articles')
+          .document(this.id)
+          .collection('reports')
+          .getDocuments()
+          .then((querySnapshot) {
+        querySnapshot.documents.forEach((doc) {
+          doc.reference.delete();
+        });
+      });
+      await Firestore.instance.collection('Articles').document(this.id).updateData({
+        'reportCount': 0,
+      });
+      return true;
+    } catch (e) {
+      print('600__Article__Article.discardAllReports__classes.dart');
+      print(e);
+      return false;
+    }
+  }
+
 //TODO static methods returning streams
 //Fetch all articles
 //Fetch all reports of this article
