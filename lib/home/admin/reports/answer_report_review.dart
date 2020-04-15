@@ -16,8 +16,9 @@ import 'package:flutter/material.dart';
 
 class AnswerReportsReviewPage extends StatelessWidget {
   final Answer answer;
+  final Function parentRebuildCallback;
 
-  AnswerReportsReviewPage({Key key, this.answer}) : super(key: key);
+  AnswerReportsReviewPage({Key key, this.answer, this.parentRebuildCallback}) : super(key: key);
 
   int _reportCount;
 
@@ -84,161 +85,181 @@ class AnswerReportsReviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Answer Reports",
-            style: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.appBarTextStyle
-                   : LightTheme.appBarTextStyle,
-          ),
-          actions: <Widget>[
-            _showPopUpMenu(context),
-          ],
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Expanded(
-              child: Scrollbar(
-                child: ListView(
-                  children: <Widget>[
-                    ExpansionTile(
-                      initiallyExpanded: false,
+      return WillPopScope(
+          onWillPop: () async {
+              parentRebuildCallback();
+              return true;
+          },
+          child: SafeArea(
+              child: Scaffold(
+                  appBar: AppBar(
                       title: Text(
-                        "Question",
-                        style: Theme
-                                   .of(context)
-                                   .brightness == Brightness.dark
-                               ? DarkTheme.dropDownMenuTitleStyle
-                               : LightTheme.dropDownMenuTitleStyle,
+                          "Answer Reports",
+                          style: Theme
+                                     .of(context)
+                                     .brightness == Brightness.dark
+                                 ? DarkTheme.appBarTextStyle
+                                 : LightTheme.appBarTextStyle,
                       ),
-                      children: <Widget>[
-                        StreamBuilder(
-                          stream: Firestore.instance
-                              .collection('Questions')
-                              .document(answer.queID)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return QuestionTile(question: Question.fromSnapshot(snapshot.data));
-                            } else {
-                              return ShimmerQuestionTile();
-                            }
-                          },
-                        ),
+                      actions: <Widget>[
+                          _showPopUpMenu(context),
                       ],
-                    ),
-                    ExpansionTile(
-                      initiallyExpanded: true,
-                      title: Text(
-                        "Answer",
-                        style: Theme
-                                   .of(context)
-                                   .brightness == Brightness.dark
-                               ? DarkTheme.dropDownMenuTitleStyle
-                               : LightTheme.dropDownMenuTitleStyle,
-                      ),
-                      children: <Widget>[
-                        Padding(
-                          padding: Constant.edgePadding,
-                          child: AnswerContentView(
-                            answer: answer,
-                          ),
-                        ),
-                      ],
-                    ),
-                    ExpansionTile(
-                      initiallyExpanded: true,
-                      title: Text(
-                        "Reports",
-                        style: Theme
-                                   .of(context)
-                                   .brightness == Brightness.dark
-                               ? DarkTheme.dropDownMenuTitleStyle
-                               : LightTheme.dropDownMenuTitleStyle,
-                      ),
-                      children: <Widget>[
-                        StreamBuilder(
-                          stream: Firestore.instance
-                              .collection('Answers')
-                              .document(answer.id)
-                              .collection('reports')
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              _reportCount = snapshot.data.documents.length;
-                              if (snapshot.data.documents.length > 0) {
-                                return ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: snapshot.data.documents.length,
-                                    itemBuilder: (_, i) {
-                                      Report r = Report.fromSnapshot(snapshot.data.documents[i]);
-                                      return ReportCard(
-                                        contentCollection: 'Answers',
-                                        contentDocId: answer.id,
-                                        report: r,
-                                      );
-                                    });
-                              } else {
-                                return SizedBox(
-                                  height: 60,
-                                  child: Center(
-                                    child: Text(
-                                      "Zero report for this answer",
-                                      style: Theme
-                                                 .of(context)
-                                                 .brightness == Brightness.dark
-                                             ? DarkTheme.headingDescriptionStyle
-                                             : LightTheme.headingDescriptionStyle,
-                                    ),
-                                  ),
-                                );
-                              }
-                            } else {
-                              //TODO shimmer loader
-                              return Container();
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: SizedBox(
-                width: double.maxFinite,
-                height: 64,
-                child: NegativePrimaryButton(
-                  callback: () {
-                    if (_reportCount < 5) {
-                      Constant.showToastInstruction(
-                          "Atleast 5 reports needed to remove this answer");
-                    } else {
-                      _deleteAnswerDialog(context);
-                    }
-                  },
-                  child: Text(
-                    "Delete This Answer",
-                    style: Theme
-                               .of(context)
-                               .brightness == Brightness.dark
-                           ? DarkTheme.negativePrimaryButtonTextStyle
-                           : LightTheme.negativePrimaryButtonTextStyle,
                   ),
-                ),
-              ),
-            )
-          ],
+                  body: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                          Expanded(
+                              child: Scrollbar(
+                                  child: ListView(
+                                      children: <Widget>[
+                                          ExpansionTile(
+                                              initiallyExpanded: false,
+                                              title: Text(
+                                                  "Question",
+                                                  style: Theme
+                                                             .of(context)
+                                                             .brightness == Brightness.dark
+                                                         ? DarkTheme.dropDownMenuTitleStyle
+                                                         : LightTheme.dropDownMenuTitleStyle,
+                                              ),
+                                              children: <Widget>[
+                                                  StreamBuilder(
+                                                      stream: Firestore.instance
+                                                          .collection('Questions')
+                                                          .document(answer.queID)
+                                                          .snapshots(),
+                                                      builder: (context, snapshot) {
+                                                          if (snapshot.hasData) {
+                                                              return QuestionTile(
+                                                                  question: Question.fromSnapshot(
+                                                                      snapshot.data));
+                                                          } else {
+                                                              return ShimmerQuestionTile();
+                                                          }
+                                                      },
+                                                  ),
+                                              ],
+                                          ),
+                                          ExpansionTile(
+                                              initiallyExpanded: true,
+                                              title: Text(
+                                                  "Answer",
+                                                  style: Theme
+                                                             .of(context)
+                                                             .brightness == Brightness.dark
+                                                         ? DarkTheme.dropDownMenuTitleStyle
+                                                         : LightTheme.dropDownMenuTitleStyle,
+                                              ),
+                                              children: <Widget>[
+                                                  Padding(
+                                                      padding: Constant.edgePadding,
+                                                      child: AnswerContentView(
+                                                          answer: answer,
+                                                      ),
+                                                  ),
+                                              ],
+                                          ),
+                                          ExpansionTile(
+                                              initiallyExpanded: true,
+                                              title: Text(
+                                                  "Reports",
+                                                  style: Theme
+                                                             .of(context)
+                                                             .brightness == Brightness.dark
+                                                         ? DarkTheme.dropDownMenuTitleStyle
+                                                         : LightTheme.dropDownMenuTitleStyle,
+                                              ),
+                                              children: <Widget>[
+                                                  StreamBuilder(
+                                                      stream: Firestore.instance
+                                                          .collection('Answers')
+                                                          .document(answer.id)
+                                                          .collection('reports')
+                                                          .snapshots(),
+                                                      builder: (context, snapshot) {
+                                                          if (snapshot.hasData) {
+                                                              _reportCount =
+                                                                  snapshot.data.documents.length;
+                                                              if (snapshot.data.documents.length >
+                                                                  0) {
+                                                                  return ListView.builder(
+                                                                      shrinkWrap: true,
+                                                                      physics: NeverScrollableScrollPhysics(),
+                                                                      itemCount: snapshot.data
+                                                                          .documents.length,
+                                                                      itemBuilder: (_, i) {
+                                                                          Report r = Report
+                                                                              .fromSnapshot(
+                                                                              snapshot.data
+                                                                                  .documents[i]);
+                                                                          return ReportCard(
+                                                                              contentCollection: 'Answers',
+                                                                              contentDocId: answer
+                                                                                  .id,
+                                                                              report: r,
+                                                                          );
+                                                                      });
+                                                              } else {
+                                                                  return SizedBox(
+                                                                      height: 60,
+                                                                      child: Center(
+                                                                          child: Text(
+                                                                              "Zero report for this answer",
+                                                                              style: Theme
+                                                                                         .of(
+                                                                                  context)
+                                                                                         .brightness ==
+                                                                                         Brightness
+                                                                                             .dark
+                                                                                     ? DarkTheme
+                                                                                         .headingDescriptionStyle
+                                                                                     : LightTheme
+                                                                                         .headingDescriptionStyle,
+                                                                          ),
+                                                                      ),
+                                                                  );
+                                                              }
+                                                          } else {
+                                                              //TODO shimmer loader
+                                                              return Container();
+                                                          }
+                                                      },
+                                                  ),
+                                              ],
+                                          ),
+                                      ],
+                                  ),
+                              ),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                              child: SizedBox(
+                                  width: double.maxFinite,
+                                  height: 64,
+                                  child: NegativePrimaryButton(
+                                      callback: () {
+                                          if (_reportCount < 5) {
+                                              Constant.showToastInstruction(
+                                                  "Atleast 5 reports needed to remove this answer");
+                                          } else {
+                                              _deleteAnswerDialog(context);
+                                          }
+                                      },
+                                      child: Text(
+                                          "Delete This Answer",
+                                          style: Theme
+                                                     .of(context)
+                                                     .brightness == Brightness.dark
+                                                 ? DarkTheme.negativePrimaryButtonTextStyle
+                                                 : LightTheme.negativePrimaryButtonTextStyle,
+                                      ),
+                                  ),
+                              ),
+                          )
+                      ],
+                  ),
         ),
       ),
     );

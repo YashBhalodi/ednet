@@ -11,7 +11,7 @@ class AdminPanelHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2, //TODO Content Summary TAB
+      length: 2, //TODO content summary tab
       child: Scaffold(
         appBar: AppBar(
           title: Text(

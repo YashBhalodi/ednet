@@ -12,8 +12,9 @@ import 'package:flutter/material.dart';
 
 class ArticleReportsReviewPage extends StatelessWidget {
   final Article article;
+  final Function parentRebuildCallback;
 
-  ArticleReportsReviewPage({Key key, this.article}) : super(key: key);
+  ArticleReportsReviewPage({Key key, this.article, this.parentRebuildCallback}) : super(key: key);
 
   int _reportCount;
 
@@ -80,135 +81,141 @@ class ArticleReportsReviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Article Reports",
-            style: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.appBarTextStyle
-                   : LightTheme.appBarTextStyle,
-          ),
-          actions: <Widget>[
-            _showPopUpMenu(context),
-          ],
-        ),
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: Scrollbar(
-                child: ListView(
-                  children: <Widget>[
-                    ExpansionTile(
-                      initiallyExpanded: true,
-                      title: Text(
-                        "Article",
-                        style: Theme
-                                   .of(context)
-                                   .brightness == Brightness.dark
-                               ? DarkTheme.dropDownMenuTitleStyle
-                               : LightTheme.dropDownMenuTitleStyle,
-                      ),
-                      children: <Widget>[
-                        Padding(
-                          padding: Constant.edgePadding,
-                          child: ArticleContentView(
-                            article: article,
-                          ),
-                        ),
-                      ],
-                    ),
-                    ExpansionTile(
-                      initiallyExpanded: true,
-                      title: Text(
-                        "Reports",
-                        style: Theme
-                                   .of(context)
-                                   .brightness == Brightness.dark
-                               ? DarkTheme.dropDownMenuTitleStyle
-                               : LightTheme.dropDownMenuTitleStyle,
-                      ),
-                      children: <Widget>[
-                        StreamBuilder(
-                          stream: Firestore.instance
-                              .collection('Articles')
-                              .document(article.id)
-                              .collection('reports')
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              _reportCount = snapshot.data.documents.length;
-                              if (snapshot.data.documents.length > 0) {
-                                return ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: snapshot.data.documents.length,
-                                    itemBuilder: (_, i) {
-                                      Report r = Report.fromSnapshot(snapshot.data.documents[i]);
-                                      return ReportCard(
-                                        contentCollection: 'Articles',
-                                        contentDocId: article.id,
-                                        report: r,
-                                      );
-                                    });
-                              } else {
-                                return SizedBox(
-                                  height: 60,
-                                  child: Center(
-                                    child: Text(
-                                      "Zero report for this article",
-                                      style: Theme
-                                                 .of(context)
-                                                 .brightness == Brightness.dark
-                                             ? DarkTheme.headingDescriptionStyle
-                                             : LightTheme.headingDescriptionStyle,
-                                    ),
-                                  ),
-                                );
-                              }
-                            } else {
-                              //TODO shimmer loader
-                              return Container();
-                            }
-                          },
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
+    return WillPopScope(
+      onWillPop: () async {
+        parentRebuildCallback();
+        return true;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              "Article Reports",
+              style: Theme
+                         .of(context)
+                         .brightness == Brightness.dark
+                     ? DarkTheme.appBarTextStyle
+                     : LightTheme.appBarTextStyle,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: SizedBox(
-                width: double.maxFinite,
-                height: 64,
-                child: NegativePrimaryButton(
-                  callback: () {
-                    if (_reportCount < 5) {
-                      Constant.showToastInstruction(
-                          "Atleast 5 reports needed to remove this answer");
-                    } else {
-                      _deleteArticleDialog(context);
-                    }
-                  },
-                  child: Text(
-                    "Delete This Article",
-                    style: Theme
-                               .of(context)
-                               .brightness == Brightness.dark
-                           ? DarkTheme.negativePrimaryButtonTextStyle
-                           : LightTheme.negativePrimaryButtonTextStyle,
+            actions: <Widget>[
+              _showPopUpMenu(context),
+            ],
+          ),
+          body: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: Scrollbar(
+                  child: ListView(
+                    children: <Widget>[
+                      ExpansionTile(
+                        initiallyExpanded: true,
+                        title: Text(
+                          "Article",
+                          style: Theme
+                                     .of(context)
+                                     .brightness == Brightness.dark
+                                 ? DarkTheme.dropDownMenuTitleStyle
+                                 : LightTheme.dropDownMenuTitleStyle,
+                        ),
+                        children: <Widget>[
+                          Padding(
+                            padding: Constant.edgePadding,
+                            child: ArticleContentView(
+                              article: article,
+                            ),
+                          ),
+                        ],
+                      ),
+                      ExpansionTile(
+                        initiallyExpanded: true,
+                        title: Text(
+                          "Reports",
+                          style: Theme
+                                     .of(context)
+                                     .brightness == Brightness.dark
+                                 ? DarkTheme.dropDownMenuTitleStyle
+                                 : LightTheme.dropDownMenuTitleStyle,
+                        ),
+                        children: <Widget>[
+                          StreamBuilder(
+                            stream: Firestore.instance
+                                .collection('Articles')
+                                .document(article.id)
+                                .collection('reports')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                _reportCount = snapshot.data.documents.length;
+                                if (snapshot.data.documents.length > 0) {
+                                  return ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: snapshot.data.documents.length,
+                                      itemBuilder: (_, i) {
+                                        Report r = Report.fromSnapshot(snapshot.data.documents[i]);
+                                        return ReportCard(
+                                          contentCollection: 'Articles',
+                                          contentDocId: article.id,
+                                          report: r,
+                                        );
+                                      });
+                                } else {
+                                  return SizedBox(
+                                    height: 60,
+                                    child: Center(
+                                      child: Text(
+                                        "Zero report for this article",
+                                        style: Theme
+                                                   .of(context)
+                                                   .brightness == Brightness.dark
+                                               ? DarkTheme.headingDescriptionStyle
+                                               : LightTheme.headingDescriptionStyle,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              } else {
+                                //TODO shimmer loader
+                                return Container();
+                              }
+                            },
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                 ),
               ),
-            )
-          ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: SizedBox(
+                  width: double.maxFinite,
+                  height: 64,
+                  child: NegativePrimaryButton(
+                    callback: () {
+                      if (_reportCount < 5) {
+                        Constant.showToastInstruction(
+                            "Atleast 5 reports needed to remove this answer");
+                      } else {
+                        _deleteArticleDialog(context);
+                      }
+                    },
+                    child: Text(
+                      "Delete This Article",
+                      style: Theme
+                                 .of(context)
+                                 .brightness == Brightness.dark
+                             ? DarkTheme.negativePrimaryButtonTextStyle
+                             : LightTheme.negativePrimaryButtonTextStyle,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
