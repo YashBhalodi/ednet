@@ -1,13 +1,8 @@
-import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
-import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:zefyr/zefyr.dart';
 
 class QuestionTile extends StatelessWidget {
   final Question question;
@@ -39,157 +34,8 @@ class QuestionTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(question.topics.length, (i) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Chip(
-                          label: Text(
-                            question.topics[i],
-                            style: Theme.of(context).brightness == Brightness.dark
-                                   ? DarkTheme.topicStyle
-                                   : LightTheme.topicStyle,
-                          ),
-                          backgroundColor: Theme.of(context).brightness == Brightness.dark
-                              ? DarkTheme.chipBackgroundColor
-                              : LightTheme.chipBackgroundColor,
-                        ),
-                      );
-                    }),
-                  ),
-                ),
-                SizedBox(
-                  height: 8.0,
-                ),
-                Text(
-                  question.heading,
-                  style: Theme.of(context).brightness == Brightness.dark
-                         ? DarkTheme.questionHeadingStyle
-                         : LightTheme.questionHeadingStyle,
-                ),
-                SizedBox(
-                  height: 8.0,
-                ),
-                ZefyrView(
-                  document: NotusDocument.fromJson(
-                    jsonDecode(question.descriptionJson),
-                  ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                question.profUpvoteCount > 0
-                    ? Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: 8.0),
-                          child: Text(
-                            "${question.profUpvoteCount} professor upvoted",
-                            style: Theme.of(context).brightness == Brightness.dark
-                                ? DarkTheme.professorUpvoteTextStyle
-                                : LightTheme.professorUpvoteTextStyle,
-                          ),
-                        ),
-                      )
-                    : Container(),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 4,
-                      child: StreamBuilder(
-                        stream: Firestore.instance
-                            .collection('Users')
-                            .document(question.userId)
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return Container();
-                          } else {
-                            if (snapshot.data.data != null) {
-                              DocumentSnapshot userDoc = snapshot.data;
-                              return GestureDetector(
-                                onTap: () {
-                                  Constant.userProfileView(context, userId: question.userId);
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Text(
-                                      "Asked by",
-                                      style: Theme.of(context).brightness == Brightness.dark
-                                             ? DarkTheme.dateTimeStyle
-                                             : LightTheme.dateTimeStyle,
-                                    ),
-                                    SizedBox(
-                                      height: 8.0,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.person,
-                                          size: 16.0,
-                                        ),
-                                        question.byProf
-                                            ? Icon(
-                                                Icons.star,
-                                                color: Colors.orangeAccent,
-                                                size: 16.0,
-                                              )
-                                            : Container(),
-                                        Text(
-                                          userDoc.data['username'],
-                                          style: Theme.of(context).brightness == Brightness.dark
-                                                 ? DarkTheme.usernameStyle
-                                                 : LightTheme.usernameStyle,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            } else {
-                              return Container(); //TODO user account is removed. msg if we want
-                            }
-                          }
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(
-                            "On",
-                            style: Theme.of(context).brightness == Brightness.dark
-                                   ? DarkTheme.dateTimeStyle
-                                   : LightTheme.dateTimeStyle,
-                          ),
-                          SizedBox(
-                            height: 8.0,
-                          ),
-                          Text(
-                            Constant.formatDateTime(question.createdOn),
-                            style: Theme.of(context).brightness == Brightness.dark
-                                   ? DarkTheme.dateTimeStyle
-                                   : LightTheme.dateTimeStyle,
-                            textAlign: TextAlign.end,
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                QuestionContentView(
+                  question: question,
                 ),
                 SizedBox(
                   height: 16.0,

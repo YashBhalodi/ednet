@@ -723,7 +723,7 @@ class LightTheme {
 
   static get shimmerHighLightColor => Colors.grey[400];
 
-  static get chipBackgroundColor => Colors.grey[200];
+  static get chipBackgroundColor => Colors.grey[100];
 
   static get menuButtonTextStyle => TextStyle(
         fontSize: 24.0,
@@ -738,7 +738,7 @@ class LightTheme {
 
   static get fabBackgroundColor => Colors.blue[700];
 
-  static get questionTileHeaderBackgroundColor => Colors.blue[50];
+  static get questionTileHeaderBackgroundColor => Colors.grey[200];
 
   static get ratingBoxBackgroundColor => Colors.grey[50];
 
