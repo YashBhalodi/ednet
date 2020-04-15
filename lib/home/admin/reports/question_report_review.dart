@@ -99,11 +99,11 @@ class QuestionReportsReviewPage extends StatelessWidget {
           appBar: AppBar(
             title: Text(
               "Question Reports",
-                style: Theme
-                           .of(context)
-                           .brightness == Brightness.dark
-                       ? DarkTheme.appBarTextStyle
-                       : LightTheme.appBarTextStyle,
+              style: Theme
+                         .of(context)
+                         .brightness == Brightness.dark
+                     ? DarkTheme.appBarTextStyle
+                     : LightTheme.appBarTextStyle,
             ),
             actions: <Widget>[
               _showPopUpMenu(context),
@@ -122,35 +122,35 @@ class QuestionReportsReviewPage extends StatelessWidget {
                         initiallyExpanded: true,
                         title: Text(
                           "Question",
-                            style: Theme
-                                       .of(context)
-                                       .brightness == Brightness.dark
-                                   ? DarkTheme.dropDownMenuTitleStyle
-                                   : LightTheme.dropDownMenuTitleStyle,
+                          style: Theme
+                                     .of(context)
+                                     .brightness == Brightness.dark
+                                 ? DarkTheme.dropDownMenuTitleStyle
+                                 : LightTheme.dropDownMenuTitleStyle,
                         ),
                         children: <Widget>[
-                            Container(
-                                decoration: BoxDecoration(
-                                    boxShadow: Theme
-                                                   .of(context)
-                                                   .brightness == Brightness.dark
-                                               ? DarkTheme.questionTileShadow
-                                               : LightTheme.questionTileShadow,
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(16.0),
-                                        bottomRight: Radius.circular(16.0),
-                                    ),
-                                    color: Theme
-                                               .of(context)
-                                               .brightness == Brightness.dark
-                                           ? DarkTheme.questionTileHeaderBackgroundColor
-                                           : LightTheme.questionTileHeaderBackgroundColor,
-                                ),
-                                margin: EdgeInsets.only(bottom: 12.0),
-                                padding: Constant.edgePadding,
-                                child: QuestionContentView(
-                                    question: question,
-                                ),
+                          Container(
+                            decoration: BoxDecoration(
+                              boxShadow: Theme
+                                             .of(context)
+                                             .brightness == Brightness.dark
+                                         ? DarkTheme.questionTileShadow
+                                         : LightTheme.questionTileShadow,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(16.0),
+                                bottomRight: Radius.circular(16.0),
+                              ),
+                              color: Theme
+                                         .of(context)
+                                         .brightness == Brightness.dark
+                                     ? DarkTheme.questionTileHeaderBackgroundColor
+                                     : LightTheme.questionTileHeaderBackgroundColor,
+                            ),
+                            margin: EdgeInsets.only(bottom: 12.0),
+                            padding: Constant.edgePadding,
+                            child: QuestionContentView(
+                              question: question,
+                            ),
                           ),
                         ],
                       ),
@@ -158,11 +158,11 @@ class QuestionReportsReviewPage extends StatelessWidget {
                         initiallyExpanded: true,
                         title: Text(
                           "Reports",
-                            style: Theme
-                                       .of(context)
-                                       .brightness == Brightness.dark
-                                   ? DarkTheme.dropDownMenuTitleStyle
-                                   : LightTheme.dropDownMenuTitleStyle,
+                          style: Theme
+                                     .of(context)
+                                     .brightness == Brightness.dark
+                                 ? DarkTheme.dropDownMenuTitleStyle
+                                 : LightTheme.dropDownMenuTitleStyle,
                         ),
                         children: <Widget>[
                           StreamBuilder(
@@ -193,11 +193,11 @@ class QuestionReportsReviewPage extends StatelessWidget {
                                     child: Center(
                                       child: Text(
                                         "Zero report for this question",
-                                          style: Theme
-                                                     .of(context)
-                                                     .brightness == Brightness.dark
-                                                 ? DarkTheme.headingDescriptionStyle
-                                                 : LightTheme.headingDescriptionStyle,
+                                        style: Theme
+                                                   .of(context)
+                                                   .brightness == Brightness.dark
+                                               ? DarkTheme.headingDescriptionStyle
+                                               : LightTheme.headingDescriptionStyle,
                                       ),
                                     ),
                                   );
@@ -230,11 +230,11 @@ class QuestionReportsReviewPage extends StatelessWidget {
                     },
                     child: Text(
                       "Delete This Question",
-                        style: Theme
-                                   .of(context)
-                                   .brightness == Brightness.dark
-                               ? DarkTheme.negativePrimaryButtonTextStyle
-                               : LightTheme.negativePrimaryButtonTextStyle,
+                      style: Theme
+                                 .of(context)
+                                 .brightness == Brightness.dark
+                             ? DarkTheme.negativePrimaryButtonTextStyle
+                             : LightTheme.negativePrimaryButtonTextStyle,
                     ),
                   ),
                 ),

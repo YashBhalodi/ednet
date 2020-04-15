@@ -121,7 +121,24 @@ class ArticleReportsReviewPage extends StatelessWidget {
                                  : LightTheme.dropDownMenuTitleStyle,
                         ),
                         children: <Widget>[
-                          Padding(
+                          Container(
+                            decoration: BoxDecoration(
+                              boxShadow: Theme
+                                             .of(context)
+                                             .brightness == Brightness.dark
+                                         ? DarkTheme.questionTileShadow
+                                         : LightTheme.questionTileShadow,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(16.0),
+                                bottomRight: Radius.circular(16.0),
+                              ),
+                              color: Theme
+                                         .of(context)
+                                         .brightness == Brightness.dark
+                                     ? DarkTheme.questionTileHeaderBackgroundColor
+                                     : LightTheme.questionTileHeaderBackgroundColor,
+                            ),
+                            margin: EdgeInsets.only(bottom: 12.0),
                             padding: Constant.edgePadding,
                             child: ArticleContentView(
                               article: article,
