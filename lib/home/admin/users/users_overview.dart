@@ -23,20 +23,10 @@ class _AdminUsersListState extends State<AdminUsersList> with AutomaticKeepAlive
     bool _isLoading = false;
     final GlobalKey<AnimatedCircularChartState> _studentChartKey =
     new GlobalKey<AnimatedCircularChartState>();
-    List<CircularStackEntry> _studentChartInitData = <CircularStackEntry>[
-        CircularStackEntry(<CircularSegmentEntry>[
-            CircularSegmentEntry(0, Colors.greenAccent, rankKey: 'signedup'),
-            CircularSegmentEntry(100, Colors.blueGrey, rankKey: 'total'),
-        ], rankKey: 'Students'),
-    ];
+    List<CircularStackEntry> _studentChartInitData;
     final GlobalKey<AnimatedCircularChartState> _profChartKey =
     new GlobalKey<AnimatedCircularChartState>();
-    List<CircularStackEntry> _profChartInitData = <CircularStackEntry>[
-        CircularStackEntry(<CircularSegmentEntry>[
-            CircularSegmentEntry(0, Colors.greenAccent, rankKey: 'signedup'),
-            CircularSegmentEntry(100, Colors.blueGrey, rankKey: 'total'),
-        ], rankKey: 'Professor'),
-    ];
+    List<CircularStackEntry> _profChartInitData;
 
     Future<void> loadData() async {
         setState(() {
@@ -77,22 +67,54 @@ class _AdminUsersListState extends State<AdminUsersList> with AutomaticKeepAlive
             });
         });
         List<CircularStackEntry> _profChartFinalData = <CircularStackEntry>[
-            CircularStackEntry(<CircularSegmentEntry>[
-                CircularSegmentEntry(
-                    _signedUpStudentCount.floorToDouble(), Colors.greenAccent, rankKey: 'signedup'),
-                CircularSegmentEntry(
-                    (_totalProfCount - _signedUpProfCount).floorToDouble(), Colors.blueGrey,
-                    rankKey: 'total'),
-            ], rankKey: 'Professor'),
+            CircularStackEntry(
+                <CircularSegmentEntry>[
+                    CircularSegmentEntry(
+                        _signedUpStudentCount.floorToDouble(),
+                        Theme
+                            .of(context)
+                            .brightness == Brightness.dark
+                        ? DarkTheme.graphValueColor
+                        : LightTheme.graphValueColor,
+                        rankKey: 'signedup',
+                    ),
+                    CircularSegmentEntry(
+                        (_totalProfCount - _signedUpProfCount).floorToDouble(),
+                        Theme
+                            .of(context)
+                            .brightness == Brightness.dark
+                        ? DarkTheme.graphBackgroundColor
+                        : LightTheme.graphBackgroundColor,
+                        rankKey: 'total',
+                    ),
+                ],
+                rankKey: 'Professor',
+            ),
         ];
         List<CircularStackEntry> _studentChartFinalData = <CircularStackEntry>[
-            CircularStackEntry(<CircularSegmentEntry>[
-                CircularSegmentEntry(
-                    _signedUpStudentCount.floorToDouble(), Colors.greenAccent, rankKey: 'signedup'),
-                CircularSegmentEntry(
-                    (_totalStudentCount - _signedUpStudentCount).floorToDouble(), Colors.blueGrey,
-                    rankKey: 'total'),
-            ], rankKey: 'Student'),
+            CircularStackEntry(
+                <CircularSegmentEntry>[
+                    CircularSegmentEntry(
+                        _signedUpStudentCount.floorToDouble(),
+                        Theme
+                            .of(context)
+                            .brightness == Brightness.dark
+                        ? DarkTheme.graphValueColor
+                        : LightTheme.graphValueColor,
+                        rankKey: 'signedup',
+                    ),
+                    CircularSegmentEntry(
+                        (_totalStudentCount - _signedUpStudentCount).floorToDouble(),
+                        Theme
+                            .of(context)
+                            .brightness == Brightness.dark
+                        ? DarkTheme.graphBackgroundColor
+                        : LightTheme.graphBackgroundColor,
+                        rankKey: 'total',
+                    ),
+                ],
+                rankKey: 'Student',
+            ),
         ];
         _studentChartKey.currentState.updateData(_studentChartFinalData);
         _profChartKey.currentState.updateData(_profChartFinalData);
@@ -110,9 +132,45 @@ class _AdminUsersListState extends State<AdminUsersList> with AutomaticKeepAlive
     }
 
     @override
+    void didChangeDependencies() {
+        _studentChartInitData = <CircularStackEntry>[
+            CircularStackEntry(
+                <CircularSegmentEntry>[
+                    CircularSegmentEntry(
+                        1,
+                        Theme
+                            .of(context)
+                            .brightness == Brightness.dark
+                        ? DarkTheme.graphBackgroundColor
+                        : LightTheme.graphBackgroundColor,
+                        rankKey: 'total',
+                    ),
+                ],
+                rankKey: 'Students',
+            ),
+        ];
+        _profChartInitData = <CircularStackEntry>[
+            CircularStackEntry(
+                <CircularSegmentEntry>[
+                    CircularSegmentEntry(
+                        1,
+                        Theme
+                            .of(context)
+                            .brightness == Brightness.dark
+                        ? DarkTheme.graphBackgroundColor
+                        : LightTheme.graphBackgroundColor,
+                        rankKey: 'total',
+                    ),
+                ],
+                rankKey: 'Professor',
+            ),
+        ];
+        super.didChangeDependencies();
+    }
+
+    @override
     Widget build(BuildContext context) {
         super.build(context);
-        //2 radial charts
         return Scrollbar(
             child: ListView(
                 children: <Widget>[
@@ -125,32 +183,94 @@ class _AdminUsersListState extends State<AdminUsersList> with AutomaticKeepAlive
                                        .brightness == Brightness.dark
                                    ? DarkTheme.headingStyle
                                    : LightTheme.headingStyle,
+                            textAlign: TextAlign.center,
                         ),
                     ),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                            Spacer(),
-                            AnimatedCircularChart(
-                                key: _studentChartKey,
-                                size: const Size(150.0, 150.0),
-                                initialChartData: _studentChartInitData,
-                                chartType: CircularChartType.Radial,
-                                holeRadius: 25.0,
-                                duration: Duration(milliseconds: 2000),
+                            Spacer(
+                                flex: 1,
                             ),
-                            Spacer(),
-                            AnimatedCircularChart(
-                                key: _profChartKey,
-                                size: const Size(150.0, 150.0),
-                                initialChartData: _profChartInitData,
-                                chartType: CircularChartType.Radial,
-                                holeRadius: 25.0,
-                                duration: Duration(milliseconds: 2000),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                    AnimatedCircularChart(
+                                        key: _studentChartKey,
+                                        size: const Size(150.0, 150.0),
+                                        initialChartData: _studentChartInitData,
+                                        chartType: CircularChartType.Radial,
+                                        holeLabel: _signedUpStudentCount == 0
+                                                   ? null
+                                                   : _signedUpStudentCount.toString(),
+                                        duration: Duration(milliseconds: 1500),
+                                        holeRadius: 50.0,
+                                        labelStyle: Theme
+                                                        .of(context)
+                                                        .brightness == Brightness.dark
+                                                    ? DarkTheme.graphLabelStyle
+                                                    : LightTheme.graphLabelStyle,
+                                    ),
+                                    SizedBox(
+                                        height: 16.0,
+                                    ),
+                                    Text(
+                                        "Students",
+                                        style: Theme
+                                                   .of(context)
+                                                   .brightness == Brightness.dark
+                                               ? DarkTheme.graphDescriptionStyle
+                                               : LightTheme.graphDescriptionStyle,
+                                    ),
+                                ],
                             ),
-                            Spacer(),
+                            Spacer(
+                                flex: 1,
+                            ),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                    AnimatedCircularChart(
+                                        key: _profChartKey,
+                                        size: const Size(150.0, 150.0),
+                                        initialChartData: _profChartInitData,
+                                        chartType: CircularChartType.Radial,
+                                        holeLabel: _signedUpProfCount == 0
+                                                   ? null
+                                                   : _signedUpProfCount.toString(),
+                                        duration: Duration(milliseconds: 1500),
+                                        holeRadius: 50.0,
+                                        labelStyle: Theme
+                                                        .of(context)
+                                                        .brightness == Brightness.dark
+                                                    ? DarkTheme.graphLabelStyle
+                                                    : LightTheme.graphLabelStyle,
+                                    ),
+                                    SizedBox(
+                                        height: 16.0,
+                                    ),
+                                    Text(
+                                        "Professors",
+                                        style: Theme
+                                                   .of(context)
+                                                   .brightness == Brightness.dark
+                                               ? DarkTheme.graphDescriptionStyle
+                                               : LightTheme.graphDescriptionStyle,
+                                    ),
+                                ],
+                            ),
+                            Spacer(
+                                flex: 1,
+                            ),
                         ],
+                    ),
+                    SizedBox(
+                        height: 8,
                     ),
                     _isLoading
                     ? Center(
@@ -189,7 +309,7 @@ class ProfileSetStudents extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       title: Text(
-        "Signed Up Students",
+          "Students",
         style: Theme.of(context).brightness == Brightness.dark
             ? DarkTheme.dropDownMenuTitleStyle
             : LightTheme.dropDownMenuTitleStyle,
@@ -239,7 +359,7 @@ class ProfileSetProfs extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       title: Text(
-        "Signed Up Professors",
+          "Professors",
         style: Theme.of(context).brightness == Brightness.dark
             ? DarkTheme.dropDownMenuTitleStyle
             : LightTheme.dropDownMenuTitleStyle,

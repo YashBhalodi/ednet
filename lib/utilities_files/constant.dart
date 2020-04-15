@@ -716,6 +716,25 @@ class DarkTheme {
           fontSize: 20.0,
           fontWeight: FontWeight.w600,
       );
+
+  static get graphBackgroundColor => Colors.blueGrey;
+
+  static get graphValueColor => Color(0xffd7fffd);
+
+  static get graphLabelStyle =>
+      TextStyle(
+          fontFamily: 'VarelaRound',
+          fontWeight: FontWeight.w500,
+          fontSize: 28.0,
+          color: graphValueColor,
+      );
+
+  static get graphDescriptionStyle =>
+      TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 16.0,
+          color: graphValueColor,
+      );
 }
 
 class LightTheme {
@@ -980,5 +999,24 @@ class LightTheme {
           color: Colors.white,
           fontSize: 20.0,
           fontWeight: FontWeight.w600,
+      );
+
+  static get graphBackgroundColor => Colors.grey[500];
+
+  static get graphValueColor => Colors.blue[600];
+
+  static get graphLabelStyle =>
+      TextStyle(
+          fontFamily: 'VarelaRound',
+          fontWeight: FontWeight.w500,
+          fontSize: 28.0,
+          color: graphValueColor,
+      );
+
+  static get graphDescriptionStyle =>
+      TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 16.0,
+          color: graphValueColor,
       );
 }
