@@ -288,8 +288,8 @@ class _SubmitContentReportState extends State<SubmitContentReport> {
                     child: Text(
                       "Cancle",
                       style: Theme.of(context).brightness == Brightness.dark
-                          ? DarkTheme.secondaryPositiveTextStyle
-                          : LightTheme.secondaryPositiveTextStyle,
+                             ? DarkTheme.secondaryNegativeTextStyle
+                             : LightTheme.secondaryNegativeTextStyle,
                     ),
                   ),
                 ),
@@ -309,8 +309,8 @@ class _SubmitContentReportState extends State<SubmitContentReport> {
                         : Text(
                             "Report",
                             style: Theme.of(context).brightness == Brightness.dark
-                                ? DarkTheme.secondaryNegativeTextStyle
-                                : LightTheme.secondaryNegativeTextStyle,
+                                   ? DarkTheme.secondaryPositiveTextStyle
+                                   : LightTheme.secondaryPositiveTextStyle,
                           ),
                   ),
                 )

@@ -58,6 +58,9 @@ class MyApp extends StatelessWidget {
             minWidth: 40.0,
           ),
           brightness: brightness,
+          errorColor: brightness == Brightness.dark
+                      ? Colors.red[100]
+                      : Colors.red[700],
         ),
         themedWidgetBuilder: (context, theme) {
           return MaterialApp(
