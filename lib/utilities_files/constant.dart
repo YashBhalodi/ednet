@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:vibration/vibration.dart';
 
 class Constant {
   static get edgePadding => EdgeInsets.symmetric(
@@ -429,6 +430,12 @@ class Constant {
   static String formatDateTime(DateTime timestamp) {
     return DateFormat.MMMEd().format(timestamp);
   }
+
+  static void defaultVibrate() async {
+      if (await Vibration.hasVibrator()) {
+          Vibration.vibrate(duration: 40);
+      }
+  }
 }
 
 extension StringExtension on String {
@@ -733,7 +740,7 @@ class DarkTheme {
 class LightTheme {
   static get shimmerBaseColor => Colors.grey[100];
 
-  static get shimmerHighLightColor => Colors.grey[400];
+  static get shimmerHighLightColor => Colors.grey[200];
 
   static get chipBackgroundColor => Colors.grey[100];
 

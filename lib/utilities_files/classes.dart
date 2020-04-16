@@ -218,6 +218,7 @@ class Question {
 
   Future<bool> upvote() async {
     User user = await Constant.getCurrentUserObject();
+    Constant.defaultVibrate();
     if (!this.upvoters.contains(user.id)) {
       if (this.downvoters.contains(user.id)) {
         //if user had downvoted it earlier, cancel the downvote and increase upvote
@@ -271,6 +272,7 @@ class Question {
 
   Future<bool> downvote() async {
     User user = await Constant.getCurrentUserObject();
+    Constant.defaultVibrate();
     if (!this.downvoters.contains(user.id)) {
       if (this.upvoters.contains(user.id)) {
         //if user had upvoted it earlier, cancel the upvote and increase downvote
@@ -494,6 +496,7 @@ class Article {
 
   Future<bool> upvote() async {
     User user = await Constant.getCurrentUserObject();
+    Constant.defaultVibrate();
     if (!this.upvoters.contains(user.id)) {
       if (this.downvoters.contains(user.id)) {
         //if user had downvoted it earlier, cancel the downvote and increase upvote
@@ -547,6 +550,7 @@ class Article {
 
   Future<bool> downvote() async {
     User user = await Constant.getCurrentUserObject();
+    Constant.defaultVibrate();
     if (!this.downvoters.contains(user.id)) {
       if (this.upvoters.contains(user.id)) {
         //if user had upvoted it earlier, cancel the upvote and increase downvote
@@ -756,6 +760,7 @@ class Answer {
 
   Future<bool> upvote() async {
     User user = await Constant.getCurrentUserObject();
+    Constant.defaultVibrate();
     if (!this.upvoters.contains(user.id)) {
       if (this.downvoters.contains(user.id)) {
         //if user had downvoted it earlier, cancel the downvote and increase upvote
@@ -809,6 +814,7 @@ class Answer {
 
   Future<bool> downvote() async {
     User user = await Constant.getCurrentUserObject();
+    Constant.defaultVibrate();
     if (!this.downvoters.contains(user.id)) {
       if (this.upvoters.contains(user.id)) {
         //if user had upvoted it earlier, cancel the upvote and increase downvote

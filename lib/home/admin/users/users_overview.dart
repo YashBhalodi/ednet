@@ -197,6 +197,7 @@ class ProfileSetStudents extends StatelessWidget {
       children: <Widget>[
           signedUpStudents.length == 0
           ? Container(
+              height: 50.0,
               child: Center(
                   child: Text(
                       "No Student Signed Up yet",
@@ -247,6 +248,7 @@ class ProfileSetProfs extends StatelessWidget {
       children: <Widget>[
           signedUpProfs.length == 0
           ? Container(
+              height: 50.0,
               child: Center(
                   child: Text(
                       "No Professor Signed Up yet",

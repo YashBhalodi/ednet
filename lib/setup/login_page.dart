@@ -181,7 +181,7 @@ class LoginPageState extends State<LoginPage>
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setBool("welcome", true);
       } catch (e, s) {
-        await Future.delayed(const Duration(milliseconds: 500), () {});
+          await Future.delayed(const Duration(seconds: 4), () {});
         FirebaseUser user = await FirebaseAuth.instance.currentUser();
         if (user == null) {
           PlatformException err = e;
