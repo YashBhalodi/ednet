@@ -88,7 +88,7 @@ class LoginPageState extends State<LoginPage>
               .collection('SignUpApplications')
               .where('email', isEqualTo: _email)
               .getDocuments();
-          print("searchResult:- " + searchResult.toString());
+          print("searchResult:- " + searchResult?.documents?.toString());
           if (searchResult.documents.length > 0) {
             //searchResult is not zero, hence email is a valid sign up email.
             sent = await _sendSignInWithEmailLink();
@@ -125,8 +125,7 @@ class LoginPageState extends State<LoginPage>
 
   Future<bool> _sendSignInWithEmailLink() async {
     try {
-      await FirebaseAuth.instance
-          .sendSignInWithEmailLink(
+        await FirebaseAuth.instance.sendSignInWithEmailLink(
           email: _email,
           androidInstallIfNotAvailable: true,
           iOSBundleID: "com.ednet.ednet",
@@ -141,48 +140,6 @@ class LoginPageState extends State<LoginPage>
         Constant.showAccountDisabledDialog(context);
       }
       return false;
-    }
-  }
-
-  Future<void> _updateSignUpStatus() async {
-    try {
-      await Firestore.instance
-          .collection('SignUpApplications')
-          .document(queryDocRef.documents[0].documentID)
-          .updateData({'signup_status': true});
-    } catch (e) {
-      print("_updateSignUpStatus");
-      print(e);
-    }
-  }
-
-  Future<void> _createRelevantDocument() async {
-    bool isAdmin = queryDocRef.documents[0]['type'] == "admin" ? true : false;
-    bool isProf = queryDocRef.documents[0]['type'] == "prof" ? true : false;
-    String userUniversity = queryDocRef.documents[0]['university'];
-    //create user document
-    try {
-      await Firestore.instance.collection('Users').add({
-        'email': _email,
-        'isProfileSet': false,
-        'isAdmin': isAdmin,
-        'university': userUniversity,
-        'isProf': isProf,
-      });
-    } catch (e) {
-      print("_createRelevantDocument_user");
-      print(e);
-    }
-    //create university document if user is admin
-    if (isAdmin) {
-      try {
-        await Firestore.instance.collection('University').add({
-          'name': userUniversity,
-        });
-      } catch (e) {
-        print("_createRelevntDocument_university");
-        print(e);
-      }
     }
   }
 
@@ -215,28 +172,15 @@ class LoginPageState extends State<LoginPage>
     print("email:- $_email");
     if (validLink) {
       try {
-        List<String> signInMethod =
-            await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: _email);
-        if (signInMethod.length == 0) {
-          //user account doesn't exists
-          //First time user sign up
-          queryDocRef = await Firestore.instance
-              .collection('SignUpApplications')
-              .where('email', isEqualTo: _email)
-              .getDocuments();
-          bool firstSignUp = !queryDocRef.documents[0].data['signup_status'];
-          if (firstSignUp) {
-            await _updateSignUpStatus();
-            await _createRelevantDocument();
-          }
-        }
-        await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
-        final user = await FirebaseAuth.instance.currentUser();
-        Crashlytics.instance.setUserEmail(user.email);
-        print("After login:-" + user.email);
+          await FirebaseAuth.instance
+              .signInWithEmailAndLink(email: _email, link: _link)
+              .then((user) {
+              Crashlytics.instance.setUserEmail(user.email);
+              print("After login:-" + user.email);
+          });
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setBool("welcome", true);
-      } catch (e) {
+      } catch (e, s) {
         await Future.delayed(const Duration(milliseconds: 500), () {});
         FirebaseUser user = await FirebaseAuth.instance.currentUser();
         if (user == null) {
@@ -283,7 +227,7 @@ class LoginPageState extends State<LoginPage>
             );
           }
         }
-        print("signInWithEmailLink function:- " + e.toString());
+        print("signInWithEmailLink function:- " + e.toString() + "\n" + s.toString());
       }
     } else {
       Navigator.of(context).pop();
@@ -367,5 +311,4 @@ class LoginPageState extends State<LoginPage>
 
   @override
   bool get wantKeepAlive => true;
-
 }

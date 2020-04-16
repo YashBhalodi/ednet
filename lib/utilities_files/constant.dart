@@ -81,14 +81,10 @@ class Constant {
 
   static Future<String> userNameAvailableValidator(String value) async {
     final currentUser = await FirebaseAuth.instance.currentUser();
-    String currentEmail = currentUser.email;
-    final userDoc = await Firestore.instance
-        .collection('Users')
-        .where('email', isEqualTo: currentEmail)
-        .getDocuments();
+    final userDoc = await Firestore.instance.collection('Users').document(currentUser.uid).get();
     if (value.contains(' ')) {
       return "Username can't contain space";
-    } else if (userDoc.documents[0]['username'] == value) {
+    } else if (userDoc.data['username'] == value) {
       return null;
     } else {
       final result = await Firestore.instance
@@ -288,12 +284,7 @@ class Constant {
 
   static Future<DocumentReference> getCurrentUserDoc() async {
     FirebaseUser curUser = await FirebaseAuth.instance.currentUser();
-    String email = curUser.email;
-    QuerySnapshot curUserQuery = await Firestore.instance
-        .collection('Users')
-        .where('email', isEqualTo: email)
-        .getDocuments();
-    DocumentReference userDoc = curUserQuery.documents[0].reference;
+    DocumentReference userDoc = Firestore.instance.collection('Users').document(curUser.uid);
     return userDoc;
   }
 
@@ -312,20 +303,13 @@ class Constant {
 
   static Future<String> getCurrentUserDocId() async {
     final currentUser = await FirebaseAuth.instance.currentUser();
-    final userDoc = await Firestore.instance
-        .collection('Users')
-        .where('email', isEqualTo: currentUser.email)
-        .getDocuments();
-    return userDoc.documents[0].documentID;
+    return currentUser.uid;
   }
 
   static Future<User> getCurrentUserObject() async {
     final currentUser = await FirebaseAuth.instance.currentUser();
-    final userDoc = await Firestore.instance
-        .collection('Users')
-        .where('email', isEqualTo: currentUser.email)
-        .getDocuments();
-    User user = User.fromSnapshot(userDoc.documents[0]);
+    final userDoc = await Firestore.instance.collection('Users').document(currentUser.uid).get();
+    User user = User.fromSnapshot(userDoc);
     return user;
   }
 
@@ -735,6 +719,15 @@ class DarkTheme {
           fontSize: 16.0,
           color: graphValueColor,
       );
+
+  static get profileSetupBannerColor => Colors.blueGrey[700];
+
+  static get profileSetupBannerTextStyle =>
+      TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.w500,
+          color: Color(0xffd7fffd),
+      );
 }
 
 class LightTheme {
@@ -1018,5 +1011,14 @@ class LightTheme {
           fontWeight: FontWeight.w500,
           fontSize: 16.0,
           color: graphValueColor,
+      );
+
+  static get profileSetupBannerColor => Colors.green[50];
+
+  static get profileSetupBannerTextStyle =>
+      TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.w500,
+          color: Colors.green[700],
       );
 }

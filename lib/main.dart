@@ -29,7 +29,7 @@ void main() {
         runApp(MyApp(pref: pref));
       },
       onError: (e, s) {
-          Crashlytics.instance.recordError(e, s);
+        Crashlytics.instance.recordError(e, s);
       },
     );
   });
@@ -84,6 +84,62 @@ class EntryPoint extends StatefulWidget {
 }
 
 class _EntryPointState extends State<EntryPoint> {
+  QuerySnapshot queryDocRef;
+
+  Future<void> _updateSignUpStatus(String email) async {
+    try {
+      await queryDocRef.documents[0].reference.updateData({'signup_status': true});
+    } catch (e) {
+      print("_updateSignUpStatus");
+      print(e);
+    }
+  }
+
+  Future<void> _createRelevantDocument(String uid, String email) async {
+    bool isAdmin = queryDocRef.documents[0]['type'] == "admin"
+                   ? true
+                   : false;
+    bool isProf = queryDocRef.documents[0]['type'] == "prof"
+                  ? true
+                  : false;
+    String userUniversity = queryDocRef.documents[0]['university'];
+    //create user document
+    try {
+      var userDocRef = Firestore.instance.collection('Users').document(uid);
+      await userDocRef.setData({
+        'email': email,
+        'isProfileSet': false,
+        'isAdmin': isAdmin,
+        'university': userUniversity,
+        'isProf': isProf,
+      });
+    } catch (e) {
+      print("_createRelevantDocument_user");
+      print(e);
+    }
+    //create university document if user is admin
+    if (isAdmin) {
+      try {
+        DocumentReference uniDocRef = Firestore.instance.collection('University').document(uid);
+        await uniDocRef.setData({
+          'name': userUniversity,
+        });
+      } catch (e) {
+        print("_createRelevantDocument_university");
+        print(e);
+      }
+    }
+  }
+
+  Future<bool> _isFirstSignUp(String email) async {
+    queryDocRef = await Firestore.instance
+        .collection('SignUpApplications')
+        .where('email', isEqualTo: email)
+        .getDocuments();
+    bool signUpStat = queryDocRef.documents[0].data['signup_status'] as bool;
+    return !signUpStat;
+  }
+
   @override
   void didChangeDependencies() {
     FirebaseAuth.instance.onAuthStateChanged.listen(
@@ -115,45 +171,37 @@ class _EntryPointState extends State<EntryPoint> {
         } else {
           //User logged in
           bool validSession = true;
-
-          //TODO see if the user account is disabled or not.
-          /*
-          user.reload().catchError((e) {
-            PlatformException err = e;
-            if (err.code == "ERROR_USER_DISABLED") {
-              validSession = false;
-              Constant.showAccountDisabledDialog(context);
-            }
-          });
-          */
-
           if (validSession) {
             DocumentSnapshot universitySnap;
             DocumentSnapshot userDocSnapshot;
-            Future<QuerySnapshot> retrieveData() async {
-              QuerySnapshot userProfileResponse;
+            bool isAdmin;
+            bool firstSignUp;
+            Future<void> retrieveData() async {
+              firstSignUp = await _isFirstSignUp(user.email);
+              print("firstSignUp $firstSignUp");
+              if (firstSignUp) {
+                await _createRelevantDocument(user.uid, user.email);
+                await _updateSignUpStatus(user.email);
+              }
               try {
-                userProfileResponse = await Firestore.instance
-                    .collection('Users')
-                    .where('email', isEqualTo: user.email)
-                    .getDocuments();
-                String uniName = userProfileResponse.documents[0].data['university'];
-                final universityResponse = await Firestore.instance
-                    .collection('University')
-                    .where('name', isEqualTo: uniName)
-                    .getDocuments();
-                universitySnap = universityResponse.documents[0];
-              } catch (e) {
+                userDocSnapshot =
+                await Firestore.instance.collection('Users').document(user.uid).get();
+                print("userDocSnapshot == ${userDocSnapshot.data}");
+                isAdmin = userDocSnapshot.data['isAdmin'];
+                if (isAdmin) {
+                  universitySnap =
+                  await Firestore.instance.collection('University').document(user.uid).get();
+                }
+              } catch (e, s) {
                 print("retrieveData:-");
                 print(e);
+                print(s);
               }
-              return userProfileResponse;
+              return userDocSnapshot;
             }
 
-            await retrieveData().then((v) {
-              userDocSnapshot = v.documents[0];
-            });
-            bool isProfileSet = userDocSnapshot['isProfileSet'];
+            await retrieveData();
+            bool isProfileSet = userDocSnapshot.data['isProfileSet'];
             if (isProfileSet) {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -165,7 +213,6 @@ class _EntryPointState extends State<EntryPoint> {
                 ),
               );
             } else {
-              bool isAdmin = userDocSnapshot['isAdmin'] as bool;
               if (isAdmin) {
                 Navigator.of(context).push(
                   MaterialPageRoute(

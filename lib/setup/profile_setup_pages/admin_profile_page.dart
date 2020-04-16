@@ -84,13 +84,18 @@ class _AdminProfileSetupState extends State<AdminProfileSetup> {
               Container(
                 alignment: Alignment.centerLeft,
                 padding: Constant.edgePadding,
-                color: Colors.green[50],
+                color: Theme
+                           .of(context)
+                           .brightness == Brightness.dark
+                       ? DarkTheme.profileSetupBannerColor
+                       : LightTheme.profileSetupBannerColor,
                 child: Text(
                   _progressValue == 1 ? "Almost Done..." : "Let's set up your profile...",
-                  style: TextStyle(
-                    color: Colors.green[900],
-                    fontSize: 20.0,
-                  ),
+                  style: Theme
+                             .of(context)
+                             .brightness == Brightness.dark
+                         ? DarkTheme.profileSetupBannerTextStyle
+                         : LightTheme.profileSetupBannerTextStyle,
                 ),
               ),
               Constant.myLinearProgressIndicator(_progressValue),
