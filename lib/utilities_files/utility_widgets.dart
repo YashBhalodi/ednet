@@ -438,7 +438,11 @@ class BlueOutlineButton extends StatelessWidget {
              ? DarkTheme.outlineButtonBackgroundColor
              : LightTheme.outlineButtonBackgroundColor,
       disabledColor:
-      Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.grey[300],
+      Theme
+          .of(context)
+          .brightness == Brightness.dark
+      ? Colors.black
+      : Colors.grey[300],
       elevation: 4.0,
     );
   }
@@ -474,14 +478,18 @@ class StepButton extends StatelessWidget {
              ? Icon(
         Icons.navigate_before,
         size: 26.0,
-        color: Theme.of(context).brightness == Brightness.dark
+        color: Theme
+                   .of(context)
+                   .brightness == Brightness.dark
                ? DarkTheme.stepButtonIconColor
                : LightTheme.stepButtonIconColor,
       )
              : Icon(
         Icons.navigate_next,
         size: 26.0,
-        color: Theme.of(context).brightness == Brightness.dark
+        color: Theme
+                   .of(context)
+                   .brightness == Brightness.dark
                ? DarkTheme.stepButtonIconColor
                : LightTheme.stepButtonIconColor,
       ),
@@ -794,10 +802,7 @@ class AnswerContentView extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: StreamBuilder(
-                stream: Firestore.instance
-                    .collection('Users')
-                    .document(answer.userId)
-                    .snapshots(),
+                stream: Firestore.instance.collection('Users').document(answer.userId).snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Container();
@@ -916,6 +921,11 @@ class ArticleContentView extends StatelessWidget {
                 child: Chip(
                   label: Text(
                     article.topics[i],
+                    style: Theme
+                               .of(context)
+                               .brightness == Brightness.dark
+                           ? DarkTheme.topicStyle
+                           : LightTheme.topicStyle,
                   ),
                   backgroundColor: Theme
                                        .of(context)
@@ -965,10 +975,7 @@ class ArticleContentView extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: StreamBuilder(
-                stream: Firestore.instance
-                    .collection('Users')
-                    .document(article.userId)
-                    .snapshots(),
+                stream: Firestore.instance.collection('Users').document(article.userId).snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Container();
@@ -1149,10 +1156,8 @@ class QuestionContentView extends StatelessWidget {
             Expanded(
               flex: 4,
               child: StreamBuilder(
-                stream: Firestore.instance
-                    .collection('Users')
-                    .document(question.userId)
-                    .snapshots(),
+                stream:
+                Firestore.instance.collection('Users').document(question.userId).snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Container();
@@ -1250,4 +1255,3 @@ class QuestionContentView extends StatelessWidget {
     );
   }
 }
-

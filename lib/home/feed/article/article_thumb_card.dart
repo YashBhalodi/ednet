@@ -4,11 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/article/article_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
-import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:zefyr/zefyr.dart';
 
 class ArticleThumbCard extends StatelessWidget {
@@ -55,6 +53,11 @@ class ArticleThumbCard extends StatelessWidget {
                       child: Chip(
                         label: Text(
                           article.topics[i],
+                          style: Theme
+                                     .of(context)
+                                     .brightness == Brightness.dark
+                                 ? DarkTheme.topicStyle
+                                 : LightTheme.topicStyle,
                         ),
                         backgroundColor: Theme.of(context).brightness == Brightness.dark
                                          ? DarkTheme.chipBackgroundColor

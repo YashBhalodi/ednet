@@ -338,10 +338,12 @@ class Question {
           .getDocuments()
           .then((querySnapshot) {
         querySnapshot.documents.forEach((doc) {
-          doc.reference.delete();
+          Answer a = Answer.fromSnapshot(doc);
+          a.deletePublished();
         });
       });
-      await Firestore.instance.collection('Questions').document(this.id).delete();
+      await this.discardAllReports();
+      await this.delete();
       return true;
     } catch (e) {
       print('346__Question__Question.deleteWithAnswers__classes.dart');
@@ -480,6 +482,7 @@ class Article {
 
   Future<bool> delete() async {
     try {
+      await this.discardAllReports();
       await Firestore.instance.document('Articles/' + this.id).delete();
       return true;
     } catch (e) {
@@ -741,7 +744,7 @@ class Answer {
           .collection('Questions')
           .document(this.queID)
           .updateData({'answerCount': FieldValue.increment(-1)});
-      //delete the answer
+      await this.discardAllReports();
       await this.delete();
       return true;
     } catch (e) {
