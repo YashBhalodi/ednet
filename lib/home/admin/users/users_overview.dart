@@ -66,7 +66,7 @@ class _AdminUsersListState extends State<AdminUsersList> with AutomaticKeepAlive
             CircularStackEntry(
                 <CircularSegmentEntry>[
                     CircularSegmentEntry(
-                        _signedUpStudentCount.floorToDouble(),
+                        _signedUpProfCount.floorToDouble(),
                         Theme
                             .of(context)
                             .brightness == Brightness.dark
@@ -353,9 +353,7 @@ class _SummaryChartRowState extends State<SummaryChartRow> with AutomaticKeepAli
                             size: const Size(150.0, 150.0),
                             initialChartData: _studentChartInitData,
                             chartType: CircularChartType.Radial,
-                            holeLabel: widget.studentCount == 0
-                                       ? null
-                                       : widget.studentCount.toString(),
+                            holeLabel: widget.studentCount.toString(),
                             duration: Duration(milliseconds: 1500),
                             holeRadius: 50.0,
                             labelStyle: Theme
@@ -390,9 +388,7 @@ class _SummaryChartRowState extends State<SummaryChartRow> with AutomaticKeepAli
                             size: const Size(150.0, 150.0),
                             initialChartData: _profChartInitData,
                             chartType: CircularChartType.Radial,
-                            holeLabel: widget.profCont == 0
-                                       ? null
-                                       : widget.profCont.toString(),
+                            holeLabel: widget.profCont.toString(),
                             duration: Duration(milliseconds: 1500),
                             holeRadius: 50.0,
                             labelStyle: Theme

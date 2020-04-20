@@ -1650,11 +1650,9 @@ class ShimmerQuestionTile extends StatelessWidget {
           bottomLeft: Radius.circular(16.0),
           bottomRight: Radius.circular(16.0),
         ),
-        color: Theme
-                   .of(context)
-                   .brightness == Brightness.dark
-               ? DarkTheme.questionTileHeaderBackgroundColor
-               : LightTheme.questionTileHeaderBackgroundColor,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? DarkTheme.questionTileHeaderBackgroundColor
+            : LightTheme.questionTileHeaderBackgroundColor,
       ),
       margin: EdgeInsets.only(bottom: 12.0),
       child: Column(
@@ -1934,11 +1932,10 @@ class ShimmerMainHome extends StatelessWidget {
           child: Text(
             "EDNET",
             style: TextStyle(
-              fontSize: 72.0,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 2,
-              color: Colors.cyanAccent
-            ),
+                fontSize: 72.0,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 2,
+                color: Colors.cyanAccent),
           ),
         ),
       ),
