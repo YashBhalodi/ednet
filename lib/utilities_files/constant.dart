@@ -2,12 +2,15 @@ import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/profile/other_user_profile/user_profile_sheet.dart';
+import 'package:ednet/setup/signup_instruction_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:vibration/vibration.dart';
 
 class Constant {
   static get edgePadding => EdgeInsets.symmetric(
@@ -79,14 +82,10 @@ class Constant {
 
   static Future<String> userNameAvailableValidator(String value) async {
     final currentUser = await FirebaseAuth.instance.currentUser();
-    String currentEmail = currentUser.email;
-    final userDoc = await Firestore.instance
-        .collection('Users')
-        .where('email', isEqualTo: currentEmail)
-        .getDocuments();
+    final userDoc = await Firestore.instance.collection('Users').document(currentUser.uid).get();
     if (value.contains(' ')) {
       return "Username can't contain space";
-    } else if (userDoc.documents[0]['username'] == value) {
+    } else if (userDoc.data['username'] == value) {
       return null;
     } else {
       final result = await Firestore.instance
@@ -230,6 +229,16 @@ class Constant {
     }
   }
 
+  static String reportCommentValidator(value) {
+      if (value
+          .trim()
+          .length < 10) {
+          return "Description should be atleast 10 characters long";
+      } else {
+          return null;
+      }
+  }
+
   static Widget myLinearProgressIndicator(double progress) {
     return LinearProgressIndicator(
       valueColor: AlwaysStoppedAnimation(Colors.green[700]),
@@ -241,10 +250,9 @@ class Constant {
     Fluttertoast.showToast(
         msg: msg,
         fontSize: 18.0,
-        backgroundColor: Colors.grey[800],
-        textColor: Colors.white,
         gravity: ToastGravity.BOTTOM,
-        toastLength: Toast.LENGTH_LONG);
+        toastLength: Toast.LENGTH_LONG,
+    );
   }
 
   static void showToastError(String msg) {
@@ -277,12 +285,7 @@ class Constant {
 
   static Future<DocumentReference> getCurrentUserDoc() async {
     FirebaseUser curUser = await FirebaseAuth.instance.currentUser();
-    String email = curUser.email;
-    QuerySnapshot curUserQuery = await Firestore.instance
-        .collection('Users')
-        .where('email', isEqualTo: email)
-        .getDocuments();
-    DocumentReference userDoc = curUserQuery.documents[0].reference;
+    DocumentReference userDoc = Firestore.instance.collection('Users').document(curUser.uid);
     return userDoc;
   }
 
@@ -301,20 +304,13 @@ class Constant {
 
   static Future<String> getCurrentUserDocId() async {
     final currentUser = await FirebaseAuth.instance.currentUser();
-    final userDoc = await Firestore.instance
-        .collection('Users')
-        .where('email', isEqualTo: currentUser.email)
-        .getDocuments();
-    return userDoc.documents[0].documentID;
+    return currentUser.uid;
   }
 
   static Future<User> getCurrentUserObject() async {
     final currentUser = await FirebaseAuth.instance.currentUser();
-    final userDoc = await Firestore.instance
-        .collection('Users')
-        .where('email', isEqualTo: currentUser.email)
-        .getDocuments();
-    User user = User.fromSnapshot(userDoc.documents[0]);
+    final userDoc = await Firestore.instance.collection('Users').document(currentUser.uid).get();
+    User user = User.fromSnapshot(userDoc);
     return user;
   }
 
@@ -346,8 +342,99 @@ class Constant {
     );
   }
 
+  static void showNoSignUpDialog(context) {
+      showDialog(
+          context: context,
+          builder: (context) {
+              return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(16.0),
+                      ),
+                  ),
+                  content: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                          Text("Your university hasn't applied for ednet yet."),
+                          SizedBox(
+                              height: 32.0,
+                          ),
+                          SecondaryCTA(
+                              child: Text(
+                                  "Sign up instruction",
+                                  style: Theme
+                                             .of(context)
+                                             .brightness == Brightness.dark
+                                         ? DarkTheme.secondaryCTATextStyle
+                                         : LightTheme.secondaryCTATextStyle,
+                              ),
+                              callback: () {
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) {
+                                              return SignUpInstruction();
+                                          },
+                                      ),
+                                  );
+                              },
+                          ),
+                      ],
+                  ),
+              );
+          });
+  }
+
+  static void showAccountDisabledDialog(context) {
+      showDialog(
+          context: context,
+          builder: (context) {
+              return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(16.0),
+                      ),
+                  ),
+                  title: Text("Account Disabled"),
+                  content: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                          Text(
+                              "We received request from your university admin to temporarily suspend your EDNET account.\n\nYou may have violated the community standard by performing malicious activities.\n\nPlease try again after a while."),
+                          SizedBox(
+                              height: 32.0,
+                          ),
+                          SecondaryCTA(
+                              child: Text(
+                                  "OK",
+                                  style: Theme
+                                             .of(context)
+                                             .brightness == Brightness.dark
+                                         ? DarkTheme.secondaryCTATextStyle
+                                         : LightTheme.secondaryCTATextStyle,
+                              ),
+                              callback: () {
+                                  Navigator.of(context).pop();
+                              },
+                          ),
+                      ],
+                  ),
+              );
+          });
+  }
+
   static String formatDateTime(DateTime timestamp) {
     return DateFormat.MMMEd().format(timestamp);
+  }
+
+  static void defaultVibrate() async {
+      if (await Vibration.hasVibrator()) {
+          Vibration.vibrate(duration: 40);
+      }
   }
 }
 
@@ -611,14 +698,51 @@ class DarkTheme {
   static get tabSelectedLabelColor => Colors.cyanAccent;
 
   static get tabUnselectedLabelColor => Colors.grey[400];
+
+  static get negativePrimaryButtonColor => Colors.blueGrey[700];
+
+  static get negativePrimaryButtonTextStyle =>
+      TextStyle(
+          color: Colors.red[100],
+          fontSize: 20.0,
+          fontWeight: FontWeight.w600,
+      );
+
+  static get graphBackgroundColor => Colors.blueGrey;
+
+  static get graphValueColor => Color(0xffd7fffd);
+
+  static get graphLabelStyle =>
+      TextStyle(
+          fontFamily: 'VarelaRound',
+          fontWeight: FontWeight.w500,
+          fontSize: 28.0,
+          color: graphValueColor,
+      );
+
+  static get graphDescriptionStyle =>
+      TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 16.0,
+          color: graphValueColor,
+      );
+
+  static get profileSetupBannerColor => Colors.blueGrey[700];
+
+  static get profileSetupBannerTextStyle =>
+      TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.w500,
+          color: Color(0xffd7fffd),
+      );
 }
 
 class LightTheme {
   static get shimmerBaseColor => Colors.grey[100];
 
-  static get shimmerHighLightColor => Colors.grey[400];
+  static get shimmerHighLightColor => Colors.grey[200];
 
-  static get chipBackgroundColor => Colors.grey[200];
+  static get chipBackgroundColor => Colors.grey[100];
 
   static get menuButtonTextStyle => TextStyle(
         fontSize: 24.0,
@@ -633,7 +757,7 @@ class LightTheme {
 
   static get fabBackgroundColor => Colors.blue[700];
 
-  static get questionTileHeaderBackgroundColor => Colors.blue[50];
+  static get questionTileHeaderBackgroundColor => Colors.grey[200];
 
   static get ratingBoxBackgroundColor => Colors.grey[50];
 
@@ -867,4 +991,41 @@ class LightTheme {
   static get tabSelectedLabelColor => Colors.blue[700];
 
   static get tabUnselectedLabelColor => Colors.blueGrey[600];
+
+  static get negativePrimaryButtonColor => Colors.red[300];
+
+  static get negativePrimaryButtonTextStyle =>
+      TextStyle(
+          color: Colors.white,
+          fontSize: 20.0,
+          fontWeight: FontWeight.w600,
+      );
+
+  static get graphBackgroundColor => Colors.grey[500];
+
+  static get graphValueColor => Colors.blue[600];
+
+  static get graphLabelStyle =>
+      TextStyle(
+          fontFamily: 'VarelaRound',
+          fontWeight: FontWeight.w500,
+          fontSize: 28.0,
+          color: graphValueColor,
+      );
+
+  static get graphDescriptionStyle =>
+      TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 16.0,
+          color: graphValueColor,
+      );
+
+  static get profileSetupBannerColor => Colors.green[50];
+
+  static get profileSetupBannerTextStyle =>
+      TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.w500,
+          color: Colors.green[700],
+      );
 }

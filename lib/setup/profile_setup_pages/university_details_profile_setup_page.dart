@@ -244,10 +244,11 @@ class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKee
                           children: <Widget>[
                             Text(
                               "Next",
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                color: Colors.green[800],
-                              ),
+                                style: Theme
+                                           .of(context)
+                                           .brightness == Brightness.dark
+                                       ? DarkTheme.primaryCTATextStyle
+                                       : LightTheme.primaryCTATextStyle,
                             ),
                             SizedBox(
                               width: 8.0,
@@ -255,7 +256,11 @@ class _UniversityDetailsState extends State<UniversityDetails> with AutomaticKee
                             Icon(
                               Icons.arrow_forward,
                               size: 20.0,
-                              color: Colors.green[800],
+                                color: Theme
+                                           .of(context)
+                                           .brightness == Brightness.dark
+                                       ? DarkTheme.primaryCTATextColor
+                                       : LightTheme.primaryCTATextColor,
                             )
                           ],
                         ),

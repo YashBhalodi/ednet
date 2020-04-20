@@ -153,10 +153,14 @@ class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAlive
                     FocusScope.of(context).requestFocus(_topicFieldFocus);
                   }
                 },
-                child: Text("Create Topic",
-                    style: Theme.of(context).brightness == Brightness.dark
-                        ? DarkTheme.primaryCTATextStyle
-                        : LightTheme.primaryCTATextStyle,),
+                  child: Text(
+                      "Create Topic",
+                      style: Theme
+                                 .of(context)
+                                 .brightness == Brightness.dark
+                             ? DarkTheme.primaryCTATextStyle
+                             : LightTheme.primaryCTATextStyle,
+                  ),
               ),
             ],
           ),
@@ -256,72 +260,122 @@ class _TopicSelectionState extends State<TopicSelection> with AutomaticKeepAlive
             },
           ),
         ),
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment:
-              widget.isStudent ? MainAxisAlignment.center : MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            widget.isStudent
-                ? Container()
-                : BlueOutlineButton(
-                    callback: () {
-                      _showTopicCreatingDialog();
-                    },
-                    child: Row(
+          widget.isStudent
+          ? SizedBox(
+              width: double.maxFinite,
+              height: 64.0,
+              child: PrimaryBlueCTA(
+                  callback: () async {
+                      _submitTopicSelectionForm();
+                  },
+                  child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Icon(
-                          Icons.add,
-                          size: 18.0,
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? DarkTheme.outlineButtonTextColor
-                              : LightTheme.outlineButtonTextColor,
-                        ),
-                        SizedBox(
-                          width: 4.0,
-                        ),
-                        Text(
-                          "Add Topic",
-                          style: Theme.of(context).brightness == Brightness.dark
-                              ? DarkTheme.outlineButtonTextStyle
-                              : LightTheme.outlineButtonTextStyle,
-                        )
+                          Text(
+                              "Finish",
+                              style: Theme
+                                         .of(context)
+                                         .brightness == Brightness.dark
+                                     ? DarkTheme.primaryCTATextStyle
+                                     : LightTheme.primaryCTATextStyle,
+                          ),
+                          SizedBox(
+                              width: 8.0,
+                          ),
+                          Icon(
+                              Icons.check,
+                              color: Theme
+                                         .of(context)
+                                         .brightness == Brightness.dark
+                                     ? DarkTheme.primaryCTATextColor
+                                     : LightTheme.primaryCTATextColor,
+                              size: 20.0,
+                          ),
                       ],
-                    ),
                   ),
-            PrimaryBlueCTA(
-              callback: () async {
-                _submitTopicSelectionForm();
-              },
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    "Finish",
-                    style: Theme.of(context).brightness == Brightness.dark
-                        ? DarkTheme.primaryCTATextStyle
-                        : LightTheme.primaryCTATextStyle,
-                  ),
-                  SizedBox(
-                    width: 8.0,
-                  ),
-                  Icon(
-                    Icons.check,
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? DarkTheme.primaryCTATextColor
-                        : LightTheme.primaryCTATextColor,
-                    size: 20.0,
-                  ),
-                ],
               ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 16.0,
-        ),
+          )
+          : SizedBox(
+              width: double.maxFinite,
+              height: 64.0,
+              child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                      Expanded(
+                          child: LeftSecondaryCTAButton(
+                              callback: () {
+                                  _showTopicCreatingDialog();
+                              },
+                              child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                      Icon(
+                                          Icons.add,
+                                          size: 18.0,
+                                          color: Theme
+                                                     .of(context)
+                                                     .brightness == Brightness.dark
+                                                 ? DarkTheme.outlineButtonTextColor
+                                                 : LightTheme.outlineButtonTextColor,
+                                      ),
+                                      SizedBox(
+                                          width: 4.0,
+                                      ),
+                                      Text(
+                                          "Add Topic",
+                                          style: Theme
+                                                     .of(context)
+                                                     .brightness == Brightness.dark
+                                                 ? DarkTheme.outlineButtonTextStyle
+                                                 : LightTheme.outlineButtonTextStyle,
+                                      )
+                                  ],
+                              ),
+                          ),
+                      ),
+                      Expanded(
+                          child: RightPrimaryBlueCTAButton(
+                              callback: () async {
+                                  _submitTopicSelectionForm();
+                              },
+                              child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                      Text(
+                                          "Finish",
+                                          style: Theme
+                                                     .of(context)
+                                                     .brightness == Brightness.dark
+                                                 ? DarkTheme.primaryCTATextStyle
+                                                 : LightTheme.primaryCTATextStyle,
+                                      ),
+                                      SizedBox(
+                                          width: 8.0,
+                                      ),
+                                      Icon(
+                                          Icons.check,
+                                          color: Theme
+                                                     .of(context)
+                                                     .brightness == Brightness.dark
+                                                 ? DarkTheme.primaryCTATextColor
+                                                 : LightTheme.primaryCTATextColor,
+                                          size: 20.0,
+                                      ),
+                                  ],
+                              ),
+                          ),
+                      ),
+                  ],
+              ),
+          ),
       ],
     );
   }

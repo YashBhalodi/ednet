@@ -1,144 +1,60 @@
-import 'dart:convert';
+import 'dart:math' as math;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ednet/home/feed/report_content_sheet.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:zefyr/zefyr.dart';
 
-class ArticlePage extends StatelessWidget {
+class ArticlePage extends StatefulWidget {
   final Article article;
 
   const ArticlePage({Key key, this.article}) : super(key: key);
 
   @override
+  _ArticlePageState createState() => _ArticlePageState();
+}
+
+class _ArticlePageState extends State<ArticlePage> {
+  Widget _popUpMenu() {
+    return PopupMenuButton(
+        offset: Offset.fromDirection(math.pi / 2, AppBar().preferredSize.height),
+        itemBuilder: (_) {
+            return [
+                PopupMenuItem<int>(
+                    child: Text("Report Article"),
+                    value: 1,
+                ),
+            ];
+        },
+        onSelected: (i) {
+            if (i == 1) {
+                ReportFlow.showSubmitReportBottomSheet(
+                    context,
+                    contentCollection: 'Articles',
+                    contentDocId: widget.article.id,
+                );
+            }
+        },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          actions: <Widget>[
+            _popUpMenu(),
+          ],
+        ),
         body: Scrollbar(
           child: ListView(
             padding: Constant.edgePadding,
             children: <Widget>[
-              Text(
-                article.title,
-                style: Theme.of(context).brightness == Brightness.dark
-                       ? DarkTheme.articleTitleStyle
-                       : LightTheme.articleTitleStyle,
-              ),
-              SizedBox(height: 18.0),
-              Text(
-                article.subtitle,
-                style: Theme.of(context).brightness == Brightness.dark
-                       ? DarkTheme.articleSubtitleStyle
-                       : LightTheme.articleSubtitleStyle,
-              ),
-              SizedBox(
-                height: 24.0,
-              ),
-              ZefyrView(
-                document: NotusDocument.fromJson(
-                  jsonDecode(article.contentJson),
-                ),
-              ),
-              SizedBox(
-                height: 18.0,
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    child: StreamBuilder(
-                      stream: Firestore.instance
-                          .collection('Users')
-                          .document(article.userId)
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Container();
-                        } else {
-                          if (snapshot.data.data != null) {
-                            DocumentSnapshot userDoc = snapshot.data;
-                            return GestureDetector(
-                              onTap: () {
-                                Constant.userProfileView(context, userId: article.userId);
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Text(
-                                    "Written by",
-                                    style: Theme.of(context).brightness == Brightness.dark
-                                        ? DarkTheme.dateTimeStyle
-                                        : LightTheme.dateTimeStyle,
-                                  ),
-                                  SizedBox(
-                                    height: 8.0,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.person,
-                                        size: 16.0,
-                                      ),
-                                      article.byProf
-                                          ? Icon(
-                                              Icons.star,
-                                              color: Colors.orangeAccent,
-                                              size: 16.0,
-                                            )
-                                          : Container(),
-                                      Text(
-                                        userDoc.data['username'],
-                                        style: Theme.of(context).brightness == Brightness.dark
-                                               ? DarkTheme.usernameStyle
-                                               : LightTheme.usernameStyle,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
-                          } else {
-                            return Container(); //TODO user account is removed. msg if we want
-                          }
-                        }
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
-                          "On",
-                          style: Theme.of(context).brightness == Brightness.dark
-                              ? DarkTheme.dateTimeStyle
-                              : LightTheme.dateTimeStyle,
-                        ),
-                        SizedBox(
-                          height: 8.0,
-                        ),
-                        Text(
-                          Constant.formatDateTime(article.createdOn),
-                          style: Theme.of(context).brightness == Brightness.dark
-                              ? DarkTheme.dateTimeMediumStyle
-                              : LightTheme.dateTimeMediumStyle,
-                          textAlign: TextAlign.end,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+              ArticleContentView(article: widget.article,),
               SizedBox(
                 height: 32.0,
               ),
@@ -168,12 +84,15 @@ class ArticlePage extends StatelessWidget {
               Text(
                 "So...What do you think?\n\nDoes it deserve an upvote?",
                 style: Theme.of(context).brightness == Brightness.dark
-                    ? DarkTheme.headingDescriptionStyle
-                    : LightTheme.headingDescriptionStyle,
+                       ? DarkTheme.headingDescriptionStyle
+                       : LightTheme.headingDescriptionStyle,
                 textAlign: TextAlign.center,
               ),
               StreamBuilder(
-                stream: Firestore.instance.collection('Articles').document(article.id).snapshots(),
+                stream: Firestore.instance
+                    .collection('Articles')
+                    .document(widget.article.id)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     Article a = Article.fromSnapshot(snapshot.data);
@@ -185,8 +104,8 @@ class ArticlePage extends StatelessWidget {
                           child: Text(
                             "${a.profUpvoteCount} professor upvoted",
                             style: Theme.of(context).brightness == Brightness.dark
-                                ? DarkTheme.professorUpvoteTextStyle
-                                : LightTheme.professorUpvoteTextStyle,
+                                   ? DarkTheme.professorUpvoteTextStyle
+                                   : LightTheme.professorUpvoteTextStyle,
                           ),
                         ),
                       );
@@ -202,7 +121,10 @@ class ArticlePage extends StatelessWidget {
                 height: 32.0,
               ),
               StreamBuilder(
-                stream: Firestore.instance.collection('Articles').document(article.id).snapshots(),
+                stream: Firestore.instance
+                    .collection('Articles')
+                    .document(widget.article.id)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     Article a = Article.fromSnapshot(snapshot.data);
@@ -244,3 +166,4 @@ class ArticlePage extends StatelessWidget {
     );
   }
 }
+

@@ -47,11 +47,13 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
         'bio': _inputBio,
         'mobile_number': _inputMobileNumber,
         'username': _inputUsername,
-        'fname': _inputFname,
+        'fname': _inputFname ?? " ",
+        //Temporary fix. sometimes fname uploads as null and that prevents pre-loading of data in profile edit. TODO fix this.
         'lname': _inputLname,
       });
     } catch (e) {
-      print("update document:-");
+      print(
+          '54___UserDetailsState___UserDetailsState.uploadUserDetails__user_details_profile_setup_page.dart');
       print(e);
     }
   }
@@ -352,10 +354,11 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
                           children: <Widget>[
                             Text(
                               "Next",
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                color: Colors.green[800],
-                              ),
+                                style: Theme
+                                           .of(context)
+                                           .brightness == Brightness.dark
+                                       ? DarkTheme.primaryCTATextStyle
+                                       : LightTheme.primaryCTATextStyle
                             ),
                             SizedBox(
                               width: 8.0,
@@ -363,7 +366,11 @@ class _UserDetailsState extends State<UserDetails> with AutomaticKeepAliveClient
                             Icon(
                               Icons.arrow_forward,
                               size: 20.0,
-                              color: Colors.green[800],
+                              color: Theme
+                                         .of(context)
+                                         .brightness == Brightness.dark
+                                     ? DarkTheme.primaryCTATextColor
+                                     : LightTheme.primaryCTATextColor,
                             )
                           ],
                         ),

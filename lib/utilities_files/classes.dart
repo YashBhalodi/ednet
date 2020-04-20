@@ -15,19 +15,18 @@ class User {
   List<String> topics;
   String id;
 
-  User(
-      {this.email,
-      this.userName,
-      this.isAdmin,
-      this.isProf,
-      this.isProfileSet,
-      this.university,
-      this.fname,
-      this.lname,
-      this.bio,
-      this.mobile,
-      this.topics,
-      this.id});
+  User({this.email,
+    this.userName,
+    this.isAdmin,
+    this.isProf,
+    this.isProfileSet,
+    this.university,
+    this.fname,
+    this.lname,
+    this.bio,
+    this.mobile,
+    this.topics,
+    this.id});
 
   User.fromSnapshot(DocumentSnapshot snapshot) {
     isAdmin = snapshot.data['isAdmin'] as bool;
@@ -102,24 +101,32 @@ class Question {
   String userId;
   String descriptionJson;
   int profUpvoteCount;
+  int reportCount;
 
-  Question(
-      {this.heading,
-      this.description,
-      this.createdOn,
-      this.editedOn,
-      this.upvoteCount,
-      this.downvoteCount,
-      this.upvoters,
-      this.downvoters,
-      this.topics,
-      this.byProf,
-      this.id,
-      this.isDraft,
-      this.answerCount,
-      this.userId,
-      this.descriptionJson,
-      this.profUpvoteCount});
+  Question({
+    this.heading,
+    this.description,
+    this.createdOn,
+    this.editedOn,
+    this.upvoteCount,
+    this.downvoteCount,
+    this.upvoters,
+    this.downvoters,
+    this.topics,
+    this.byProf,
+    this.id,
+    this.isDraft,
+    this.answerCount,
+    this.userId,
+    this.descriptionJson,
+    this.profUpvoteCount,
+    this.reportCount,
+  });
+
+  @override
+  String toString() {
+    return 'Question{heading: $heading, description: $description, createdOn: $createdOn, editedOn: $editedOn, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, answerCount: $answerCount, userId: $userId, descriptionJson: $descriptionJson, profUpvoteCount: $profUpvoteCount}';
+  }
 
   Question.fromSnapshot(DocumentSnapshot snapshot) {
     heading = snapshot.data['heading'];
@@ -138,6 +145,7 @@ class Question {
     userId = snapshot.data['userid'] as String;
     descriptionJson = snapshot.data['descriptionJson'] as String;
     profUpvoteCount = snapshot.data['profUpvoteCount'] as int ?? 0;
+    reportCount = snapshot.data['reportCount'] as int ?? 0;
   }
 
   Future<bool> uploadQuestion() async {
@@ -158,6 +166,7 @@ class Question {
         'userid': this.userId,
         'descriptionJson': this.descriptionJson,
         'profUpvoteCount': this.profUpvoteCount,
+        'reportCount': this.reportCount,
       });
       return true;
     } catch (e) {
@@ -165,11 +174,6 @@ class Question {
       print(e);
       return false;
     }
-  }
-
-  @override
-  String toString() {
-    return 'Question{heading: $heading, description: $description, createdOn: $createdOn, editedOn: $editedOn, upvoteCount: $upvoteCount, downvoteCount: $downvoteCount, upvoters: $upvoters, downvoters: $downvoters, topics: $topics, id: $id, byProf: $byProf, isDraft: $isDraft, answerCount: $answerCount, userId: $userId, descriptionJson: $descriptionJson, profUpvoteCount: $profUpvoteCount}';
   }
 
   Future<bool> updateQuestion() async {
@@ -191,6 +195,7 @@ class Question {
         'userid': this.userId,
         'descriptionJson': this.descriptionJson,
         'profUpvoteCount': this.profUpvoteCount,
+        'reportCount': this.reportCount,
       });
       return true;
     } catch (e) {
@@ -213,6 +218,7 @@ class Question {
 
   Future<bool> upvote() async {
     User user = await Constant.getCurrentUserObject();
+    Constant.defaultVibrate();
     if (!this.upvoters.contains(user.id)) {
       if (this.downvoters.contains(user.id)) {
         //if user had downvoted it earlier, cancel the downvote and increase upvote
@@ -266,6 +272,7 @@ class Question {
 
   Future<bool> downvote() async {
     User user = await Constant.getCurrentUserObject();
+    Constant.defaultVibrate();
     if (!this.downvoters.contains(user.id)) {
       if (this.upvoters.contains(user.id)) {
         //if user had upvoted it earlier, cancel the upvote and increase downvote
@@ -301,6 +308,59 @@ class Question {
       return true;
     }
   }
+
+  Future<bool> discardAllReports() async {
+    try {
+      await Firestore.instance
+          .collection('Questions')
+          .document(this.id)
+          .collection('reports')
+          .getDocuments()
+          .then((querySnapshot) {
+        querySnapshot.documents.forEach((doc) {
+          doc.reference.delete();
+        });
+      });
+      await Firestore.instance.collection('Questions').document(this.id).updateData({
+        'reportCount': 0,
+      });
+      return true;
+    } catch (e) {
+      print('328__Question__Question.discardAllReports__classes.dart');
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> deleteWithAnswers() async {
+    try {
+      await Firestore.instance
+          .collection('Answers')
+          .where('questionId', isEqualTo: this.id)
+          .getDocuments()
+          .then((querySnapshot) {
+        querySnapshot.documents.forEach((doc) {
+          Answer a = Answer.fromSnapshot(doc);
+          a.deletePublished();
+        });
+      });
+      await this.discardAllReports();
+      await this.delete();
+      return true;
+    } catch (e) {
+      print('346__Question__Question.deleteWithAnswers__classes.dart');
+      print(e);
+      return false;
+    }
+  }
+
+//TODO static methods to return stream for increasing readability in code
+//Fetch all questions
+//Fetch all answer to this question
+//Fetch all reports of this question
+//Fetch all questions by this user
+//Fetch Draft questions by this user
+//Fetch this particular question
 }
 
 class Article {
@@ -320,24 +380,25 @@ class Article {
   String userId;
   String contentJson;
   int profUpvoteCount;
+  int reportCount;
 
-  Article(
-      {this.title,
-      this.subtitle,
-      this.content,
-      this.createdOn,
-      this.editedOn,
-      this.upvoteCount,
-      this.downvoteCount,
-      this.upvoters,
-      this.downvoters,
-      this.topics,
-      this.id,
-      this.byProf,
-      this.isDraft,
-      this.userId,
-      this.contentJson,
-      this.profUpvoteCount});
+  Article({this.title,
+    this.subtitle,
+    this.content,
+    this.createdOn,
+    this.editedOn,
+    this.upvoteCount,
+    this.downvoteCount,
+    this.upvoters,
+    this.downvoters,
+    this.topics,
+    this.id,
+    this.byProf,
+    this.isDraft,
+    this.userId,
+    this.contentJson,
+    this.profUpvoteCount,
+    this.reportCount});
 
   Article.fromSnapshot(DocumentSnapshot snapshot) {
     title = snapshot.data['title'];
@@ -356,6 +417,7 @@ class Article {
     userId = snapshot.data['userid'] as String;
     contentJson = snapshot.data['contentJson'] as String;
     profUpvoteCount = snapshot.data['profUpvoteCount'] as int ?? 0;
+    reportCount = snapshot.data['reportCount'] as int ?? 0;
   }
 
   @override
@@ -381,7 +443,8 @@ class Article {
         'isDraft': this.isDraft,
         'userid': this.userId,
         'contentJson': this.contentJson,
-        'profUpvoteCount': this.profUpvoteCount
+        'profUpvoteCount': this.profUpvoteCount,
+        'reportCount': this.reportCount
       });
       return true;
     } catch (e) {
@@ -408,7 +471,8 @@ class Article {
         'isDraft': this.isDraft,
         'userid': this.userId,
         'contentJson': this.contentJson,
-        'profUpvoteCount': this.profUpvoteCount
+        'profUpvoteCount': this.profUpvoteCount,
+        'reportCount': this.reportCount
       });
       return true;
     } catch (e) {
@@ -420,6 +484,7 @@ class Article {
 
   Future<bool> delete() async {
     try {
+      await this.discardAllReports();
       await Firestore.instance.document('Articles/' + this.id).delete();
       return true;
     } catch (e) {
@@ -431,6 +496,7 @@ class Article {
 
   Future<bool> upvote() async {
     User user = await Constant.getCurrentUserObject();
+    Constant.defaultVibrate();
     if (!this.upvoters.contains(user.id)) {
       if (this.downvoters.contains(user.id)) {
         //if user had downvoted it earlier, cancel the downvote and increase upvote
@@ -484,6 +550,7 @@ class Article {
 
   Future<bool> downvote() async {
     User user = await Constant.getCurrentUserObject();
+    Constant.defaultVibrate();
     if (!this.downvoters.contains(user.id)) {
       if (this.upvoters.contains(user.id)) {
         //if user had upvoted it earlier, cancel the upvote and increase downvote
@@ -519,6 +586,36 @@ class Article {
       return true;
     }
   }
+
+  Future<bool> discardAllReports() async {
+    try {
+      await Firestore.instance
+          .collection('Articles')
+          .document(this.id)
+          .collection('reports')
+          .getDocuments()
+          .then((querySnapshot) {
+        querySnapshot.documents.forEach((doc) {
+          doc.reference.delete();
+        });
+      });
+      await Firestore.instance.collection('Articles').document(this.id).updateData({
+        'reportCount': 0,
+      });
+      return true;
+    } catch (e) {
+      print('600__Article__Article.discardAllReports__classes.dart');
+      print(e);
+      return false;
+    }
+  }
+
+//TODO static methods returning streams
+//Fetch all articles
+//Fetch all reports of this article
+//Fetch Draft articles by this user
+//Fetch this particular article
+
 }
 
 class Answer {
@@ -535,21 +632,22 @@ class Answer {
   bool isDraft;
   String contentJson;
   int profUpvoteCount;
+  int reportCount;
 
-  Answer(
-      {this.content,
-      this.queID,
-      this.id,
-      this.userId,
-      this.createdOn,
-      this.upvoters,
-      this.downvoters,
-      this.upvoteCount,
-      this.downvoteCount,
-      this.byProf,
-      this.isDraft,
-      this.contentJson,
-      this.profUpvoteCount});
+  Answer({this.content,
+    this.queID,
+    this.id,
+    this.userId,
+    this.createdOn,
+    this.upvoters,
+    this.downvoters,
+    this.upvoteCount,
+    this.downvoteCount,
+    this.byProf,
+    this.isDraft,
+    this.contentJson,
+    this.profUpvoteCount,
+    this.reportCount});
 
   Answer.fromSnapshot(DocumentSnapshot snapshot) {
     content = snapshot.data['content'];
@@ -565,6 +663,7 @@ class Answer {
     queID = snapshot.data['questionId'] as String;
     contentJson = snapshot.data['contentJson'] as String;
     profUpvoteCount = snapshot.data['profUpvoteCount'] as int ?? 0;
+    reportCount = snapshot.data['reportCount'] as int ?? 0;
   }
 
   Future<bool> uploadAnswer(bool doIncrement) async {
@@ -583,6 +682,7 @@ class Answer {
         'questionId': this.queID,
         'contentJson': this.contentJson,
         'profUpvoteCount': this.profUpvoteCount,
+        'reportCount': this.reportCount,
       });
       //updating answer count in the relevant question
       if (doIncrement) {
@@ -613,6 +713,7 @@ class Answer {
         'questionId': this.queID,
         'contentJson': this.contentJson,
         'profUpvoteCount': this.profUpvoteCount,
+        'reportCount': this.reportCount,
       });
       return true;
     } catch (e) {
@@ -640,8 +741,26 @@ class Answer {
     }
   }
 
+  Future<bool> deletePublished() async {
+    //reduce answer count of relevant question
+    try {
+      await Firestore.instance
+          .collection('Questions')
+          .document(this.queID)
+          .updateData({'answerCount': FieldValue.increment(-1)});
+      await this.discardAllReports();
+      await this.delete();
+      return true;
+    } catch (e) {
+      print('721__Answer__Answer.deletePublished__classes.dart');
+      print(e);
+      return false;
+    }
+  }
+
   Future<bool> upvote() async {
     User user = await Constant.getCurrentUserObject();
+    Constant.defaultVibrate();
     if (!this.upvoters.contains(user.id)) {
       if (this.downvoters.contains(user.id)) {
         //if user had downvoted it earlier, cancel the downvote and increase upvote
@@ -695,6 +814,7 @@ class Answer {
 
   Future<bool> downvote() async {
     User user = await Constant.getCurrentUserObject();
+    Constant.defaultVibrate();
     if (!this.downvoters.contains(user.id)) {
       if (this.upvoters.contains(user.id)) {
         //if user had upvoted it earlier, cancel the upvote and increase downvote
@@ -730,6 +850,36 @@ class Answer {
       return true;
     }
   }
+
+  Future<bool> discardAllReports() async {
+    try {
+      await Firestore.instance
+          .collection('Answers')
+          .document(this.id)
+          .collection('reports')
+          .getDocuments()
+          .then((querySnapshot) {
+        querySnapshot.documents.forEach((doc) {
+          doc.reference.delete();
+        });
+      });
+      await Firestore.instance.collection('Answers').document(this.id).updateData({
+        'reportCount': 0,
+      });
+      return true;
+    } catch (e) {
+      print('821__Answer__Answer.discardAllReports__classes.dart');
+      print(e);
+      return false;
+    }
+  }
+
+//TODO static methods to return stream for increasing readability in code
+//Fetch all reports of this answer
+//Fetch all answers by this user
+//Fetch Draft answer by this user
+//Fetch this particular answer
+
 }
 
 class University {
@@ -758,6 +908,88 @@ class University {
       return true;
     } catch (e) {
       print("University.updateTopics()");
+      print(e);
+      return false;
+    }
+  }
+}
+
+class Report {
+  String comment;
+  String reporter;
+  List<String> violations;
+  DateTime reportedOn;
+  double weight;
+  String id;
+
+  Report({this.comment, this.reporter, this.violations, this.reportedOn, this.weight});
+
+  Report.fromSnapshot(DocumentSnapshot snapshot) {
+    this.reportedOn = (snapshot.data['reportedOn'] as Timestamp)?.toDate();
+    this.comment = snapshot.data['comment'] as String;
+    this.reporter = snapshot.data['reporter'] as String;
+    this.violations = snapshot.data['violations']?.cast<String>();
+    this.weight = snapshot.data['weight'] as double;
+    this.id = snapshot.documentID;
+  }
+
+  ///Upload report to the sub-collection named "reports" in respective content document in firebase.
+  ///
+  ///[contentCollection]=='Questions' or [contentCollection]=='Articles' or [contentCollection]=='Answers'
+  Future<bool> upload(String contentCollection, String docId) async {
+    try {
+      //Checking if user has already submitted a report
+      bool submittedOnce = false;
+      await Firestore.instance
+          .collection(contentCollection + "/" + docId + "/reports")
+          .where('reporter', isEqualTo: this.reporter)
+          .getDocuments()
+          .then((v) {
+        if (v.documents.length > 0) {
+          submittedOnce = true;
+        }
+      });
+
+      if (submittedOnce == false) {
+        await Firestore.instance.collection(contentCollection + "/" + docId + "/reports").add({
+          'comment': this.comment,
+          'violations': this.violations,
+          'weight': this.weight,
+          'reporter': this.reporter,
+          'reportedOn': this.reportedOn,
+        });
+        await Firestore.instance
+            .collection(contentCollection)
+            .document(docId)
+            .updateData({'reportCount': FieldValue.increment(1)});
+        Constant.showToastSuccess("Your report has been submitted");
+        return true;
+      } else {
+        Constant.showToastInstruction(
+            "You have already submitted a report for this content earlier");
+        return false;
+      }
+    } catch (e) {
+      print('860__Report__Report.upload__classes.dart');
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> delete(String contentCollection, String docID) async {
+    try {
+      await Firestore.instance
+          .collection(contentCollection)
+          .document(docID)
+          .collection('reports')
+          .document(this.id)
+          .delete();
+      await Firestore.instance.collection(contentCollection).document(docID).updateData({
+        'reportCount': FieldValue.increment(-1),
+      });
+      return true;
+    } catch (e) {
+      print('879__Report__Report.delete__classes.dart');
       print(e);
       return false;
     }

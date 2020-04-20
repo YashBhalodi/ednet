@@ -1,12 +1,10 @@
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/create/article/create_article.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:zefyr/zefyr.dart';
 
 class ArticleDraftCard extends StatelessWidget {
@@ -46,8 +44,17 @@ class ArticleDraftCard extends StatelessWidget {
                         child: Chip(
                           label: Text(
                             article.topics[i],
+                              style: Theme
+                                         .of(context)
+                                         .brightness == Brightness.dark
+                                     ? DarkTheme.topicStyle
+                                     : LightTheme.topicStyle,
                           ),
-                          backgroundColor: Colors.grey[100],
+                            backgroundColor: Theme
+                                                 .of(context)
+                                                 .brightness == Brightness.dark
+                                             ? DarkTheme.chipBackgroundColor
+                                             : LightTheme.chipBackgroundColor,
                         ),
                       );
                     }),

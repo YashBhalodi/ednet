@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ednet/setup/signup_instruction_page.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -88,7 +88,7 @@ class LoginPageState extends State<LoginPage>
               .collection('SignUpApplications')
               .where('email', isEqualTo: _email)
               .getDocuments();
-          print("searchResult:- " + searchResult.toString());
+          print("searchResult:- " + searchResult?.documents?.toString());
           if (searchResult.documents.length > 0) {
             //searchResult is not zero, hence email is a valid sign up email.
             sent = await _sendSignInWithEmailLink();
@@ -99,46 +99,7 @@ class LoginPageState extends State<LoginPage>
           } else {
             //searchResult is zero, hence email is not a valid sign up email.
             sent = false;
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(16.0),
-                      ),
-                    ),
-                    content: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text("Your university hasn't applied for ednet yet."),
-                        SizedBox(
-                          height: 32.0,
-                        ),
-                        SecondaryCTA(
-                          child: Text(
-                            "Sign up instruction",
-                            style: Theme.of(context).brightness == Brightness.dark
-                                   ? DarkTheme.secondaryCTATextStyle
-                                   : LightTheme.secondaryCTATextStyle,
-                          ),
-                          callback: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return SignUpInstruction();
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                });
+            Constant.showNoSignUpDialog(context);
             setState(() {
               _loginLoading = false;
             });
@@ -164,7 +125,7 @@ class LoginPageState extends State<LoginPage>
 
   Future<bool> _sendSignInWithEmailLink() async {
     try {
-      FirebaseAuth.instance.sendSignInWithEmailLink(
+        await FirebaseAuth.instance.sendSignInWithEmailLink(
           email: _email,
           androidInstallIfNotAvailable: true,
           iOSBundleID: "com.ednet.ednet",
@@ -172,53 +133,13 @@ class LoginPageState extends State<LoginPage>
           androidPackageName: "com.ednet.ednet",
           url: "https://ednet.page.link/secureSignIn",
           handleCodeInApp: true);
+      return true;
     } catch (e) {
-      _showDialog(e.toString());
-      return false;
-    }
-    print(_email + "<< sent");
-    return true;
-  }
-
-  Future<void> _updateSignUpStatus() async {
-    try {
-      await Firestore.instance
-          .collection('SignUpApplications')
-          .document(queryDocRef.documents[0].documentID)
-          .updateData({'signup_status': true});
-    } catch (e) {
-      print("_updateSignUpStatus");
-      print(e);
-    }
-  }
-
-  Future<void> _createRelevantDocument() async {
-    bool isAdmin = queryDocRef.documents[0]['type'] == "admin" ? true : false;
-    bool isProf = queryDocRef.documents[0]['type'] == "prof" ? true : false;
-    String userUniversity = queryDocRef.documents[0]['university'];
-    //create user document
-    try {
-      await Firestore.instance.collection('Users').add({
-        'email': _email,
-        'isProfileSet': false,
-        'isAdmin': isAdmin,
-        'university': userUniversity,
-        'isProf': isProf,
-      });
-    } catch (e) {
-      print("_createRelevantDocument_user");
-      print(e);
-    }
-    //create university document if user is admin
-    if (isAdmin) {
-      try {
-        await Firestore.instance.collection('University').add({
-          'name': userUniversity,
-        });
-      } catch (e) {
-        print("_createRelevntDocument_university");
-        print(e);
+      PlatformException err = e;
+      if (err.code == "ERROR_USER_DISABLED") {
+        Constant.showAccountDisabledDialog(context);
       }
+      return false;
     }
   }
 
@@ -251,27 +172,16 @@ class LoginPageState extends State<LoginPage>
     print("email:- $_email");
     if (validLink) {
       try {
-        List<String> signInMethod =
-            await FirebaseAuth.instance.fetchSignInMethodsForEmail(email: _email);
-        if (signInMethod.length == 0) {
-          //user account doesn't exists
-          //First time user sign up
-          queryDocRef = await Firestore.instance
-              .collection('SignUpApplications')
-              .where('email', isEqualTo: _email)
-              .getDocuments();
-          bool firstSignUp = !queryDocRef.documents[0].data['signup_status'];
-          if (firstSignUp) {
-            await _updateSignUpStatus();
-            await _createRelevantDocument();
-          }
-        }
-        await FirebaseAuth.instance.signInWithEmailAndLink(email: _email, link: _link);
-        print("After login:-" + FirebaseAuth.instance.currentUser().toString());
+          await FirebaseAuth.instance
+              .signInWithEmailAndLink(email: _email, link: _link)
+              .then((user) {
+              Crashlytics.instance.setUserEmail(user.email);
+              print("After login:-" + user.email);
+          });
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setBool("welcome", true);
-      } catch (e) {
-        await Future.delayed(const Duration(milliseconds: 500), () {});
+      } catch (e, s) {
+          await Future.delayed(const Duration(seconds: 4), () {});
         FirebaseUser user = await FirebaseAuth.instance.currentUser();
         if (user == null) {
           PlatformException err = e;
@@ -317,32 +227,12 @@ class LoginPageState extends State<LoginPage>
             );
           }
         }
-        print("signInWithEmailLink function:- " + e.toString());
+        print("signInWithEmailLink function:- " + e.toString() + "\n" + s.toString());
       }
     } else {
       Navigator.of(context).pop();
       print("264:--Invalid login link");
     }
-  }
-
-  void _showDialog(String error) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: new Text("Error"),
-          content: new Text("Please Try Again.\nError code: " + error),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
