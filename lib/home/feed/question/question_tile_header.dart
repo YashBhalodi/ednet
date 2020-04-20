@@ -1,6 +1,7 @@
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -40,31 +41,54 @@ class QuestionTile extends StatelessWidget {
                 SizedBox(
                   height: 16.0,
                 ),
-                SizedBox(
-                  height: 40.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Expanded(
-                        child: UpvoteButton(
-                          count: question.upvoteCount,
-                          callback: () async {
-                            await question.upvote();
-                          },
-                        ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 40.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Expanded(
+                            child: UpvoteButton(
+                              count: question.upvoteCount,
+                              callback: () async {
+                                await question.upvote();
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            child: DownvoteButton(
+                              count: question.downvoteCount,
+                              callback: () async {
+                                await question.downvote();
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: DownvoteButton(
-                          count: question.downvoteCount,
-                          callback: () async {
-                            await question.downvote();
-                          },
+                    ),
+                    SizedBox(height: 4.0,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left:10.0),
+                          child: UpVoterList(upvoters: question.upvoters),
                         ),
-                      ),
-                    ],
-                  ),
+                        Padding(
+                          padding: const EdgeInsets.only(right:10.0),
+                          child: DownVoterList(downvoters: question.downvoters,),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),

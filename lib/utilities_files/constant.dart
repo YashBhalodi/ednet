@@ -230,13 +230,11 @@ class Constant {
   }
 
   static String reportCommentValidator(value) {
-      if (value
-          .trim()
-          .length < 10) {
-          return "Description should be atleast 10 characters long";
-      } else {
-          return null;
-      }
+    if (value.trim().length < 10) {
+      return "Description should be atleast 10 characters long";
+    } else {
+      return null;
+    }
   }
 
   static Widget myLinearProgressIndicator(double progress) {
@@ -248,10 +246,10 @@ class Constant {
 
   static void showToastInstruction(String msg) {
     Fluttertoast.showToast(
-        msg: msg,
-        fontSize: 18.0,
-        gravity: ToastGravity.BOTTOM,
-        toastLength: Toast.LENGTH_LONG,
+      msg: msg,
+      fontSize: 18.0,
+      gravity: ToastGravity.BOTTOM,
+      toastLength: Toast.LENGTH_LONG,
     );
   }
 
@@ -343,88 +341,84 @@ class Constant {
   }
 
   static void showNoSignUpDialog(context) {
-      showDialog(
-          context: context,
-          builder: (context) {
-              return AlertDialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(16.0),
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(16.0),
+              ),
+            ),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text("Your university hasn't applied for ednet yet."),
+                SizedBox(
+                  height: 32.0,
+                ),
+                SecondaryCTA(
+                  child: Text(
+                    "Sign up instruction",
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.secondaryCTATextStyle
+                        : LightTheme.secondaryCTATextStyle,
+                  ),
+                  callback: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return SignUpInstruction();
+                        },
                       ),
-                  ),
-                  content: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                          Text("Your university hasn't applied for ednet yet."),
-                          SizedBox(
-                              height: 32.0,
-                          ),
-                          SecondaryCTA(
-                              child: Text(
-                                  "Sign up instruction",
-                                  style: Theme
-                                             .of(context)
-                                             .brightness == Brightness.dark
-                                         ? DarkTheme.secondaryCTATextStyle
-                                         : LightTheme.secondaryCTATextStyle,
-                              ),
-                              callback: () {
-                                  Navigator.of(context).pop();
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) {
-                                              return SignUpInstruction();
-                                          },
-                                      ),
-                                  );
-                              },
-                          ),
-                      ],
-                  ),
-              );
-          });
+                    );
+                  },
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   static void showAccountDisabledDialog(context) {
-      showDialog(
-          context: context,
-          builder: (context) {
-              return AlertDialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(16.0),
-                      ),
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(16.0),
+              ),
+            ),
+            title: Text("Account Disabled"),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                    "We received request from your university admin to temporarily suspend your EDNET account.\n\nYou may have violated the community standard by performing malicious activities.\n\nPlease try again after a while."),
+                SizedBox(
+                  height: 32.0,
+                ),
+                SecondaryCTA(
+                  child: Text(
+                    "OK",
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.secondaryCTATextStyle
+                        : LightTheme.secondaryCTATextStyle,
                   ),
-                  title: Text("Account Disabled"),
-                  content: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                          Text(
-                              "We received request from your university admin to temporarily suspend your EDNET account.\n\nYou may have violated the community standard by performing malicious activities.\n\nPlease try again after a while."),
-                          SizedBox(
-                              height: 32.0,
-                          ),
-                          SecondaryCTA(
-                              child: Text(
-                                  "OK",
-                                  style: Theme
-                                             .of(context)
-                                             .brightness == Brightness.dark
-                                         ? DarkTheme.secondaryCTATextStyle
-                                         : LightTheme.secondaryCTATextStyle,
-                              ),
-                              callback: () {
-                                  Navigator.of(context).pop();
-                              },
-                          ),
-                      ],
-                  ),
-              );
-          });
+                  callback: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   static String formatDateTime(DateTime timestamp) {
@@ -432,9 +426,9 @@ class Constant {
   }
 
   static void defaultVibrate() async {
-      if (await Vibration.hasVibrator()) {
-          Vibration.vibrate(duration: 40);
-      }
+    if (await Vibration.hasVibrator()) {
+      Vibration.vibrate(duration: 40);
+    }
   }
 }
 
@@ -701,39 +695,40 @@ class DarkTheme {
 
   static get negativePrimaryButtonColor => Colors.blueGrey[700];
 
-  static get negativePrimaryButtonTextStyle =>
-      TextStyle(
-          color: Colors.red[100],
-          fontSize: 20.0,
-          fontWeight: FontWeight.w600,
+  static get negativePrimaryButtonTextStyle => TextStyle(
+        color: Colors.red[100],
+        fontSize: 20.0,
+        fontWeight: FontWeight.w600,
       );
 
   static get graphBackgroundColor => Colors.blueGrey;
 
   static get graphValueColor => Color(0xffd7fffd);
 
-  static get graphLabelStyle =>
-      TextStyle(
-          fontFamily: 'VarelaRound',
-          fontWeight: FontWeight.w500,
-          fontSize: 28.0,
-          color: graphValueColor,
+  static get graphLabelStyle => TextStyle(
+        fontFamily: 'VarelaRound',
+        fontWeight: FontWeight.w500,
+        fontSize: 28.0,
+        color: graphValueColor,
       );
 
-  static get graphDescriptionStyle =>
-      TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 16.0,
-          color: graphValueColor,
+  static get graphDescriptionStyle => TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: 16.0,
+        color: graphValueColor,
       );
 
   static get profileSetupBannerColor => Colors.blueGrey[700];
 
-  static get profileSetupBannerTextStyle =>
-      TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.w500,
-          color: Color(0xffd7fffd),
+  static get profileSetupBannerTextStyle => TextStyle(
+        fontSize: 20.0,
+        fontWeight: FontWeight.w500,
+        color: Color(0xffd7fffd),
+      );
+
+  static get voterTextStyle => TextStyle(
+        fontSize: 10.0,
+        fontWeight: FontWeight.w300,
       );
 }
 
@@ -994,38 +989,39 @@ class LightTheme {
 
   static get negativePrimaryButtonColor => Colors.red[300];
 
-  static get negativePrimaryButtonTextStyle =>
-      TextStyle(
-          color: Colors.white,
-          fontSize: 20.0,
-          fontWeight: FontWeight.w600,
+  static get negativePrimaryButtonTextStyle => TextStyle(
+        color: Colors.white,
+        fontSize: 20.0,
+        fontWeight: FontWeight.w600,
       );
 
   static get graphBackgroundColor => Colors.grey[500];
 
   static get graphValueColor => Colors.blue[600];
 
-  static get graphLabelStyle =>
-      TextStyle(
-          fontFamily: 'VarelaRound',
-          fontWeight: FontWeight.w500,
-          fontSize: 28.0,
-          color: graphValueColor,
+  static get graphLabelStyle => TextStyle(
+        fontFamily: 'VarelaRound',
+        fontWeight: FontWeight.w500,
+        fontSize: 28.0,
+        color: graphValueColor,
       );
 
-  static get graphDescriptionStyle =>
-      TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 16.0,
-          color: graphValueColor,
+  static get graphDescriptionStyle => TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: 16.0,
+        color: graphValueColor,
       );
 
   static get profileSetupBannerColor => Colors.green[50];
 
-  static get profileSetupBannerTextStyle =>
-      TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.w500,
-          color: Colors.green[700],
+  static get profileSetupBannerTextStyle => TextStyle(
+        fontSize: 20.0,
+        fontWeight: FontWeight.w500,
+        color: Colors.green[700],
       );
+
+  static get voterTextStyle => TextStyle(
+      fontSize: 10.0,
+      fontWeight: FontWeight.w300,
+  );
 }

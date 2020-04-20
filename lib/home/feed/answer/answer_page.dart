@@ -65,6 +65,7 @@ class _AnswerPageState extends State<AnswerPage> {
         ),
         body: Scrollbar(
           child: ListView(
+            padding: EdgeInsets.only(bottom: 32.0),
             children: <Widget>[
               widget.question == null
               ? StreamBuilder(
@@ -163,31 +164,54 @@ class _AnswerPageState extends State<AnswerPage> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         Answer a = Answer.fromSnapshot(snapshot.data);
-                        return SizedBox(
-                          height: 56.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              Expanded(
-                                child: UpvoteButton(
-                                  callback: () async {
-                                    await a.upvote();
-                                  },
-                                  count: a.upvoteCount,
-                                ),
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 56.0,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: UpvoteButton(
+                                      callback: () async {
+                                        await a.upvote();
+                                      },
+                                      count: a.upvoteCount,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: DownvoteButton(
+                                      callback: () async {
+                                        await a.downvote();
+                                      },
+                                      count: a.downvoteCount,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Expanded(
-                                child: DownvoteButton(
-                                  callback: () async {
-                                    await a.downvote();
-                                  },
-                                  count: a.downvoteCount,
+                            ),
+                            SizedBox(height: 4.0,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left:10.0),
+                                  child: UpVoterList(upvoters: a.upvoters),
                                 ),
-                              ),
-                            ],
-                          ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right:10.0),
+                                  child: DownVoterList(downvoters: a.downvoters,),
+                                ),
+                              ],
+                            ),
+                          ],
                         );
                       } else {
                         return ShimmerRatingBox();
