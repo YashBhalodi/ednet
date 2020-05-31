@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/notification_classes.dart';
 
 class User {
   String email;
@@ -15,18 +16,19 @@ class User {
   List<String> topics;
   String id;
 
-  User({this.email,
-    this.userName,
-    this.isAdmin,
-    this.isProf,
-    this.isProfileSet,
-    this.university,
-    this.fname,
-    this.lname,
-    this.bio,
-    this.mobile,
-    this.topics,
-    this.id});
+  User(
+      {this.email,
+      this.userName,
+      this.isAdmin,
+      this.isProf,
+      this.isProfileSet,
+      this.university,
+      this.fname,
+      this.lname,
+      this.bio,
+      this.mobile,
+      this.topics,
+      this.id});
 
   User.fromSnapshot(DocumentSnapshot snapshot) {
     isAdmin = snapshot.data['isAdmin'] as bool;
@@ -382,23 +384,24 @@ class Article {
   int profUpvoteCount;
   int reportCount;
 
-  Article({this.title,
-    this.subtitle,
-    this.content,
-    this.createdOn,
-    this.editedOn,
-    this.upvoteCount,
-    this.downvoteCount,
-    this.upvoters,
-    this.downvoters,
-    this.topics,
-    this.id,
-    this.byProf,
-    this.isDraft,
-    this.userId,
-    this.contentJson,
-    this.profUpvoteCount,
-    this.reportCount});
+  Article(
+      {this.title,
+      this.subtitle,
+      this.content,
+      this.createdOn,
+      this.editedOn,
+      this.upvoteCount,
+      this.downvoteCount,
+      this.upvoters,
+      this.downvoters,
+      this.topics,
+      this.id,
+      this.byProf,
+      this.isDraft,
+      this.userId,
+      this.contentJson,
+      this.profUpvoteCount,
+      this.reportCount});
 
   Article.fromSnapshot(DocumentSnapshot snapshot) {
     title = snapshot.data['title'];
@@ -454,9 +457,9 @@ class Article {
     }
   }
 
-  Future<bool> uploadArticle() async {
+  Future<DocumentReference> uploadArticle() async {
     try {
-      Firestore.instance.collection('Articles').add({
+      DocumentReference articleDoc = await Firestore.instance.collection('Articles').add({
         'title': this.title,
         'subtitle': this.subtitle,
         'content': this.content,
@@ -474,11 +477,11 @@ class Article {
         'profUpvoteCount': this.profUpvoteCount,
         'reportCount': this.reportCount
       });
-      return true;
+      return articleDoc;
     } catch (e) {
       print("Article.uploadArticle()");
       print(e);
-      return false;
+      return null;
     }
   }
 
@@ -634,20 +637,21 @@ class Answer {
   int profUpvoteCount;
   int reportCount;
 
-  Answer({this.content,
-    this.queID,
-    this.id,
-    this.userId,
-    this.createdOn,
-    this.upvoters,
-    this.downvoters,
-    this.upvoteCount,
-    this.downvoteCount,
-    this.byProf,
-    this.isDraft,
-    this.contentJson,
-    this.profUpvoteCount,
-    this.reportCount});
+  Answer(
+      {this.content,
+      this.queID,
+      this.id,
+      this.userId,
+      this.createdOn,
+      this.upvoters,
+      this.downvoters,
+      this.upvoteCount,
+      this.downvoteCount,
+      this.byProf,
+      this.isDraft,
+      this.contentJson,
+      this.profUpvoteCount,
+      this.reportCount});
 
   Answer.fromSnapshot(DocumentSnapshot snapshot) {
     content = snapshot.data['content'];
@@ -951,7 +955,8 @@ class Report {
       });
 
       if (submittedOnce == false) {
-        await Firestore.instance.collection(contentCollection + "/" + docId + "/reports").add({
+        DocumentReference reportDoc =
+            await Firestore.instance.collection(contentCollection + "/" + docId + "/reports").add({
           'comment': this.comment,
           'violations': this.violations,
           'weight': this.weight,
@@ -963,6 +968,7 @@ class Report {
             .document(docId)
             .updateData({'reportCount': FieldValue.increment(1)});
         Constant.showToastSuccess("Your report has been submitted");
+        notifyOffender(contentCollection, reportDoc.documentID, docId);
         return true;
       } else {
         Constant.showToastInstruction(
@@ -993,5 +999,34 @@ class Report {
       print(e);
       return false;
     }
+  }
+
+  /// send the notification of content being reported to author of content
+  Future<bool> notifyOffender(String contentType, String reportId, String contentId) async {
+    switch (contentType) {
+      case "Questions":
+        {
+          QuestionReportedNotification queReportNotification = QuestionReportedNotification(
+            type: "QuestionReported",
+            questionId: contentId,
+            reportId: reportId,
+          );
+          queReportNotification.sendNotification();
+          break;
+        }
+      case "Answers":
+        {
+          //TODO
+          break;
+        }
+      case "Articles":
+        {
+          //TODO
+          break;
+        }
+      default:
+        break;
+    }
+    return true;
   }
 }

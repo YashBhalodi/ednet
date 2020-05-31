@@ -69,7 +69,7 @@ class _CreateAnswerState extends State<CreateAnswer> {
           questionId: widget.question.id,
           ansAuthorId: _answer.userId,
         );
-        ansNotification.sendNotification(ansDoc);
+        ansNotification.sendNotification();
         Navigator.of(context).pop();
       } else {
         Constant.showToastError("Failed to post answer.");

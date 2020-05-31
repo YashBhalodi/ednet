@@ -36,6 +36,15 @@ class QuestionPostedNotification extends Notification {
     this.quesAuthorId = snapshot.data['quesAuthorID'];
   }
 
+  Future<bool> deliverPayload(String userId) async {
+    await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
+      "type": this.type,
+      "questionID": this.questionId,
+      "quesAuthorID": this.quesAuthorId,
+    });
+    return true;
+  }
+
   /// send notifications to concerned university admin and all users who are interested in at least one topic of the question
   Future<bool> sendNotification(DocumentReference questionDoc) async {
     try {
@@ -51,29 +60,13 @@ class QuestionPostedNotification extends Notification {
         if (u.isAdmin) {
           //check if the author of question is from same university, if yes, send the notification
           if ((author.id != u.id) && (u.university == author.university)) {
-            await Firestore.instance
-                .collection('Users')
-                .document(doc.documentID)
-                .collection('notifications')
-                .add({
-              "type": this.type,
-              "questionID": this.questionId,
-              "quesAuthorID": this.quesAuthorId,
-            });
+            await deliverPayload(doc.documentID);
           }
         } else {
           //check if the user is interested in this topic
           bool userInterested = q.topics.any((qt) => u.topics.contains(qt));
           if (doc.documentID != q.userId && userInterested) {
-            await Firestore.instance
-                .collection('Users')
-                .document(doc.documentID)
-                .collection('notifications')
-                .add({
-              "type": this.type,
-              "questionID": this.questionId,
-              "quesAuthorID": this.quesAuthorId,
-            });
+            await deliverPayload(doc.documentID);
           }
         }
       });
@@ -108,67 +101,133 @@ class AnswerPostedNotification extends Notification {
     this.ansAuthorId = snapshot.data['ansAuthorID'];
   }
 
+  Future<bool> deliverPayload(String userId) async {
+    await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
+      "type": this.type,
+      "questionID": this.questionId,
+      "answerID": this.answerId,
+      "ansAuthorID": this.ansAuthorId,
+    });
+    return true;
+  }
+
   /// send notification to the question author, admin concerned with answer author and users who has shown interest in the question by up-voting it.
-  Future<bool> sendNotification(DocumentReference ansDoc) async {
+  Future<bool> sendNotification() async {
     try {
       DocumentSnapshot authorDoc =
-              await Firestore.instance.collection('Users').document(ansAuthorId).get();
+          await Firestore.instance.collection('Users').document(ansAuthorId).get();
       User author = User.fromSnapshot(authorDoc);
       //this notification will be sent to question author and university admins and question upvoters
       //sending notification to question author
-      DocumentSnapshot queDoc = await Firestore.instance.collection('Questions').document(this.questionId).get();
+      DocumentSnapshot queDoc =
+          await Firestore.instance.collection('Questions').document(this.questionId).get();
       Question q = Question.fromSnapshot(queDoc);
-      await Firestore.instance
-              .collection('Users')
-              .document(q.userId)
-              .collection('notifications')
-              .add({
-            "type": this.type,
-            "questionID": this.questionId,
-            "answerID": this.answerId,
-            "ansAuthorID": this.ansAuthorId,
-          });
+      await deliverPayload(q.userId);
       //sending notification to question upvoters
       q.upvoters.forEach((upVoter) async {
-            if(upVoter != ansAuthorId) {
-              await Firestore.instance
-                  .collection('Users')
-                  .document(upVoter)
-                  .collection('notifications')
-                  .add({
-                "type": this.type,
-                "questionID": this.questionId,
-                "answerID": this.answerId,
-                "ansAuthorID": this.ansAuthorId,
-              });
-            }
-          });
+        if (upVoter != ansAuthorId) {
+          await deliverPayload(upVoter);
+        }
+      });
       //sending notification to concerned admins
       QuerySnapshot allValidAdmin = await Firestore.instance
-              .collection('Users')
-              .where('isAdmin', isEqualTo: true)
-              .where('university', isEqualTo: author.university)
-              .getDocuments();
+          .collection('Users')
+          .where('isAdmin', isEqualTo: true)
+          .where('university', isEqualTo: author.university)
+          .getDocuments();
       allValidAdmin.documents.forEach((doc) async {
-            if (doc.documentID != ansAuthorId) {
-              await Firestore.instance
-                        .collection('Users')
-                        .document(doc.documentID)
-                        .collection('notifications')
-                        .add({
-                      "type": this.type,
-                      "questionID": this.questionId,
-                      "answerID": this.answerId,
-                      "ansAuthorID": this.ansAuthorId,
-                    });
-            }
-          });
+        if (doc.documentID != ansAuthorId) {
+          await deliverPayload(doc.documentID);
+        }
+      });
       return true;
     } catch (e) {
-      print('168__AnswerPostedNotification__AnswerPostedNotification.sendNotification__notification_classes.dart');
+      print(
+          '168__AnswerPostedNotification__AnswerPostedNotification.sendNotification__notification_classes.dart');
       print(e);
       return false;
     }
+  }
+}
+
+class ArticlePostedNotification extends Notification {
+  String articleId;
+  String authorId;
+
+  ArticlePostedNotification(
+      {String id, @required String type, @required this.articleId, @required this.authorId})
+      : super(id: id, type: type);
+
+  ArticlePostedNotification.fromJson(DocumentSnapshot snapshot) {
+    this.id = snapshot.documentID;
+    this.type = snapshot.data['type'];
+    this.articleId = snapshot.data['articleID'];
+    this.authorId = snapshot.data['authorID'];
+  }
+
+  Future<bool> deliverPayload(String userId) async {
+    await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
+      "type": this.type,
+      "authorID": this.authorId,
+      "articleID": this.articleId,
+    });
+    return true;
+  }
+
+  /// send notification to concerned admin and users interested in article's topic
+  Future<bool> sendNotification(DocumentReference articleDoc) async {
+    DocumentSnapshot authorSnap =
+        await Firestore.instance.collection('Users').document(this.authorId).get();
+    User author = User.fromSnapshot(authorSnap);
+    DocumentSnapshot articleSnap = await articleDoc.get();
+    Article a = Article.fromSnapshot(articleSnap);
+    QuerySnapshot allUsers = await Firestore.instance.collection('Users').getDocuments();
+    allUsers.documents.forEach((userDoc) async {
+      User u = User.fromSnapshot(userDoc);
+      if (u.isAdmin) {
+        if (u.university == author.university && u.id != author.id) {
+          await deliverPayload(u.id);
+        }
+      } else {
+        if (u.id != authorId) {
+          bool userInterested = a.topics.any((at) => u.topics.contains(at));
+          if (userInterested) {
+            await deliverPayload(u.id);
+          }
+        }
+      }
+    });
+    return true;
+  }
+}
+
+class QuestionReportedNotification extends Notification {
+  String questionId;
+  String reportId;
+
+  QuestionReportedNotification({String id,@required String type,@required this.questionId,@required this.reportId}) : super(id:id,type:type);
+
+  QuestionReportedNotification.fromJson(DocumentSnapshot snapshot){
+    this.id = snapshot.documentID;
+    this.type = snapshot.data['type'];
+    this.questionId = snapshot.data['questionID'];
+    this.reportId = snapshot.data['reportID'];
+  }
+
+  Future<bool> deliverPayload(String userId) async {
+    await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
+      "type":this.type,
+      "questionID":this.questionId,
+      "reportID":this.reportId,
+    });
+    return true;
+  }
+
+  Future<bool> sendNotification() async {
+    DocumentSnapshot questionSnap = await Firestore.instance.collection('Questions').document(questionId).get();
+    Question q = Question.fromSnapshot(questionSnap);
+    await deliverPayload(q.userId);
+    return true;
   }
 }
 
