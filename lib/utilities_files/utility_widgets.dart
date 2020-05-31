@@ -214,10 +214,6 @@ class SecondaryNegativeCardButton extends StatelessWidget {
           topLeft: Radius.circular(10.0),
           bottomLeft: Radius.circular(10.0),
         ),
-        /*side: BorderSide(
-          color: Colors.red[300],
-          width: 1.0,
-        ),*/
       ),
       child: child,
     );

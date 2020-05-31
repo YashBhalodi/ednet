@@ -148,9 +148,9 @@ class Question {
     reportCount = snapshot.data['reportCount'] as int ?? 0;
   }
 
-  Future<bool> uploadQuestion() async {
+  Future<DocumentReference> uploadQuestion() async {
     try {
-      Firestore.instance.collection('Questions').add({
+      DocumentReference queDocRef = await Firestore.instance.collection('Questions').add({
         'heading': this.heading,
         'description': this.description,
         'createdOn': this.createdOn,
@@ -168,11 +168,11 @@ class Question {
         'profUpvoteCount': this.profUpvoteCount,
         'reportCount': this.reportCount,
       });
-      return true;
+      return queDocRef;
     } catch (e) {
       print("Question.uploadQuestion()");
       print(e);
-      return false;
+      return null;
     }
   }
 

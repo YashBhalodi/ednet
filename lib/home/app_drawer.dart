@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:ednet/home/admin/admin_panel_home.dart';
 import 'package:ednet/home/drafts/my_drafts_page.dart';
+import 'package:ednet/home/notification/notification_page.dart';
 import 'package:ednet/home/profile/my_profile/my_profile_info_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
@@ -74,24 +75,43 @@ class _AppDrawerState extends State<AppDrawer> {
                 );
               },
             ),
+            ListTile(
+              title: Text(
+                "Notifications",
+                style: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.appDrawerMenuStyle
+                    : LightTheme.appDrawerMenuStyle,
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return NotificationPage(
+                        currentUser: currentUser,
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
             currentUser.isAdmin
                 ? ListTile(
                     title: Text(
                       "Admin Panel",
                       style: Theme.of(context).brightness == Brightness.dark
-                    ? DarkTheme.appDrawerMenuStyle
-                    : LightTheme.appDrawerMenuStyle,
+                          ? DarkTheme.appDrawerMenuStyle
+                          : LightTheme.appDrawerMenuStyle,
                     ),
                     onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) {
-                                    return AdminPanelHome(admin: User.fromSnapshot(widget
-                                        .userSnap));
-                                },
-                            ),
-                        );
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return AdminPanelHome(admin: currentUser);
+                          },
+                        ),
+                      );
                     },
                   )
                 : Container(),
