@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/question/question_tile_header.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/notification_classes.dart';
 import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,9 +60,16 @@ class _CreateAnswerState extends State<CreateAnswer> {
       if (widget.answer != null) {
         await widget.answer.delete();
       }
-      bool success = await _answer.uploadAnswer(true);
-      if (success) {
+      DocumentReference ansDoc = await _answer.uploadAnswer(true);
+      if (ansDoc != null) {
         Constant.showToastSuccess("Answer posted successfully");
+        AnswerPostedNotification ansNotification = AnswerPostedNotification(
+          type: "AnswerPosted",
+          answerId: ansDoc.documentID,
+          questionId: widget.question.id,
+          ansAuthorId: _answer.userId,
+        );
+        ansNotification.sendNotification(ansDoc);
         Navigator.of(context).pop();
       } else {
         Constant.showToastError("Failed to post answer.");
@@ -104,8 +112,8 @@ class _CreateAnswerState extends State<CreateAnswer> {
     if (valid) {
       if (widget.answer == null) {
         //first time saving as draft
-        bool success = await _answer.uploadAnswer(false);
-        if (success) {
+        DocumentReference ansDoc = await _answer.uploadAnswer(false);
+        if (ansDoc != null) {
           Constant.showToastSuccess("Draft saved successfully");
           FocusScope.of(context).unfocus();
           Navigator.of(context).pop();

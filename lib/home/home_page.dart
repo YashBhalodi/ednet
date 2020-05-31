@@ -31,8 +31,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () async {
-            if (triedExit >= 1) {
+      onWillPop: () async {
+        if (triedExit >= 1) {
           SystemChannels.platform.invokeMethod('SystemNavigator.pop');
           return true;
         } else {
@@ -48,14 +48,13 @@ class _HomeState extends State<Home> {
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 createContentDialog();
+                Constant.defaultVibrate();
               },
               elevation: 12,
               child: Icon(Icons.edit),
-                backgroundColor: Theme
-                                     .of(context)
-                                     .brightness == Brightness.dark
-                                 ? DarkTheme.fabBackgroundColor
-                                 : LightTheme.fabBackgroundColor,
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.fabBackgroundColor
+                  : LightTheme.fabBackgroundColor,
             ),
             drawer: AppDrawer(
               userSnap: widget.userSnap,

@@ -666,10 +666,10 @@ class Answer {
     reportCount = snapshot.data['reportCount'] as int ?? 0;
   }
 
-  Future<bool> uploadAnswer(bool doIncrement) async {
+  Future<DocumentReference> uploadAnswer(bool doIncrement) async {
     //uploading answer
     try {
-      await Firestore.instance.collection('Answers').add({
+      DocumentReference ansDoc = await Firestore.instance.collection('Answers').add({
         'content': this.content,
         'createdOn': this.createdOn,
         'userid': this.userId,
@@ -690,11 +690,11 @@ class Answer {
           'answerCount': FieldValue.increment(1),
         });
       }
-      return true;
+      return ansDoc;
     } catch (e) {
       print("Answer.upload()");
       print(e.toString());
-      return false;
+      return null;
     }
   }
 

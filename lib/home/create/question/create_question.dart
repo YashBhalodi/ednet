@@ -51,6 +51,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
         QuestionPostedNotification queNotification = QuestionPostedNotification(
           type: "QuestionPosted",
           questionId: queDocRef.documentID,
+          quesAuthorId: _question.userId,
         );
         queNotification.sendNotification(queDocRef);
       } else {
