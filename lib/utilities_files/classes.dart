@@ -348,6 +348,7 @@ class Question {
       });
       await this.discardAllReports();
       await this.delete();
+      notifyAuthor();
       return true;
     } catch (e) {
       print('346__Question__Question.deleteWithAnswers__classes.dart');
@@ -356,13 +357,13 @@ class Question {
     }
   }
 
-//TODO static methods to return stream for increasing readability in code
-//Fetch all questions
-//Fetch all answer to this question
-//Fetch all reports of this question
-//Fetch all questions by this user
-//Fetch Draft questions by this user
-//Fetch this particular question
+  Future<bool> notifyAuthor() async {
+    String adminId = await Constant.getCurrentUserDocId();
+    QuestionRemovedNotification questionRemovedNotification = QuestionRemovedNotification(
+        type: "QuestionRemoved", adminId: adminId, content: this.heading);
+    questionRemovedNotification.sendNotification(this.userId);
+    return true;
+  }
 }
 
 class Article {
@@ -497,6 +498,23 @@ class Article {
     }
   }
 
+  Future<bool> deletePublished() async {
+    await this.delete();
+    await notifyAuthor();
+    return true;
+  }
+
+  Future<bool> notifyAuthor() async {
+    String adminId = await Constant.getCurrentUserDocId();
+    ArticleRemovedNotification articleRemovedNotification = ArticleRemovedNotification(
+      content: this.title,
+      adminId: adminId,
+      type: "ArticleRemoved",
+    );
+    await articleRemovedNotification.sendNotification(this.userId);
+    return true;
+  }
+
   Future<bool> upvote() async {
     User user = await Constant.getCurrentUserObject();
     Constant.defaultVibrate();
@@ -612,13 +630,6 @@ class Article {
       return false;
     }
   }
-
-//TODO static methods returning streams
-//Fetch all articles
-//Fetch all reports of this article
-//Fetch Draft articles by this user
-//Fetch this particular article
-
 }
 
 class Answer {
@@ -754,6 +765,7 @@ class Answer {
           .updateData({'answerCount': FieldValue.increment(-1)});
       await this.discardAllReports();
       await this.delete();
+      notifyAuthor();
       return true;
     } catch (e) {
       print('721__Answer__Answer.deletePublished__classes.dart');
@@ -878,12 +890,16 @@ class Answer {
     }
   }
 
-//TODO static methods to return stream for increasing readability in code
-//Fetch all reports of this answer
-//Fetch all answers by this user
-//Fetch Draft answer by this user
-//Fetch this particular answer
-
+  Future<bool> notifyAuthor() async {
+    String adminId = await Constant.getCurrentUserDocId();
+    AnswerRemovedNotification answerRemovedNotification = AnswerRemovedNotification(
+        type: "AnswerRemoved",
+        adminId: adminId,
+        contentPreview: this.content.substring(0, 46) + "...",
+        questionId: this.queID);
+    await answerRemovedNotification.sendNotification(this.userId);
+    return true;
+  }
 }
 
 class University {

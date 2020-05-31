@@ -221,9 +221,9 @@ class QuestionReportsReviewPage extends StatelessWidget {
                   height: 64,
                   child: NegativePrimaryButton(
                     callback: () {
-                      if (_reportCount < 5) {
+                      if (_reportCount < Constant.reportThreshold) {
                         Constant.showToastInstruction(
-                            "Atleast 5 reports needed to remove this question");
+                            "Atleast ${Constant.reportThreshold} reports needed to remove this question");
                       } else {
                         _deleteQuestionDialog(context);
                       }

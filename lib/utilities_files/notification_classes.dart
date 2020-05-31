@@ -205,9 +205,11 @@ class QuestionReportedNotification extends Notification {
   String questionId;
   String reportId;
 
-  QuestionReportedNotification({String id,@required String type,@required this.questionId,@required this.reportId}) : super(id:id,type:type);
+  QuestionReportedNotification(
+      {String id, @required String type, @required this.questionId, @required this.reportId})
+      : super(id: id, type: type);
 
-  QuestionReportedNotification.fromJson(DocumentSnapshot snapshot){
+  QuestionReportedNotification.fromJson(DocumentSnapshot snapshot) {
     this.id = snapshot.documentID;
     this.type = snapshot.data['type'];
     this.questionId = snapshot.data['questionID'];
@@ -216,15 +218,16 @@ class QuestionReportedNotification extends Notification {
 
   Future<bool> deliverPayload(String userId) async {
     await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
-      "type":this.type,
-      "questionID":this.questionId,
-      "reportID":this.reportId,
+      "type": this.type,
+      "questionID": this.questionId,
+      "reportID": this.reportId,
     });
     return true;
   }
 
   Future<bool> sendNotification() async {
-    DocumentSnapshot questionSnap = await Firestore.instance.collection('Questions').document(questionId).get();
+    DocumentSnapshot questionSnap =
+        await Firestore.instance.collection('Questions').document(questionId).get();
     Question q = Question.fromSnapshot(questionSnap);
     await deliverPayload(q.userId);
     return true;
@@ -235,9 +238,11 @@ class AnswerReportedNotification extends Notification {
   String answerId;
   String reportId;
 
-  AnswerReportedNotification({String id,@required String type,@required this.answerId,@required this.reportId}) : super(id:id,type:type);
+  AnswerReportedNotification(
+      {String id, @required String type, @required this.answerId, @required this.reportId})
+      : super(id: id, type: type);
 
-  AnswerReportedNotification.fromJson(DocumentSnapshot snapshot){
+  AnswerReportedNotification.fromJson(DocumentSnapshot snapshot) {
     this.id = snapshot.documentID;
     this.type = snapshot.data['type'];
     this.answerId = snapshot.data['answerID'];
@@ -246,15 +251,16 @@ class AnswerReportedNotification extends Notification {
 
   Future<bool> deliverPayload(String userId) async {
     await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
-      "type":this.type,
-      "answerID":this.answerId,
-      "reportID":this.reportId,
+      "type": this.type,
+      "answerID": this.answerId,
+      "reportID": this.reportId,
     });
     return true;
   }
 
   Future<bool> sendNotification() async {
-    DocumentSnapshot answerSnap = await Firestore.instance.collection('Answers').document(answerId).get();
+    DocumentSnapshot answerSnap =
+        await Firestore.instance.collection('Answers').document(answerId).get();
     Answer a = Answer.fromSnapshot(answerSnap);
     await deliverPayload(a.userId);
     return true;
@@ -265,9 +271,11 @@ class ArticleReportedNotification extends Notification {
   String articleId;
   String reportId;
 
-  ArticleReportedNotification({String id,@required String type,@required this.articleId,@required this.reportId}) : super(id:id,type:type);
+  ArticleReportedNotification(
+      {String id, @required String type, @required this.articleId, @required this.reportId})
+      : super(id: id, type: type);
 
-  ArticleReportedNotification.fromJson(DocumentSnapshot snapshot){
+  ArticleReportedNotification.fromJson(DocumentSnapshot snapshot) {
     this.id = snapshot.documentID;
     this.type = snapshot.data['type'];
     this.articleId = snapshot.data['articleID'];
@@ -276,17 +284,115 @@ class ArticleReportedNotification extends Notification {
 
   Future<bool> deliverPayload(String userId) async {
     await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
-      "type":this.type,
-      "articleID":this.articleId,
-      "reportID":this.reportId,
+      "type": this.type,
+      "articleID": this.articleId,
+      "reportID": this.reportId,
     });
     return true;
   }
 
   Future<bool> sendNotification() async {
-    DocumentSnapshot articleSnap = await Firestore.instance.collection('Articles').document(articleId).get();
+    DocumentSnapshot articleSnap =
+        await Firestore.instance.collection('Articles').document(articleId).get();
     Article a = Article.fromSnapshot(articleSnap);
     await deliverPayload(a.userId);
+    return true;
+  }
+}
+
+class AnswerRemovedNotification extends Notification {
+  String adminId;
+  String contentPreview;
+  String questionId;
+
+  AnswerRemovedNotification(
+      {String id,
+      @required String type,
+      @required this.adminId,
+      @required this.contentPreview,
+      @required this.questionId})
+      : super(id: id, type: type);
+
+  AnswerRemovedNotification.fromJson(DocumentSnapshot snapshot) {
+    this.id = snapshot.documentID;
+    this.type = snapshot.data['type'];
+    this.adminId = snapshot.data['type'];
+    this.contentPreview = snapshot.data['content'];
+    this.questionId = snapshot.data['questionID'];
+  }
+
+  Future<bool> deliverPayload(String userId) async {
+    await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
+      "type": this.type,
+      "adminId": this.adminId,
+      "content": this.contentPreview,
+      "questionID": this.questionId,
+    });
+    return true;
+  }
+
+  Future<bool> sendNotification(String authorId) async {
+    await deliverPayload(authorId);
+    return true;
+  }
+}
+
+class QuestionRemovedNotification extends Notification {
+  String content;
+  String adminId;
+
+  QuestionRemovedNotification(
+      {String id, @required String type, @required this.content, @required this.adminId})
+      : super(id: id, type: type);
+
+  QuestionRemovedNotification.fromJson(DocumentSnapshot snapshot) {
+    this.id = snapshot.documentID;
+    this.type = snapshot.data['type'];
+    this.adminId = snapshot.data['adminID'];
+    this.content = snapshot.data['contentPreview'];
+  }
+
+  Future<bool> deliverPayload(String userId) async {
+    await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
+      "type": this.type,
+      "adminID": this.adminId,
+      "contentPreview": this.content,
+    });
+    return true;
+  }
+
+  Future<bool> sendNotification(String authorId) async {
+    await deliverPayload(authorId);
+    return true;
+  }
+}
+
+class ArticleRemovedNotification extends Notification {
+  String content;
+  String adminId;
+
+  ArticleRemovedNotification(
+      {String id, @required String type, @required this.content, @required this.adminId})
+      : super(id: id, type: type);
+
+  ArticleRemovedNotification.fromJson(DocumentSnapshot snapshot) {
+    this.id = snapshot.documentID;
+    this.type = snapshot.data['type'];
+    this.adminId = snapshot.data['adminID'];
+    this.content = snapshot.data['contentPreview'];
+  }
+
+  Future<bool> deliverPayload(String userId) async {
+    await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
+      "type": this.type,
+      "adminID": this.adminId,
+      "contentPreview": this.content,
+    });
+    return true;
+  }
+
+  Future<bool> sendNotification(String authorId) async {
+    await deliverPayload(authorId);
     return true;
   }
 }
@@ -295,8 +401,10 @@ enum NotificationType {
   QuestionPosted,
   AnswerPosted,
   ArticlePosted,
-  ContentUpvoted,
-  ContentDownvoted,
-  ContentReported,
-  ContentRemoved,
+  QuestionReported,
+  AnswerReported,
+  ArticleReported,
+  AnswerRemoved,
+  QuestionRemoved,
+  ArticleRemoved,
 }

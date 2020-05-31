@@ -13,6 +13,8 @@ import 'package:intl/intl.dart';
 import 'package:vibration/vibration.dart';
 
 class Constant {
+  static get reportThreshold => 3;
+
   static get edgePadding => EdgeInsets.symmetric(
         horizontal: 24.0,
         vertical: 16.0,
@@ -1021,7 +1023,7 @@ class LightTheme {
       );
 
   static get voterTextStyle => TextStyle(
-      fontSize: 10.0,
-      fontWeight: FontWeight.w300,
-  );
+        fontSize: 10.0,
+        fontWeight: FontWeight.w300,
+      );
 }
