@@ -231,6 +231,66 @@ class QuestionReportedNotification extends Notification {
   }
 }
 
+class AnswerReportedNotification extends Notification {
+  String answerId;
+  String reportId;
+
+  AnswerReportedNotification({String id,@required String type,@required this.answerId,@required this.reportId}) : super(id:id,type:type);
+
+  AnswerReportedNotification.fromJson(DocumentSnapshot snapshot){
+    this.id = snapshot.documentID;
+    this.type = snapshot.data['type'];
+    this.answerId = snapshot.data['answerID'];
+    this.reportId = snapshot.data['reportID'];
+  }
+
+  Future<bool> deliverPayload(String userId) async {
+    await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
+      "type":this.type,
+      "answerID":this.answerId,
+      "reportID":this.reportId,
+    });
+    return true;
+  }
+
+  Future<bool> sendNotification() async {
+    DocumentSnapshot answerSnap = await Firestore.instance.collection('Answers').document(answerId).get();
+    Answer a = Answer.fromSnapshot(answerSnap);
+    await deliverPayload(a.userId);
+    return true;
+  }
+}
+
+class ArticleReportedNotification extends Notification {
+  String articleId;
+  String reportId;
+
+  ArticleReportedNotification({String id,@required String type,@required this.articleId,@required this.reportId}) : super(id:id,type:type);
+
+  ArticleReportedNotification.fromJson(DocumentSnapshot snapshot){
+    this.id = snapshot.documentID;
+    this.type = snapshot.data['type'];
+    this.articleId = snapshot.data['articleID'];
+    this.reportId = snapshot.data['reportID'];
+  }
+
+  Future<bool> deliverPayload(String userId) async {
+    await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
+      "type":this.type,
+      "articleID":this.articleId,
+      "reportID":this.reportId,
+    });
+    return true;
+  }
+
+  Future<bool> sendNotification() async {
+    DocumentSnapshot articleSnap = await Firestore.instance.collection('Articles').document(articleId).get();
+    Article a = Article.fromSnapshot(articleSnap);
+    await deliverPayload(a.userId);
+    return true;
+  }
+}
+
 enum NotificationType {
   QuestionPosted,
   AnswerPosted,

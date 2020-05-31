@@ -1016,12 +1016,22 @@ class Report {
         }
       case "Answers":
         {
-          //TODO
+          AnswerReportedNotification ansReportedNotification = AnswerReportedNotification(
+            type: "AnswerReported",
+            answerId: contentId,
+            reportId: reportId,
+          );
+          ansReportedNotification.sendNotification();
           break;
         }
       case "Articles":
         {
-          //TODO
+          ArticleReportedNotification articleReportedNotification = ArticleReportedNotification(
+            type: "ArticleReported",
+            articleId: contentId,
+            reportId: reportId,
+          );
+          articleReportedNotification.sendNotification();
           break;
         }
       default:
