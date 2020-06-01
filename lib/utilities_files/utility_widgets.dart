@@ -5,6 +5,7 @@ import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:zefyr/zefyr.dart';
 
 class MyCheckBoxTile extends StatefulWidget {
@@ -1282,7 +1283,7 @@ class VoterListSheet extends StatelessWidget {
       constraints: BoxConstraints.loose(
         Size(
           MediaQuery.of(context).size.width,
-          MediaQuery.of(context).size.height*0.5,
+          MediaQuery.of(context).size.height * 0.5,
         ),
       ),
       child: ListView(
@@ -1299,14 +1300,14 @@ class VoterListSheet extends StatelessWidget {
           ),
           userList.length == 0
               ? Padding(
-                padding: Constant.edgePadding,
-                child: Text(
+                  padding: Constant.edgePadding,
+                  child: Text(
                     isUpvoteList ? "No Upvotes yet" : "No Downvotes yet",
                     style: Theme.of(context).brightness == Brightness.dark
                         ? DarkTheme.secondaryHeadingTextStyle
                         : LightTheme.secondaryHeadingTextStyle,
                   ),
-              )
+                )
               : ListView.builder(
                   itemCount: userList.length,
                   shrinkWrap: true,
@@ -1340,6 +1341,79 @@ class VoterListSheet extends StatelessWidget {
                 ),
         ],
       ),
+    );
+  }
+}
+
+class NotificationDismissIcon extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Shimmer.fromColors(
+        baseColor: Colors.red[100],
+        highlightColor: Colors.red[300],
+        period: Duration(milliseconds: 500),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Icon(
+              Icons.close,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.secondaryNegativeCardButtonBackgroundColor
+                  : LightTheme.secondaryNegativeCardButtonBackgroundColor,
+              size: 32.0,
+            ),
+            Text(
+              "Dismiss\nNotification",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class NotificationDismissBackground extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        NotificationDismissIcon(),
+        NotificationDismissIcon(),
+      ],
+    );
+  }
+}
+
+class NotificationCTA extends StatelessWidget {
+  final Function callback;
+  final Widget child;
+
+  const NotificationCTA({Key key, this.callback, this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: callback,
+      child: child,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.zero,
+          bottom: Radius.circular(10.0),
+        ),
+      ),
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.notificationCTAColor
+          : LightTheme.notificationCTAColor,
+      elevation: 5.0,
+      padding: Constant.raisedButtonPaddingLow,
     );
   }
 }

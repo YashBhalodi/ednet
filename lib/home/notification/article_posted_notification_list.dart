@@ -49,7 +49,12 @@ class ArticlePostedNotificationList extends StatelessWidget {
               );
           }
         } else {
-          return CircularProgressIndicator();
+          return SizedBox(
+              height: 50,
+              child: Center(
+                  child: CircularProgressIndicator(),
+              ),
+          );
         }
       },
     );

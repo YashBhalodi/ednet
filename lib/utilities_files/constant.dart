@@ -36,6 +36,11 @@ class Constant {
         vertical: 16.0,
       );
 
+  static get notificationCardMargin => EdgeInsets.symmetric(
+      horizontal: 8.0,
+      vertical: 8.0,
+  );
+
   static get formFieldContentPadding => EdgeInsets.symmetric(
         horizontal: 12.0,
         vertical: 20.0,
@@ -732,6 +737,27 @@ class DarkTheme {
         fontSize: 10.0,
         fontWeight: FontWeight.w300,
       );
+  static get notificationCTAColor => Colors.blueGrey[800];
+
+  static get notificationCTATextStyle => TextStyle(
+      color: Colors.blue[50],
+      fontSize: 14.0,
+      fontWeight: FontWeight.w600,
+  );
+
+  static get notificationMessageTextStyle => TextStyle(
+      fontSize: 14.0,
+      color: Colors.blueGrey[100],
+      fontWeight: FontWeight.w400,
+  );
+
+  static get notificationContentTextStyle => TextStyle(
+      fontSize: 16.0,
+      color: Colors.white,
+      fontWeight: FontWeight.w400
+  );
+
+  static get notificationContentBackgroundColor => Colors.black26;
 }
 
 class LightTheme {
@@ -1026,4 +1052,26 @@ class LightTheme {
         fontSize: 10.0,
         fontWeight: FontWeight.w300,
       );
+
+  static get notificationCTAColor => Colors.blue[50];
+
+  static get notificationCTATextStyle => TextStyle(
+      color: Colors.blue[800],
+      fontSize: 14.0,
+      fontWeight: FontWeight.w600,
+  );
+
+  static get notificationMessageTextStyle => TextStyle(
+      fontSize: 14.0,
+      color: Colors.blueGrey[900],
+      fontWeight: FontWeight.w400,
+  );
+
+  static get notificationContentTextStyle => TextStyle(
+      fontSize: 16.0,
+      color: Colors.black87,
+      fontWeight: FontWeight.w400
+  );
+
+  static get notificationContentBackgroundColor => Colors.blueGrey[50];
 }

@@ -56,7 +56,7 @@ class NotificationPage extends StatelessWidget {
             ),
             ArticleRemovedNotificationList(
               currentUser: currentUser,
-            )
+            ),
           ],
         ),
       ),
