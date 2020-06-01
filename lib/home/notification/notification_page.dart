@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/notification/answer_posted_notification_list.dart';
 import 'package:ednet/home/notification/answer_removed_notification_list.dart';
 import 'package:ednet/home/notification/answer_reported_notification_list.dart';
@@ -56,6 +57,35 @@ class NotificationPage extends StatelessWidget {
             ),
             ArticleRemovedNotificationList(
               currentUser: currentUser,
+            ),
+            StreamBuilder(
+              stream: Firestore.instance
+                  .collection("Users")
+                  .document(currentUser.id)
+                  .collection('notifications')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data.documents.isEmpty) {
+                    //TODO better no notification message
+                    return Container(
+                      height: MediaQuery.of(context).size.height,
+                      child: Center(
+                        child: Text(
+                          "No New Notifications",
+                          style: Theme.of(context).brightness == Brightness.dark
+                              ? DarkTheme.headingStyle
+                              : LightTheme.headingStyle,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                } else {
+                  return Container();
+                }
+              },
             ),
           ],
         ),

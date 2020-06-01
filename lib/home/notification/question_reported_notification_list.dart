@@ -47,12 +47,7 @@ class QuestionReportedNotificationList extends StatelessWidget {
                 }
             } else {
                 //TODO shimmer
-                return SizedBox(
-                    height: 50,
-                    child: Center(
-                        child: CircularProgressIndicator(),
-                    ),
-                );
+                return Container();
             }
         },
     );

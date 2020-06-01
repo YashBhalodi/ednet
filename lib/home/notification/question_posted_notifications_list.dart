@@ -51,12 +51,7 @@ class QuestionPostedNotificationList extends StatelessWidget {
           }
         } else {
           //TODO shimmer
-          return SizedBox(
-            height: 50,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return Container();
         }
       },
     );
@@ -153,7 +148,7 @@ class QuestionPostedNotificationTile extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.0),
                           child: Container(
-                            width:double.maxFinite,
+                            width: double.maxFinite,
                             decoration: ShapeDecoration(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(

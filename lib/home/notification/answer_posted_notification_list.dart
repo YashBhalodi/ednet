@@ -49,12 +49,7 @@ class AnswerPostedNotificationList extends StatelessWidget {
               );
           }
         } else {
-          return SizedBox(
-              height: 50,
-              child: Center(
-                  child: CircularProgressIndicator(),
-              ),
-          );
+          return Container();
         }
       },
     );
