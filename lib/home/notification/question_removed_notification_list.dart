@@ -24,13 +24,11 @@ class QuestionRemovedNotificationList extends StatelessWidget {
             return Container();
           } else {
             return ExpansionTile(
-              title: ListTile(
-                title: Text(
-                  "Removed Question",
-                  style: Theme.of(context).brightness == Brightness.dark
-                      ? DarkTheme.dropDownMenuTitleStyle
-                      : LightTheme.dropDownMenuTitleStyle,
-                ),
+              title: Text(
+                "Removed Question",
+                style: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.dropDownMenuTitleStyle
+                    : LightTheme.dropDownMenuTitleStyle,
               ),
               initiallyExpanded: true,
               children: <Widget>[

@@ -24,13 +24,11 @@ class AnswerReportedNotificationList extends StatelessWidget {
             return Container();
           } else {
             return ExpansionTile(
-              title: ListTile(
-                title: Text(
+              title: Text(
                   "Reported Answers",
                   style: Theme.of(context).brightness == Brightness.dark
-                      ? DarkTheme.dropDownMenuTitleStyle
-                      : LightTheme.dropDownMenuTitleStyle,
-                ),
+                         ? DarkTheme.dropDownMenuTitleStyle
+                         : LightTheme.dropDownMenuTitleStyle,
               ),
               initiallyExpanded: true,
               children: <Widget>[

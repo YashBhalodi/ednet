@@ -23,30 +23,30 @@ class ArticlePostedNotificationList extends StatelessWidget {
           if (snapshot.data.documents.isEmpty) {
             return Container();
           } else {
-              return ExpansionTile(
-                  title: Text(
-                      "New Articles",
-                      style: Theme.of(context).brightness == Brightness.dark
-                             ? DarkTheme.dropDownMenuTitleStyle
-                             : LightTheme.dropDownMenuTitleStyle,
-                  ),
-                  initiallyExpanded: true,
-                  children: <Widget>[
-                      ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: snapshot.data.documents.length,
-                          itemBuilder: (context, i) {
-                              ArticlePostedNotification articlePostedNotification =
-                              ArticlePostedNotification.fromJson(snapshot.data.documents[i]);
-                              return ArticlePostedNotificationTile(
-                                  currentUser: currentUser,
-                                  notification: articlePostedNotification,
-                              );
-                          },
-                      ),
-                  ],
-              );
+            return ExpansionTile(
+              title: Text(
+                "New Articles",
+                style: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.dropDownMenuTitleStyle
+                    : LightTheme.dropDownMenuTitleStyle,
+              ),
+              initiallyExpanded: true,
+              children: <Widget>[
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: snapshot.data.documents.length,
+                  itemBuilder: (context, i) {
+                    ArticlePostedNotification articlePostedNotification =
+                        ArticlePostedNotification.fromJson(snapshot.data.documents[i]);
+                    return ArticlePostedNotificationTile(
+                      currentUser: currentUser,
+                      notification: articlePostedNotification,
+                    );
+                  },
+                ),
+              ],
+            );
           }
         } else {
           return Container();

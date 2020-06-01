@@ -146,7 +146,7 @@ class QuestionPostedNotificationTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Container(
                             width: double.maxFinite,
                             decoration: ShapeDecoration(
@@ -158,15 +158,15 @@ class QuestionPostedNotificationTile extends StatelessWidget {
                                 color: Theme.of(context).brightness == Brightness.dark
                                     ? DarkTheme.notificationContentBackgroundColor
                                     : LightTheme.notificationContentBackgroundColor),
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               horizontal: 16.0,
                               vertical: 12.0,
                             ),
                             child: Text(
                               q.heading,
                               style: Theme.of(context).brightness == Brightness.dark
-                                  ? DarkTheme.questionHeadingStyle
-                                  : LightTheme.questionHeadingStyle,
+                                  ? DarkTheme.notificationContentTextStyle
+                                  : LightTheme.notificationContentTextStyle,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -180,7 +180,7 @@ class QuestionPostedNotificationTile extends StatelessWidget {
                           width: double.maxFinite,
                           child: NotificationCTA(
                             child: Text(
-                              "Read More",
+                              "Read Question",
                               style: Theme.of(context).brightness == Brightness.dark
                                   ? DarkTheme.notificationCTATextStyle
                                   : LightTheme.notificationCTATextStyle,

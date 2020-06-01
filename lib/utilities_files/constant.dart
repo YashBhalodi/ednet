@@ -754,7 +754,7 @@ class DarkTheme {
   static get notificationContentTextStyle => TextStyle(
       fontSize: 16.0,
       color: Colors.white,
-      fontWeight: FontWeight.w400
+      fontWeight: FontWeight.w500
   );
 
   static get notificationContentBackgroundColor => Colors.black12;
@@ -1070,7 +1070,7 @@ class LightTheme {
   static get notificationContentTextStyle => TextStyle(
       fontSize: 16.0,
       color: Colors.black87,
-      fontWeight: FontWeight.w400
+      fontWeight: FontWeight.w500
   );
 
   static get notificationContentBackgroundColor => Colors.grey[100];

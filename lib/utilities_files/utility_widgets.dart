@@ -1346,6 +1346,10 @@ class VoterListSheet extends StatelessWidget {
 }
 
 class NotificationDismissIcon extends StatelessWidget {
+  final bool leftToRight;
+
+  const NotificationDismissIcon({Key key, this.leftToRight}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -1358,17 +1362,15 @@ class NotificationDismissIcon extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Icon(
-              Icons.close,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? DarkTheme.secondaryNegativeCardButtonBackgroundColor
-                  : LightTheme.secondaryNegativeCardButtonBackgroundColor,
-              size: 32.0,
-            ),
             Text(
               "Dismiss\nNotification",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 12),
+            ),
+            Text(
+              leftToRight ? ">>>" : "<<<",
+              style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w700),
+              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -1380,14 +1382,19 @@ class NotificationDismissIcon extends StatelessWidget {
 class NotificationDismissBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        NotificationDismissIcon(),
-        NotificationDismissIcon(),
-      ],
+    return Container(
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.secondaryNegativeCardButtonBackgroundColor
+          : LightTheme.secondaryNegativeCardButtonBackgroundColor,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          NotificationDismissIcon(leftToRight: true,),
+          NotificationDismissIcon(leftToRight: false,),
+        ],
+      ),
     );
   }
 }

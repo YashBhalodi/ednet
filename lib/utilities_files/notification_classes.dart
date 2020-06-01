@@ -316,7 +316,7 @@ class AnswerRemovedNotification extends Notification {
   AnswerRemovedNotification.fromJson(DocumentSnapshot snapshot) {
     this.id = snapshot.documentID;
     this.type = snapshot.data['type'];
-    this.adminId = snapshot.data['type'];
+    this.adminId = snapshot.data['adminID'];
     this.contentPreview = snapshot.data['content'];
     this.questionId = snapshot.data['questionID'];
   }
@@ -324,7 +324,7 @@ class AnswerRemovedNotification extends Notification {
   Future<bool> deliverPayload(String userId) async {
     await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
       "type": this.type,
-      "adminId": this.adminId,
+      "adminID": this.adminId,
       "content": this.contentPreview,
       "questionID": this.questionId,
     });
