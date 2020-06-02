@@ -29,7 +29,7 @@ class ArticleReportsReviewPage extends StatelessWidget {
               Navigator.of(context).pop();
             },
             deleteCallback: () async {
-              bool stat = await article.delete();
+              bool stat = await article.deletePublished();
               stat
               ? Constant.showToastSuccess("Article Deleted Successfully")
               : Constant.showToastError("Could not delete the Article");
@@ -213,9 +213,9 @@ class ArticleReportsReviewPage extends StatelessWidget {
                   height: 64,
                   child: NegativePrimaryButton(
                     callback: () {
-                      if (_reportCount < 5) {
+                      if (_reportCount < Constant.reportThreshold) {
                         Constant.showToastInstruction(
-                            "Atleast 5 reports needed to remove this answer");
+                            "Atleast ${Constant.reportThreshold} reports needed to remove this answer");
                       } else {
                         _deleteArticleDialog(context);
                       }

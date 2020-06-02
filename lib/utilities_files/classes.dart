@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/notification_classes.dart';
 
 class User {
   String email;
@@ -15,18 +16,19 @@ class User {
   List<String> topics;
   String id;
 
-  User({this.email,
-    this.userName,
-    this.isAdmin,
-    this.isProf,
-    this.isProfileSet,
-    this.university,
-    this.fname,
-    this.lname,
-    this.bio,
-    this.mobile,
-    this.topics,
-    this.id});
+  User(
+      {this.email,
+      this.userName,
+      this.isAdmin,
+      this.isProf,
+      this.isProfileSet,
+      this.university,
+      this.fname,
+      this.lname,
+      this.bio,
+      this.mobile,
+      this.topics,
+      this.id});
 
   User.fromSnapshot(DocumentSnapshot snapshot) {
     isAdmin = snapshot.data['isAdmin'] as bool;
@@ -148,9 +150,9 @@ class Question {
     reportCount = snapshot.data['reportCount'] as int ?? 0;
   }
 
-  Future<bool> uploadQuestion() async {
+  Future<DocumentReference> uploadQuestion() async {
     try {
-      Firestore.instance.collection('Questions').add({
+      DocumentReference queDocRef = await Firestore.instance.collection('Questions').add({
         'heading': this.heading,
         'description': this.description,
         'createdOn': this.createdOn,
@@ -168,11 +170,11 @@ class Question {
         'profUpvoteCount': this.profUpvoteCount,
         'reportCount': this.reportCount,
       });
-      return true;
+      return queDocRef;
     } catch (e) {
       print("Question.uploadQuestion()");
       print(e);
-      return false;
+      return null;
     }
   }
 
@@ -346,6 +348,7 @@ class Question {
       });
       await this.discardAllReports();
       await this.delete();
+      notifyAuthor();
       return true;
     } catch (e) {
       print('346__Question__Question.deleteWithAnswers__classes.dart');
@@ -354,13 +357,13 @@ class Question {
     }
   }
 
-//TODO static methods to return stream for increasing readability in code
-//Fetch all questions
-//Fetch all answer to this question
-//Fetch all reports of this question
-//Fetch all questions by this user
-//Fetch Draft questions by this user
-//Fetch this particular question
+  Future<bool> notifyAuthor() async {
+    String adminId = await Constant.getCurrentUserDocId();
+    QuestionRemovedNotification questionRemovedNotification = QuestionRemovedNotification(
+        type: "QuestionRemoved", adminId: adminId, content: this.heading);
+    questionRemovedNotification.sendNotification(this.userId);
+    return true;
+  }
 }
 
 class Article {
@@ -382,23 +385,24 @@ class Article {
   int profUpvoteCount;
   int reportCount;
 
-  Article({this.title,
-    this.subtitle,
-    this.content,
-    this.createdOn,
-    this.editedOn,
-    this.upvoteCount,
-    this.downvoteCount,
-    this.upvoters,
-    this.downvoters,
-    this.topics,
-    this.id,
-    this.byProf,
-    this.isDraft,
-    this.userId,
-    this.contentJson,
-    this.profUpvoteCount,
-    this.reportCount});
+  Article(
+      {this.title,
+      this.subtitle,
+      this.content,
+      this.createdOn,
+      this.editedOn,
+      this.upvoteCount,
+      this.downvoteCount,
+      this.upvoters,
+      this.downvoters,
+      this.topics,
+      this.id,
+      this.byProf,
+      this.isDraft,
+      this.userId,
+      this.contentJson,
+      this.profUpvoteCount,
+      this.reportCount});
 
   Article.fromSnapshot(DocumentSnapshot snapshot) {
     title = snapshot.data['title'];
@@ -454,9 +458,9 @@ class Article {
     }
   }
 
-  Future<bool> uploadArticle() async {
+  Future<DocumentReference> uploadArticle() async {
     try {
-      Firestore.instance.collection('Articles').add({
+      DocumentReference articleDoc = await Firestore.instance.collection('Articles').add({
         'title': this.title,
         'subtitle': this.subtitle,
         'content': this.content,
@@ -474,11 +478,11 @@ class Article {
         'profUpvoteCount': this.profUpvoteCount,
         'reportCount': this.reportCount
       });
-      return true;
+      return articleDoc;
     } catch (e) {
       print("Article.uploadArticle()");
       print(e);
-      return false;
+      return null;
     }
   }
 
@@ -492,6 +496,23 @@ class Article {
       print(e);
       return false;
     }
+  }
+
+  Future<bool> deletePublished() async {
+    await this.delete();
+    await notifyAuthor();
+    return true;
+  }
+
+  Future<bool> notifyAuthor() async {
+    String adminId = await Constant.getCurrentUserDocId();
+    ArticleRemovedNotification articleRemovedNotification = ArticleRemovedNotification(
+      content: this.title,
+      adminId: adminId,
+      type: "ArticleRemoved",
+    );
+    await articleRemovedNotification.sendNotification(this.userId);
+    return true;
   }
 
   Future<bool> upvote() async {
@@ -609,13 +630,6 @@ class Article {
       return false;
     }
   }
-
-//TODO static methods returning streams
-//Fetch all articles
-//Fetch all reports of this article
-//Fetch Draft articles by this user
-//Fetch this particular article
-
 }
 
 class Answer {
@@ -634,20 +648,21 @@ class Answer {
   int profUpvoteCount;
   int reportCount;
 
-  Answer({this.content,
-    this.queID,
-    this.id,
-    this.userId,
-    this.createdOn,
-    this.upvoters,
-    this.downvoters,
-    this.upvoteCount,
-    this.downvoteCount,
-    this.byProf,
-    this.isDraft,
-    this.contentJson,
-    this.profUpvoteCount,
-    this.reportCount});
+  Answer(
+      {this.content,
+      this.queID,
+      this.id,
+      this.userId,
+      this.createdOn,
+      this.upvoters,
+      this.downvoters,
+      this.upvoteCount,
+      this.downvoteCount,
+      this.byProf,
+      this.isDraft,
+      this.contentJson,
+      this.profUpvoteCount,
+      this.reportCount});
 
   Answer.fromSnapshot(DocumentSnapshot snapshot) {
     content = snapshot.data['content'];
@@ -666,10 +681,10 @@ class Answer {
     reportCount = snapshot.data['reportCount'] as int ?? 0;
   }
 
-  Future<bool> uploadAnswer(bool doIncrement) async {
+  Future<DocumentReference> uploadAnswer(bool doIncrement) async {
     //uploading answer
     try {
-      await Firestore.instance.collection('Answers').add({
+      DocumentReference ansDoc = await Firestore.instance.collection('Answers').add({
         'content': this.content,
         'createdOn': this.createdOn,
         'userid': this.userId,
@@ -690,11 +705,11 @@ class Answer {
           'answerCount': FieldValue.increment(1),
         });
       }
-      return true;
+      return ansDoc;
     } catch (e) {
       print("Answer.upload()");
       print(e.toString());
-      return false;
+      return null;
     }
   }
 
@@ -750,6 +765,7 @@ class Answer {
           .updateData({'answerCount': FieldValue.increment(-1)});
       await this.discardAllReports();
       await this.delete();
+      notifyAuthor();
       return true;
     } catch (e) {
       print('721__Answer__Answer.deletePublished__classes.dart');
@@ -874,12 +890,16 @@ class Answer {
     }
   }
 
-//TODO static methods to return stream for increasing readability in code
-//Fetch all reports of this answer
-//Fetch all answers by this user
-//Fetch Draft answer by this user
-//Fetch this particular answer
-
+  Future<bool> notifyAuthor() async {
+    String adminId = await Constant.getCurrentUserDocId();
+    AnswerRemovedNotification answerRemovedNotification = AnswerRemovedNotification(
+        type: "AnswerRemoved",
+        adminId: adminId,
+        content: this.content.substring(0, 46) + "...",
+        questionId: this.queID);
+    await answerRemovedNotification.sendNotification(this.userId);
+    return true;
+  }
 }
 
 class University {
@@ -951,7 +971,8 @@ class Report {
       });
 
       if (submittedOnce == false) {
-        await Firestore.instance.collection(contentCollection + "/" + docId + "/reports").add({
+        DocumentReference reportDoc =
+            await Firestore.instance.collection(contentCollection + "/" + docId + "/reports").add({
           'comment': this.comment,
           'violations': this.violations,
           'weight': this.weight,
@@ -963,6 +984,7 @@ class Report {
             .document(docId)
             .updateData({'reportCount': FieldValue.increment(1)});
         Constant.showToastSuccess("Your report has been submitted");
+        notifyOffender(contentCollection, reportDoc.documentID, docId);
         return true;
       } else {
         Constant.showToastInstruction(
@@ -993,5 +1015,44 @@ class Report {
       print(e);
       return false;
     }
+  }
+
+  /// send the notification of content being reported to author of content
+  Future<bool> notifyOffender(String contentType, String reportId, String contentId) async {
+    switch (contentType) {
+      case "Questions":
+        {
+          QuestionReportedNotification queReportNotification = QuestionReportedNotification(
+            type: "QuestionReported",
+            questionId: contentId,
+            reportId: reportId,
+          );
+          queReportNotification.sendNotification();
+          break;
+        }
+      case "Answers":
+        {
+          AnswerReportedNotification ansReportedNotification = AnswerReportedNotification(
+            type: "AnswerReported",
+            answerId: contentId,
+            reportId: reportId,
+          );
+          ansReportedNotification.sendNotification();
+          break;
+        }
+      case "Articles":
+        {
+          ArticleReportedNotification articleReportedNotification = ArticleReportedNotification(
+            type: "ArticleReported",
+            articleId: contentId,
+            reportId: reportId,
+          );
+          articleReportedNotification.sendNotification();
+          break;
+        }
+      default:
+        break;
+    }
+    return true;
   }
 }

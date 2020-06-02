@@ -6,6 +6,7 @@ import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 
 class ArticlePage extends StatefulWidget {
@@ -39,6 +40,31 @@ class _ArticlePageState extends State<ArticlePage> {
             }
         },
     );
+  }
+  BannerAd _bannerAd;
+
+  BannerAd buildBannerAd() {
+    return BannerAd(
+        adUnitId: AdConstant.bannerAdID,
+        size: AdSize.banner,
+        listener: (MobileAdEvent event) {
+          if (event == MobileAdEvent.loaded) {
+            _bannerAd..show();
+          }
+        });
+  }
+
+  @override
+  void initState() {
+    FirebaseAdMob.instance.initialize(appId: AdConstant.appID);
+    _bannerAd = buildBannerAd()..load();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd.dispose();
+    super.dispose();
   }
 
   @override
@@ -128,37 +154,61 @@ class _ArticlePageState extends State<ArticlePage> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     Article a = Article.fromSnapshot(snapshot.data);
-                    return SizedBox(
-                      height: 56.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          Expanded(
-                            child: UpvoteButton(
-                              callback: () async {
-                                await a.upvote();
-                              },
-                              count: a.upvoteCount,
-                            ),
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 56.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Expanded(
+                                child: UpvoteButton(
+                                  callback: () async {
+                                    await a.upvote();
+                                  },
+                                  count: a.upvoteCount,
+                                ),
+                              ),
+                              Expanded(
+                                child: DownvoteButton(
+                                  callback: () async {
+                                    await a.downvote();
+                                  },
+                                  count: a.downvoteCount,
+                                ),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            child: DownvoteButton(
-                              callback: () async {
-                                await a.downvote();
-                              },
-                              count: a.downvoteCount,
+                        ),
+                        SizedBox(height: 4.0,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(left:10.0),
+                              child: UpVoterList(upvoters: a.upvoters),
                             ),
-                          ),
-                        ],
-                      ),
+                            Padding(
+                              padding: const EdgeInsets.only(right:10.0),
+                              child: DownVoterList(downvoters: a.downvoters,),
+                            ),
+                          ],
+                        ),
+                      ],
                     );
                   } else {
                     return ShimmerRatingBox();
                   }
                 },
               ),
+              SizedBox(height: 90,),
             ],
           ),
         ),

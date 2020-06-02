@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/create/question/description_page.dart';
 import 'package:ednet/home/create/question/heading_page.dart';
 import 'package:ednet/home/create/question/preview_question_page.dart';
 import 'package:ednet/home/create/question/question_topic_selection_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/notification_classes.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:quill_delta/quill_delta.dart';
@@ -38,13 +40,20 @@ class _CreateQuestionState extends State<CreateQuestion> {
     });
     bool validForm = await _validateSaveQuestionForm();
     if (validForm) {
-      bool success = await _question.uploadQuestion();
+      DocumentReference queDocRef = await _question.uploadQuestion();
       if (widget.question != null) {
         //Draft question finally published. Need to delete the Draft instance of the question
         await widget.question.delete();
       }
-      if (success) {
+      if (queDocRef != null) {
         Constant.showToastSuccess("Question published successfully");
+        //Sending notification of the question published
+        QuestionPostedNotification queNotification = QuestionPostedNotification(
+          type: "QuestionPosted",
+          questionId: queDocRef.documentID,
+          quesAuthorId: _question.userId,
+        );
+        queNotification.sendNotification(queDocRef);
       } else {
         Constant.showToastError("Failed to post question");
       }

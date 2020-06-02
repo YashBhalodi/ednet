@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/create/article/article_topic_selection_page.dart';
 import 'package:ednet/home/create/article/content_page.dart';
 import 'package:ednet/home/create/article/preview_article_page.dart';
@@ -7,6 +8,7 @@ import 'package:ednet/home/create/article/subtitle_page.dart';
 import 'package:ednet/home/create/article/title_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
+import 'package:ednet/utilities_files/notification_classes.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:quill_delta/quill_delta.dart';
@@ -39,13 +41,15 @@ class _CreateArticleState extends State<CreateArticle> {
     });
     bool validForm = await _validateSaveArticleForm();
     if (validForm) {
-      bool success = await _article.uploadArticle();
+      DocumentReference articleDoc = await _article.uploadArticle();
       if (widget.article != null) {
         //Draft article finally published. Need to delete the Draft instance of the article
         await widget.article.delete();
       }
-      if (success) {
+      if (articleDoc != null) {
         Constant.showToastSuccess("Article published successfully");
+        ArticlePostedNotification articleNotification = ArticlePostedNotification(type: "ArticlePosted",articleId: articleDoc.documentID,authorId: _article.userId);
+        articleNotification.sendNotification(articleDoc);
       } else {
         Constant.showToastError("Failed to publish article.");
       }

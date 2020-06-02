@@ -5,6 +5,7 @@ import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:zefyr/zefyr.dart';
 
 class MyCheckBoxTile extends StatefulWidget {
@@ -13,7 +14,8 @@ class MyCheckBoxTile extends StatefulWidget {
   final int maxElement;
   final String subtitle;
 
-  const MyCheckBoxTile({Key key, @required this.outputList, @required this.title, this.maxElement, this.subtitle})
+  const MyCheckBoxTile(
+      {Key key, @required this.outputList, @required this.title, this.maxElement, this.subtitle})
       : super(key: key);
 
   @override
@@ -31,15 +33,13 @@ class _MyCheckBoxTileState extends State<MyCheckBoxTile> {
         widget.title,
       ),
       subtitle: widget.subtitle == null
-                ? null
-                : Text(
-        widget.subtitle,
-        style: Theme
-                   .of(context)
-                   .brightness == Brightness.dark
-               ? DarkTheme.dateTimeStyle
-               : LightTheme.dateTimeStyle,
-      ),
+          ? null
+          : Text(
+              widget.subtitle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.dateTimeStyle
+                  : LightTheme.dateTimeStyle,
+            ),
       onChanged: (value) {
         if (value == true) {
           if (widget.maxElement == null) {
@@ -75,8 +75,8 @@ class UpvoteBox extends StatelessWidget {
         shape: RoundedRectangleBorder(
           side: BorderSide(
             color: Theme.of(context).brightness == Brightness.dark
-                   ? DarkTheme.ratingBoxBackgroundColor
-                   : LightTheme.ratingBoxBackgroundColor,
+                ? DarkTheme.ratingBoxBackgroundColor
+                : LightTheme.ratingBoxBackgroundColor,
             width: 1.0,
           ),
           borderRadius: BorderRadius.only(
@@ -84,8 +84,8 @@ class UpvoteBox extends StatelessWidget {
           ),
         ),
         color: Theme.of(context).brightness == Brightness.dark
-               ? DarkTheme.ratingBoxBackgroundColor
-               : LightTheme.ratingBoxBackgroundColor,
+            ? DarkTheme.ratingBoxBackgroundColor
+            : LightTheme.ratingBoxBackgroundColor,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -95,8 +95,8 @@ class UpvoteBox extends StatelessWidget {
           Icon(
             Icons.keyboard_arrow_up,
             color: Theme.of(context).brightness == Brightness.dark
-                   ? DarkTheme.upvoteCountColor
-                   : LightTheme.upvoteCountColor,
+                ? DarkTheme.upvoteCountColor
+                : LightTheme.upvoteCountColor,
             size: 16.0,
           ),
           SizedBox(
@@ -104,8 +104,8 @@ class UpvoteBox extends StatelessWidget {
           ),
           Text(upvoteCount.toString(),
               style: Theme.of(context).brightness == Brightness.dark
-                     ? DarkTheme.upvoteCountTextStyle
-                     : LightTheme.upvoteCountTextStyle)
+                  ? DarkTheme.upvoteCountTextStyle
+                  : LightTheme.upvoteCountTextStyle)
         ],
       ),
     );
@@ -124,8 +124,8 @@ class DownvoteBox extends StatelessWidget {
         shape: RoundedRectangleBorder(
           side: BorderSide(
             color: Theme.of(context).brightness == Brightness.dark
-                   ? DarkTheme.ratingBoxBackgroundColor
-                   : LightTheme.ratingBoxBackgroundColor,
+                ? DarkTheme.ratingBoxBackgroundColor
+                : LightTheme.ratingBoxBackgroundColor,
             width: 1.0,
           ),
           borderRadius: BorderRadius.only(
@@ -133,8 +133,8 @@ class DownvoteBox extends StatelessWidget {
           ),
         ),
         color: Theme.of(context).brightness == Brightness.dark
-               ? DarkTheme.ratingBoxBackgroundColor
-               : LightTheme.ratingBoxBackgroundColor,
+            ? DarkTheme.ratingBoxBackgroundColor
+            : LightTheme.ratingBoxBackgroundColor,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -144,8 +144,8 @@ class DownvoteBox extends StatelessWidget {
           Icon(
             Icons.keyboard_arrow_down,
             color: Theme.of(context).brightness == Brightness.dark
-                   ? DarkTheme.downvoteCountColor
-                   : LightTheme.downvoteCountColor,
+                ? DarkTheme.downvoteCountColor
+                : LightTheme.downvoteCountColor,
             size: 16.0,
           ),
           SizedBox(
@@ -153,8 +153,8 @@ class DownvoteBox extends StatelessWidget {
           ),
           Text(downvoteCount.toString(),
               style: Theme.of(context).brightness == Brightness.dark
-                     ? DarkTheme.downvoteCountTextStyle
-                     : LightTheme.downvoteCountTextStyle)
+                  ? DarkTheme.downvoteCountTextStyle
+                  : LightTheme.downvoteCountTextStyle)
         ],
       ),
     );
@@ -173,14 +173,14 @@ class AnswerCountBox extends StatelessWidget {
         shape: RoundedRectangleBorder(
           side: BorderSide(
             color: Theme.of(context).brightness == Brightness.dark
-                   ? DarkTheme.ratingBoxBackgroundColor
-                   : LightTheme.ratingBoxBackgroundColor,
+                ? DarkTheme.ratingBoxBackgroundColor
+                : LightTheme.ratingBoxBackgroundColor,
             width: 1.0,
           ),
         ),
         color: Theme.of(context).brightness == Brightness.dark
-               ? DarkTheme.ratingBoxBackgroundColor
-               : LightTheme.ratingBoxBackgroundColor,
+            ? DarkTheme.ratingBoxBackgroundColor
+            : LightTheme.ratingBoxBackgroundColor,
       ),
       child: Center(
         child: Text(
@@ -207,18 +207,14 @@ class SecondaryNegativeCardButton extends StatelessWidget {
     return RaisedButton(
       onPressed: callback,
       color: Theme.of(context).brightness == Brightness.dark
-             ? DarkTheme.secondaryNegativeCardButtonBackgroundColor
-             : LightTheme.secondaryNegativeCardButtonBackgroundColor,
+          ? DarkTheme.secondaryNegativeCardButtonBackgroundColor
+          : LightTheme.secondaryNegativeCardButtonBackgroundColor,
       padding: EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10.0),
           bottomLeft: Radius.circular(10.0),
         ),
-        /*side: BorderSide(
-          color: Colors.red[300],
-          width: 1.0,
-        ),*/
       ),
       child: child,
     );
@@ -236,8 +232,8 @@ class SecondaryPositiveCardButton extends StatelessWidget {
     return RaisedButton(
       onPressed: callback,
       color: Theme.of(context).brightness == Brightness.dark
-             ? DarkTheme.secondaryPositiveCardButtonBackgroundColor
-             : LightTheme.secondaryPositiveCardButtonBackgroundColor,
+          ? DarkTheme.secondaryPositiveCardButtonBackgroundColor
+          : LightTheme.secondaryPositiveCardButtonBackgroundColor,
       padding: EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -268,8 +264,8 @@ class UpvoteButton extends StatelessWidget {
           Icon(
             Icons.arrow_upward,
             color: Theme.of(context).brightness == Brightness.dark
-                   ? DarkTheme.upvoteButtonCountColor
-                   : LightTheme.upvoteButtonCountColor,
+                ? DarkTheme.upvoteButtonCountColor
+                : LightTheme.upvoteButtonCountColor,
             size: 18.0,
           ),
           SizedBox(
@@ -278,14 +274,14 @@ class UpvoteButton extends StatelessWidget {
           Text(
             count.toString() + " Upvote",
             style: Theme.of(context).brightness == Brightness.dark
-                   ? DarkTheme.upvoteButtonTextStyle
-                   : LightTheme.upvoteButtonTextStyle,
+                ? DarkTheme.upvoteButtonTextStyle
+                : LightTheme.upvoteButtonTextStyle,
           ),
         ],
       ),
       color: Theme.of(context).brightness == Brightness.dark
-             ? DarkTheme.upvoteButtonBackgroundColor
-             : LightTheme.upvoteButtonBackgroundColor,
+          ? DarkTheme.upvoteButtonBackgroundColor
+          : LightTheme.upvoteButtonBackgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10.0),
@@ -293,8 +289,8 @@ class UpvoteButton extends StatelessWidget {
         ),
         side: BorderSide(
           color: Theme.of(context).brightness == Brightness.dark
-                 ? DarkTheme.upvoteButtonBackgroundColor
-                 : LightTheme.upvoteButtonBackgroundColor,
+              ? DarkTheme.upvoteButtonBackgroundColor
+              : LightTheme.upvoteButtonBackgroundColor,
           width: 1.0,
         ),
       ),
@@ -322,8 +318,8 @@ class DownvoteButton extends StatelessWidget {
           Icon(
             Icons.arrow_downward,
             color: Theme.of(context).brightness == Brightness.dark
-                   ? DarkTheme.downvoteButtonCountColor
-                   : LightTheme.downvoteButtonCountColor,
+                ? DarkTheme.downvoteButtonCountColor
+                : LightTheme.downvoteButtonCountColor,
             size: 18.0,
           ),
           SizedBox(
@@ -332,14 +328,14 @@ class DownvoteButton extends StatelessWidget {
           Text(
             count.toString() + " Downvote",
             style: Theme.of(context).brightness == Brightness.dark
-                   ? DarkTheme.downvoteButtonTextStyle
-                   : LightTheme.downvoteButtonTextStyle,
+                ? DarkTheme.downvoteButtonTextStyle
+                : LightTheme.downvoteButtonTextStyle,
           ),
         ],
       ),
       color: Theme.of(context).brightness == Brightness.dark
-             ? DarkTheme.downvoteButtonBackgroundColor
-             : LightTheme.downvoteButtonBackgroundColor,
+          ? DarkTheme.downvoteButtonBackgroundColor
+          : LightTheme.downvoteButtonBackgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(10.0),
@@ -347,8 +343,8 @@ class DownvoteButton extends StatelessWidget {
         ),
         side: BorderSide(
           color: Theme.of(context).brightness == Brightness.dark
-                 ? DarkTheme.downvoteButtonBackgroundColor
-                 : LightTheme.downvoteButtonBackgroundColor,
+              ? DarkTheme.downvoteButtonBackgroundColor
+              : LightTheme.downvoteButtonBackgroundColor,
           width: 1.0,
         ),
       ),
@@ -376,8 +372,8 @@ class PrimaryBlueCTA extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
       ),
       color: Theme.of(context).brightness == Brightness.dark
-             ? DarkTheme.primaryCTABackgroundColor
-             : LightTheme.primaryCTABackgroundColor,
+          ? DarkTheme.primaryCTABackgroundColor
+          : LightTheme.primaryCTABackgroundColor,
     );
   }
 }
@@ -398,17 +394,17 @@ class SecondaryCTA extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
         side: BorderSide(
           color: Theme.of(context).brightness == Brightness.dark
-                 ? DarkTheme.secondaryCTABorderColor
-                 : LightTheme.secondaryCTABorderColor,
+              ? DarkTheme.secondaryCTABorderColor
+              : LightTheme.secondaryCTABorderColor,
           width: 2.0,
         ),
       ),
       color: Theme.of(context).brightness == Brightness.dark
-             ? DarkTheme.secondaryCTABackgroundColor
-             : LightTheme.secondaryCTABackgroundColor,
+          ? DarkTheme.secondaryCTABackgroundColor
+          : LightTheme.secondaryCTABackgroundColor,
       disabledColor: Theme.of(context).brightness == Brightness.dark
-                     ? DarkTheme.secondaryCTADisabledColor
-                     : LightTheme.secondaryCTADisabledColor,
+          ? DarkTheme.secondaryCTADisabledColor
+          : LightTheme.secondaryCTADisabledColor,
     );
   }
 }
@@ -430,19 +426,15 @@ class BlueOutlineButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
         side: BorderSide(
             color: Theme.of(context).brightness == Brightness.dark
-                   ? DarkTheme.outlineButtonTextColor
-                   : LightTheme.outlineButtonTextColor,
+                ? DarkTheme.outlineButtonTextColor
+                : LightTheme.outlineButtonTextColor,
             width: 2.0),
       ),
       color: Theme.of(context).brightness == Brightness.dark
-             ? DarkTheme.outlineButtonBackgroundColor
-             : LightTheme.outlineButtonBackgroundColor,
+          ? DarkTheme.outlineButtonBackgroundColor
+          : LightTheme.outlineButtonBackgroundColor,
       disabledColor:
-      Theme
-          .of(context)
-          .brightness == Brightness.dark
-      ? Colors.black
-      : Colors.grey[300],
+          Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.grey[300],
       elevation: 4.0,
     );
   }
@@ -467,35 +459,31 @@ class StepButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
         side: BorderSide(
             color: Theme.of(context).brightness == Brightness.dark
-                   ? DarkTheme.stepButtonBorderColor
-                   : LightTheme.stepButtonBorderColor,
+                ? DarkTheme.stepButtonBorderColor
+                : LightTheme.stepButtonBorderColor,
             width: 2.0),
       ),
       color: Theme.of(context).brightness == Brightness.dark
-             ? DarkTheme.stepButtonBackgroundColor
-             : LightTheme.stepButtonBackgroundColor,
+          ? DarkTheme.stepButtonBackgroundColor
+          : LightTheme.stepButtonBackgroundColor,
       child: direction == 'prev'
-             ? Icon(
-        Icons.navigate_before,
-        size: 26.0,
-        color: Theme
-                   .of(context)
-                   .brightness == Brightness.dark
-               ? DarkTheme.stepButtonIconColor
-               : LightTheme.stepButtonIconColor,
-      )
-             : Icon(
-        Icons.navigate_next,
-        size: 26.0,
-        color: Theme
-                   .of(context)
-                   .brightness == Brightness.dark
-               ? DarkTheme.stepButtonIconColor
-               : LightTheme.stepButtonIconColor,
-      ),
+          ? Icon(
+              Icons.navigate_before,
+              size: 26.0,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.stepButtonIconColor
+                  : LightTheme.stepButtonIconColor,
+            )
+          : Icon(
+              Icons.navigate_next,
+              size: 26.0,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.stepButtonIconColor
+                  : LightTheme.stepButtonIconColor,
+            ),
       disabledColor: Theme.of(context).brightness == Brightness.dark
-                     ? DarkTheme.stepButtonDisabledColor
-                     : LightTheme.stepButtonDisabledColor,
+          ? DarkTheme.stepButtonDisabledColor
+          : LightTheme.stepButtonDisabledColor,
     );
   }
 }
@@ -519,11 +507,11 @@ class LeftSecondaryCTAButton extends StatelessWidget {
         ),
       ),
       color: Theme.of(context).brightness == Brightness.dark
-             ? DarkTheme.secondaryCTABackgroundColor
-             : LightTheme.secondaryCTABackgroundColor,
+          ? DarkTheme.secondaryCTABackgroundColor
+          : LightTheme.secondaryCTABackgroundColor,
       disabledColor: Theme.of(context).brightness == Brightness.dark
-                     ? DarkTheme.secondaryCTADisabledColor
-                     : LightTheme.secondaryCTADisabledColor,
+          ? DarkTheme.secondaryCTADisabledColor
+          : LightTheme.secondaryCTADisabledColor,
     );
   }
 }
@@ -549,8 +537,8 @@ class RightPrimaryBlueCTAButton extends StatelessWidget {
         ),
       ),
       color: Theme.of(context).brightness == Brightness.dark
-             ? DarkTheme.primaryCTABackgroundColor
-             : LightTheme.primaryCTABackgroundColor,
+          ? DarkTheme.primaryCTABackgroundColor
+          : LightTheme.primaryCTABackgroundColor,
     );
   }
 }
@@ -561,7 +549,8 @@ class DeleteConfirmationAlert extends StatelessWidget {
   final Function deleteCallback;
   final Function cancelCallback;
 
-  const DeleteConfirmationAlert({Key key, this.title, this.msg, this.deleteCallback, this.cancelCallback})
+  const DeleteConfirmationAlert(
+      {Key key, this.title, this.msg, this.deleteCallback, this.cancelCallback})
       : super(key: key);
 
   @override
@@ -598,8 +587,8 @@ class DeleteConfirmationAlert extends StatelessWidget {
                     child: Text(
                       "Delete",
                       style: Theme.of(context).brightness == Brightness.dark
-                             ? DarkTheme.secondaryNegativeTextStyle
-                             : LightTheme.secondaryNegativeTextStyle,
+                          ? DarkTheme.secondaryNegativeTextStyle
+                          : LightTheme.secondaryNegativeTextStyle,
                     ),
                   ),
                 ),
@@ -609,8 +598,8 @@ class DeleteConfirmationAlert extends StatelessWidget {
                     child: Text(
                       "Cancle",
                       style: Theme.of(context).brightness == Brightness.dark
-                             ? DarkTheme.secondaryPositiveTextStyle
-                             : LightTheme.secondaryPositiveTextStyle,
+                          ? DarkTheme.secondaryPositiveTextStyle
+                          : LightTheme.secondaryPositiveTextStyle,
                     ),
                   ),
                 ),
@@ -631,11 +620,9 @@ class ReportDiscardButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      color: Theme
-                 .of(context)
-                 .brightness == Brightness.dark
-             ? DarkTheme.secondaryNegativeCardButtonBackgroundColor
-             : LightTheme.secondaryNegativeCardButtonBackgroundColor,
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.secondaryNegativeCardButtonBackgroundColor
+          : LightTheme.secondaryNegativeCardButtonBackgroundColor,
       onPressed: callback,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -659,11 +646,9 @@ class ReportDiscardButton extends StatelessWidget {
           ),*/
           Text(
             "Discard",
-            style: Theme
-                       .of(context)
-                       .brightness == Brightness.dark
-                   ? DarkTheme.secondaryNegativeTextStyle
-                   : LightTheme.secondaryNegativeTextStyle,
+            style: Theme.of(context).brightness == Brightness.dark
+                ? DarkTheme.secondaryNegativeTextStyle
+                : LightTheme.secondaryNegativeTextStyle,
           ),
         ],
       ),
@@ -676,7 +661,8 @@ class ReportDiscardConfirmationAlert extends StatelessWidget {
   final Function cancelCallback;
   final bool allReports;
 
-  const ReportDiscardConfirmationAlert({Key key, @required this.discardCallback, @required this.cancelCallback, this.allReports})
+  const ReportDiscardConfirmationAlert(
+      {Key key, @required this.discardCallback, @required this.cancelCallback, this.allReports})
       : super(key: key);
 
   @override
@@ -687,9 +673,7 @@ class ReportDiscardConfirmationAlert extends StatelessWidget {
           Radius.circular(16.0),
         ),
       ),
-      title: Text(allReports == true
-                  ? "Discard All Reports?"
-                  : "Discard this report?"),
+      title: Text(allReports == true ? "Discard All Reports?" : "Discard this report?"),
       contentPadding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -700,11 +684,9 @@ class ReportDiscardConfirmationAlert extends StatelessWidget {
             //TODO write better message
             child: Text(
               "To maintain the quality of contents in EDNET, users report the content according to their perspective.\n\nHowever, as per your judgement, if the content is falsely reported, you can delete the report.",
-              style: Theme
-                         .of(context)
-                         .brightness == Brightness.dark
-                     ? DarkTheme.formFieldHintStyle
-                     : LightTheme.formFieldHintStyle,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.formFieldHintStyle
+                  : LightTheme.formFieldHintStyle,
             ),
           ),
           SizedBox(
@@ -722,11 +704,9 @@ class ReportDiscardConfirmationAlert extends StatelessWidget {
                     callback: discardCallback,
                     child: Text(
                       "Discard",
-                      style: Theme
-                                 .of(context)
-                                 .brightness == Brightness.dark
-                             ? DarkTheme.secondaryNegativeTextStyle
-                             : LightTheme.secondaryNegativeTextStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.secondaryNegativeTextStyle
+                          : LightTheme.secondaryNegativeTextStyle,
                     ),
                   ),
                 ),
@@ -735,11 +715,9 @@ class ReportDiscardConfirmationAlert extends StatelessWidget {
                     callback: cancelCallback,
                     child: Text(
                       "Cancle",
-                      style: Theme
-                                 .of(context)
-                                 .brightness == Brightness.dark
-                             ? DarkTheme.secondaryPositiveTextStyle
-                             : LightTheme.secondaryPositiveTextStyle,
+                      style: Theme.of(context).brightness == Brightness.dark
+                          ? DarkTheme.secondaryPositiveTextStyle
+                          : LightTheme.secondaryPositiveTextStyle,
                     ),
                   ),
                 ),
@@ -766,11 +744,9 @@ class NegativePrimaryButton extends StatelessWidget {
       child: child,
       padding: Constant.raisedButtonPaddingHigh,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular((16.0)))),
-      color: Theme
-                 .of(context)
-                 .brightness == Brightness.dark
-             ? DarkTheme.negativePrimaryButtonColor
-             : LightTheme.negativePrimaryButtonColor,
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.negativePrimaryButtonColor
+          : LightTheme.negativePrimaryButtonColor,
     );
   }
 }
@@ -820,11 +796,9 @@ class AnswerContentView extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               "Answered by",
-                              style: Theme
-                                         .of(context)
-                                         .brightness == Brightness.dark
-                                     ? DarkTheme.dateTimeStyle
-                                     : LightTheme.dateTimeStyle,
+                              style: Theme.of(context).brightness == Brightness.dark
+                                  ? DarkTheme.dateTimeStyle
+                                  : LightTheme.dateTimeStyle,
                             ),
                             SizedBox(
                               height: 8.0,
@@ -838,19 +812,17 @@ class AnswerContentView extends StatelessWidget {
                                   size: 16.0,
                                 ),
                                 answer.byProf
-                                ? Icon(
-                                  Icons.star,
-                                  color: Colors.orangeAccent,
-                                  size: 16.0,
-                                )
-                                : Container(),
+                                    ? Icon(
+                                        Icons.star,
+                                        color: Colors.orangeAccent,
+                                        size: 16.0,
+                                      )
+                                    : Container(),
                                 Text(
                                   userDoc.data['username'],
-                                  style: Theme
-                                             .of(context)
-                                             .brightness == Brightness.dark
-                                         ? DarkTheme.usernameStyle
-                                         : LightTheme.usernameStyle,
+                                  style: Theme.of(context).brightness == Brightness.dark
+                                      ? DarkTheme.usernameStyle
+                                      : LightTheme.usernameStyle,
                                 ),
                               ],
                             ),
@@ -872,22 +844,18 @@ class AnswerContentView extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     "On",
-                    style: Theme
-                               .of(context)
-                               .brightness == Brightness.dark
-                           ? DarkTheme.dateTimeStyle
-                           : LightTheme.dateTimeStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.dateTimeStyle
+                        : LightTheme.dateTimeStyle,
                   ),
                   SizedBox(
                     height: 8.0,
                   ),
                   Text(
                     Constant.formatDateTime(answer.createdOn),
-                    style: Theme
-                               .of(context)
-                               .brightness == Brightness.dark
-                           ? DarkTheme.dateTimeMediumStyle
-                           : LightTheme.dateTimeMediumStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.dateTimeMediumStyle
+                        : LightTheme.dateTimeMediumStyle,
                     textAlign: TextAlign.end,
                   ),
                 ],
@@ -921,17 +889,13 @@ class ArticleContentView extends StatelessWidget {
                 child: Chip(
                   label: Text(
                     article.topics[i],
-                    style: Theme
-                               .of(context)
-                               .brightness == Brightness.dark
-                           ? DarkTheme.topicStyle
-                           : LightTheme.topicStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.topicStyle
+                        : LightTheme.topicStyle,
                   ),
-                  backgroundColor: Theme
-                                       .of(context)
-                                       .brightness == Brightness.dark
-                                   ? DarkTheme.chipBackgroundColor
-                                   : LightTheme.chipBackgroundColor,
+                  backgroundColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.chipBackgroundColor
+                      : LightTheme.chipBackgroundColor,
                 ),
               );
             }),
@@ -942,20 +906,16 @@ class ArticleContentView extends StatelessWidget {
         ),
         Text(
           article.title,
-          style: Theme
-                     .of(context)
-                     .brightness == Brightness.dark
-                 ? DarkTheme.articleTitleStyle
-                 : LightTheme.articleTitleStyle,
+          style: Theme.of(context).brightness == Brightness.dark
+              ? DarkTheme.articleTitleStyle
+              : LightTheme.articleTitleStyle,
         ),
         SizedBox(height: 18.0),
         Text(
           article.subtitle,
-          style: Theme
-                     .of(context)
-                     .brightness == Brightness.dark
-                 ? DarkTheme.articleSubtitleStyle
-                 : LightTheme.articleSubtitleStyle,
+          style: Theme.of(context).brightness == Brightness.dark
+              ? DarkTheme.articleSubtitleStyle
+              : LightTheme.articleSubtitleStyle,
         ),
         SizedBox(
           height: 24.0,
@@ -993,11 +953,9 @@ class ArticleContentView extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               "Written by",
-                              style: Theme
-                                         .of(context)
-                                         .brightness == Brightness.dark
-                                     ? DarkTheme.dateTimeStyle
-                                     : LightTheme.dateTimeStyle,
+                              style: Theme.of(context).brightness == Brightness.dark
+                                  ? DarkTheme.dateTimeStyle
+                                  : LightTheme.dateTimeStyle,
                             ),
                             SizedBox(
                               height: 8.0,
@@ -1011,19 +969,17 @@ class ArticleContentView extends StatelessWidget {
                                   size: 16.0,
                                 ),
                                 article.byProf
-                                ? Icon(
-                                  Icons.star,
-                                  color: Colors.orangeAccent,
-                                  size: 16.0,
-                                )
-                                : Container(),
+                                    ? Icon(
+                                        Icons.star,
+                                        color: Colors.orangeAccent,
+                                        size: 16.0,
+                                      )
+                                    : Container(),
                                 Text(
                                   userDoc.data['username'],
-                                  style: Theme
-                                             .of(context)
-                                             .brightness == Brightness.dark
-                                         ? DarkTheme.usernameStyle
-                                         : LightTheme.usernameStyle,
+                                  style: Theme.of(context).brightness == Brightness.dark
+                                      ? DarkTheme.usernameStyle
+                                      : LightTheme.usernameStyle,
                                 ),
                               ],
                             ),
@@ -1045,22 +1001,18 @@ class ArticleContentView extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     "On",
-                    style: Theme
-                               .of(context)
-                               .brightness == Brightness.dark
-                           ? DarkTheme.dateTimeStyle
-                           : LightTheme.dateTimeStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.dateTimeStyle
+                        : LightTheme.dateTimeStyle,
                   ),
                   SizedBox(
                     height: 8.0,
                   ),
                   Text(
                     Constant.formatDateTime(article.createdOn),
-                    style: Theme
-                               .of(context)
-                               .brightness == Brightness.dark
-                           ? DarkTheme.dateTimeMediumStyle
-                           : LightTheme.dateTimeMediumStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.dateTimeMediumStyle
+                        : LightTheme.dateTimeMediumStyle,
                     textAlign: TextAlign.end,
                   ),
                 ],
@@ -1094,17 +1046,13 @@ class QuestionContentView extends StatelessWidget {
                 child: Chip(
                   label: Text(
                     question.topics[i],
-                    style: Theme
-                               .of(context)
-                               .brightness == Brightness.dark
-                           ? DarkTheme.topicStyle
-                           : LightTheme.topicStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.topicStyle
+                        : LightTheme.topicStyle,
                   ),
-                  backgroundColor: Theme
-                                       .of(context)
-                                       .brightness == Brightness.dark
-                                   ? DarkTheme.chipBackgroundColor
-                                   : LightTheme.chipBackgroundColor,
+                  backgroundColor: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.chipBackgroundColor
+                      : LightTheme.chipBackgroundColor,
                 ),
               );
             }),
@@ -1115,11 +1063,9 @@ class QuestionContentView extends StatelessWidget {
         ),
         Text(
           question.heading,
-          style: Theme
-                     .of(context)
-                     .brightness == Brightness.dark
-                 ? DarkTheme.questionHeadingStyle
-                 : LightTheme.questionHeadingStyle,
+          style: Theme.of(context).brightness == Brightness.dark
+              ? DarkTheme.questionHeadingStyle
+              : LightTheme.questionHeadingStyle,
         ),
         SizedBox(
           height: 8.0,
@@ -1133,21 +1079,19 @@ class QuestionContentView extends StatelessWidget {
           height: 20.0,
         ),
         question.profUpvoteCount > 0
-        ? Align(
-          alignment: Alignment.centerRight,
-          child: Padding(
-            padding: EdgeInsets.only(bottom: 8.0),
-            child: Text(
-              "${question.profUpvoteCount} professor upvoted",
-              style: Theme
-                         .of(context)
-                         .brightness == Brightness.dark
-                     ? DarkTheme.professorUpvoteTextStyle
-                     : LightTheme.professorUpvoteTextStyle,
-            ),
-          ),
-        )
-        : Container(),
+            ? Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    "${question.profUpvoteCount} professor upvoted",
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.professorUpvoteTextStyle
+                        : LightTheme.professorUpvoteTextStyle,
+                  ),
+                ),
+              )
+            : Container(),
         Row(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -1157,7 +1101,7 @@ class QuestionContentView extends StatelessWidget {
               flex: 4,
               child: StreamBuilder(
                 stream:
-                Firestore.instance.collection('Users').document(question.userId).snapshots(),
+                    Firestore.instance.collection('Users').document(question.userId).snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Container();
@@ -1175,11 +1119,9 @@ class QuestionContentView extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               "Asked by",
-                              style: Theme
-                                         .of(context)
-                                         .brightness == Brightness.dark
-                                     ? DarkTheme.dateTimeStyle
-                                     : LightTheme.dateTimeStyle,
+                              style: Theme.of(context).brightness == Brightness.dark
+                                  ? DarkTheme.dateTimeStyle
+                                  : LightTheme.dateTimeStyle,
                             ),
                             SizedBox(
                               height: 8.0,
@@ -1193,19 +1135,17 @@ class QuestionContentView extends StatelessWidget {
                                   size: 16.0,
                                 ),
                                 question.byProf
-                                ? Icon(
-                                  Icons.star,
-                                  color: Colors.orangeAccent,
-                                  size: 16.0,
-                                )
-                                : Container(),
+                                    ? Icon(
+                                        Icons.star,
+                                        color: Colors.orangeAccent,
+                                        size: 16.0,
+                                      )
+                                    : Container(),
                                 Text(
                                   userDoc.data['username'],
-                                  style: Theme
-                                             .of(context)
-                                             .brightness == Brightness.dark
-                                         ? DarkTheme.usernameStyle
-                                         : LightTheme.usernameStyle,
+                                  style: Theme.of(context).brightness == Brightness.dark
+                                      ? DarkTheme.usernameStyle
+                                      : LightTheme.usernameStyle,
                                 ),
                               ],
                             ),
@@ -1228,22 +1168,18 @@ class QuestionContentView extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     "On",
-                    style: Theme
-                               .of(context)
-                               .brightness == Brightness.dark
-                           ? DarkTheme.dateTimeStyle
-                           : LightTheme.dateTimeStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.dateTimeStyle
+                        : LightTheme.dateTimeStyle,
                   ),
                   SizedBox(
                     height: 8.0,
                   ),
                   Text(
                     Constant.formatDateTime(question.createdOn),
-                    style: Theme
-                               .of(context)
-                               .brightness == Brightness.dark
-                           ? DarkTheme.dateTimeStyle
-                           : LightTheme.dateTimeStyle,
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.dateTimeStyle
+                        : LightTheme.dateTimeStyle,
                     textAlign: TextAlign.end,
                   ),
                 ],
@@ -1252,6 +1188,244 @@ class QuestionContentView extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+class UpVoterList extends StatelessWidget {
+  final List<String> upvoters;
+
+  const UpVoterList({Key key, @required this.upvoters}) : super(key: key);
+
+  void showList(context) {
+    showModalBottomSheet(
+        context: context,
+        elevation: 10.0,
+        isDismissible: true,
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(16.0),
+            topLeft: Radius.circular(16.0),
+          ),
+        ),
+        builder: (context) {
+          return VoterListSheet(
+            userList: upvoters,
+            isUpvoteList: true,
+          );
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => showList(context),
+      child: Text(
+        "Upvoters",
+        style: Theme.of(context).brightness == Brightness.dark
+            ? DarkTheme.voterTextStyle
+            : LightTheme.voterTextStyle,
+      ),
+    );
+  }
+}
+
+class DownVoterList extends StatelessWidget {
+  final List<String> downvoters;
+
+  const DownVoterList({Key key, this.downvoters}) : super(key: key);
+
+  void showList(context) {
+    showModalBottomSheet(
+        context: context,
+        elevation: 10.0,
+        isDismissible: true,
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(16.0),
+            topLeft: Radius.circular(16.0),
+          ),
+        ),
+        builder: (context) {
+          return VoterListSheet(
+            userList: downvoters,
+            isUpvoteList: false,
+          );
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => showList(context),
+      child: Text(
+        "Downvoters",
+        style: Theme.of(context).brightness == Brightness.dark
+            ? DarkTheme.voterTextStyle
+            : LightTheme.voterTextStyle,
+      ),
+    );
+  }
+}
+
+class VoterListSheet extends StatelessWidget {
+  final List<String> userList;
+  final bool isUpvoteList;
+
+  const VoterListSheet({Key key, @required this.userList, this.isUpvoteList = false})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints.loose(
+        Size(
+          MediaQuery.of(context).size.width,
+          MediaQuery.of(context).size.height * 0.5,
+        ),
+      ),
+      child: ListView(
+        shrinkWrap: true,
+        children: <Widget>[
+          Padding(
+            padding: Constant.edgePadding,
+            child: Text(
+              isUpvoteList ? "Upvoters" : "Downvoters",
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? DarkTheme.headingStyle
+                  : LightTheme.headingStyle,
+            ),
+          ),
+          userList.length == 0
+              ? Padding(
+                  padding: Constant.edgePadding,
+                  child: Text(
+                    isUpvoteList ? "No Upvotes yet" : "No Downvotes yet",
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? DarkTheme.secondaryHeadingTextStyle
+                        : LightTheme.secondaryHeadingTextStyle,
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: userList.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (_, i) {
+                    return StreamBuilder(
+                      stream:
+                          Firestore.instance.collection('Users').document(userList[i]).snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          User u = User.fromSnapshot(snapshot.data);
+                          return ListTile(
+                            title: Text(u.userName),
+                            trailing: u.isProf
+                                ? Icon(
+                                    Icons.star,
+                                    color: Colors.orangeAccent,
+                                    size: 18.0,
+                                  )
+                                : null,
+                            onTap: () {
+                              Constant.userProfileView(context, userId: u.id);
+                            },
+                          );
+                        } else {
+                          return Container();
+                        }
+                      },
+                    );
+                  },
+                ),
+        ],
+      ),
+    );
+  }
+}
+
+class NotificationDismissIcon extends StatelessWidget {
+  final bool leftToRight;
+
+  const NotificationDismissIcon({Key key, this.leftToRight}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Shimmer.fromColors(
+        baseColor: Colors.red[100],
+        highlightColor: Colors.red[300],
+        period: Duration(milliseconds: 500),
+        direction: leftToRight ? ShimmerDirection.ltr : ShimmerDirection.rtl,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Text(
+              "Dismiss\nNotification",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12),
+            ),
+            Text(
+              leftToRight ? ">>>" : "<<<",
+              style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w700),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class NotificationDismissBackground extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.secondaryNegativeCardButtonBackgroundColor
+          : LightTheme.secondaryNegativeCardButtonBackgroundColor,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          NotificationDismissIcon(
+            leftToRight: true,
+          ),
+          NotificationDismissIcon(
+            leftToRight: false,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class NotificationCTA extends StatelessWidget {
+  final Function callback;
+  final Widget child;
+
+  const NotificationCTA({Key key, this.callback, this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: callback,
+      child: child,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.zero,
+          bottom: Radius.circular(10.0),
+        ),
+      ),
+      color: Theme.of(context).brightness == Brightness.dark
+          ? DarkTheme.notificationCTAColor
+          : LightTheme.notificationCTAColor,
+      elevation: 5.0,
+      padding: Constant.raisedButtonPaddingLow,
     );
   }
 }
