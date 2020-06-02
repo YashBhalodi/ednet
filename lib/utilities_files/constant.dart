@@ -1075,3 +1075,9 @@ class LightTheme {
 
   static get notificationContentBackgroundColor => Colors.grey[100];
 }
+
+class AdConstant {
+    static get appID => "ca-app-pub-7887184329758881~3348790982";
+    static get bannerAdID => "ca-app-pub-7887184329758881/7901213852";
+    static get interstitialAdID => "ca-app-pub-7887184329758881/7709642165";
+}

@@ -7,6 +7,7 @@ import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/shimmer_widgets.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -53,7 +54,31 @@ class _AnswerPageState extends State<AnswerPage> {
       },
     );
   }
+  BannerAd _bannerAd;
 
+  BannerAd buildBannerAd() {
+    return BannerAd(
+        adUnitId: AdConstant.bannerAdID,
+        size: AdSize.banner,
+        listener: (MobileAdEvent event) {
+          if (event == MobileAdEvent.loaded) {
+            _bannerAd..show();
+          }
+        });
+  }
+
+  @override
+  void initState() {
+    FirebaseAdMob.instance.initialize(appId: AdConstant.appID);
+    _bannerAd = buildBannerAd()..load();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -220,6 +245,7 @@ class _AnswerPageState extends State<AnswerPage> {
                   ),
                 ],
               ),
+              SizedBox(height: 60.0,),
             ],
           ),
         ),
