@@ -77,10 +77,10 @@ class NotificationPage extends StatelessWidget {
                   if (snapshot.data.documents.isEmpty) {
                     //TODO better no notification message
                     return Container(
-                      height: MediaQuery.of(context).size.height,
+                      height: 350,
                       child: Center(
                         child: Text(
-                          "No New Notifications",
+                          "Zero Notification",
                           style: Theme.of(context).brightness == Brightness.dark
                               ? DarkTheme.headingStyle
                               : LightTheme.headingStyle,
