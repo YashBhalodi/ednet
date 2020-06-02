@@ -3,6 +3,7 @@ import 'package:ednet/home/admin/reports/content_report_card.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/notification_classes.dart';
+import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
@@ -72,6 +73,7 @@ class AnswerReportedNotificationTile extends StatelessWidget {
           onDismissed: (x) {
               notification.remove();
           },
+          background: NotificationDismissBackground(),
           child: Card(
               margin: Constant.notificationCardMargin,
               shape: RoundedRectangleBorder(

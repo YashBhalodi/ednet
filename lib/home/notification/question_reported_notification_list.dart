@@ -68,8 +68,6 @@ class QuestionReportedNotificationTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO fix UI
-    //TODO Target launch
     return Dismissible(
       key: Key(notification.id),
       onDismissed: (x) {
