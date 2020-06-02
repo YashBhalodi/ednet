@@ -1358,6 +1358,7 @@ class NotificationDismissIcon extends StatelessWidget {
         baseColor: Colors.red[100],
         highlightColor: Colors.red[300],
         period: Duration(milliseconds: 500),
+        direction: leftToRight ? ShimmerDirection.ltr : ShimmerDirection.rtl,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
@@ -1391,8 +1392,12 @@ class NotificationDismissBackground extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          NotificationDismissIcon(leftToRight: true,),
-          NotificationDismissIcon(leftToRight: false,),
+          NotificationDismissIcon(
+            leftToRight: true,
+          ),
+          NotificationDismissIcon(
+            leftToRight: false,
+          ),
         ],
       ),
     );

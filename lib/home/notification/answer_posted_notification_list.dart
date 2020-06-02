@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/feed/answer/answer_page.dart';
+import 'package:ednet/home/feed/question/question_page.dart';
 import 'package:ednet/utilities_files/classes.dart';
 import 'package:ednet/utilities_files/constant.dart';
 import 'package:ednet/utilities_files/notification_classes.dart';
@@ -107,8 +108,8 @@ class AnswerPostedNotificationTile extends StatelessWidget {
                           child: Text(
                             author.userName + " answered the question.",
                             style: Theme.of(context).brightness == Brightness.dark
-                                   ? DarkTheme.notificationMessageTextStyle
-                                   : LightTheme.notificationMessageTextStyle,
+                                ? DarkTheme.notificationMessageTextStyle
+                                : LightTheme.notificationMessageTextStyle,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -157,8 +158,8 @@ class AnswerPostedNotificationTile extends StatelessWidget {
                                   ),
                                 ),
                                 color: Theme.of(context).brightness == Brightness.dark
-                                       ? DarkTheme.notificationContentBackgroundColor
-                                       : LightTheme.notificationContentBackgroundColor),
+                                    ? DarkTheme.notificationContentBackgroundColor
+                                    : LightTheme.notificationContentBackgroundColor),
                             padding: const EdgeInsets.symmetric(
                               horizontal: 16.0,
                               vertical: 12.0,
@@ -166,8 +167,8 @@ class AnswerPostedNotificationTile extends StatelessWidget {
                             child: Text(
                               q.heading,
                               style: Theme.of(context).brightness == Brightness.dark
-                                     ? DarkTheme.notificationContentTextStyle
-                                     : LightTheme.notificationContentTextStyle,
+                                  ? DarkTheme.notificationContentTextStyle
+                                  : LightTheme.notificationContentTextStyle,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -183,22 +184,40 @@ class AnswerPostedNotificationTile extends StatelessWidget {
                             child: Text(
                               "Read Answer",
                               style: Theme.of(context).brightness == Brightness.dark
-                                     ? DarkTheme.notificationCTATextStyle
-                                     : LightTheme.notificationCTATextStyle,
+                                  ? DarkTheme.notificationCTATextStyle
+                                  : LightTheme.notificationCTATextStyle,
                             ),
                             callback: () async {
-                              DocumentSnapshot ansDoc = await Firestore.instance.collection('Answers').document(notification.answerId).get();
-                              Answer a = Answer.fromSnapshot(ansDoc);
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return AnswerPage(
-                                      answer: a,
-                                      question: q,
-                                    );
-                                  },
-                                ),
-                              );
+                              DocumentSnapshot ansDoc = await Firestore.instance
+                                  .collection('Answers')
+                                  .document(notification.answerId)
+                                  .get();
+                              if (ansDoc == null) {
+                                Constant.showToastInstruction(
+                                    "This answer was removed by an admin.\nOpening the question page");
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return QuestionPage(
+                                        question: q,
+                                      );
+                                    },
+                                  ),
+                                );
+                                notification.remove();
+                              } else {
+                                Answer a = Answer.fromSnapshot(ansDoc);
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return AnswerPage(
+                                        answer: a,
+                                        question: q,
+                                      );
+                                    },
+                                  ),
+                                );
+                              }
                             },
                           ),
                         ),

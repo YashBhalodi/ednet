@@ -27,6 +27,14 @@ class NotificationPage extends StatelessWidget {
               ? DarkTheme.appBarTextStyle
               : LightTheme.appBarTextStyle,
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.help),
+            onPressed: (){
+              Constant.showToastInstruction("Dismiss notifications by swiping it horizontally.");
+            },
+          ),
+        ]
       ),
       body: Scrollbar(
         child: ListView(
