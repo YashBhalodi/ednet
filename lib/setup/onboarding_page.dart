@@ -189,7 +189,7 @@ class Page5 extends StatelessWidget {
                     height: 8.0,
                   ),
                   Text(
-                    "To build authentic network of students, only verified Email address as users.",
+                    "Only verified university Email ids can join Ednet.\nThis is to ensure authentic network of students and professors.",
                     style: Theme.of(context).brightness == Brightness.dark
                         ? DarkTheme.headingDescriptionStyle
                         : LightTheme.headingDescriptionStyle,
