@@ -302,14 +302,14 @@ class ArticleReportedNotification extends Notification {
 
 class AnswerRemovedNotification extends Notification {
   String adminId;
-  String contentPreview;
+  String content;
   String questionId;
 
   AnswerRemovedNotification(
       {String id,
       @required String type,
       @required this.adminId,
-      @required this.contentPreview,
+      @required this.content,
       @required this.questionId})
       : super(id: id, type: type);
 
@@ -317,7 +317,7 @@ class AnswerRemovedNotification extends Notification {
     this.id = snapshot.documentID;
     this.type = snapshot.data['type'];
     this.adminId = snapshot.data['adminID'];
-    this.contentPreview = snapshot.data['content'];
+    this.content = snapshot.data['content'];
     this.questionId = snapshot.data['questionID'];
   }
 
@@ -325,7 +325,7 @@ class AnswerRemovedNotification extends Notification {
     await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
       "type": this.type,
       "adminID": this.adminId,
-      "content": this.contentPreview,
+      "content": this.content,
       "questionID": this.questionId,
     });
     return true;

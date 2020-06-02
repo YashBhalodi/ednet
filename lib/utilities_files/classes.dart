@@ -895,7 +895,7 @@ class Answer {
     AnswerRemovedNotification answerRemovedNotification = AnswerRemovedNotification(
         type: "AnswerRemoved",
         adminId: adminId,
-        contentPreview: this.content.substring(0, 46) + "...",
+        content: this.content.substring(0, 46) + "...",
         questionId: this.queID);
     await answerRemovedNotification.sendNotification(this.userId);
     return true;
