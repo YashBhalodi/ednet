@@ -5,17 +5,23 @@ import 'package:ednet/utilities_files/notification_classes.dart';
 import 'package:ednet/utilities_files/utility_widgets.dart';
 import 'package:flutter/material.dart';
 
-class QuestionRemovedNotificationList extends StatelessWidget {
+class QuestionRemovedNotificationList extends StatefulWidget {
   final User currentUser;
 
   const QuestionRemovedNotificationList({Key key, this.currentUser}) : super(key: key);
 
   @override
+  _QuestionRemovedNotificationListState createState() => _QuestionRemovedNotificationListState();
+}
+
+class _QuestionRemovedNotificationListState extends State<QuestionRemovedNotificationList> with AutomaticKeepAliveClientMixin{
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StreamBuilder(
       stream: Firestore.instance
           .collection('Users')
-          .document(currentUser.id)
+          .document(widget.currentUser.id)
           .collection('notifications')
           .where('type', isEqualTo: "QuestionRemoved")
           .snapshots(),
@@ -41,7 +47,7 @@ class QuestionRemovedNotificationList extends StatelessWidget {
                     QuestionRemovedNotification questionRemovedNotification =
                         QuestionRemovedNotification.fromJson(snapshot.data.documents[i]);
                     return QuestionRemovedNotificationTile(
-                      currentUser: currentUser,
+                      currentUser: widget.currentUser,
                       notification: questionRemovedNotification,
                     );
                   },
@@ -56,6 +62,9 @@ class QuestionRemovedNotificationList extends StatelessWidget {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class QuestionRemovedNotificationTile extends StatelessWidget {
