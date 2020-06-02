@@ -96,7 +96,7 @@ class AnswerRemovedNotificationTile extends StatelessWidget {
                       vertical: 12.0,
                     ),
                     child: Text(
-                      admin.userName + " removed your question.",
+                      admin.userName + " removed your answer.",
                       style: Theme.of(context).brightness == Brightness.dark
                              ? DarkTheme.notificationMessageTextStyle
                              : LightTheme.notificationMessageTextStyle,
