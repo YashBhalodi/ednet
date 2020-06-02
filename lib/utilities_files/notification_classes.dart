@@ -349,14 +349,14 @@ class QuestionRemovedNotification extends Notification {
     this.id = snapshot.documentID;
     this.type = snapshot.data['type'];
     this.adminId = snapshot.data['adminID'];
-    this.content = snapshot.data['contentPreview'];
+    this.content = snapshot.data['content'];
   }
 
   Future<bool> deliverPayload(String userId) async {
     await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
       "type": this.type,
       "adminID": this.adminId,
-      "contentPreview": this.content,
+      "content": this.content,
     });
     return true;
   }
@@ -379,14 +379,14 @@ class ArticleRemovedNotification extends Notification {
     this.id = snapshot.documentID;
     this.type = snapshot.data['type'];
     this.adminId = snapshot.data['adminID'];
-    this.content = snapshot.data['contentPreview'];
+    this.content = snapshot.data['content'];
   }
 
   Future<bool> deliverPayload(String userId) async {
     await Firestore.instance.collection('Users').document(userId).collection('notifications').add({
       "type": this.type,
       "adminID": this.adminId,
-      "contentPreview": this.content,
+      "content": this.content,
     });
     return true;
   }
