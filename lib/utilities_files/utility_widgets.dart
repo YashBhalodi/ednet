@@ -1286,6 +1286,7 @@ class VoterListSheet extends StatelessWidget {
           MediaQuery.of(context).size.height * 0.5,
         ),
       ),
+      padding: const EdgeInsets.only(bottom:60),
       child: ListView(
         shrinkWrap: true,
         children: <Widget>[
