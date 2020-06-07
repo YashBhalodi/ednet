@@ -7,8 +7,11 @@ import 'package:flutter/material.dart';
 
 class ExploreContent extends StatelessWidget {
   final User user;
+  final List<Question> questionList;
+  final List<Article> articleList;
+  final List<Answer> answerList;
 
-  const ExploreContent({Key key, @required this.user}) : super(key: key);
+  const ExploreContent({Key key, @required this.user, this.questionList, this.articleList, this.answerList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +46,15 @@ class ExploreContent extends StatelessWidget {
               children: <Widget>[
                 UserQuestions(
                   user: user,
+                  questions: questionList,
                 ),
                 UserAnswers(
                   user: user,
+                  answers: answerList,
                 ),
                 UserArticles(
                   user: user,
+                  articles: articleList,
                 ),
               ],
             ),

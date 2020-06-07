@@ -32,6 +32,7 @@ class ReportFlow {
                     MediaQuery.of(context).viewInsets.bottom,
               ),
             ),
+              padding: const EdgeInsets.only(bottom:60),
               child: SubmitContentReport(
               contentCollection: contentCollection,
               contentDocId: contentDocId,

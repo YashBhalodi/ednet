@@ -17,8 +17,50 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   bool isExpanded = false;
+  bool loadingDone = false;
+  List<Question> questions = [];
+  List<Article> articles = [];
+  List<Answer> answers = [];
 
-  //TODO FIX dragging bottomsheet rebuilds all its children, causing the streambuilder to fire again
+  Future<void> loadContent() async {
+    QuerySnapshot quesDocs = await Firestore.instance
+        .collection('Questions')
+        .where('isDraft', isEqualTo: false)
+        .where('userid', isEqualTo: widget.userId)
+        .getDocuments();
+    quesDocs.documents.forEach((doc) {
+      questions.add(Question.fromSnapshot(doc));
+    });
+    print("questionLoaded");
+    QuerySnapshot articleDocs = await Firestore.instance
+        .collection('Articles')
+        .where('isDraft', isEqualTo: false)
+        .where('userid', isEqualTo: widget.userId)
+        .getDocuments();
+    articleDocs.documents.forEach((doc) {
+      articles.add(Article.fromSnapshot(doc));
+    });
+    print("articleLoaded");
+    QuerySnapshot answerDocs = await Firestore.instance
+        .collection('Answers')
+        .where('isDraft', isEqualTo: false)
+        .where('userid', isEqualTo: widget.userId)
+        .getDocuments();
+    answerDocs.documents.forEach((doc) {
+      answers.add(Answer.fromSnapshot(doc));
+    });
+    print("answerLoaded");
+    setState(() {
+      loadingDone = true;
+    });
+  }
+
+  @override
+  void initState() {
+    loadContent();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -172,16 +214,24 @@ class _UserProfileState extends State<UserProfile> {
                       width: double.maxFinite,
                       child: BlueOutlineButton(
                         callback: () {
-                          setState(() {
-                            isExpanded = !isExpanded;
-                          });
+                          if (loadingDone) {
+                            setState(() {
+                              isExpanded = !isExpanded;
+                            });
+                          }
                         },
-                        child: Text(
-                          isExpanded ? "Hide Content" : "Explore Content",
-                          style: Theme.of(context).brightness == Brightness.dark
-                              ? DarkTheme.secondaryHeadingTextStyle
-                              : LightTheme.secondaryHeadingTextStyle,
-                        ),
+                        child: loadingDone
+                            ? Text(
+                                isExpanded ? "Hide Content" : "Explore Content",
+                                style: Theme.of(context).brightness == Brightness.dark
+                                    ? DarkTheme.secondaryHeadingTextStyle
+                                    : LightTheme.secondaryHeadingTextStyle,
+                              )
+                            : SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(),
+                              ),
                       ),
                     ),
                   ],
@@ -191,6 +241,9 @@ class _UserProfileState extends State<UserProfile> {
                   ? Expanded(
                       child: ExploreContent(
                         user: user,
+                        answerList: answers,
+                        articleList: articles,
+                        questionList: questions,
                       ),
                     )
                   : Container(),
