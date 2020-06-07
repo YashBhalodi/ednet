@@ -91,7 +91,7 @@ class _MyProfileState extends State<MyProfile> {
           ),
           body: Scrollbar(
             child: ListView(
-              shrinkWrap: false,
+              shrinkWrap: true,
               children: <Widget>[
                 ExpansionTile(
                   title: Text(

@@ -339,7 +339,6 @@ class Constant {
               MediaQuery.of(context).size.height - 40,
             ),
           ),
-          padding: const EdgeInsets.only(bottom:60.0),
           child: UserProfile(
             userId: userId,
           ),
