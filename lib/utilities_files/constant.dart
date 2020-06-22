@@ -761,6 +761,10 @@ class DarkTheme {
   );
 
   static get notificationContentBackgroundColor => Colors.black12;
+
+  static get signUpInstructionDescriptionTextStyle => TextStyle(
+      fontSize: 18.0,
+  );
 }
 
 class LightTheme {
@@ -1079,6 +1083,10 @@ class LightTheme {
   );
 
   static get notificationContentBackgroundColor => Colors.grey[100];
+
+  static get signUpInstructionDescriptionTextStyle => TextStyle(
+      fontSize: 18.0,
+  );
 }
 
 class AdConstant {
