@@ -180,7 +180,7 @@ class Page5 extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    "Sign Up for Ednet",
+                    "Join EDNET",
                     style: Theme.of(context).brightness == Brightness.dark
                         ? DarkTheme.headingStyle
                         : LightTheme.headingStyle,
@@ -189,7 +189,7 @@ class Page5 extends StatelessWidget {
                     height: 8.0,
                   ),
                   Text(
-                    "Only verified university Email ids can join Ednet.\nThis is to ensure authentic network of students and professors.",
+                    "Only verified institutional email ids can join EDNET.\nWe can build authentic network of students and professors using these ids.",
                     style: Theme.of(context).brightness == Brightness.dark
                         ? DarkTheme.headingDescriptionStyle
                         : LightTheme.headingDescriptionStyle,
@@ -198,7 +198,7 @@ class Page5 extends StatelessWidget {
                     height: 24.0,
                   ),
                   SecondaryCTA(
-                    child: Text("Sign up instruction",
+                    child: Text("How to join EDNET",
                         style: Theme.of(context).brightness == Brightness.dark
                             ? DarkTheme.secondaryCTATextStyle
                             : LightTheme.secondaryCTATextStyle),

@@ -1923,11 +1923,11 @@ class ShimmerMainHome extends StatelessWidget {
         alignment: Alignment.center,
         child: Shimmer.fromColors(
           baseColor: Theme.of(context).brightness == Brightness.dark
-              ? DarkTheme.shimmerBaseColor
-              : LightTheme.shimmerBaseColor,
+              ? DarkTheme.brandingShimmerBaseColor
+              : LightTheme.brandingShimmerBaseColor,
           highlightColor: Theme.of(context).brightness == Brightness.dark
-              ? DarkTheme.shimmerHighLightColor
-              : LightTheme.shimmerHighLightColor,
+              ? DarkTheme.brandingShimmerHighlightColor
+              : LightTheme.brandingShimmerHighlightColor,
           period: Duration(milliseconds: 300),
           child: Text(
             "EDNET",

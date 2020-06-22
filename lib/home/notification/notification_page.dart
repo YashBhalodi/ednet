@@ -140,15 +140,14 @@ class _NotificationPageState extends State<NotificationPage> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data.documents.isEmpty) {
-                        //TODO better no notification message
                         return Container(
                           height: 350,
                           child: Center(
                             child: Text(
-                              "Zero Notification",
+                              "You are all caught up! 👍🏻",
                               style: Theme.of(context).brightness == Brightness.dark
-                                  ? DarkTheme.headingStyle
-                                  : LightTheme.headingStyle,
+                                  ? DarkTheme.secondaryHeadingTextStyle
+                                  : LightTheme.secondaryHeadingTextStyle,
                             ),
                           ),
                         );

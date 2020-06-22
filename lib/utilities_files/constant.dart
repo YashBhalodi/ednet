@@ -448,8 +448,10 @@ extension StringExtension on String {
 
 class DarkTheme {
   static get shimmerBaseColor => Colors.grey[800];
+  static get brandingShimmerBaseColor => Colors.blue[400];
 
   static get shimmerHighLightColor => Colors.grey[700];
+  static get brandingShimmerHighlightColor => Colors.blue[600];
 
   static get chipBackgroundColor => Colors.grey[700];
 
@@ -759,12 +761,18 @@ class DarkTheme {
   );
 
   static get notificationContentBackgroundColor => Colors.black12;
+
+  static get signUpInstructionDescriptionTextStyle => TextStyle(
+      fontSize: 18.0,
+  );
 }
 
 class LightTheme {
   static get shimmerBaseColor => Colors.grey[100];
+  static get brandingShimmerBaseColor => Colors.blue[800];
 
   static get shimmerHighLightColor => Colors.grey[200];
+  static get brandingShimmerHighlightColor => Colors.blue[400];
 
   static get chipBackgroundColor => Colors.grey[100];
 
@@ -1075,6 +1083,10 @@ class LightTheme {
   );
 
   static get notificationContentBackgroundColor => Colors.grey[100];
+
+  static get signUpInstructionDescriptionTextStyle => TextStyle(
+      fontSize: 18.0,
+  );
 }
 
 class AdConstant {
