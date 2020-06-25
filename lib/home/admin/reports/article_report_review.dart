@@ -230,7 +230,8 @@ class ArticleReportsReviewPage extends StatelessWidget {
                     ),
                   ),
                 ),
-              )
+              ),
+              const SizedBox(height: 50,),
             ],
           ),
         ),

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:ednet/home/admin/reports/reported_content_overview.dart';
 import 'package:ednet/home/admin/users/users_overview.dart';
 import 'package:ednet/utilities_files/classes.dart';
@@ -50,9 +48,7 @@ class _AdminPanelHomeState extends State<AdminPanelHome> {
   }
 
   void _showInterstitialAd() {
-    if (Random().nextBool()) {
-      _interstitialAd..show();
-    }
+    _interstitialAd..show();
   }
   @override
   void initState() {

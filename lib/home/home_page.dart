@@ -56,8 +56,19 @@ class _HomeState extends State<Home> {
                   ? DarkTheme.fabBackgroundColor
                   : LightTheme.fabBackgroundColor,
             ),
-            drawer: AppDrawer(
-              userSnap: widget.userSnap,
+            drawer: StreamBuilder(
+              stream: Firestore.instance.collection("Users").document(widget.userSnap.documentID).snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return AppDrawer(
+                    userSnap: snapshot.data,
+                  );
+                } else {
+                  return AppDrawer(
+                    userSnap: widget.userSnap,
+                  );
+                }
+              },
             ),
             appBar: AppBar(
               title: TabBar(

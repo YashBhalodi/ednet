@@ -170,7 +170,7 @@ class QuestionReportedNotificationTile extends StatelessWidget {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data == null) {
+                    if (snapshot.data == null || snapshot.data.data == null) {
                       notification.remove();
                       return Container();
                     } else {

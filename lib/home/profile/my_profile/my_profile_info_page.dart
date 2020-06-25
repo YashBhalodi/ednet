@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:ednet/home/profile/my_profile/edit_details_profile.dart';
 import 'package:ednet/home/profile/my_profile/university_topic_list.dart';
 import 'package:ednet/home/profile/my_profile/user_topic_list.dart';
@@ -52,9 +50,7 @@ class _MyProfileState extends State<MyProfile> {
   }
 
   void _showInterstitialAd() {
-    if (Random().nextBool()) {
       _interstitialAd..show();
-    }
   }
 
   @override

@@ -31,7 +31,6 @@ class _UserProfileState extends State<UserProfile> {
     quesDocs.documents.forEach((doc) {
       questions.add(Question.fromSnapshot(doc));
     });
-    print("questionLoaded");
     QuerySnapshot articleDocs = await Firestore.instance
         .collection('Articles')
         .where('isDraft', isEqualTo: false)
@@ -40,7 +39,6 @@ class _UserProfileState extends State<UserProfile> {
     articleDocs.documents.forEach((doc) {
       articles.add(Article.fromSnapshot(doc));
     });
-    print("articleLoaded");
     QuerySnapshot answerDocs = await Firestore.instance
         .collection('Answers')
         .where('isDraft', isEqualTo: false)
@@ -49,7 +47,6 @@ class _UserProfileState extends State<UserProfile> {
     answerDocs.documents.forEach((doc) {
       answers.add(Answer.fromSnapshot(doc));
     });
-    print("answerLoaded");
     setState(() {
       loadingDone = true;
     });

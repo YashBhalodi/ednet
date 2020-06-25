@@ -65,8 +65,9 @@ class _CreateArticleState extends State<CreateArticle> {
       _draftLoading = true;
     });
     await _saveArticleForm();
-    bool success =
-        widget.article == null ? await _article.uploadArticle() : await _article.updateArticle();
+    bool success = widget.article == null
+        ? (await _article.uploadArticle() == null ? false : true)
+        : await _article.updateArticle();
     if (success) {
       widget.article == null
           ? Constant.showToastSuccess("Draft saved successfully")

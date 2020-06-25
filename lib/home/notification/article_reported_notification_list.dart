@@ -16,7 +16,8 @@ class ArticleReportedNotificationList extends StatefulWidget {
   _ArticleReportedNotificationListState createState() => _ArticleReportedNotificationListState();
 }
 
-class _ArticleReportedNotificationListState extends State<ArticleReportedNotificationList> with AutomaticKeepAliveClientMixin{
+class _ArticleReportedNotificationListState extends State<ArticleReportedNotificationList>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -104,8 +105,8 @@ class ArticleReportedNotificationTile extends StatelessWidget {
                 child: Text(
                   "This article has been reported",
                   style: Theme.of(context).brightness == Brightness.dark
-                         ? DarkTheme.notificationMessageTextStyle
-                         : LightTheme.notificationMessageTextStyle,
+                      ? DarkTheme.notificationMessageTextStyle
+                      : LightTheme.notificationMessageTextStyle,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -130,8 +131,8 @@ class ArticleReportedNotificationTile extends StatelessWidget {
                               ),
                             ),
                             color: Theme.of(context).brightness == Brightness.dark
-                                   ? DarkTheme.notificationContentBackgroundColor
-                                   : LightTheme.notificationContentBackgroundColor),
+                                ? DarkTheme.notificationContentBackgroundColor
+                                : LightTheme.notificationContentBackgroundColor),
                         padding: const EdgeInsets.symmetric(
                           vertical: 12.0,
                           horizontal: 16.0,
@@ -139,8 +140,8 @@ class ArticleReportedNotificationTile extends StatelessWidget {
                         child: Text(
                           a.title,
                           style: Theme.of(context).brightness == Brightness.dark
-                                 ? DarkTheme.notificationContentTextStyle
-                                 : LightTheme.notificationContentTextStyle,
+                              ? DarkTheme.notificationContentTextStyle
+                              : LightTheme.notificationContentTextStyle,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -158,8 +159,8 @@ class ArticleReportedNotificationTile extends StatelessWidget {
               Text(
                 "Reportd violations:",
                 style: Theme.of(context).brightness == Brightness.dark
-                       ? DarkTheme.notificationMessageTextStyle
-                       : LightTheme.notificationMessageTextStyle,
+                    ? DarkTheme.notificationMessageTextStyle
+                    : LightTheme.notificationMessageTextStyle,
               ),
               StreamBuilder(
                 stream: Firestore.instance
@@ -170,13 +171,13 @@ class ArticleReportedNotificationTile extends StatelessWidget {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data == null) {
+                    if (snapshot.data == null || snapshot.data.data == null) {
                       notification.remove();
                       return Container();
                     } else {
                       Report report = Report.fromSnapshot(snapshot.data);
                       return Padding(
-                        padding: const EdgeInsets.symmetric(vertical:12.0),
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
                         child: Container(
                           decoration: ShapeDecoration(
                               shape: RoundedRectangleBorder(
@@ -185,10 +186,10 @@ class ArticleReportedNotificationTile extends StatelessWidget {
                                 ),
                               ),
                               color: Theme.of(context).brightness == Brightness.dark
-                                     ? DarkTheme.notificationContentBackgroundColor
-                                     : LightTheme.notificationContentBackgroundColor),
+                                  ? DarkTheme.notificationContentBackgroundColor
+                                  : LightTheme.notificationContentBackgroundColor),
                           width: double.maxFinite,
-                          padding: const EdgeInsets.symmetric(vertical: 12.0,horizontal: 16.0),
+                          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -212,8 +213,8 @@ class ArticleReportedNotificationTile extends StatelessWidget {
                                   border: Border(
                                     left: BorderSide(
                                       color: Theme.of(context).brightness == Brightness.dark
-                                             ? DarkTheme.chipBackgroundColor
-                                             : LightTheme.chipBackgroundColor,
+                                          ? DarkTheme.chipBackgroundColor
+                                          : LightTheme.chipBackgroundColor,
                                       width: 4.0,
                                     ),
                                   ),
