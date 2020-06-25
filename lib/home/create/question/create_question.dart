@@ -70,7 +70,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
     });
     await _saveQuestionForm();
     bool success = widget.question == null
-        ? await _question.uploadQuestion()
+        ? (await _question.uploadQuestion() == null ? false : true)
         : await _question.updateQuestion();
     if (success) {
       widget.question == null

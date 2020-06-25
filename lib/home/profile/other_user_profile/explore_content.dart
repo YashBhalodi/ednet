@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:ednet/home/profile/other_user_profile/user_answers_page.dart';
 import 'package:ednet/home/profile/other_user_profile/user_articles_page.dart';
 import 'package:ednet/home/profile/other_user_profile/user_questions_page.dart';
@@ -11,7 +12,9 @@ class ExploreContent extends StatelessWidget {
   final List<Article> articleList;
   final List<Answer> answerList;
 
-  const ExploreContent({Key key, @required this.user, this.questionList, this.articleList, this.answerList}) : super(key: key);
+  const ExploreContent(
+      {Key key, @required this.user, this.questionList, this.articleList, this.answerList})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +33,50 @@ class ExploreContent extends StatelessWidget {
                 ? DarkTheme.tabUnselectedLabelColor
                 : LightTheme.tabUnselectedLabelColor,
             tabs: <Widget>[
-              Tab(
-                text: "Questions",
+              Badge(
+                showBadge: questionList.length > 0 ? true : false,
+                badgeContent: Text(
+                  questionList.length.toString(),
+                  style: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.badgeTextStyle
+                      : LightTheme.badgeTextStyle,
+                ),
+                badgeColor: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.badgeColor
+                    : LightTheme.badgeColor,
+                child: Tab(
+                  text: "Questions",
+                ),
               ),
-              Tab(
-                text: "Answers",
+              Badge(
+                showBadge: answerList.length > 0 ? true : false,
+                badgeContent: Text(
+                  answerList.length.toString(),
+                  style: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.badgeTextStyle
+                      : LightTheme.badgeTextStyle,
+                ),
+                badgeColor: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.badgeColor
+                            : LightTheme.badgeColor,
+                child: Tab(
+                  text: "Answers",
+                ),
               ),
-              Tab(
-                text: "Articles",
+              Badge(
+                showBadge: articleList.length > 0 ? true : false,
+                badgeContent: Text(
+                  articleList.length.toString(),
+                  style: Theme.of(context).brightness == Brightness.dark
+                      ? DarkTheme.badgeTextStyle
+                      : LightTheme.badgeTextStyle,
+                ),
+                badgeColor: Theme.of(context).brightness == Brightness.dark
+                            ? DarkTheme.badgeColor
+                            : LightTheme.badgeColor,
+                child: Tab(
+                  text: "Articles",
+                ),
               )
             ],
           ),

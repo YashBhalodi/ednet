@@ -369,7 +369,7 @@ class Constant {
                 ),
                 SecondaryCTA(
                   child: Text(
-                    "Sign up instruction",
+                    "How to join EDNET",
                     style: Theme.of(context).brightness == Brightness.dark
                         ? DarkTheme.secondaryCTATextStyle
                         : LightTheme.secondaryCTATextStyle,
@@ -765,6 +765,9 @@ class DarkTheme {
   static get signUpInstructionDescriptionTextStyle => TextStyle(
       fontSize: 18.0,
   );
+
+  static get badgeColor => Colors.blueGrey[900];
+  static get badgeTextStyle => TextStyle(color: Colors.cyan);
 }
 
 class LightTheme {
@@ -1087,6 +1090,9 @@ class LightTheme {
   static get signUpInstructionDescriptionTextStyle => TextStyle(
       fontSize: 18.0,
   );
+
+  static get badgeColor => Colors.grey[200];
+  static get badgeTextStyle => TextStyle(color: Colors.blue[800]);
 }
 
 class AdConstant {

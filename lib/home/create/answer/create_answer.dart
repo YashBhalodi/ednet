@@ -297,7 +297,8 @@ class _CreateAnswerState extends State<CreateAnswer> {
                       ),
                     ],
                   ),
-                )
+                ),
+                SizedBox(height: 50.0,),
               ],
             ),
           ),

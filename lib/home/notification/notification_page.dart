@@ -25,82 +25,84 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-    InterstitialAd _interstitialAd;
-    BannerAd _bannerAd;
+  InterstitialAd _interstitialAd;
+  BannerAd _bannerAd;
 
-    BannerAd buildBannerAd() {
-        return BannerAd(
-            adUnitId: AdConstant.bannerAdID,
-            size: AdSize.banner,
-            listener: (MobileAdEvent event) {
-                if (event == MobileAdEvent.loaded) {
-                    _bannerAd..show();
-                }
-            });
-    }
+  BannerAd buildBannerAd() {
+    return BannerAd(
+        adUnitId: AdConstant.bannerAdID,
+        size: AdSize.banner,
+        listener: (MobileAdEvent event) {
+          if (event == MobileAdEvent.loaded) {
+            _bannerAd..show();
+          }
+        });
+  }
 
-    InterstitialAd buildInterstitialAd() {
-        return InterstitialAd(
-            adUnitId: AdConstant.interstitialAdID,
-            listener: (MobileAdEvent event) {
-                if (event == MobileAdEvent.failedToLoad) {
-                    try {
-                        _interstitialAd..load();
-                    } catch (e) {
-                        print(e);
-                    }
-                } else if (event == MobileAdEvent.closed) {
-                    _interstitialAd = buildInterstitialAd()..load();
-                }
-                print(event);
-            },
-        );
-    }
-
-    void _showInterstitialAd() {
-        if (Random().nextBool()) {
-            _interstitialAd..show();
+  InterstitialAd buildInterstitialAd() {
+    return InterstitialAd(
+      adUnitId: AdConstant.interstitialAdID,
+      listener: (MobileAdEvent event) {
+        if (event == MobileAdEvent.failedToLoad) {
+          try {
+            _interstitialAd..load();
+          } catch (e) {
+            print(e);
+          }
+        } else if (event == MobileAdEvent.closed) {
+          _interstitialAd = buildInterstitialAd()..load();
         }
-    }
-    @override
-    void initState() {
-        FirebaseAdMob.instance.initialize(appId: AdConstant.appID);
-        _interstitialAd = buildInterstitialAd()..load();
-        _bannerAd = buildBannerAd()..load();
-        super.initState();
-    }
+        print(event);
+      },
+    );
+  }
 
-    @override
-    void dispose() {
-        _interstitialAd.dispose();
-        _bannerAd.dispose();
-        super.dispose();
+  void _showInterstitialAd() {
+    if (Random().nextBool()) {
+      _interstitialAd..show();
     }
+  }
+
+  @override
+  void initState() {
+    FirebaseAdMob.instance.initialize(appId: AdConstant.appID);
+    _interstitialAd = buildInterstitialAd()..load();
+    _bannerAd = buildBannerAd()..load();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _interstitialAd.dispose();
+    _bannerAd.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: WillPopScope(
-          onWillPop: ()async {
-              _showInterstitialAd();
-              return true;
-          },
+        onWillPop: () async {
+          _showInterstitialAd();
+          return true;
+        },
         child: Scaffold(
           appBar: AppBar(
-            title: Text(
-              "Notifications",
-              style: Theme.of(context).brightness == Brightness.dark
-                  ? DarkTheme.appBarTextStyle
-                  : LightTheme.appBarTextStyle,
-            ),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.help),
-                onPressed: (){
-                  Constant.showToastInstruction("Dismiss notifications by swiping it horizontally.");
-                },
+              title: Text(
+                "Notifications",
+                style: Theme.of(context).brightness == Brightness.dark
+                    ? DarkTheme.appBarTextStyle
+                    : LightTheme.appBarTextStyle,
               ),
-            ]
-          ),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.help),
+                  onPressed: () {
+                    Constant.showToastInstruction(
+                        "Dismiss notifications by swiping it horizontally.");
+                  },
+                ),
+              ]),
           body: Scrollbar(
             child: ListView(
               children: <Widget>[
@@ -158,6 +160,9 @@ class _NotificationPageState extends State<NotificationPage> {
                       return Container();
                     }
                   },
+                ),
+                const SizedBox(
+                  height: 60,
                 ),
               ],
             ),

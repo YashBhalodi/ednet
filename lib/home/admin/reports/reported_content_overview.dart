@@ -78,6 +78,7 @@ class _ReportedContentsState extends State<ReportedContents> with AutomaticKeepA
                   userList: _userList,
                   parentRebuildCallback: reload,
                 ),
+          const SizedBox(height: 60,),
         ],
       ),
     );

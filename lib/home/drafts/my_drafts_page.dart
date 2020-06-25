@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ednet/home/drafts/answer_draft_card.dart';
 import 'package:ednet/home/drafts/article_draft_card.dart';
@@ -21,18 +19,6 @@ class MyDrafts extends StatefulWidget {
 
 class _MyDraftsState extends State<MyDrafts> {
   InterstitialAd _interstitialAd;
-  BannerAd _bannerAd;
-
-  BannerAd buildBannerAd() {
-    return BannerAd(
-        adUnitId: AdConstant.bannerAdID,
-        size: AdSize.banner,
-        listener: (MobileAdEvent event) {
-          if (event == MobileAdEvent.loaded) {
-            _bannerAd..show();
-          }
-        });
-  }
 
   InterstitialAd buildInterstitialAd() {
     return InterstitialAd(
@@ -53,22 +39,18 @@ class _MyDraftsState extends State<MyDrafts> {
   }
 
   void _showInterstitialAd() {
-    if (Random().nextBool()) {
-      _interstitialAd..show();
-    }
+    _interstitialAd..show();
   }
   @override
   void initState() {
     FirebaseAdMob.instance.initialize(appId: AdConstant.appID);
     _interstitialAd = buildInterstitialAd()..load();
-    _bannerAd = buildBannerAd()..load();
     super.initState();
   }
 
   @override
   void dispose() {
     _interstitialAd.dispose();
-    _bannerAd.dispose();
     super.dispose();
   }
   @override
