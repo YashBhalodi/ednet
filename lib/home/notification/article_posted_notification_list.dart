@@ -113,7 +113,7 @@ class ArticlePostedNotificationTile extends StatelessWidget {
                       children: <Widget>[
                         Expanded(
                           child: Text(
-                            author.userName + " wrote an question.",
+                            author.userName + " wrote an article.",
                             style: Theme.of(context).brightness == Brightness.dark
                                    ? DarkTheme.notificationMessageTextStyle
                                    : LightTheme.notificationMessageTextStyle,
