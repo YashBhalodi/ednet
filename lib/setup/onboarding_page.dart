@@ -15,7 +15,7 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
-  PageController _pageController;
+  PageController pageController;
   int stepOfOnboarding;
   int triedExit = 0;
 
@@ -23,10 +23,10 @@ class _OnboardingState extends State<Onboarding> {
   void initState() {
     super.initState();
     if (widget.isLogin == true) {
-      _pageController = PageController(initialPage: 4);
+      pageController = PageController(initialPage: 4);
       stepOfOnboarding = 5;
     } else {
-      _pageController = PageController();
+      pageController = PageController();
       stepOfOnboarding = 1;
     }
   }
@@ -34,7 +34,7 @@ class _OnboardingState extends State<Onboarding> {
   @override
   void dispose() {
     super.dispose();
-    _pageController.dispose();
+    pageController.dispose();
   }
 
   @override
@@ -59,7 +59,7 @@ class _OnboardingState extends State<Onboarding> {
               Constant.myLinearProgressIndicator(stepOfOnboarding / 5),
               Expanded(
                 child: PageView(
-                  controller: _pageController,
+                  controller: pageController,
                   scrollDirection: Axis.horizontal,
                   physics: NeverScrollableScrollPhysics(),
                   pageSnapping: true,
@@ -69,11 +69,11 @@ class _OnboardingState extends State<Onboarding> {
                     });
                   },
                   children: <Widget>[
-                    Page1(),
-                    Page2(),
-                    Page3(),
-                    Page4(),
-                    Page5(),
+                    Page1(key:Key('page1')),
+                    Page2(key:Key('page2')),
+                    Page3(key:Key('page3')),
+                    Page4(key:Key('page4')),
+                    Page5(key:Key('page5')),
                   ],
                 ),
               ),
@@ -88,10 +88,11 @@ class _OnboardingState extends State<Onboarding> {
                     children: <Widget>[
                       Expanded(
                         child: StepButton(
+                          key: Key('prevButton'),
                           callback: stepOfOnboarding == 1
                               ? null
                               : () {
-                                  _pageController.previousPage(
+                                  pageController.previousPage(
                                       duration: Constant.pageAnimationDuration,
                                       curve: Curves.easeInOut);
                                 },
@@ -103,10 +104,11 @@ class _OnboardingState extends State<Onboarding> {
                       ),
                       Expanded(
                         child: StepButton(
+                          key: Key('nextButton'),
                           callback: stepOfOnboarding == 5
                               ? null
                               : () {
-                                  _pageController.nextPage(
+                                  pageController.nextPage(
                                       duration: Constant.pageAnimationDuration,
                                       curve: Curves.easeInOut);
                                 },
@@ -126,6 +128,8 @@ class _OnboardingState extends State<Onboarding> {
 }
 
 class Page5 extends StatelessWidget {
+  const Page5({Key key}) : super(key:key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -224,6 +228,7 @@ class Page5 extends StatelessWidget {
 
 //TODO Fill the content of onboarding
 class Page1 extends StatelessWidget {
+  const Page1({Key key}) : super(key:key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -233,6 +238,7 @@ class Page1 extends StatelessWidget {
 }
 
 class Page2 extends StatelessWidget {
+  const Page2({Key key}) : super(key:key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -242,6 +248,7 @@ class Page2 extends StatelessWidget {
 }
 
 class Page3 extends StatelessWidget {
+  const Page3({Key key}) : super(key:key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -251,6 +258,7 @@ class Page3 extends StatelessWidget {
 }
 
 class Page4 extends StatelessWidget {
+  const Page4({Key key}) : super(key:key);
   @override
   Widget build(BuildContext context) {
     return Container(
