@@ -46,6 +46,7 @@ class _HomeState extends State<Home> {
           length: 2,
           child: Scaffold(
             floatingActionButton: FloatingActionButton(
+              key: Key('createContentFAB'),
               onPressed: () {
                 createContentDialog();
                 Constant.defaultVibrate();
